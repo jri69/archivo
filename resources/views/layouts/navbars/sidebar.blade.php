@@ -4,59 +4,118 @@
 
       Tip 2: you can also add an image using data-image tag
   -->
-  <div class="logo">
-   <!-- <a href="https://creative-tim.com/" class="simple-text logo-normal">
-      {{ __('Creative Tim') }}
-    </a> -->
+  <div class="logo" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/logo.jpg">    
+            <img style="width:200px" src="{{ asset('material') }}/img/logo.jpg">
   </div>
- <!-- <div class="sidebar-wrapper">
+  <div class="sidebar-wrapper">
     <ul class="nav">
       <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('home') }}">
+        <a class="nav-link" href="#">
           <i class="material-icons">dashboard</i>
-            <p>{{ __('Dashboard') }}</p>
+            <p>{{ __('Inicio') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
+        <a class="nav-link" href="#">
+          <i class="material-icons">face</i>
+            <p>{{ __('Usuarios') }}</p>
         </a>
       </li>
       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
-          <i><img style="width:25px" src="{{ asset('material') }}/img/laravel.svg"></i>
-          <p>{{ __('Laravel Examples') }}
+          <i class="material-icons">library_books</i>
+          <p>{{ __('Documentacion') }}
             <b class="caret"></b>
           </p>
         </a>
         <div class="collapse show" id="laravelExample">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
-                <span class="sidebar-mini"> UP </span>
-                <span class="sidebar-normal">{{ __('User profile') }} </span>
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> UD </span>
+                <span class="sidebar-normal">{{ __('Unidad') }} </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
-                <span class="sidebar-mini"> UM </span>
-                <span class="sidebar-normal"> {{ __('User Management') }} </span>
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> A </span>
+                <span class="sidebar-normal"> {{ __('Area') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> Doc </span>
+                <span class="sidebar-normal"> {{ __('Nuevo Documento') }} </span>
+              </a>
+            </li>            
           </ul>
         </div>
       </li>
-      <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('table') }}">
-          <i class="material-icons">content_paste</i>
-            <p>{{ __('Table List') }}</p>
+      
+      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="true">
+          <i class="material-icons">schools</i>
+          <p>{{ __('Academico') }}
+            <b class="caret"></b>
+          </p>
         </a>
+        <div class="collapse show" id="Academico">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> UD </span>
+                <span class="sidebar-normal">{{ __('1') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> A </span>
+                <span class="sidebar-normal"> {{ __('2') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> Doc </span>
+                <span class="sidebar-normal"> {{ __('3') }} </span>
+              </a>
+            </li>            
+          </ul>
+        </div>
       </li>
-      <li class="nav-item{{ $activePage == 'typography' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('typography') }}">
-          <i class="material-icons">library_books</i>
-            <p>{{ __('Typography') }}</p>
+      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="true">
+          <i class="material-icons">content_paste</i>
+          <p>{{ __('Contable') }}
+            <b class="caret"></b>
+          </p>
         </a>
+        <div class="collapse show" id="Contable">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> UD </span>
+                <span class="sidebar-normal">{{ __('1') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> A </span>
+                <span class="sidebar-normal"> {{ __('2') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="#">
+                <span class="sidebar-mini"> Doc </span>
+                <span class="sidebar-normal"> {{ __('3') }} </span>
+              </a>
+            </li>            
+          </ul>
+        </div>
       </li>
       <li class="nav-item{{ $activePage == 'icons' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('icons') }}">
-          <i class="material-icons">bubble_chart</i>
-          <p>{{ __('Icons') }}</p>
+          <i class="material-icons">settings</i>
+          <p>{{ __('Soporte Tecnico') }}</p>
         </a>
       </li>
       <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
@@ -76,13 +135,7 @@
           <i class="material-icons">language</i>
           <p>{{ __('RTL Support') }}</p>
         </a>
-      </li>
-      <li class="nav-item active-pro{{ $activePage == 'upgrade' ? ' active' : '' }}">
-        <a class="nav-link text-white bg-danger" href="{{ route('upgrade') }}">
-          <i class="material-icons text-white">unarchive</i>
-          <p>{{ __('Upgrade to PRO') }}</p>
-        </a>
-      </li>
+      </li>      
     </ul>
-  </div> -->
+  </div> 
 </div>

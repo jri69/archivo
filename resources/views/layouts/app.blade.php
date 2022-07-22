@@ -28,7 +28,7 @@
             @include('layouts.page_templates.guest')
         @endguest
         @if (auth()->check())
-        <!--<div class="fixed-plugin">
+      <!-- <div class="fixed-plugin">
           <div class="dropdown show-dropdown">
             <a href="#" data-toggle="dropdown">
               <i class="fa fa-cog fa-2x"> </i>
@@ -48,7 +48,7 @@
                   <div class="clearfix"></div>
                 </a>
               </li>
-              <li class="header-title">Images</li>
+             <!-- <li class="header-title">Images</li>
               <li class="active">
                 <a class="img-holder switch-trigger" href="javascript:void(0)">
                   <img src="{{ asset('material') }}/img/sidebar-1.jpg" alt="">
@@ -77,7 +77,7 @@
                       <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
                         Get the pro version
                       </a>
-                  </li> -->
+                  </li> 
               <li class="button-container">
                 <a href="https://material-dashboard-laravel.creative-tim.com/docs/getting-started/laravel-setup.html" target="_blank" class="btn btn-default btn-block">
                   View Documentation
@@ -97,7 +97,7 @@
                 <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
                 <br>
                 <br>
-              </li>
+              </li> 
             </ul> 
           </div>
         </div> -->
