@@ -5,7 +5,10 @@
       Tip 2: you can also add an image using data-image tag
   -->
   <div class="logo" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/logo.jpg">    
-            <img style="width:200px" src="{{ asset('material') }}/img/logo.jpg">
+    <center>
+      <img style="width:200px" style="margin-left:20px" src="{{ asset('material') }}/img/logo.jpg">
+      </center>       
+    
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
