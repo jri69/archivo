@@ -8795,16 +8795,16 @@ a.text-dark:focus {
 
 .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
+  background-color: #D9021A;
+  border-color: #D9021A;
 }
 
 .btn.btn-primary:focus,
 .btn.btn-primary.focus,
 .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
+  background-color: #D9021A;
+  border-color: #D9021A;
 }
 
 .btn.btn-primary:active,

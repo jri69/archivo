@@ -51,6 +51,19 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
 });
+//Usuario
+Route::group(['prefix'=>'usuario'],function(){
+	Route::get('/index',[\App\Http\Controllers\UsuarioController::class,'index'])->name('usuario.index');
+	Route::get('/create',[\App\Http\Controllers\UsuarioController::class,'create'])->name('usuario.create');
+	Route::get('/edit',[\App\Http\Controllers\UsuarioController::class,'edit'])->name('usuario.edit');
+});
+
+//Documento
+Route::group(['prefix'=>'documento'],function(){
+	Route::get('/index',[\App\Http\Controllers\DocumentoController::class,'index'])->name('documento.index');
+	Route::get('/create',[\App\Http\Controllers\DocumentoController::class,'create'])->name('documento.create');
+});
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
