@@ -22,13 +22,13 @@
         </a>
       </li>
       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
+        <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="false">
           <i class="material-icons">library_books</i>
           <p>{{ __('Documentacion') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse show" id="laravelExample">
+        <div class="collapse" id="laravelExample">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
               <a class="nav-link" href="#">
@@ -53,13 +53,13 @@
       </li>
       
       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="true">
+        <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="false">
           <i class="material-icons">schools</i>
           <p>{{ __('Academico') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse show" id="Academico">
+        <div class="collapse" id="Academico">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
               <a class="nav-link" href="#">
@@ -83,13 +83,13 @@
         </div>
       </li>
       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="true">
+        <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="false">
           <i class="material-icons">content_paste</i>
           <p>{{ __('Contable') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse show" id="Contable">
+        <div class="collapse" id="Contable">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
               <a class="nav-link" href="#">
@@ -118,7 +118,7 @@
           <p>{{ __('Soporte Tecnico') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
+     <!-- <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('map') }}">
           <i class="material-icons">location_ons</i>
             <p>{{ __('Maps') }}</p>
@@ -135,7 +135,7 @@
           <i class="material-icons">language</i>
           <p>{{ __('RTL Support') }}</p>
         </a>
-      </li>      
+      </li>  -->     
     </ul>
   </div> 
 </div>
