@@ -8795,16 +8795,30 @@ a.text-dark:focus {
 
 .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
+  background-color: #D9021A;
+  border-color: #D9021A;
+}
+
+.btn.btn-danger:hover {
+  color: #fff;
+  background-color: #0A1B50;
+  border-color: #0A1B50;
 }
 
 .btn.btn-primary:focus,
 .btn.btn-primary.focus,
 .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
+  background-color: #D9021A;
+  border-color: #D9021A;
+}
+
+.btn.btn-danger:focus,
+.btn.btn-danger.focus,
+.btn.btn-danger:hover {
+  color: #fff;
+  background-color: #0A1B50;
+  border-color: #0A1B50;
 }
 
 .btn.btn-primary:active,
