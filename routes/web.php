@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +67,15 @@ Route::group(['prefix'=>'documento'],function(){
 	Route::get('/create',[\App\Http\Controllers\DocumentoController::class,'create'])->name('documento.create');
 });
 
+//Area
+Route::group(['prefix'=>'area'],function(){
+	Route::get('/index',[AreaController::class,'index'])->name('area.index');
+	Route::get('/create',[AreaController::class,'create'])->name('area.create');
+	Route::post('/',[AreaController::class,'store'])->name('area.store');
+	Route::get('/edit/{area}',[AreaController::class,'edit'])->name('area.edit');
+	Route::put('/{area}',[AreaController::class,'update'])->name('area.update');
+	Route::delete('/{area}',[AreaController::class,'destroy'])->name('area.delete');
+});
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
@@ -71,4 +83,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
+
+
 
