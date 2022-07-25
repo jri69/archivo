@@ -2,7 +2,22 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
   <div class="container-fluid">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="#">{{ $titlePage }}</a>
+      <div class="navbar-minimize">
+        <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round">
+          <i class="material-icons text_align-center visible-on-sidebar-regular">
+            <font style="vertical-align: inherit;">
+              <font style="vertical-align: inherit;">more_vert</font>
+            </font>
+          </i>
+          <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">
+            <font style="vertical-align: inherit;">
+            <font style="vertical-align: inherit;">more_vert</font>
+            </font>
+          </i>
+          <div class="ripple-container"></div>
+        </button>
+      </div>  
+      <a class="navbar-brand" href="#">{{ $titlePage }}</a>    
     </div>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">

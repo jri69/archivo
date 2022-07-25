@@ -25,6 +25,7 @@
                                         <th>Nombre</th>
                                         <th>Apellido</th>
                                         <th>Cargo</th>
+                                        <th>Acciones</th> 
                                     </thead>
                                 </table>
                             </div>

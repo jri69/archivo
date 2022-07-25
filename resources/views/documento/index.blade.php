@@ -24,7 +24,7 @@
                                         <th>Origen</th>
                                         <th>Destino</th>
                                         <th>Fecha</th>
-
+                                        <th>Acciones</th> 
                                     </thead>
                                 </table>
                             </div>

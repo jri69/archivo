@@ -9,13 +9,13 @@
                     @csrf
                     <div class="card">
                         <div class="card-body">
-                            <div class="row">
+                            <!--<div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Codigo:</b></label>
                                 <div class="col-sm-7">
                                     <input type="number" class="form-control" name="codigo">
                                 </div>
                             </div>
-                            <br>
+                            <br> -->
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
                                 <div class="col-sm-7">
