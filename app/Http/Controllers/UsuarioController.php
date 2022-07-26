@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\Cargo;
+use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -15,7 +18,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('usuario.index');
+        $usuario = Usuario::all();
+        return view('usuario.index',compact('usuario'));
     }
 
     /**
@@ -38,7 +42,30 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return $request->all();
+        $request->validate([
+            'nombre' =>'required',
+            'apellido'=>'required',
+            'area_id'=>'required',
+            'cargo_id'=>'required',
+            'ci'=>'required'
+        ]);
+
+        $usuario = Usuario::create([
+            'nombre'=> $request['nombre'],
+            'apellido'=> $request['apellido'],
+            'area_id'=> $request['area_id'],
+            'cargo_id'=> $request['cargo_id'],
+            'ci'=> $request['ci']
+            ]);
+
+        User::create([
+            'name'=>$request['apellido'],
+            'email'=>$request['email'],
+            'password'=>Hash::make($request['password'])
+        ]);
+
+        return redirect()->route('usuario.index',$usuario);
     }
 
     /**
@@ -58,9 +85,10 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Usuario $usuario)
     {
-        return view('usuario.edit');
+        
+        return view('usuario.edit',compact('usuario'));
     }
 
     /**
