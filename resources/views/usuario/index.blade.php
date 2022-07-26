@@ -27,6 +27,30 @@
                                         <th>Cargo</th>
                                         <th>Acciones</th> 
                                     </thead>
+                                    <tbody>
+                                        @foreach ($usuario as $item)
+                                            <tr>
+                                                <td>{{$item->id}}</td>
+                                                <td>{{$item->nombre}}</td>
+                                                <td>{{$item->apellido}}</td>
+                                                <td>{{$item->cargo_id}}</td>
+                                                <td class="td-actions">
+                                                    <a href="#" class="btn btn-primary">
+                                                    <span class="material-icons">edit</span>
+
+                                                </a>
+                                                <form action="#}" method="POST" style="display: inline-block;"
+                                                onsubmit="return confirm('¿Está seguro?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" type="submit">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                                </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

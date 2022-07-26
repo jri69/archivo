@@ -5,7 +5,7 @@
         <div class="container-fluid" >            
             <div class="row" style="margin-left: 10%">
                 <div class="col-md-9">
-                    <form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('usuario.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <div class="card-body">                            
@@ -30,7 +30,7 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Area:</b></label>
                                 <div class="col-sm-7">
-                                    <select name="area" id="_area" class="form-control">
+                                    <select name="area_id" id="_area" class="form-control">
                                         <option disabled selected>Seleccione el Area</option>
                                         @foreach ($areas as $area)
                                             <option value="{{$area->id}}">{{$area->nombre}}</option>
@@ -42,7 +42,7 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Cargo:</b></label>
                                 <div class="col-sm-7">
-                                    <select name="cargo" id="_cargo" class="form-control">
+                                    <select name="cargo_id" id="_cargo" class="form-control">
                                         <option disabled selected>Seleccione el Cargo</option>
                                         @foreach ($cargos as $cargo)
                                             <option value="{{$cargo->id}}">{{$cargo->nombre}}</option>
@@ -64,7 +64,7 @@
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Correo:</b></label>
                                 <div class="col-sm-7">
                                     <input type="email" class="form-control"
-                                    name="correo"
+                                    name="email"
                                     >
                                 </div>
                             </div>

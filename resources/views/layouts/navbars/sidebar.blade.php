@@ -44,7 +44,13 @@
                 <span class="sidebar-mini"> C </span>
                 <span class="sidebar-normal"> {{ __('Cargo') }} </span>
               </a>
-            </li>            
+            </li>  
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('area.index')}}">
+                <span class="sidebar-mini"> A </span>
+                <span class="sidebar-normal"> {{ __('Area') }} </span>
+              </a>
+            </li>          
           </ul>
         </div>
       </li>
@@ -56,13 +62,7 @@
           </p>
         </a>
         <div class="collapse" id="Documento">
-          <ul class="nav">            
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{route('area.index')}}">
-                <span class="sidebar-mini"> A </span>
-                <span class="sidebar-normal"> {{ __('Area') }} </span>
-              </a>
-            </li>
+          <ul class="nav">
             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
               <a class="nav-link" href="{{route('documento.index')}}">
                 <span class="sidebar-mini"> Doc </span>

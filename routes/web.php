@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\HomeController;
 
@@ -57,15 +58,19 @@ Route::group(['middleware' => 'auth'], function () {
 });
 //Usuario
 Route::group(['prefix'=>'usuario'],function(){
-	Route::get('/index',[\App\Http\Controllers\UsuarioController::class,'index'])->name('usuario.index');
-	Route::get('/create',[\App\Http\Controllers\UsuarioController::class,'create'])->name('usuario.create');
-	Route::get('/edit',[\App\Http\Controllers\UsuarioController::class,'edit'])->name('usuario.edit');
+	Route::get('/index',[UsuarioController::class,'index'])->name('usuario.index');
+	Route::get('/create',[UsuarioController::class,'create'])->name('usuario.create');
+	Route::post('/', [UsuarioController::class, 'store'])->name('usuario.store');
+	Route::get('/edit',[UsuarioController::class,'edit'])->name('usuario.edit');
+//	Route::put('/{area}', [UsuarioController::class, 'update'])->name('usuario.update');
+//	Route::delete('/{area}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
 });
 
 //Documento
 Route::group(['prefix'=>'documento'],function(){
 	Route::get('/index',[\App\Http\Controllers\DocumentoController::class,'index'])->name('documento.index');
 	Route::get('/create',[\App\Http\Controllers\DocumentoController::class,'create'])->name('documento.create');
+	
 });
 
 //Area
