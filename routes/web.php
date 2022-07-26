@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\CargoController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -75,6 +76,16 @@ Route::group(['prefix'=>'area'],function(){
 	Route::get('/edit/{area}',[AreaController::class,'edit'])->name('area.edit');
 	Route::put('/{area}',[AreaController::class,'update'])->name('area.update');
 	Route::delete('/{area}',[AreaController::class,'destroy'])->name('area.delete');
+});
+
+//Cargo
+Route::group(['prefix'=>'cargo'],function(){
+	Route::get('/index', [CargoController::class, 'index'])->name('cargo.index');
+	Route::get('/create', [CargoController::class, 'create'])->name('cargo.create');
+	Route::post('/', [CargoController::class, 'store'])->name('cargo.store');
+	Route::get('/edit/{cargo}', [CargoController::class, 'edit'])->name('cargo.edit');
+	Route::put('/{cargo}', [CargoController::class, 'update'])->name('cargo.update');
+	Route::delete('/{cargo}', [CargoController::class, 'destroy'])->name('cargo.delete');
 });
 
 Route::group(['middleware' => 'auth'], function () {

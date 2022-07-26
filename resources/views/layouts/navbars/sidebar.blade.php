@@ -18,11 +18,35 @@
             <p>{{ __('Inicio') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'usuario' ? ' active' : '' }}">
+      <!--<li class="nav-item{{ $activePage == 'usuario' ? ' active' : '' }}">
         <a class="nav-link" href="{{route('usuario.index')}}">
           <i class="material-icons">face</i>
             <p>{{ __('Usuarios') }}</p>
         </a>
+      </li> -->
+      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#Usuario" aria-expanded="false">
+          <i class="material-icons">face</i>
+          <p>{{ __('Usuarios') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse" id="Usuario">
+          <ul class="nav">            
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('usuario.index')}}">
+                <span class="sidebar-mini"> U </span>
+                <span class="sidebar-normal"> {{ __('Usuario') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('cargo.index')}}">
+                <span class="sidebar-mini"> C </span>
+                <span class="sidebar-normal"> {{ __('Cargo') }} </span>
+              </a>
+            </li>            
+          </ul>
+        </div>
       </li>
       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#Documento" aria-expanded="false">
