@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Area;
 use App\Models\Cargo;
 use Illuminate\Http\Request;
 
-class UsuarioController extends Controller
+class CargoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('usuario.index');
+        $cargos = Cargo::all();
+        return view('cargo.index',compact('cargos'));
     }
 
     /**
@@ -25,9 +25,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        $areas = Area::all();
-        $cargos = Cargo::all();
-        return view('usuario.create',compact('areas','cargos'));
+        return view('cargo.create');
     }
 
     /**
@@ -38,7 +36,11 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre'=>'required'
+        ]);
+        $cargo = Cargo::create($request->all());
+        return redirect()->route('cargo.index',$cargo);
     }
 
     /**
@@ -58,9 +60,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cargo $cargo)
     {
-        return view('usuario.edit');
+        return view('cargo.edit',compact('cargo'));
     }
 
     /**
@@ -72,7 +74,13 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nombre'=>'required'
+        ]);
+        $cargo = Cargo::findOrFail($id);
+        $datos = $request->all();
+        $cargo->update($datos);
+        return redirect()->route('cargo.index');
     }
 
     /**
@@ -81,8 +89,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cargo $cargo)
     {
-        //
+        $cargo->delete();
+        return back()->with('mensaje','Eliminado Correctamente');
     }
 }

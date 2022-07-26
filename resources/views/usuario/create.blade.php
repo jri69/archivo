@@ -30,8 +30,11 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Area:</b></label>
                                 <div class="col-sm-7">
-                                    <select name="area" id="">
+                                    <select name="area" id="_area" class="form-control">
                                         <option disabled selected>Seleccione el Area</option>
+                                        @foreach ($areas as $area)
+                                            <option value="{{$area->id}}">{{$area->nombre}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -39,9 +42,12 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Cargo:</b></label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control"
-                                    name="cargo"
-                                    >
+                                    <select name="cargo" id="_cargo" class="form-control">
+                                        <option disabled selected>Seleccione el Cargo</option>
+                                        @foreach ($cargos as $cargo)
+                                            <option value="{{$cargo->id}}">{{$cargo->nombre}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <br>
@@ -62,7 +68,7 @@
                                     >
                                 </div>
                             </div>
-                            <br>
+                           <!-- <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Usuario:</b></label>
                                 <div class="col-sm-7">
@@ -70,7 +76,7 @@
                                     name="username"
                                     >
                                 </div>
-                            </div>
+                            </div> -->
                             <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Contraseña:</b></label>
