@@ -7,7 +7,7 @@
                 <div class="col-12 text-left">
                     <a href="{{route('area.create')}}" class="btn btn-outline-primary btn-white">
                         <b>Agregar Area</b> 
-                    </a>
+                    </a> 
                 </div>
             </div>
             <div class="row">
