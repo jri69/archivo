@@ -68,9 +68,10 @@ Route::group(['prefix' => 'usuario'], function () {
 	Route::get('/index', [UsuarioController::class, 'index'])->name('usuario.index');
 	Route::get('/create', [UsuarioController::class, 'create'])->name('usuario.create');
 	Route::post('/', [UsuarioController::class, 'store'])->name('usuario.store');
-	Route::get('/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
-	//	Route::put('/{area}', [UsuarioController::class, 'update'])->name('usuario.update');
-	//	Route::delete('/{area}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
+	Route::get('/edit/{usuario}',[UsuarioController::class,'edit'])->name('usuario.edit');
+	Route::put('/{usuario}', [UsuarioController::class, 'update'])->name('usuario.update');
+	Route::delete('/{usuario}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
+
 });
 
 //Documento
