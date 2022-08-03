@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Cargo;
 use App\Models\User;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuario = Usuario::all();
+        $usuario = Usuario::all();        
         return view('usuario.index',compact('usuario'));
     }
 
@@ -41,8 +42,8 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //return $request->all();
+    {        
+        
         $request->validate([
             'nombre' =>'required',
             'apellido'=>'required',
@@ -56,14 +57,18 @@ class UsuarioController extends Controller
             'apellido'=> $request['apellido'],
             'area_id'=> $request['area_id'],
             'cargo_id'=> $request['cargo_id'],
-            'ci'=> $request['ci']
+            'ci'=> $request['ci'],            
             ]);
-
-        User::create([
-            'name'=>$request['apellido'],
-            'email'=>$request['email'],
-            'password'=>Hash::make($request['password'])
-        ]);
+            $pass = Hash::make($request['password']);
+            $id = Usuario::latest('id')->first()->id;
+                       
+            
+            $users = new User();
+            $users->name = $request['apellido'];
+            $users->email = $request['email'];
+            $users->password = $pass;
+            $users->usuario_id = $id;
+            $users->save();        
 
         return redirect()->route('usuario.index',$usuario);
     }
@@ -87,8 +92,10 @@ class UsuarioController extends Controller
      */
     public function edit(Usuario $usuario)
     {
-        
-        return view('usuario.edit',compact('usuario'));
+        $cargos = Cargo::all();
+        $user = User::all();
+        $areas = Area::all();
+        return view('usuario.edit',compact('usuario','cargos','user','areas'));
     }
 
     /**
@@ -99,9 +106,34 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $user_id = User::where('users.usuario_id',$id)->first(); 
+                      
+        $request->validate([
+            'nombre'=>'required',
+            'apellido' => 'required',
+            'area_id' => 'required',
+            'cargo_id' => 'required',
+            'ci' => 'required'
+        ]);
+
+        $usuario = Usuario::find($id);
+        $usuario->nombre = $request['nombre'];
+        $usuario->apellido = $request['apellido'];
+        $usuario->area_id = $request['area_id'];
+        $usuario->cargo_id = $request['cargo_id'];
+        $usuario->ci = $request['ci'];
+        $usuario->save();
+        $pass = Hash::make($request['password']);
+        $users = User::find($user_id->id);
+        $users->name = $request['apellido'];
+        $users->email = $request['email'];
+        $users->password = $pass;
+        $users->save();
+        
+        return redirect()->route('usuario.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -109,8 +141,12 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Usuario $usuario)
+    {        
+        $id = $usuario->id;        
+        $user = User::where('users.usuario_id', $id)->first();
+        $usuario->delete();
+        $user->delete();
+        return back()->with('mensaje','Eliminado Correctamente');
     }
 }

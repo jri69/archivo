@@ -35,11 +35,11 @@
                                                 <td>{{$item->apellido}}</td>
                                                 <td>{{$item->cargo_id}}</td>
                                                 <td class="td-actions">
-                                                    <a href="#" class="btn btn-primary">
+                                                    <a href="{{route('usuario.edit',$item->id)}}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
 
                                                 </a>
-                                                <form action="#}" method="POST" style="display: inline-block;"
+                                                <form action="{{route('usuario.delete',$item->id)}}" method="POST" style="display: inline-block;"
                                                 onsubmit="return confirm('¿Está seguro?')">
                                                 @csrf
                                                 @method('DELETE')
