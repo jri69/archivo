@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Area;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class AreaController extends Controller
     public function index()
     {
         $areas = area::all();
-        return view('area.index',compact('areas'));
+        return view('area.index', compact('areas'));
     }
 
     /**
@@ -36,10 +37,10 @@ class AreaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'=>'required'
+            'nombre' => 'required'
         ]);
         $area = Area::create($request->all());
-        return redirect()->route('area.index',$area);
+        return redirect()->route('area.index', $area);
     }
 
     /**
@@ -74,7 +75,7 @@ class AreaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre'=>'required'
+            'nombre' => 'required'
         ]);
         $area = Area::findOrFail($id);
         $datos = $request->all();
@@ -91,6 +92,6 @@ class AreaController extends Controller
     public function destroy(Area $area)
     {
         $area->delete();
-        return back()->with('mensaje','Eliminado Correctamente');
+        return back()->with('mensaje', 'Eliminado Correctamente');
     }
 }

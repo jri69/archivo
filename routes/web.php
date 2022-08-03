@@ -5,7 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\RequisitosController;
+use App\Http\Controllers\TiposEstudiosController;
+use App\Models\Estudiante;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +27,10 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
+//Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
+//Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {
@@ -56,35 +61,36 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
 });
+
 //Usuario
-Route::group(['prefix'=>'usuario'],function(){
-	Route::get('/index',[UsuarioController::class,'index'])->name('usuario.index');
-	Route::get('/create',[UsuarioController::class,'create'])->name('usuario.create');
+Route::group(['prefix' => 'usuario'], function () {
+	Route::get('/index', [UsuarioController::class, 'index'])->name('usuario.index');
+	Route::get('/create', [UsuarioController::class, 'create'])->name('usuario.create');
 	Route::post('/', [UsuarioController::class, 'store'])->name('usuario.store');
 	Route::get('/edit/{usuario}',[UsuarioController::class,'edit'])->name('usuario.edit');
 	Route::put('/{usuario}', [UsuarioController::class, 'update'])->name('usuario.update');
 	Route::delete('/{usuario}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
+
 });
 
 //Documento
-Route::group(['prefix'=>'documento'],function(){
-	Route::get('/index',[\App\Http\Controllers\DocumentoController::class,'index'])->name('documento.index');
-	Route::get('/create',[\App\Http\Controllers\DocumentoController::class,'create'])->name('documento.create');
-	
+Route::group(['prefix' => 'documento'], function () {
+	Route::get('/index', [\App\Http\Controllers\DocumentoController::class, 'index'])->name('documento.index');
+	Route::get('/create', [\App\Http\Controllers\DocumentoController::class, 'create'])->name('documento.create');
 });
 
 //Area
-Route::group(['prefix'=>'area'],function(){
-	Route::get('/index',[AreaController::class,'index'])->name('area.index');
-	Route::get('/create',[AreaController::class,'create'])->name('area.create');
-	Route::post('/',[AreaController::class,'store'])->name('area.store');
-	Route::get('/edit/{area}',[AreaController::class,'edit'])->name('area.edit');
-	Route::put('/{area}',[AreaController::class,'update'])->name('area.update');
-	Route::delete('/{area}',[AreaController::class,'destroy'])->name('area.delete');
+Route::group(['prefix' => 'area'], function () {
+	Route::get('/index', [AreaController::class, 'index'])->name('area.index');
+	Route::get('/create', [AreaController::class, 'create'])->name('area.create');
+	Route::post('/', [AreaController::class, 'store'])->name('area.store');
+	Route::get('/edit/{area}', [AreaController::class, 'edit'])->name('area.edit');
+	Route::put('/{area}', [AreaController::class, 'update'])->name('area.update');
+	Route::delete('/{area}', [AreaController::class, 'destroy'])->name('area.delete');
 });
 
 //Cargo
-Route::group(['prefix'=>'cargo'],function(){
+Route::group(['prefix' => 'cargo'], function () {
 	Route::get('/index', [CargoController::class, 'index'])->name('cargo.index');
 	Route::get('/create', [CargoController::class, 'create'])->name('cargo.create');
 	Route::post('/', [CargoController::class, 'store'])->name('cargo.store');
@@ -100,5 +106,42 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
 
+//Modulos
+Route::group(['prefix' => 'modulo'], function () {
+	Route::get('/index', [ModuloController::class, 'index'])->name('modulo.index');
+	Route::get('/create', [ModuloController::class, 'create'])->name('modulo.create');
+	Route::post('/store', [ModuloController::class, 'store'])->name('modulo.store');
+	Route::get('/edit/{modulo}', [ModuloController::class, 'edit'])->name('modulo.edit');
+	Route::put('/update/{modulo}', [ModuloController::class, 'update'])->name('modulo.update');
+	Route::delete('/delete/{modulo}', [ModuloController::class, 'destroy'])->name('modulo.delete');
+});
 
+// Tipos de estudios
+Route::group(['prefix' => 'estudio'], function () {
+	Route::get('/index', [TiposEstudiosController::class, 'index'])->name('estudio.index');
+	Route::get('/create', [TiposEstudiosController::class, 'create'])->name('estudio.create');
+	Route::get('/edit/{estudio}', [TiposEstudiosController::class, 'edit'])->name('estudio.edit');
+	Route::get('/show/{estudio}', [TiposEstudiosController::class, 'show'])->name('estudio.show');
+	Route::put('/update/{estudio}', [TiposEstudiosController::class, 'update'])->name('estudio.update');
+	Route::delete('/delete/{estudio}', [TiposEstudiosController::class, 'destroy'])->name('estudio.delete');
+});
 
+// Requisitos
+Route::group(['prefix' => 'requisito', 'middleware' => 'auth'], function () {
+	Route::get('/index', [RequisitosController::class, 'index'])->name('requisito.index');
+	Route::get('/create', [RequisitosController::class, 'create'])->name('requisito.create');
+	Route::post('/store', [RequisitosController::class, 'store'])->name('requisito.store');
+	Route::get('/edit/{requisito}', [RequisitosController::class, 'edit'])->name('requisito.edit');
+	Route::put('/update/{requisito}', [RequisitosController::class, 'update'])->name('requisito.update');
+	Route::delete('/delete/{requisito}', [RequisitosController::class, 'destroy'])->name('requisito.delete');
+});
+
+// Estudiantes
+Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
+	Route::get('/index', [EstudianteController::class, 'index'])->name('estudiante.index');
+	Route::get('/create', [EstudianteController::class, 'create'])->name('estudiante.create');
+	Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
+	Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
+	Route::put('/update/{estudiante}', [EstudianteController::class, 'update'])->name('estudiante.update');
+	Route::delete('/delete/{estudiante}', [EstudianteController::class, 'destroy'])->name('estudiante.delete');
+});
