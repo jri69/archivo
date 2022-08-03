@@ -90,6 +90,12 @@
                                 <span class="sidebar-normal">{{ __('Estudiantes') }} </span>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'programa' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('programa.index') }}">
+                                <span class="sidebar-mini"> PR </span>
+                                <span class="sidebar-normal"> {{ __('Programas') }} </span>
+                            </a>
+                        </li>
                         <li class="nav-item{{ $activePage == 'modulo' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('modulo.index') }}">
                                 <span class="sidebar-mini"> MD </span>

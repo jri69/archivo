@@ -80,41 +80,7 @@
                                     </div>
                                 </div>
                                 <br>
-
-                                <!-- checkbox con requisitos-->
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Requisitos:</b> </label>
-                                    <div class="col-sm-7">
-                                        @foreach ($requisitos as $requisito)
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="requisitos[]"
-                                                        value="{{ $requisito->id }}">
-                                                    {{ $requisito->nombre }}
-                                                    <span class="form-check-sign">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <br>
-
-                                <!--select con los programas-->
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Programa:</b> </label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="programa">
-                                            @foreach ($programas as $programa)
-                                                <option value="{{ $programa->id }}">{{ $programa->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <br>
                             </div>
-
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">
                                     <b>Guardar Datos</b>

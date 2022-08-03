@@ -8,6 +8,7 @@ use App\Http\Controllers\CargoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\RequisitosController;
 use App\Http\Controllers\TiposEstudiosController;
 use App\Models\Estudiante;
@@ -139,8 +140,23 @@ Route::group(['prefix' => 'requisito', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
 	Route::get('/index', [EstudianteController::class, 'index'])->name('estudiante.index');
 	Route::get('/create', [EstudianteController::class, 'create'])->name('estudiante.create');
+	Route::get('/create/requisitos', [EstudianteController::class, 'requisito'])->name('estudiante.requisito');
 	Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
 	Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
 	Route::put('/update/{estudiante}', [EstudianteController::class, 'update'])->name('estudiante.update');
 	Route::delete('/delete/{estudiante}', [EstudianteController::class, 'destroy'])->name('estudiante.delete');
 });
+
+// Programas
+Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
+	Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
+	Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
+	Route::post('/store', [ProgramaController::class, 'store'])->name('programa.store');
+	Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
+	Route::put('/update/{programa}', [ProgramaController::class, 'update'])->name('programa.update');
+	Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
+});
+
+
+
+

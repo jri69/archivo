@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Modulo;
+use App\Models\Programa;
+use App\Models\Requisito;
 use Illuminate\Http\Request;
 
 class EstudianteController extends Controller
@@ -15,11 +18,14 @@ class EstudianteController extends Controller
 
     public function create()
     {
-        return view('estudiante.create');
+        $requisitos = Requisito::all();
+        $programas = Programa::all();
+        return view('estudiante.create', compact('requisitos', 'programas'));
     }
 
     public function store(Request $request)
     {
+        return $request->all();
         $request->validate([
             'nombre' => 'required',
             'email' => 'required',
