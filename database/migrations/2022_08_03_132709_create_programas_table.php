@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('estudio_modulos', function (Blueprint $table) {
+        Schema::create('programas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipo_estudio_id');
-            $table->unsignedBigInteger('modulo_id');
-            
-            $table->foreign('tipo_estudio_id')->references('id')->on('tipo_estudios');
-            $table->foreign('modulo_id')->references('id')->on('modulos');
+            $table->string('nombre', 50);
+            $table->string('sigla', 10);
+            $table->string('version', 5);
+            $table->string('edicion', 5);
+            $table->string('fecha_inicio');
+            $table->string('fecha_finalizacion');
+            $table->string('costo');
+            $table->string('cantidad_modulos');
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estudio_modulos');
+        Schema::dropIfExists('programas');
     }
 };
