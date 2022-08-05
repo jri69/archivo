@@ -119,7 +119,7 @@
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
-                                                    <form action="{{ route('estudio.delete', $modulo->id) }}"
+                                                    <form action="{{ route('programa.delete', $modulo->id) }}"
                                                         method="POST" style="display: inline-block;"
                                                         onsubmit="return confirm('¿Está seguro?')">
                                                         @csrf
