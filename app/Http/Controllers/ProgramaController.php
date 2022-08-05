@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EstudiantePrograma;
+use App\Models\Estudio_modulo;
+use App\Models\Modulo;
+use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\Tipo_estudio;
 use Illuminate\Http\Request;
@@ -16,35 +20,20 @@ class ProgramaController extends Controller
 
     public function create()
     {
-        $estudios = Tipo_estudio::all();
-        return view('programa.create', compact('estudios'));
+        return view('programa.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'fecha_inicio' => 'required',
-            'costo' => 'required',
-        ]);
-        $programa = Programa::create($request->all());
-        return redirect()->route('programa.index', $programa);
-    }
-
-    public function edit(programa $programa)
+    public function edit($programa)
     {
         return view('programa.edit', compact('programa'));
     }
 
-    public function update(Request $request, $id)
+    public function show($programa)
     {
-        $request->validate([
-            'fecha_inicio' => 'required',
-            'costo' => 'required',
-        ]);
-        $programa = Programa::findOrFail($id);
-        $datos = $request->all();
-        $programa->update($datos);
-        return redirect()->route('programa.index');
+        $programa = Programa::findOrFail($programa);
+        $modulos = $programa->modulos;
+        $cant_estudiantes = EstudiantePrograma::where('id_programa', $programa->id)->count();
+        return view('programa.show', compact('programa', 'modulos', 'cant_estudiantes'));
     }
 
     public function destroy($modulo)
@@ -52,5 +41,13 @@ class ProgramaController extends Controller
         $programa = Programa::findOrFail($modulo);
         $programa->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');
+    }
+
+    public function modulo($programa, $modulo)
+    {
+        $programa = Programa::findOrFail($programa);
+        $modulo = Modulo::findOrFail($modulo);
+        $estudiante_programa = EstudiantePrograma::where('id_programa', $programa->id)->get();
+        return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
     }
 }

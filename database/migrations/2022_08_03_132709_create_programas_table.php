@@ -15,10 +15,14 @@ return new class extends Migration
     {
         Schema::create('programas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 50);
+            $table->string('sigla', 10);
+            $table->string('version', 5);
+            $table->string('edicion', 5);
             $table->string('fecha_inicio');
+            $table->string('fecha_finalizacion');
             $table->string('costo');
-            $table->unsignedBigInteger('id_tipo_estudio');
-            $table->foreign('id_tipo_estudio')->references('id')->on('tipo_estudios');
+            $table->string('cantidad_modulos');
             $table->timestamps();
         });
     }

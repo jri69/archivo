@@ -29,7 +29,8 @@
                                         @foreach ($estudios as $estudio)
                                             <tr>
                                                 <td>{{ $estudio->id }} </td>
-                                                <td>{{ $estudio->sigla }}</td>
+                                                <td>{{ $estudio->sigla }} {{ $estudio->version }}.{{ $estudio->edicion }}
+                                                </td>
                                                 <td>{{ $estudio->nombre }}</td>
                                                 <td class="td-actions">
                                                     <a href="{{ route('estudio.show', $estudio->id) }}"

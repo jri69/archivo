@@ -8,16 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Programa extends Model
 {
     use HasFactory;
-    protected $fillable = ['fecha_inicio', 'costo', 'id_tipo_estudio'];
+    protected $fillable = ['nombre', 'sigla', 'version', 'edicion', 'fecha_inicio', 'fecha_finalizacion', 'cantidad_modulos', 'costo'];
 
-    public function tipo_estudio()
+    public function modulos()
     {
-        return $this->belongsTo(Tipo_estudio::class, 'id_tipo_estudio');
-    }
- 
-    public function estudiante_programa()
-    {
-        return $this->hasMany(EstudiantePrograma::class, 'id_programa');
-    }
+        return $this->belongsToMany(Modulo::class, 'programa_modulos', 'id_programa', 'id_modulo');
+    } 
+
     
 }

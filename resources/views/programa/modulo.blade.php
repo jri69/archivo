@@ -1,22 +1,22 @@
-@extends('layouts.app', ['activePage' => 'tipo_estudio', 'titlePage' => 'Tipo de Estudio'])
+@extends('layouts.app', ['activePage' => 'programa', 'titlePage' => 'Programas'])
 
 @section('content')
+    <!--Mostrar datos del modulo-->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title ">Tipo de Estudio</h4>
-                            <p class="card-category"> Detalles del Tipo de Estudio</p>
+                            <h4 class="card-title ">Módulo</h4>
+                            <p class="card-category"> Datos del módulo</p>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <label class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="{{ $tipo_estudio->nombre }}"
-                                            disabled>
+                                        <input type="text" class="form-control" disabled value="{{ $modulo->nombre }}">
                                     </div>
                                 </div>
                             </div>
@@ -24,8 +24,7 @@
                                 <label class="col-sm-2 col-form-label">Sigla</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="{{ $tipo_estudio->sigla }}"
-                                            disabled>
+                                        <input type="text" class="form-control" disabled value="{{ $modulo->sigla }}">
                                     </div>
                                 </div>
                             </div>
@@ -33,8 +32,7 @@
                                 <label class="col-sm-2 col-form-label">Versión</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="{{ $tipo_estudio->version }}"
-                                            disabled>
+                                        <input type="text" class="form-control" disabled value="{{ $modulo->version }}">
                                     </div>
                                 </div>
                             </div>
@@ -42,8 +40,7 @@
                                 <label class="col-sm-2 col-form-label">Edición</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="{{ $tipo_estudio->edicion }}"
-                                            disabled>
+                                        <input type="text" class="form-control" disabled value="{{ $modulo->edicion }}">
                                     </div>
                                 </div>
                             </div>
@@ -52,39 +49,50 @@
                     </div>
                 </div>
             </div>
-
+            <!--Lista de estudiantes inscritos-->
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title ">Módulos</h4>
-                            <p class="card-category"> Lista de Módulos</p>
+                            <h4 class="card-title ">Estudiantes inscritos</h4>
+                            <p class="card-category"> Lista de estudiantes inscritos en el módulo</p>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class=" text-primary">
                                         <th>
-                                            #
-                                        </th>
-                                        <th>
                                             Nombre
                                         </th>
                                         <th>
-                                            Sigla
+                                            Cédula
+                                        </th>
+                                        <th>
+                                            Observación
+                                        </th>
+                                        <th>
+                                            Nota
+                                        </th>
+                                        <th>
+                                            Acciones
                                         </th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($modulos as $key => $modulo)
+                                        @foreach ($estudiante_programa as $estu_progm)
                                             <tr>
                                                 <td>
-                                                    {{ $key + 1 }}
+                                                    {{ $estu_progm->estudiante->nombre }}
                                                 </td>
                                                 <td>
-                                                    {{ $modulo->modulo->nombre }}
+                                                    {{ $estu_progm->estudiante->cedula }}
                                                 </td>
                                                 <td>
-                                                    {{ $modulo->modulo->sigla }}
+                                                    {{ $estu_progm->observacion }}
+                                                </td>
+                                                <td>
+                                                    {{ $estu_progm->nota }}
+                                                </td>
+                                                <td>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -95,12 +103,6 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="card-footer ml-auto mr-auto">
-                <a href="{{ route('estudio.edit', $tipo_estudio->id) }}" class="text-white btn btn-primary">
-                    <b>Editar registro</b>
-                </a>
-                <a href="{{ route('estudio.index') }}" class="btn btn-primary"><b>Regresar</b></a>
             </div>
         </div>
     @endsection

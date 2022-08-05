@@ -17,12 +17,16 @@ class LwCreate extends Component
     protected $messages = [
         'datos.nombre.required' => 'El campo nombre es requerido.',
         'datos.sigla.required' => 'El campo sigla es requerido.',
+        'datos.version.required' => 'El campo versión es requerido.',
+        'datos.edicion.required' => 'El campo edición es requerido.',
     ];
 
     public function mount()
     {
         $datos['nombre'] = '';
         $datos['sigla'] = '';
+        $datos['version'] = '';
+        $datos['edicion'] = '';
     }
 
     public function add()
@@ -39,6 +43,8 @@ class LwCreate extends Component
         $this->validate([
             'datos.nombre' => 'required',
             'datos.sigla' => 'required',
+            'datos.version' => 'required',
+            'datos.edicion' => 'required',
         ]);
         $estudio = Tipo_estudio::create($this->datos);
         foreach ($this->listModulos as $id) {

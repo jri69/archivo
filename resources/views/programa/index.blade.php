@@ -25,18 +25,20 @@
                                         <th>Sigla</th>
                                         <th>Costo</th>
                                         <th>Fecha de inicio</th>
+                                        <th>Fecha de finalización</th>
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
                                         @foreach ($programas as $programa)
                                             <tr>
                                                 <td>{{ $programa->id }} </td>
-                                                <td>{{ $programa->tipo_estudio->nombre }}</td>
-                                                <td>{{ $programa->tipo_estudio->sigla }}</td>
+                                                <td>{{ $programa->nombre }}</td>
+                                                <td>{{ $programa->sigla }}</td>
                                                 <td>{{ $programa->costo }}</td>
                                                 <td>{{ $programa->fecha_inicio }}</td>
+                                                <td>{{ $programa->fecha_finalizacion }}</td>
                                                 <td class="td-actions">
-                                                    <a href="{{ route('programa.edit', $programa->id) }}"
+                                                    <a href="{{ route('programa.show', $programa->id) }}"
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\Requisito;
+use App\Models\RequisitoEstudiante;
 use Illuminate\Http\Request;
 
 class EstudianteController extends Controller
@@ -25,7 +27,6 @@ class EstudianteController extends Controller
 
     public function store(Request $request)
     {
-        return $request->all();
         $request->validate([
             'nombre' => 'required',
             'email' => 'required',
@@ -35,6 +36,21 @@ class EstudianteController extends Controller
             'universidad' => 'required',
         ]);
         $estudiante = Estudiante::create($request->all());
+        if ($request->id_programa) {
+            EstudiantePrograma::create([
+                'id_estudiante' => $estudiante->id,
+                'id_programa' => $request->id_programa,
+            ]);
+        }
+        if ($request->requisitos) {
+            foreach ($request->requisitos as $req) {
+                RequisitoEstudiante::create([
+                    'id_requisito' => $req,
+                    'id_estudiante' => $estudiante->id,
+                    'fecha' => date('Y-m-d'),
+                ]);
+            }
+        }
         return redirect()->route('estudiante.index', $estudiante);
     }
 

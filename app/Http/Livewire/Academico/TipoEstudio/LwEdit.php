@@ -17,6 +17,8 @@ class LwEdit extends Component
     protected $messages = [
         'datos.nombre.required' => 'El campo nombre es requerido.',
         'datos.sigla.required' => 'El campo sigla es requerido.',
+        'datos.version.required' => 'El campo versión es requerido.',
+        'datos.edicion.required' => 'El campo edición es requerido.',
     ];
 
     public function mount($tipos_estudios)
@@ -24,6 +26,8 @@ class LwEdit extends Component
         $this->estudio = Tipo_estudio::find($tipos_estudios);
         $this->datos['nombre'] = $this->estudio->nombre;
         $this->datos['sigla'] = $this->estudio->sigla;
+        $this->datos['version'] = $this->estudio->costo;
+        $this->datos['edicion'] = $this->estudio->costo;
         $this->listaV = Estudio_modulo::where('tipo_estudio_id', $tipos_estudios)->get();
         $this->listaV = $this->listaV->pluck('id')->toArray();
         $this->i = count($this->listaV);
@@ -43,6 +47,8 @@ class LwEdit extends Component
         $this->validate([
             'datos.nombre' => 'required',
             'datos.sigla' => 'required',
+            'datos.version' => 'required',
+            'datos.edicion' => 'required',
         ]);
         $this->estudio->update($this->datos);
         $this->estudio->modulos()->sync($this->listaV);

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class NotasPrograma extends Model
 {
     use HasFactory;
-    protected $fillable = ['nota', 'nombre_modulo', 'version_modulo', 'edicion_modulo', 'id_programa', 'id_estudiante'];
+    protected $fillable = ['nota', 'observaciones', 'id_programa', 'id_estudiante'];
 
     public function estudiante()
     {
@@ -19,5 +19,4 @@ class NotasPrograma extends Model
     {
         return $this->belongsTo(Programa::class, 'id_programa');
     }
-    
 }

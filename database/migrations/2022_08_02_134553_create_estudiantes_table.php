@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('email')->unique();
             $table->string('telefono');
-            $table->string('cedula');
+            $table->string('cedula')->unique();
             $table->string('carrera');
             $table->string('universidad');
+            $table->string('estado');
             $table->timestamps();
         });
     }

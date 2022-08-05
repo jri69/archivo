@@ -16,9 +16,7 @@ return new class extends Migration
         Schema::create('notas_programas', function (Blueprint $table) {
             $table->id();
             $table->string('nota');
-            $table->string('nombre_modulo');
-            $table->string('version_modulo');
-            $table->string('edicion_modulo');
+            $table->text('observaciones');
             $table->unsignedBigInteger('id_estudiante_programa');
             $table->foreign('id_estudiante_programa')->references('id')->on('estudiante_programas');
             $table->unsignedBigInteger('id_modulo');
