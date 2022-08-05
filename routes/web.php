@@ -10,8 +10,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\RequisitosController;
+use App\Http\Controllers\Tipo_descuentoController;
+use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\TiposEstudiosController;
 use App\Models\Estudiante;
+use App\Models\Tipo_pago;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,11 +76,11 @@ Route::group(['prefix' => 'usuario'], function () {
 	Route::delete('/{usuario}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
 });
 
-//Documento
+/*/Documento
 Route::group(['prefix' => 'documento'], function () {
 	Route::get('/index', [\App\Http\Controllers\DocumentoController::class, 'index'])->name('documento.index');
 	Route::get('/create', [\App\Http\Controllers\DocumentoController::class, 'create'])->name('documento.create');
-});
+});*/
 
 //Area
 Route::group(['prefix' => 'area'], function () {
@@ -137,6 +140,18 @@ Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
 	Route::delete('/delete/{estudiante}', [EstudianteController::class, 'destroy'])->name('estudiante.delete');
 });
 
+
+//Tipo Descuento
+Route::group(['prefix'=>'Tipo_Descuento'],function(){
+	Route::get('/index',[Tipo_descuentoController::class,'index'])->name('descuento.index');
+	Route::get('/create',[Tipo_descuentoController::class,'create'])->name('descuento.create');
+});
+
+//Tipo Pago
+Route::group(['prefix'=>'Tipo_Pago'],function(){
+	Route::get('/index',[tipo_pagoController::class,'index'])->name('tipo_pago.index');
+	Route::get('/create',[tipo_pagoController::class,'create'])->name('tipo_pago.create');
+
 // Programas
 Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
 	Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
@@ -145,4 +160,5 @@ Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
 	Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
 	Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
 	Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
+
 });
