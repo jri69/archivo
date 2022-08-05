@@ -25,16 +25,18 @@
                                         <th>Nombre</th>
                                         <th>Versión</th>
                                         <th>Edición</th>
+
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
                                         @foreach ($modulos as $modulo)
                                             <tr>
                                                 <td>{{ $modulo->id }} </td>
-                                                <td>{{ $modulo->sigla }} {{ $modulo->version }}.{{ $modulo->edicion }}</td>
+                                                <td>{{ $modulo->sigla }}</td>
                                                 <td>{{ $modulo->nombre }}</td>
                                                 <td>{{ $modulo->version }}</td>
                                                 <td>{{ $modulo->edicion }}</td>
+
                                                 <td class="td-actions">
                                                     <a href="{{ route('modulo.edit', $modulo->id) }}"
                                                         class="btn btn-primary">

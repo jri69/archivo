@@ -22,7 +22,6 @@
                                     </div>
                                 </div>
                                 <br>
-
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Correo:</b> </label>
                                     <div class="col-sm-7">
@@ -81,55 +80,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="row" hidden>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="estado" value="Activo">
-                                    </div>
-                                </div>
-                                <br>
-
-                                <!-- checkbox con requisitos-->
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Requisitos:</b> </label>
-                                    <div class="col-sm-7">
-                                        @foreach ($requisitos as $requisito)
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="requisitos[]"
-                                                        value="{{ $requisito->id }}">
-                                                    {{ $requisito->nombre }}
-                                                    <span class="form-check-sign">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <br>
-
-
-                                <!--select con los programas-->
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Programa:</b> </label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="id_programa">
-                                            <option disabled selected>Seleccione el programa</option>
-                                            @foreach ($programas as $programa)
-                                                <option value="{{ $programa->id }}">
-                                                    {{ $programa->tipo_estudio->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('id_programa'))
-                                            <span class="error text-danger"
-                                                for="input-id_programa">{{ $errors->first('id_programa') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
                             </div>
-
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">
                                     <b>Guardar Datos</b>

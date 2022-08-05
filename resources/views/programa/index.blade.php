@@ -1,12 +1,12 @@
-@extends('layouts.app', ['activePage' => 'tipo_estudio', 'titlePage' => 'Tipo de Estudio'])
+@extends('layouts.app', ['activePage' => 'programa', 'titlePage' => 'Programas'])
 
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{ route('estudio.create') }}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Tipo de Estudio</b>
+                    <a href="{{ route('programa.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Programa</b>
                     </a>
                 </div>
             </div>
@@ -14,29 +14,35 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4>Listado de Estudios</h4>
+                            <h4>Listado de programas</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
-                                        <th>Sigla</th>
                                         <th>Nombre</th>
+                                        <th>Sigla</th>
+                                        <th>Costo</th>
+                                        <th>Fecha de inicio</th>
+                                        <th>Fecha de finalización</th>
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($estudios as $estudio)
+                                        @foreach ($programas as $programa)
                                             <tr>
-                                                <td>{{ $estudio->id }} </td>
-                                                <td>{{ $estudio->sigla }}</td>
-                                                <td>{{ $estudio->nombre }}</td>
+                                                <td>{{ $programa->id }} </td>
+                                                <td>{{ $programa->nombre }}</td>
+                                                <td>{{ $programa->sigla }}</td>
+                                                <td>{{ $programa->costo }}</td>
+                                                <td>{{ $programa->fecha_inicio }}</td>
+                                                <td>{{ $programa->fecha_finalizacion }}</td>
                                                 <td class="td-actions">
-                                                    <a href="{{ route('estudio.show', $estudio->id) }}"
+                                                    <a href="{{ route('programa.show', $programa->id) }}"
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
-                                                    <form action="{{ route('estudio.delete', $estudio->id) }}"
+                                                    <form action="{{ route('programa.delete', $programa->id) }}"
                                                         method="POST" style="display: inline-block;"
                                                         onsubmit="return confirm('¿Está seguro?')">
                                                         @csrf
