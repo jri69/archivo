@@ -12,7 +12,7 @@ class Pago_estudiante extends Model
     protected $table = 'pago_estudiante';
     protected $fillable = [
         'estudiante_id',
-        'tipo_estudio_id',
+        'programa_id',
         'cant_modulos',
         'tipo_descuento_id',
         'convalidacion'
@@ -22,8 +22,8 @@ class Pago_estudiante extends Model
         return $this->belongsTo(estudiante::class, 'estudiante_id');
     }
 
-    public function tipo_estudio(){
-        return $this->belongsTo(tipo_estudio::class, 'tipo_estudio_id');
+    public function programa(){
+        return $this->belongsTo(programa::class, 'programa_id');
     }
 
     public function tipo_descuento(){
