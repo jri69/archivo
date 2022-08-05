@@ -158,6 +158,8 @@ Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
 	Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
 	Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
 	Route::get('/show/modulo/{programa}/{modulo}', [ProgramaController::class, 'modulo'])->name('programa.modulo');
+	Route::get('/show/modulo/inscritos/{programa}/{modulo}', [ProgramaController::class, 'actInscritos'])->name('programa.inscritos');
+
 	Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
 	Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
 	Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Modulo;
+use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Illuminate\Http\Request;
 
 class ModuloController extends Controller
@@ -16,7 +18,8 @@ class ModuloController extends Controller
 
     public function create()
     {
-        return view('modulo.create');
+        $programas = Programa::all();
+        return view('modulo.create', compact('programas'));
     }
 
     public function store(Request $request)
@@ -26,14 +29,20 @@ class ModuloController extends Controller
             'sigla' => 'required',
             'version' => 'required',
             'edicion' => 'required',
+            'id_programa' => 'required'
         ]);
         $modulo = Modulo::create($request->all());
+        ProgramaModulo::create([
+            'id_programa' => $request->id_programa,
+            'id_modulo' => $modulo->id
+        ]);
         return redirect()->route('modulo.index', $modulo);
     }
 
     public function edit(Modulo $modulo)
     {
-        return view('modulo.edit', compact('modulo'));
+        $programa = ProgramaModulo::where('id_modulo', $modulo->id)->first();
+        return view('modulo.edit', compact('modulo', 'programa'));
     }
 
     public function update(Request $request, $id)

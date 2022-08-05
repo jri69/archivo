@@ -50,4 +50,26 @@ class ProgramaController extends Controller
         $estudiante_programa = EstudiantePrograma::where('id_programa', $programa->id)->get();
         return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
     }
+
+    public function actInscritos($programa, $modulo)
+    {
+        $programa = Programa::findOrFail($programa);
+        $modulo = Modulo::findOrFail($modulo);
+        $estudiante_programa = EstudiantePrograma::where('id_programa', $programa->id)->get();
+
+        //sincronizar estudiantes inscritos en notas con estudiantes inscritos en programa
+        foreach ($estudiante_programa as $estudiante) {
+            $nota = NotasPrograma::where('id_estudiante_programa', $estudiante->id_programa)
+                ->where('id_modulo', $modulo->id)->first();
+            if ($nota == null) {
+                NotasPrograma::create([
+                    'nota' => 0,
+                    'observaciones' => '',
+                    'id_estudiante_programa' => $estudiante->id_programa,
+                    'id_modulo' => $modulo->id
+                ]);
+            }
+        }
+        return redirect()->route('programa.modulo', [$programa->id, $modulo->id]);
+    }
 }

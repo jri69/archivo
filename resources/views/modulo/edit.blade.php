@@ -12,6 +12,15 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
+                                    <label class="col-sm-2 col-form-label"><b> Programa:</b></label>
+                                    <div class="col-sm-7">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" disabled
+                                                value="{{ $programa->programa->nombre }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Módulo:</b>
                                     </label>
                                     <div class="col-sm-7">

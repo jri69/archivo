@@ -4,6 +4,17 @@
     <!--Mostrar datos del modulo-->
     <div class="content">
         <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-12 text-left">
+                    <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}"
+                        class="btn btn-outline-primary btn-white">
+                        <b>Actualizar inscritos</b>
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
