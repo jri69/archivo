@@ -108,12 +108,7 @@
                                 <span class="sidebar-normal"> {{ __('Requisitos') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'tipo_estudio' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('estudio.index') }}">
-                                <span class="sidebar-mini"> TE </span>
-                                <span class="sidebar-normal"> {{ __('Tipos de estudios') }} </span>
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
             </li>

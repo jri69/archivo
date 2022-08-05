@@ -116,16 +116,6 @@ Route::group(['prefix' => 'modulo'], function () {
 	Route::delete('/delete/{modulo}', [ModuloController::class, 'destroy'])->name('modulo.delete');
 });
 
-// Tipos de estudios
-Route::group(['prefix' => 'estudio'], function () {
-	Route::get('/index', [TiposEstudiosController::class, 'index'])->name('estudio.index');
-	Route::get('/create', [TiposEstudiosController::class, 'create'])->name('estudio.create');
-	Route::get('/edit/{estudio}', [TiposEstudiosController::class, 'edit'])->name('estudio.edit');
-	Route::get('/show/{estudio}', [TiposEstudiosController::class, 'show'])->name('estudio.show');
-	Route::put('/update/{estudio}', [TiposEstudiosController::class, 'update'])->name('estudio.update');
-	Route::delete('/delete/{estudio}', [TiposEstudiosController::class, 'destroy'])->name('estudio.delete');
-});
-
 // Requisitos
 Route::group(['prefix' => 'requisito', 'middleware' => 'auth'], function () {
 	Route::get('/index', [RequisitosController::class, 'index'])->name('requisito.index');
