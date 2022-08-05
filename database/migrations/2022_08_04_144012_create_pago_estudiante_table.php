@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('estudiante_id');
             $table->unsignedBigInteger('programa_id');
-            $table->integer('cant_modulos');            
+            $table->integer('cant_modulos');
             $table->string('tipo_descuento_id');
             $table->integer('convalidacion');
             $table->timestamps();

@@ -142,15 +142,16 @@ Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
 
 
 //Tipo Descuento
-Route::group(['prefix'=>'Tipo_Descuento'],function(){
-	Route::get('/index',[Tipo_descuentoController::class,'index'])->name('descuento.index');
-	Route::get('/create',[Tipo_descuentoController::class,'create'])->name('descuento.create');
+Route::group(['prefix' => 'Tipo_Descuento'], function () {
+	Route::get('/index', [Tipo_descuentoController::class, 'index'])->name('descuento.index');
+	Route::get('/create', [Tipo_descuentoController::class, 'create'])->name('descuento.create');
 });
 
 //Tipo Pago
-Route::group(['prefix'=>'Tipo_Pago'],function(){
-	Route::get('/index',[tipo_pagoController::class,'index'])->name('tipo_pago.index');
-	Route::get('/create',[tipo_pagoController::class,'create'])->name('tipo_pago.create');
+Route::group(['prefix' => 'Tipo_Pago'], function () {
+	Route::get('/index', [tipo_pagoController::class, 'index'])->name('tipo_pago.index');
+	Route::get('/create', [tipo_pagoController::class, 'create'])->name('tipo_pago.create');
+});
 
 // Programas
 Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
@@ -160,5 +161,4 @@ Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
 	Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
 	Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
 	Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
-
 });
