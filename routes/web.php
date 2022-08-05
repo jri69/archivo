@@ -148,9 +148,10 @@ Route::group(['prefix' => 'Tipo_Descuento'], function () {
 });
 
 //Tipo Pago
-Route::group(['prefix'=>'Tipo_Pago'],function(){
-	Route::get('/index',[tipo_pagoController::class,'index'])->name('tipo_pago.index');
-	Route::get('/create',[tipo_pagoController::class,'create'])->name('tipo_pago.create');
+Route::group(['prefix' => 'Tipo_Pago'], function () {
+	Route::get('/index', [tipo_pagoController::class, 'index'])->name('tipo_pago.index');
+	Route::get('/create', [tipo_pagoController::class, 'create'])->name('tipo_pago.create');
+});
 
 // Programas
 Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
