@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row" style="margin-left: 10%">
                 <div class="col-md-11">
-                    <form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('tipo_pago.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
                         <div class="card">
                             <div class="card-body">

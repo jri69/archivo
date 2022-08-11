@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Programa;
+use App\Models\tipo_descuento;
 use Illuminate\Http\Request;
 
 class Pago_EstudianteController extends Controller
@@ -25,7 +27,10 @@ class Pago_EstudianteController extends Controller
      */
     public function create()
     {
-        return view('pago_estudiante.create');
+        $estudiantes = Estudiante::all();
+        $programas = Programa::all();
+        $descuentos = tipo_descuento::all();
+        return view('pago_estudiante.create',compact('descuentos','estudiantes','programas'));
     }
 
     /**
