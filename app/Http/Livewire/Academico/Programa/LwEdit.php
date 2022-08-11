@@ -71,7 +71,7 @@ class LwEdit extends Component
         $this->datos['cantidad_modulos'] = sizeof($this->listaV);
         $this->programa->update($this->datos);
         $this->programa->modulos()->sync($this->listaV);
-        return redirect()->route('programa.index');
+        return redirect()->route('programa.show', $this->programa);
     }
     public function render()
     {

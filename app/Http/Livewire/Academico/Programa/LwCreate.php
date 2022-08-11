@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Academico\Programa;
 
+use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
+use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use Livewire\Component;
@@ -10,9 +12,6 @@ use Livewire\Component;
 class LwCreate extends Component
 {
     public $datos = [];
-    public $listModulos = [];
-    public $idModulo = 'null';
-    public $i = 0;
 
     protected $messages = [
         'datos.nombre.required' => 'El campo nombre es requerido.',
@@ -35,21 +34,6 @@ class LwCreate extends Component
         $datos['costo'] = '';
     }
 
-    public function add()
-    {
-        if ($this->idModulo != 'null') {
-            $this->listModulos[$this->i] = $this->idModulo;
-            $this->i++;
-            $this->idModulo = 'null';
-        }
-    }
-
-    // funcion que elimina un modulo de la lista de modulos cuando el valor es id
-    public function del($id)
-    {
-        $this->listModulos = array_diff($this->listModulos, [$id]);
-    }
-
     public function store()
     {
         $this->validate([
@@ -61,30 +45,22 @@ class LwCreate extends Component
             'datos.fecha_finalizacion' => 'required',
             'datos.costo' => 'required',
         ]);
-        $programa = Programa::create([
+        Programa::create([
             'nombre' => $this->datos['nombre'],
             'sigla' => $this->datos['sigla'],
             'version' => $this->datos['version'],
             'edicion' => $this->datos['edicion'],
             'fecha_inicio' => $this->datos['fecha_inicio'],
             'fecha_finalizacion' => $this->datos['fecha_finalizacion'],
-            'cantidad_modulos' => sizeof($this->listModulos),
+            'cantidad_modulos' => 0,
             'costo' => $this->datos['costo'],
         ]);
-        foreach ($this->listModulos as $id) {
-            ProgramaModulo::create([
-                'id_programa' => $programa->id,
-                'id_modulo' => $id,
-            ]);
-        };
+
         return redirect()->route('programa.index');
     }
 
     public function render()
     {
-        $modulos = Modulo::all();
-        $modulos = $modulos->except($this->listModulos);
-        $lista = Modulo::whereIn('id',  $this->listModulos)->get();
-        return view('livewire.academico.programa.lw-create', compact('modulos', 'lista'));
+        return view('livewire.academico.programa.lw-create');
     }
 }

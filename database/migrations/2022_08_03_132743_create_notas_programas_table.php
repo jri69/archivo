@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('nota');
             $table->text('observaciones');
-            $table->unsignedBigInteger('id_estudiante_programa');
-            $table->foreign('id_estudiante_programa')->references('id')->on('estudiante_programas');
+            $table->unsignedBigInteger('id_estudiante');
+            $table->foreign('id_estudiante')->references('id')->on('estudiantes');
+            $table->unsignedBigInteger('id_programa');
+            $table->foreign('id_programa')->references('id')->on('programas');
             $table->unsignedBigInteger('id_modulo');
             $table->foreign('id_modulo')->references('id')->on('modulos');
             $table->timestamps();
