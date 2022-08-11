@@ -7,6 +7,8 @@
                         class="btn btn-outline-primary btn-white">
                         <b>Guardar</b>
                     </a>
+
+                    <button wire:click='save'> Probar</button>
                 </div>
             </div>
 
@@ -50,17 +52,20 @@
                                                         placeholder="Observaciones">
                                                 </td>
                                                 <td class="">
-                                                    <input type="text" class="form-control"
-                                                        wire.model="notas.{{ $estu_progm->id }}" placeholder="Nota">
+                                                    <input type="text" class="form-control" name="nota"
+                                                        wire.model="notas.{{ str_replace('', '', $estu_progm->estudiante->nombre . (string) $estu_progm->id) }}"
+                                                        placeholder="Nota">
+                                                    notas.{{ str_replace('', '', $estu_progm->estudiante->nombre . (string) $estu_progm->id) }}
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    @foreach ($notas as $key => $nota)
+                                        {{ $key }} = {{ $nota }} <br>
+                                    @endforeach
                                 </table>
-
-                                @foreach ($notas as $item)
-                                    {{ $item }}
-                                @endforeach
+                                <input type="text" wire:model="casa">
+                                {{ $casa }}
                             </div>
                         </div>
                     </div>

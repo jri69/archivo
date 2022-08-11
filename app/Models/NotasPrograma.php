@@ -10,7 +10,7 @@ class NotasPrograma extends Model
     use HasFactory;
     protected $fillable = ['nota', 'observaciones', 'id_estudiante', 'id_programa', 'id_modulo'];
 
-
+ 
     public function estudiante()
     {
         return $this->belongsTo(Estudiante::class, 'id_estudiante');
