@@ -78,7 +78,7 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Costo:</b> </label>
                                 <div class="col-sm-7">
-                                    <input wire:model.defer="datos.costo" type="text" class="form-control"
+                                    <input wire:model.defer="datos.costo" type="number" class="form-control"
                                         name="costo" placeholder="Costo">
                                     @error('datos.costo')
                                         <span class="error text-danger" for="input-nombre">{{ $message }}</span>

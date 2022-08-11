@@ -15,8 +15,8 @@ class Tipo_descuentoController extends Controller
      */
     public function index()
     {
-        //$item = tipo_descuento::all();
-        return view('tipo_descuento.index');
+        $descuentos = tipo_descuento::all();
+        return view('tipo_descuento.index',compact('descuentos'));
     }
 
     /**
@@ -54,7 +54,7 @@ class Tipo_descuentoController extends Controller
             'archivo' => $archivo
         ]);
 
-        return redirect()->route('tipo_descuento.index');
+        return redirect()->route('descuento.index');
     }
 
     /**
@@ -74,9 +74,9 @@ class Tipo_descuentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(tipo_descuento $descuento)
     {
-        //
+        return view('tipo_descuento.edit', compact('descuento'));
     }
 
     /**
@@ -88,7 +88,15 @@ class Tipo_descuentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nombre',
+            'monto'
+        ]);
+
+        $descuento = tipo_descuento::findOrFail($id);
+        $datos = $request->all();
+        $descuento->update($datos);
+        return redirect()->route('descuento.index');
     }
 
     /**

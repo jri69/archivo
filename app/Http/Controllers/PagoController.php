@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tipo_pago;
 use Illuminate\Http\Request;
 
 class PagoController extends Controller
@@ -13,7 +14,7 @@ class PagoController extends Controller
      */
     public function index()
     {
-        //
+        return view('pago.index');
     }
 
     /**
@@ -23,7 +24,8 @@ class PagoController extends Controller
      */
     public function create()
     {
-        //
+        $pagos = Tipo_pago::all();
+        return view('pago.create',compact('pagos'));
     }
 
     /**

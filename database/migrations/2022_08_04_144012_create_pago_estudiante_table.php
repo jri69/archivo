@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('programa_id');
             $table->integer('cant_modulos');            
             $table->unsignedBigInteger('tipo_descuento_id');
-            $table->integer('convalidacion');
+            $table->integer('convalidacion')->nullable(); 
             $table->timestamps();
 
             $table->foreign('estudiante_id')->on('estudiantes')->references('id')->onDelete('cascade')->onUpdate('cascade');
