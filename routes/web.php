@@ -157,6 +157,7 @@ Route::group(['prefix' => 'Tipo_Pago'], function () {
 Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
     Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
     Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
+    Route::get('/show/modulo/init/{programa}/{modulo}', [ProgramaController::class, 'init'])->name('programa.init');
     Route::get('/show/modulo/{programa}/{modulo}', [ProgramaController::class, 'modulo'])->name('programa.modulo');
     Route::get('/show/modulo/notas/{programa}/{modulo}', [ProgramaController::class, 'notas'])->name('programa.notas');
     Route::get('/show/modulo/inscritos/{programa}/{modulo}', [ProgramaController::class, 'actInscritos'])->name('programa.inscritos');

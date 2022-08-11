@@ -1,11 +1,15 @@
 @extends('layouts.app', ['activePage' => 'estudiante', 'titlePage' => 'Estudiantes'])
 
 @section('content')
-    <!--ver informacion del estudiante card-->
-
     <div class="content">
         <div class="container-fluid">
-
+            <div class="row">
+                <div class="col-12 text-left">
+                    <a href="{{ route('estudiante.edit', [$estudiante->id]) }}" class="btn btn-outline-primary btn-white">
+                        <b>Actualizar datos</b>
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">

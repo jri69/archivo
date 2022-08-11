@@ -54,7 +54,8 @@ class ProgramaController extends Controller
         $programa = Programa::findOrFail($programa);
         $modulo = Modulo::findOrFail($modulo);
         $estudiante_programa = NotasPrograma::where('id_modulo', $modulo->id)
-            ->where('id_programa', $programa->id)->get();
+            ->where('id_programa', $programa->id)
+            ->get();
         return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
     }
 
@@ -89,5 +90,17 @@ class ProgramaController extends Controller
         $estudiante_programa = NotasPrograma::where('id_modulo', $modulo->id)
             ->where('id_programa', $programa->id)->get();
         return view('programa.notas', compact('programa', 'modulo', 'estudiante_programa'));
+    }
+
+    public function init($programa, $modulo)
+    {
+        $programa = Programa::findOrFail($programa);
+        $modulo = Modulo::findOrFail($modulo);
+        $modulo->estado = 'Iniciado';
+        $modulo->save();
+        $estudiante_programa = NotasPrograma::where('id_modulo', $modulo->id)
+            ->where('id_programa', $programa->id)
+            ->get();
+        return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
     }
 }

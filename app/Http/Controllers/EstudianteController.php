@@ -36,7 +36,6 @@ class EstudianteController extends Controller
             'cedula' => 'required',
             'carrera' => 'required',
             'universidad' => 'required',
-            'archivo.*' => 'mimes:pdf',
         ]);
         $estudiante = Estudiante::create($request->all());
         if ($request->id_programa) {
@@ -66,9 +65,15 @@ class EstudianteController extends Controller
         return redirect()->route('estudiante.index', $estudiante);
     }
 
+
+
+
     public function edit(Estudiante $estudiante)
     {
-        return view('estudiante.edit', compact('estudiante'));
+        $requisitos = Requisito::all();
+        $requisitosCumplidos = RequisitoEstudiante::where('id_estudiante', $estudiante->id)->get();
+        $requisitosCumplidos = $requisitosCumplidos->pluck('id_requisito')->toArray();
+        return view('estudiante.edit', compact('estudiante', 'requisitos', 'requisitosCumplidos'));
     }
 
     public function update(Request $request, $id)
@@ -80,10 +85,36 @@ class EstudianteController extends Controller
             'cedula' => 'required',
             'carrera' => 'required',
             'universidad' => 'required',
+            'estado' => 'required',
         ]);
         $estudiante = Estudiante::findOrFail($id);
         $datos = $request->all();
         $estudiante->update($datos);
+        if ($request->requisitos) {
+
+            if ($request->archivo) {
+                foreach ($request->archivo as $archivo) {
+                    $filename = $archivo->getClientOriginalName();
+                    $dir = 'storage/' . Storage::disk('public')->put('requisitos', $archivo);
+                    RequisitoArchivo::create([
+                        'id_estudiante' => $estudiante->id,
+                        'nombre' => $filename,
+                        'dir' => $dir,
+                    ]);
+                }
+            }
+            $data = [];
+            foreach ($request->requisitos as $requisito) {
+                array_push(
+                    $data,
+                    [
+                        "id_requisito" => $requisito,
+                        "fecha" => date('Y-m-d')
+                    ]
+                );
+            }
+            $estudiante->requisitos()->sync($data);
+        }
         return redirect()->route('estudiante.index');
     }
 
@@ -101,6 +132,6 @@ class EstudianteController extends Controller
         $requisitos = RequisitoEstudiante::where('id_estudiante', $idEstudiante)->get();
         $requisitosID = $requisitos->pluck('id_requisito')->toArray();
         $requisitosFaltantes = Requisito::whereNotIn('id', $requisitosID)->get();
-        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos','requisitosFaltantes'));
+        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'requisitosFaltantes'));
     }
 }

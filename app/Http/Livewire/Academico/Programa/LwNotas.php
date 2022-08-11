@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Academico\Programa;
 
 use App\Models\NotasPrograma;
 use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Livewire\Component;
 
 class LwNotas extends Component
@@ -21,13 +22,8 @@ class LwNotas extends Component
         $this->modulo = $modulo;
         $this->estudiante_programa = $estudiante_programa;
         foreach ($this->estudiante_programa as $nota) {
-            //elimina espacios en blanco
-            //convertir un numero en string
-
-            $name = str_replace(' ', '', $nota->estudiante->nombre . (string) $nota->id);
-            //$name = $nota->id;
-            $this->notas[$name] = $nota->nota;
-            $this->observaciones[$nota->id] = $nota->observacion;
+            $this->notas[$nota->id] = $nota->nota;
+            $this->observaciones[$nota->id] = $nota->observaciones;
         }
         $this->casa = "Nueva";
     }
@@ -42,7 +38,11 @@ class LwNotas extends Component
             }
             $estudiante_programa->save();
         }
-        $this->emit('alert', 'success', 'Notas actualizadas');
+        if ($this->modulo->estado != "Finalizado") {
+            $this->modulo->estado = "Finalizado";
+            $this->modulo->save();
+        }
+        return redirect()->route('programa.modulo', [$this->programa, $this->modulo]);
     }
 
     public function render()
