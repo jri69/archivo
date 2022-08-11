@@ -88,6 +88,20 @@
                                 </div>
                                 <br>
 
+                                <!-- input para subir multiples archivos solo pdf -->
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Archivo:</b> </label>
+                                    <div class="col-sm-7">
+                                        <input type="file" class="form-control" name="archivo[]" placeholder="Archivo"
+                                            multiple>
+                                        @if ($errors->has('archivo'))
+                                            <span class="error text-danger"
+                                                for="input-archivo">{{ $errors->first('archivo') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+
                                 <!-- checkbox con requisitos-->
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Requisitos:</b> </label>
@@ -117,7 +131,7 @@
                                             <option disabled selected>Seleccione el programa</option>
                                             @foreach ($programas as $programa)
                                                 <option value="{{ $programa->id }}">
-                                                    {{ $programa->tipo_estudio->nombre }}
+                                                    {{ $programa->nombre }}
                                                 </option>
                                             @endforeach
                                         </select>

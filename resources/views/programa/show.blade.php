@@ -87,6 +87,9 @@
                                             Sigla
                                         </th>
                                         <th>
+                                            Estado
+                                        </th>
+                                        <th>
                                             Edición
                                         </th>
                                         <th>
@@ -107,6 +110,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $modulo->sigla }}
+                                                </td>
+                                                <td>
+                                                    {{ $modulo->estado }}
                                                 </td>
                                                 <td>
                                                     {{ $modulo->edicion }}
