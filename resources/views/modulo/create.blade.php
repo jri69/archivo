@@ -73,6 +73,9 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div hidden>
+                                    <input type="text" class="form-control" name="estado" value="Sin iniciar">
+                                </div>
                                 <br>
                             </div>
                             <div class="card-footer ml-auto mr-auto">

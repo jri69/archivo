@@ -36,7 +36,7 @@ class EstudianteController extends Controller
             'cedula' => 'required',
             'carrera' => 'required',
             'universidad' => 'required',
-            'archivo' => 'mimes:pdf',
+            'archivo.*' => 'mimes:pdf',
         ]);
         $estudiante = Estudiante::create($request->all());
         if ($request->id_programa) {
@@ -46,7 +46,6 @@ class EstudianteController extends Controller
             ]);
         }
         if ($request->requisitos) {
-
             foreach ($request->archivo as $archivo) {
                 $filename = $archivo->getClientOriginalName();
                 $dir = 'storage/' . Storage::disk('public')->put('requisitos', $archivo);
@@ -93,5 +92,15 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::findOrFail($modulo);
         $estudiante->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');
+    }
+
+    public function show($idEstudiante)
+    {
+        $estudiante = Estudiante::findOrFail($idEstudiante);
+        $documentos = RequisitoArchivo::where('id_estudiante', $idEstudiante)->get();
+        $requisitos = RequisitoEstudiante::where('id_estudiante', $idEstudiante)->get();
+        $requisitosID = $requisitos->pluck('id_requisito')->toArray();
+        $requisitosFaltantes = Requisito::whereNotIn('id', $requisitosID)->get();
+        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos','requisitosFaltantes'));
     }
 }

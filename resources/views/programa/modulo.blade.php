@@ -4,14 +4,15 @@
     <!--Mostrar datos del modulo-->
     <div class="content">
         <div class="container-fluid">
-
-
-
             <div class="row">
                 <div class="col-12 text-left">
                     <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}"
                         class="btn btn-outline-primary btn-white">
                         <b>Actualizar inscritos</b>
+                    </a>
+                    <a href="{{ route('programa.notas', [$programa->id, $modulo->id]) }}"
+                        class="btn btn-outline-primary btn-white">
+                        <b>Poner notas</b>
                     </a>
                 </div>
             </div>
@@ -103,7 +104,12 @@
                                                 <td>
                                                     {{ $estu_progm->nota }}
                                                 </td>
-                                                <td>
+                                                <td class="td-actions">
+                                                    <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
+                                                        class="btn btn-primary">
+                                                        <span class="material-icons">edit</span>
+                                                    </a>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -113,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
