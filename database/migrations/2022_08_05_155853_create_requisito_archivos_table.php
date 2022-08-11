@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('modulos', function (Blueprint $table) {
+        Schema::create('requisito_archivos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('sigla', 10);
-            $table->string('estado');
-            $table->string('version', 5);
-            $table->string('edicion', 5);
+            $table->string('dir');
+            $table->unsignedBigInteger('id_estudiante');
+            $table->foreign('id_estudiante')->references('id')->on('estudiantes');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modulos');
+        Schema::dropIfExists('requisito_archivos');
     }
 };

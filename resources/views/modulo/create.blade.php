@@ -10,6 +10,25 @@
                         @csrf
                         <div class="card">
                             <div class="card-body">
+
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Programa:</b> </label>
+                                    <div class="col-sm-7">
+                                        <select class="form-control" name="id_programa">
+                                            <option disabled selected>Seleccione el programa</option>
+                                            @foreach ($programas as $programa)
+                                                <option value="{{ $programa->id }}">
+                                                    {{ $programa->nombre }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('id_programa'))
+                                            <span class="error text-danger"
+                                                for="input-id_programa">{{ $errors->first('id_programa') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Módulo:</b>
                                     </label>
@@ -53,6 +72,9 @@
                                                 for="input-edicion">{{ $errors->first('edicion') }}</span>
                                         @endif
                                     </div>
+                                </div>
+                                <div hidden>
+                                    <input type="text" class="form-control" name="estado" value="Sin iniciar">
                                 </div>
                                 <br>
                             </div>

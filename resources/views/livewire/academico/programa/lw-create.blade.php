@@ -86,23 +86,8 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"><b>Módulos:</b></label>
-                                <div class="col-sm-7">
-                                    <select wire:model.defer="idModulo" name="modulo_id" id="_modulo"
-                                        class="form-control">
-                                        <option value="null" selected>Seleccione el módulo</option>
-                                        @foreach ($modulos as $modulo)
-                                            <option value="{{ $modulo->id }}">{{ $modulo->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <br>
-                                <a wire:click="add()" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
-                                    <i class="material-icons">add</i>
-                                </a>
-                            </div>
                         </div>
+
                         <div class="card-footer ml-auto mr-auto">
                             <a wire:click="store()" class="btn btn-primary text-white">
                                 <b>Guardar Datos</b>
@@ -113,44 +98,6 @@
                 </form>
             </div>
         </div>
-        <div class="row" style="margin-left: 10%">
-            <div class="col-md-11">
-                <div class="card">
-                    <div class="card-header card-header-primary">
-                        <h4>Listado de Módulos</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>Sigla</th>
-                                        <th>Nombre</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($lista as $key => $mod)
-                                        <tr>
-                                            <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $mod->sigla }}</td>
-                                            <td>{{ $mod->nombre }} <b> {{ $mod->version }}.{{ $mod->edicion }} </b>
-                                            </td>
-                                            <td class="td-actions">
-                                                <a wire:click="del({{ $mod->id }})" rel="tooltip"
-                                                    class="btn btn-danger text-white">
-                                                    <i class="material-icons">close</i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
