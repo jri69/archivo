@@ -5,7 +5,7 @@
                 <div class="col-12 text-left">
                     <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
                         class="btn btn-outline-primary btn-white">
-                        <b>Atras</b>
+                        <b>Atrás</b>
                     </a>
                     <a wire:click='save' class="btn btn-outline-primary btn-white">
                         <b>Guardar</b>

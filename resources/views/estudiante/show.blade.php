@@ -111,7 +111,8 @@
                                             <label class="bmd-label-floating text-black"><b>Requisitos Entregados</b>
                                             </label> <br>
                                             @foreach ($documentos as $documento)
-                                                <a href="{{ $documento->dir }}" target="_blank" class="btn btn-link">
+                                                <a href="{{ env('APP_URL') . '/public/' . $documento->dir }}" target="_blank"
+                                                    class="btn btn-link">
                                                     {{ $documento->nombre }}
                                                 </a>
                                             @endforeach
