@@ -16,9 +16,7 @@
                 <a href="{{route('pago_estudiante.create')}}" class="btn btn-outline-primary btn-white">
                     <b>Agregar Estudiante</b>
                 </a>
-                <a href="{{route('pago.index')}}" class="btn btn-outline-primary btn-white">
-                    <b>Pago</b>
-                </a>
+                
             </div>
         </div>
 
@@ -39,7 +37,24 @@
                                     <th>Carnet</th>
                                     <th>Acciones</th>
                                 </thead>
-                                
+                                <tbody>
+                                        @foreach ($estudiantes as $estudiante )
+                                            <tr>
+                                            <td>{{$estudiante->id}}</td>
+                                            <td>{{$estudiante->estudiante()->pluck('nombre')->first()}}</td>
+                                            <td>{{$estudiante->estudiante()->pluck('email')->first()}}</td>
+                                            <td>{{$estudiante->estudiante()->pluck('telefono')->first()}}</td>
+                                            <td>{{$estudiante->estudiante()->pluck('cedula')->first()}}</td>
+                                            <td class="td-actions">
+                                                {{----}}
+                                                <a href="{{route('pago_estudiante.show',$estudiante->id)}}" class="btn btn-primary">
+                                                    <span class="material-icons">visibility</span>
+
+                                                </a>                                                
+                                            </td>
+                                            </tr>                                            
+                                        @endforeach
+                                    </tbody>
                             </table>
                         </div>
                     </div>
