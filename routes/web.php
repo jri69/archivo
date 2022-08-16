@@ -7,6 +7,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\Pago_EstudianteController;
 use App\Http\Controllers\PagoController;
@@ -34,9 +35,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
-//Auth::routes();
-
-//Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('table-list', function () {
@@ -142,48 +140,56 @@ Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
     Route::delete('/delete/{estudiante}', [EstudianteController::class, 'destroy'])->name('estudiante.delete');
 });
 
-
 //Tipo Descuento
-
-Route::group(['prefix'=>'tipo_descuento'],function(){
-	Route::get('/index',[Tipo_descuentoController::class,'index'])->name('descuento.index');
-	Route::get('/create',[Tipo_descuentoController::class,'create'])->name('descuento.create');
-	Route::post('/store',[Tipo_descuentoController::class,'store'])->name('descuento.store');
-	Route::get('/edit/{descuento}',[Tipo_descuentoController::class,'edit'])->name('descuento.edit');
-	Route::put('/update/{descuento}',[Tipo_descuentoController::class,'update'])->name('descuento.update');
-
+Route::group(['prefix' => 'tipo_descuento'], function () {
+    Route::get('/index', [Tipo_descuentoController::class, 'index'])->name('descuento.index');
+    Route::get('/create', [Tipo_descuentoController::class, 'create'])->name('descuento.create');
+    Route::post('/store', [Tipo_descuentoController::class, 'store'])->name('descuento.store');
+    Route::get('/edit/{descuento}', [Tipo_descuentoController::class, 'edit'])->name('descuento.edit');
+    Route::put('/update/{descuento}', [Tipo_descuentoController::class, 'update'])->name('descuento.update');
 });
 
 //Tipo Pago
-Route::group(['prefix'=>'tipo_pago'],function(){
-	Route::get('/index',[tipo_pagoController::class,'index'])->name('tipo_pago.index');
-	Route::get('/create',[tipo_pagoController::class,'create'])->name('tipo_pago.create');
-	Route::post('/store',[tipo_pagoController::class,'store'])->name('tipo_pago.store');
-	Route::get('/edit/{pago}',[tipo_pagoController::class,'edit'])->name('tipo_pago.edit');
-	Route::put('/update/{tipo_pago}',[tipo_pagoController::class,'update'])->name('tipo_pago.update');
+Route::group(['prefix' => 'tipo_pago'], function () {
+    Route::get('/index', [tipo_pagoController::class, 'index'])->name('tipo_pago.index');
+    Route::get('/create', [tipo_pagoController::class, 'create'])->name('tipo_pago.create');
+    Route::post('/store', [tipo_pagoController::class, 'store'])->name('tipo_pago.store');
+    Route::get('/edit/{pago}', [tipo_pagoController::class, 'edit'])->name('tipo_pago.edit');
+    Route::put('/update/{tipo_pago}', [tipo_pagoController::class, 'update'])->name('tipo_pago.update');
 });
 
 //Pago Estudiante
-Route::group(['prefix'=>'Pago_Estudiante'],function(){
-	Route::get('/index',[Pago_EstudianteController::class,'index'])->name('pago_estudiante.index');
-	Route::get('/create',[Pago_EstudianteController::class,'create'])->name('pago_estudiante.create');
+Route::group(['prefix' => 'Pago_Estudiante'], function () {
+    Route::get('/index', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
+    Route::get('/create', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
 });
 
 //Pago
-Route::group(['prefix'=>'pago'],function(){
-Route::get('/index',[PagoController::class,'index'])->name('pago.index');
-Route::get('/create',[PagoController::class,'create'])->name('pago.create');
+Route::group(['prefix' => 'pago'], function () {
+    Route::get('/index', [PagoController::class, 'index'])->name('pago.index');
+    Route::get('/create', [PagoController::class, 'create'])->name('pago.create');
 });
 
 // Programas
 Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
     Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
     Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
+    Route::get('/show/modulo/init/{programa}/{modulo}', [ProgramaController::class, 'init'])->name('programa.init');
     Route::get('/show/modulo/{programa}/{modulo}', [ProgramaController::class, 'modulo'])->name('programa.modulo');
     Route::get('/show/modulo/notas/{programa}/{modulo}', [ProgramaController::class, 'notas'])->name('programa.notas');
     Route::get('/show/modulo/inscritos/{programa}/{modulo}', [ProgramaController::class, 'actInscritos'])->name('programa.inscritos');
 
     Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
-    Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
+    Route::put('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
     Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
+});
+
+//TIC'S
+Route::group(['prefix' => 'tics'], function () {
+    Route::get('/index', [InventarioController::class, 'index'])->name('inventario.index');
+    Route::get('/create', [InventarioController::class, 'create'])->name('inventario.create');
+    Route::post('/store', [InventarioController::class, 'store'])->name('inventario.store');
+    Route::get('/edit/{inventario}', [InventarioController::class, 'edit'])->name('inventario.edit');
+    Route::put('/update/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
+    Route::delete('/delete/{inventario}', [InventarioController::class, 'destroy'])->name('inventario.delete');
 });
