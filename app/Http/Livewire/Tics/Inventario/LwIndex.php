@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Livewire\Academico\Estudiante;
+namespace App\Http\Livewire\Tics\Inventario;
 
-use App\Models\Estudiante;
+use App\Models\Inventario;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,10 +11,13 @@ class LwIndex extends Component
     use WithPagination;
     public $pagination = 10;
     public $attribute = '';
-    public $type = 'nombre';
-    public $sort = 'nombre';
+    public $type = 'id';
+    public $sort = 'id';
     public $direction = 'asc';
+
+    //paginacion bootstrap
     protected $paginationTheme = 'bootstrap';
+
     //Metodo de reinicio de buscador
     public function updatingAttribute()
     {
@@ -23,10 +26,10 @@ class LwIndex extends Component
 
     public function render()
     {
-        $estudiantes = Estudiante::where('nombre', 'like', '%' . $this->attribute . '%')
-            ->orWhere('cedula', 'like', '%' . $this->attribute . '%')
+        $productos = Inventario::where('nombre', 'like', '%' . $this->attribute . '%')
+            ->orWhere('id', 'like', '%' . $this->attribute . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
-        return view('livewire.academico.estudiante.lw-index', compact('estudiantes'));
+        return view('livewire.tics.inventario.lw-index', compact('productos'));
     }
 }

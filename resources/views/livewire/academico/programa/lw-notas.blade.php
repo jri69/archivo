@@ -3,12 +3,13 @@
 
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}"
+                    <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
                         class="btn btn-outline-primary btn-white">
+                        <b>Atrás</b>
+                    </a>
+                    <a wire:click='save' class="btn btn-outline-primary btn-white">
                         <b>Guardar</b>
                     </a>
-
-                    <button wire:click='save'> Probar</button>
                 </div>
             </div>
 
@@ -48,24 +49,17 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" class="form-control"
-                                                        wire.model='observaciones.{{ $estu_progm->id }}'
+                                                        wire:model.defer='observaciones.{{ $estu_progm->id }}'
                                                         placeholder="Observaciones">
                                                 </td>
-                                                <td class="">
-                                                    <input type="text" class="form-control" name="nota"
-                                                        wire.model="notas.{{ str_replace('', '', $estu_progm->estudiante->nombre . (string) $estu_progm->id) }}"
-                                                        placeholder="Nota">
-                                                    notas.{{ str_replace('', '', $estu_progm->estudiante->nombre . (string) $estu_progm->id) }}
+                                                <td>
+                                                    <input type="text" wire:model.defer="notas.{{ $estu_progm->id }}"
+                                                        class="form-control">
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    @foreach ($notas as $key => $nota)
-                                        {{ $key }} = {{ $nota }} <br>
-                                    @endforeach
                                 </table>
-                                <input type="text" wire:model="casa">
-                                {{ $casa }}
                             </div>
                         </div>
                     </div>
