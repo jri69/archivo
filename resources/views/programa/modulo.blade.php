@@ -6,6 +6,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
+                    <a href="{{ route('programa.show', [$programa->id]) }}" class="btn btn-outline-primary btn-white">
+                        <b>Atrás</b>
+                    </a>
                     <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}"
                         class="btn btn-outline-primary btn-white">
                         <b>Actualizar inscritos</b>
@@ -14,6 +17,12 @@
                         class="btn btn-outline-primary btn-white">
                         <b>Poner notas</b>
                     </a>
+                    @if ($modulo->estado != 'Iniciado' && $modulo->estado != 'Finalizado')
+                        <a href="{{ route('programa.init', [$programa->id, $modulo->id]) }}"
+                            class="btn btn-outline-primary btn-white">
+                            <b>Iniciar</b>
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -85,9 +94,9 @@
                                         <th>
                                             Nota
                                         </th>
-                                        <th>
-                                            Acciones
-                                        </th>
+                                        <!--<th>
+                                                                    Acciones
+                                                                </th>-->
                                     </thead>
                                     <tbody>
                                         @foreach ($estudiante_programa as $estu_progm)
@@ -99,18 +108,17 @@
                                                     {{ $estu_progm->estudiante->cedula }}
                                                 </td>
                                                 <td>
-                                                    {{ $estu_progm->observacion }}
+                                                    {{ $estu_progm->observaciones }}
                                                 </td>
                                                 <td>
                                                     {{ $estu_progm->nota }}
                                                 </td>
-                                                <td class="td-actions">
-                                                    <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
-                                                        class="btn btn-primary">
-                                                        <span class="material-icons">edit</span>
-                                                    </a>
-
-                                                </td>
+                                                <!--<td class="td-actions">
+                                                                            <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
+                                                                                class="btn btn-primary">
+                                                                                <span class="material-icons">edit</span>
+                                                                            </a>
+                                                                        </td>-->
                                             </tr>
                                         @endforeach
                                     </tbody>
