@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row" style="margin-left: 10%">
                 <div class="col-md-11">
-                    <form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('pago_estudiante.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <div class="card-body">
@@ -38,7 +38,7 @@
                                 <div class="col-sm-7">
                                     <input type="number" class="form-control"
                                     name="cant_modulos"
-                                    value="{{'cant_modulos'}}">
+                                    value="{{$programa->cantidad_modulos}}">
                                 </div>
                             </div>
                             <br>

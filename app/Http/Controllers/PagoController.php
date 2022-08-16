@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estudiante;
 use App\Models\Tipo_pago;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,12 @@ class PagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Estudiante $estudiante)
     {
-        return view('pago.index');
+        
+        $estudiante = Estudiante::findOrFail($estudiante);
+        //return $estudiante;
+        return view('pago.index',compact('estudiante'));
     }
 
     /**
@@ -22,10 +26,11 @@ class PagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        
         $pagos = Tipo_pago::all();
-        return view('pago.create',compact('pagos'));
+        return view('pago.create',compact('pagos','id'));
     }
 
     /**
@@ -34,9 +39,19 @@ class PagoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        return $id;
+        $request->validate([
+            'pago_estudiante_id'=>'required',
+            'monto'=>'required',
+            'fecha'=>'required',
+            'comprobante'=>'required',
+            'compro_file'=>'required',
+            'tipo_pago_id'=>'required',
+            'observaciones'=>'required'
+        ]);
+
     }
 
     /**

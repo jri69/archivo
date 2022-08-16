@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="form-row">
                 <div class="col text-right">
-                    <a href="{{route('pago.create')}}" class="btn btn-outline-primary btn-white">
+                    <a href="{{route('pago.create',$descuento->estu)}}" class="btn btn-outline-primary btn-white">
                         <b>Agregar Pago</b>
                     </a>
                 </div>
@@ -23,7 +23,7 @@
                                 <table class="table-border">
                                     <thead class="text-primary text-dark">          
                                         <tr><th>Nombre</th>
-                                        <td></td>
+                                        <td>{{$estudiante->nombre}}</td>
                                         </tr>                              
                                         <tr><th>Estado</th>
                                         <td></td>
@@ -48,31 +48,31 @@
                                 <table class="table-border">
                                     <thead class="text-primary text-dark">
                                         <tr><th>Programa</th>
-                                        <td></td>
+                                        <td>{{$programa->programa}}</td>
                                         </tr>                              
                                         <tr><th>Version</th>
-                                        <td></td>
+                                        <td>{{$programa->version}}</td>
                                         </tr>                                                                           
                                         <tr><th>Edicion</th>
-                                        <td></td>
+                                        <td>{{$programa->edicion}}</td>
                                         </tr>  
                                         <tr><th>Fecha de inicio</th>
-                                        <td></td>
+                                        <td>{{\Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Fecha de finalizacion</th>
-                                        <td></td>
+                                        <td>{{\Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Cantidad de Modulos</th> 
-                                        <td></td>
+                                        <td>{{$programa->cantidad_modulos}}</td>
                                         </tr>
                                         <tr><th>Costo Total del Programa</th>
-                                        <td></td>
+                                        <td>{{$programa->costo}}</td>
                                         </tr>  
                                         <tr><th>Descuento</th> 
-                                        <td></td>
+                                        <td>{{$descuento->monto}}</td>
                                         </tr>
                                         <tr><th>Costo Total con Descuento</th> 
-                                        <td></td>
+                                        <td>{{$costo_t}}</td>
                                         </tr>                           
                                     </thead>
                                     
