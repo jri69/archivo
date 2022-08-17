@@ -36,6 +36,9 @@ class AcademicoSeeder extends Seeder
             'estado' => 'Sin Iniciar',
             'version' => 1,
             'edicion' => 1,
+            'costo' => 15000,
+            'fecha_inicio' => "2022/08/10",
+            'fecha_final' => "2022/09/10"
         ]);
 
         $modulo2 = Modulo::create([
@@ -44,6 +47,9 @@ class AcademicoSeeder extends Seeder
             'estado' => 'Sin Iniciar',
             'version' => 1,
             'edicion' => 1,
+            'costo' => 15000,
+            'fecha_inicio' => "2022/09/10",
+            'fecha_final' => "2022/10/10"
         ]);
 
         ProgramaModulo::create([
@@ -63,7 +69,8 @@ class AcademicoSeeder extends Seeder
             'telefono' => '256589555',
             'cedula' => '2545845',
             'carrera' => 'Ingenieria Informatica',
-            'universidad' => 'UAGRM'
+            'universidad' => 'UAGRM',
+            'expedicion' => 'SC',
         ]);
 
         EstudiantePrograma::create([

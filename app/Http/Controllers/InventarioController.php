@@ -20,11 +20,11 @@ class InventarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-            'estado' => 'required',
-            'tipo' => 'required',
-            'modelo' => 'required',
-            'cantidad' => 'required',
+            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'modelo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'cantidad' => 'required|numeric',
         ]);
         $producto = Inventario::create($request->all());
         return redirect()->route('inventario.index', $producto);
@@ -39,11 +39,11 @@ class InventarioController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required',
-            'estado' => 'required',
-            'tipo' => 'required',
-            'modelo' => 'required',
-            'cantidad' => 'required',
+            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'modelo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'cantidad' => 'required|numeric',
         ]);
         $producto = Inventario::findOrFail($id);
         $producto->update($request->all());

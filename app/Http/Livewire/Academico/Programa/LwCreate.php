@@ -37,13 +37,13 @@ class LwCreate extends Component
     public function store()
     {
         $this->validate([
-            'datos.nombre' => 'required',
-            'datos.sigla' => 'required',
-            'datos.version' => 'required',
-            'datos.edicion' => 'required',
-            'datos.fecha_inicio' => 'required',
-            'datos.fecha_finalizacion' => 'required',
-            'datos.costo' => 'required',
+            'datos.nombre' => 'required|string',
+            'datos.sigla' => 'required|string',
+            'datos.version' => 'required|string',
+            'datos.edicion' => 'required|string',
+            'datos.fecha_inicio' => 'required|date',
+            'datos.fecha_finalizacion' => 'required|date',
+            'datos.costo' => 'required|numeric',
         ]);
         Programa::create([
             'nombre' => $this->datos['nombre'],

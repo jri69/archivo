@@ -59,13 +59,13 @@ class LwEdit extends Component
     public function store()
     {
         $this->validate([
-            'datos.nombre' => 'required',
-            'datos.sigla' => 'required',
-            'datos.version' => 'required',
-            'datos.edicion' => 'required',
-            'datos.fecha_inicio' => 'required',
-            'datos.fecha_finalizacion' => 'required',
-            'datos.costo' => 'required',
+            'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'datos.sigla' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'datos.version' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'datos.edicion' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'datos.fecha_inicio' => 'required|date',
+            'datos.fecha_finalizacion' => 'required|date',
+            'datos.costo' => 'required|numeric',
         ]);
 
         $this->datos['cantidad_modulos'] = sizeof($this->listaV);

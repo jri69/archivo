@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('telefono');
             $table->string('cedula')->unique();
+            $table->string('expedicion', 2);
             $table->string('carrera');
             $table->string('universidad');
             $table->string('estado');

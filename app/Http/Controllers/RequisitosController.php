@@ -21,8 +21,8 @@ class RequisitosController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-            'importancia' => 'required',
+            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'importancia' => 'required|string|regex:/^[\pL\s\-]+$/u',
         ]);
         $requisito = Requisito::create($request->all());
         return redirect()->route('requisito.index', $requisito);
@@ -36,8 +36,8 @@ class RequisitosController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required',
-            'importancia' => 'required',
+            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'importancia' => 'required|string|regex:/^[\pL\s\-]+$/u',
         ]);
         $modulo = Requisito::findOrFail($id);
         $datos = $request->all();

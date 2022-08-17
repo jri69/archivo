@@ -53,8 +53,15 @@
                                                         placeholder="Observaciones">
                                                 </td>
                                                 <td>
-                                                    <input type="text" wire:model.defer="notas.{{ $estu_progm->id }}"
+                                                    <input type="number" min="0" max="100"
+                                                        wire:model.defer="notas.{{ $estu_progm->id }}"
                                                         class="form-control">
+                                                    <!--mostrar errores de validacion-->
+                                                    @if ($errorValidation && $idError == $estu_progm->id)
+                                                        <div class="error text-danger">
+                                                            {{ $mensaje }}
+                                                        </div>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

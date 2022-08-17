@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivoFijoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
@@ -133,6 +134,8 @@ Route::group(['prefix' => 'requisito', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
     Route::get('/index', [EstudianteController::class, 'index'])->name('estudiante.index');
     Route::get('/create', [EstudianteController::class, 'create'])->name('estudiante.create');
+    Route::post('/inscribirse/store/{estudiante}', [EstudianteController::class, 'storenewprogram'])->name('estudiante.storenewprogram');
+    Route::get('/inscribirse/{estudiante}', [EstudianteController::class, 'newprogram'])->name('estudiante.newprogram');
     Route::get('/show/{estudiante}', [EstudianteController::class, 'show'])->name('estudiante.show');
     Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
     Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
@@ -187,7 +190,7 @@ Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
     Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
 });
 
-//TIC'S
+// TIC'S
 Route::group(['prefix' => 'tics'], function () {
     Route::get('/index', [InventarioController::class, 'index'])->name('inventario.index');
     Route::get('/create', [InventarioController::class, 'create'])->name('inventario.create');
@@ -195,4 +198,14 @@ Route::group(['prefix' => 'tics'], function () {
     Route::get('/edit/{inventario}', [InventarioController::class, 'edit'])->name('inventario.edit');
     Route::put('/update/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
     Route::delete('/delete/{inventario}', [InventarioController::class, 'destroy'])->name('inventario.delete');
+});
+
+// Activo Fijo
+Route::group(['prefix' => 'activo_fijo'], function () {
+    Route::get('/index', [ActivoFijoController::class, 'index'])->name('activo.index');
+    Route::get('/create', [ActivoFijoController::class, 'create'])->name('activo.create');
+    Route::post('/store', [ActivoFijoController::class, 'store'])->name('activo.store');
+    Route::get('/edit/{activo}', [ActivoFijoController::class, 'edit'])->name('activo.edit');
+    Route::put('/update/{activo}', [ActivoFijoController::class, 'update'])->name('activo.update');
+    Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
 });

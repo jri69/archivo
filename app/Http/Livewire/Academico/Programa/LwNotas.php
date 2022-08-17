@@ -15,6 +15,9 @@ class LwNotas extends Component
     public $notas = [];
     public $observaciones = [];
     public $casa;
+    public $errorValidation = false;
+    public $idError;
+    public $mensaje;
 
     public function mount($programa, $modulo, $estudiante_programa)
     {
@@ -30,7 +33,17 @@ class LwNotas extends Component
 
     public function save()
     {
+        $this->errorValidation = false;
+        foreach ($this->notas as $key => $value) {
+            if (!is_numeric($value) || $value < 0 || $value > 100) {
+                $this->errorValidation = true;
+                $this->idError = $key;
+                $this->mensaje = "El campo nota debe ser un numero entre 0 y 100";
+                return;
+            }
+        }
         foreach ($this->notas as $key => $nota) {
+
             $estudiante_programa = NotasPrograma::find($key);
             $estudiante_programa->nota = $nota;
             if ($this->observaciones[$key] != null) {

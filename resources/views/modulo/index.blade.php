@@ -25,6 +25,9 @@
                                         <th>Nombre</th>
                                         <th>Versión</th>
                                         <th>Edición</th>
+                                        <th>Costo</th>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha final</th>
 
                                         <th>Acciones</th>
                                     </thead>
@@ -36,6 +39,9 @@
                                                 <td>{{ $modulo->nombre }}</td>
                                                 <td>{{ $modulo->version }}</td>
                                                 <td>{{ $modulo->edicion }}</td>
+                                                <td>{{ $modulo->costo }}</td>
+                                                <td>{{ $modulo->fecha_inicio }}</td>
+                                                <td>{{ $modulo->fecha_final }}</td>
 
                                                 <td class="td-actions">
                                                     <a href="{{ route('modulo.edit', $modulo->id) }}"

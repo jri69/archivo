@@ -30,12 +30,13 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-            'email' => 'required',
-            'telefono' => 'required',
-            'cedula' => 'required',
-            'carrera' => 'required',
-            'universidad' => 'required',
+            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'email' => 'required|email|unique:estudiantes',
+            'telefono' => 'required|numeric',
+            'cedula' => 'required|numeric',
+            'expedicion' => 'required|alpha|size:2',
+            'carrera' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'universidad' => 'required|string|regex:/^[\pL\s\-]+$/u',
         ]);
         $estudiante = Estudiante::create($request->all());
         if ($request->id_programa) {
@@ -47,7 +48,7 @@ class EstudianteController extends Controller
         if ($request->requisitos) {
             foreach ($request->archivo as $archivo) {
                 $filename = $archivo->getClientOriginalName();
-                $dir = 'storage/' . Storage::disk('public')->put('requisitos', $archivo);
+                $dir = Storage::disk('public')->put('requisitos', $archivo);
                 RequisitoArchivo::create([
                     'id_estudiante' => $estudiante->id,
                     'nombre' => $filename,
@@ -65,9 +66,6 @@ class EstudianteController extends Controller
         return redirect()->route('estudiante.index', $estudiante);
     }
 
-
-
-
     public function edit(Estudiante $estudiante)
     {
         $requisitos = Requisito::all();
@@ -79,13 +77,14 @@ class EstudianteController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required',
-            'email' => 'required',
-            'telefono' => 'required',
-            'cedula' => 'required',
-            'carrera' => 'required',
-            'universidad' => 'required',
-            'estado' => 'required',
+            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'email' => 'required|email',
+            'telefono' => 'required|numeric',
+            'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'cedula' => 'required|numeric',
+            'expedicion' => 'required|alpha|size:2',
+            'carrera' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'universidad' => 'required|string|regex:/^[\pL\s\-]+$/u',
         ]);
         $estudiante = Estudiante::findOrFail($id);
         $datos = $request->all();
@@ -132,6 +131,26 @@ class EstudianteController extends Controller
         $requisitos = RequisitoEstudiante::where('id_estudiante', $idEstudiante)->get();
         $requisitosID = $requisitos->pluck('id_requisito')->toArray();
         $requisitosFaltantes = Requisito::whereNotIn('id', $requisitosID)->get();
-        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'requisitosFaltantes'));
+        $Idprogramas = EstudiantePrograma::where('id_estudiante', $idEstudiante)->get();
+        $programas = Programa::whereIn('id', $Idprogramas->pluck('id_programa')->toArray())->get();
+        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'requisitosFaltantes', 'programas'));
+    }
+
+    public function newprogram($estudiante)
+    {
+        $estudiante = Estudiante::findOrFail($estudiante);
+        $programaEstudiante = EstudiantePrograma::where('id_estudiante', $estudiante->id)->get();
+        $idProgramas = $programaEstudiante->pluck('id_programa')->toArray();
+        $programas = Programa::whereNotIn('id', $idProgramas)->get();
+        return view('estudiante.newprogram', compact('estudiante', 'programas'));
+    }
+
+    public function storenewprogram(Request $request, $estudiante)
+    {
+        EstudiantePrograma::create([
+            'id_estudiante' => $estudiante,
+            'id_programa' => $request->id_programa,
+        ]);
+        return redirect()->route('estudiante.show', $estudiante);
     }
 }

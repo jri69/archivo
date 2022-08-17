@@ -25,13 +25,34 @@ class ModuloController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-            'sigla' => 'required',
-            'version' => 'required',
-            'edicion' => 'required',
-            'id_programa' => 'required'
+            'nombre' => 'required|string',
+            'sigla' => 'required|string',
+            'version' => 'required|numeric',
+            'edicion' => 'required|numeric',
+            'fecha_inicio' => 'required|date',
+            'fecha_final' => 'required|date',
+            'id_programa' => 'required|numeric',
         ]);
-        $modulo = Modulo::create($request->all());
+        $modulos = ProgramaModulo::where('id_programa', $request->id_programa)->get();
+        $cantidad = count($modulos) + 1;
+        $programa = Programa::find($request->id_programa);
+        $costoXmodulo = $programa->costo / $cantidad;
+        foreach ($modulos as $modulo) {
+            $mod = Modulo::find($modulo->id_modulo);
+            $mod->costo = $costoXmodulo;
+            $mod->save();
+        }
+        $modulo = Modulo::create([
+            'nombre' => $request->nombre,
+            'sigla' => $request->sigla,
+            'version' => $request->version,
+            'edicion' => $request->edicion,
+            'costo' => $costoXmodulo,
+            'estado' => $request->estado,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_final' => $request->fecha_final,
+            'id_programa' => $request->id_programa,
+        ]);
         ProgramaModulo::create([
             'id_programa' => $request->id_programa,
             'id_modulo' => $modulo->id
@@ -48,10 +69,12 @@ class ModuloController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required',
-            'sigla' => 'required',
-            'version' => 'required',
-            'edicion' => 'required',
+            'nombre' => 'required|string',
+            'sigla' => 'required|string',
+            'version' => 'required|numeric',
+            'edicion' => 'required|numeric',
+            'fecha_inicio' => 'required|date',
+            'fecha_final' => 'required|date',
         ]);
         $modulo = Modulo::findOrFail($id);
         $datos = $request->all();
