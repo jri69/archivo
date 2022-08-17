@@ -5,10 +5,10 @@
         <div class="container-fluid">
             <div class="row" style="margin-left: 10%">
                 <div class="col-md-11">
-                    <form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('pago.store',$id)}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body">                            
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Monto:</b> </label>
                                 <div class="col-sm-7">
@@ -67,7 +67,7 @@
                             <button type="submit"class="btn btn-primary">
                                 <b>Guardar Datos</b>                                 
                             </button>
-                            <a href="{{route('pago.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
+                            <a href="{{route('pago_estudiante.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
                         </div>
                     </div>
                 </form>

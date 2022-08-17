@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estudiante;
+use App\Models\Pago;
 use App\Models\Tipo_pago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PagoController extends Controller
 {
@@ -12,9 +15,12 @@ class PagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Estudiante $estudiante)
     {
-        return view('pago.index');
+        
+        $estudiante = Estudiante::findOrFail($estudiante);
+        //return $estudiante;
+        return view('pago.index',compact('estudiante'));
     }
 
     /**
@@ -22,10 +28,11 @@ class PagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        
         $pagos = Tipo_pago::all();
-        return view('pago.create',compact('pagos'));
+        return view('pago.create',compact('pagos','id'));
     }
 
     /**
@@ -34,9 +41,33 @@ class PagoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        //return $id;
+        $request->validate([            
+            'monto'=>'required',
+            'fecha'=>'required',
+            'comprobante'=>'required',
+            'compro_file'=>'required',
+            'tipo_pago_id'=>'required',            
+        ]);
+
+        if($request->hasFile('compro_file')){
+            $file = $request->file('compro_file')->store('public/comprobantes');
+            $archivo = Storage::url($file);
+        }
+
+        Pago::create([
+            'pago_estudiante_id'=>$id,
+            'monto'=> $request->monto,
+            'fecha'=>$request->fecha,
+            'comprobante'=>$request->comprobante,
+            'compro_file'=>$archivo,
+            'tipo_pago_id'=>$request->tipo_pago_id,
+            'observaciones'=>$request->observaciones
+        ]);
+
+        return redirect()->route('pago_estudiante.index');
     }
 
     /**

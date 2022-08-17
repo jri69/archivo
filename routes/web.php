@@ -162,15 +162,18 @@ Route::group(['prefix' => 'tipo_pago'], function () {
 });
 
 //Pago Estudiante
-Route::group(['prefix' => 'Pago_Estudiante'], function () {
-    Route::get('/index', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
-    Route::get('/create', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
+Route::group(['prefix'=>'Pago_Estudiante'],function(){
+	Route::get('/index',[Pago_EstudianteController::class,'index'])->name('pago_estudiante.index');
+	Route::get('/create',[Pago_EstudianteController::class,'create'])->name('pago_estudiante.create');
+    Route::post('/store',[Pago_EstudianteController::class,'store'])->name('pago_estudiante.store');
+    Route::get('/show/{estudiante}',[Pago_EstudianteController::class,'show'])->name('pago_estudiante.show');
 });
 
 //Pago
-Route::group(['prefix' => 'pago'], function () {
-    Route::get('/index', [PagoController::class, 'index'])->name('pago.index');
-    Route::get('/create', [PagoController::class, 'create'])->name('pago.create');
+Route::group(['prefix'=>'pago'],function(){
+Route::get('/index',[PagoController::class,'index'])->name('pago.index');
+Route::get('/create/{id}',[PagoController::class,'create'])->name('pago.create');
+Route::post('/store/{id}',[PagoController::class,'store'])->name('pago.store');
 });
 
 // Programas
