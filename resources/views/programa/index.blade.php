@@ -35,8 +35,8 @@
                                                 <td>{{ $programa->nombre }}</td>
                                                 <td>{{ $programa->sigla }}</td>
                                                 <td>{{ $programa->costo }}</td>
-                                                <td>{{ $programa->fecha_inicio }}</td>
-                                                <td>{{ $programa->fecha_finalizacion }}</td>
+                                                <td>{{ \Carbon\Carbon::parse ($programa->fecha_inicio)->format('d-m-Y') }}</td>
+                                                <td>{{\Carbon\Carbon::parse ($programa->fecha_finalizacion)->format('d-m-Y') }}</td>
                                                 <td class="td-actions">
                                                     <a href="{{ route('programa.show', $programa->id) }}"
                                                         class="btn btn-success">

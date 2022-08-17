@@ -14,7 +14,7 @@
                                 <div class="col-sm-7">
                                     <select name="estudiante_id" id="_estudiante" class="form-control">
                                         <option disabled selected>Seleccione el Postgraduante</option>
-                                        @foreach ($estudiantes as $estudiante)
+                                        @foreach ($pago as $estudiante)
                                             <option value="{{$estudiante->id}}">{{$estudiante->nombre}}</option>
                                         @endforeach
                                     </select>

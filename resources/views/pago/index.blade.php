@@ -96,7 +96,7 @@
                                     <thead class="text-primary text-dark">
                                         <th>Monto Pagado </th>
                                         <th>Monto adeudado hasta la fecha</th> 
-                                        <th>Saldo para estar al dia</th>
+                                        <th>Monto pagado hasta la fecha</th>
                                         <th>saldo total del programa</th>                                         
                                     </thead>
                                     <tr>
@@ -131,7 +131,33 @@
                                         <th>Monto Pagado</th>  
                                         <th>Acumulado</th>                                        
                                     </thead>
-                                    
+                                    <tbody>
+                                        @foreach ($pagos as $pago)
+                                            <tr>
+                                                <td>{{ $pago->id }}</td>
+                                                <td>{{ $pago->nombre }}</td>
+                                                <td>{{ $pago->comprobante }}</td>
+                                                <td>{{ $pago->fecha }}</td>
+                                                <td>{{ $pago->monto }}</td>
+                                                <td>{{ $pago->monto }}</td>
+                                                <td class="td-actions">
+                                                    <a href="#"
+                                                        class="btn btn-success">
+                                                        <span class="material-icons">visibility</span>
+                                                    </a>
+                                                    <form action="#"
+                                                        method="POST" style="display: inline-block;"
+                                                        onsubmit="return confirm('¿Está seguro?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger" type="submit">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

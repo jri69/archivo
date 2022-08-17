@@ -159,7 +159,6 @@ Route::group(['prefix' => 'tipo_pago'], function () {
 });
 
 //Pago Estudiante
-
 Route::group(['prefix'=>'Pago_Estudiante'],function(){
 	Route::get('/index',[Pago_EstudianteController::class,'index'])->name('pago_estudiante.index');
 	Route::get('/create',[Pago_EstudianteController::class,'create'])->name('pago_estudiante.create');
