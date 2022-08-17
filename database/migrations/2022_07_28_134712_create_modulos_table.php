@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('estado');
             $table->string('version', 5);
             $table->string('edicion', 5);
+            $table->double('costo');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
             $table->timestamps();

@@ -36,6 +36,7 @@ class AcademicoSeeder extends Seeder
             'estado' => 'Sin Iniciar',
             'version' => 1,
             'edicion' => 1,
+            'costo' => 15000,
             'fecha_inicio' => "2022/08/10",
             'fecha_final' => "2022/09/10"
         ]);
@@ -46,6 +47,7 @@ class AcademicoSeeder extends Seeder
             'estado' => 'Sin Iniciar',
             'version' => 1,
             'edicion' => 1,
+            'costo' => 15000,
             'fecha_inicio' => "2022/09/10",
             'fecha_final' => "2022/10/10"
         ]);
