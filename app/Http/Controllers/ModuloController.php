@@ -29,6 +29,8 @@ class ModuloController extends Controller
             'sigla' => 'required|string',
             'version' => 'required|numeric',
             'edicion' => 'required|numeric',
+            'fecha_inicio' => 'required|date',
+            'fecha_final' => 'required|date',
             'id_programa' => 'required|numeric',
         ]);
         $modulo = Modulo::create($request->all());
@@ -52,6 +54,8 @@ class ModuloController extends Controller
             'sigla' => 'required|string',
             'version' => 'required|numeric',
             'edicion' => 'required|numeric',
+            'fecha_inicio' => 'required|date',
+            'fecha_final' => 'required|date',
         ]);
         $modulo = Modulo::findOrFail($id);
         $datos = $request->all();

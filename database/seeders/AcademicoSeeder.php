@@ -36,6 +36,8 @@ class AcademicoSeeder extends Seeder
             'estado' => 'Sin Iniciar',
             'version' => 1,
             'edicion' => 1,
+            'fecha_inicio' => "2022/08/10",
+            'fecha_final' => "2022/09/10"
         ]);
 
         $modulo2 = Modulo::create([
@@ -44,6 +46,8 @@ class AcademicoSeeder extends Seeder
             'estado' => 'Sin Iniciar',
             'version' => 1,
             'edicion' => 1,
+            'fecha_inicio' => "2022/09/10",
+            'fecha_final' => "2022/10/10"
         ]);
 
         ProgramaModulo::create([

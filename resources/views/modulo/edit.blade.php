@@ -70,7 +70,30 @@
                                     </div>
                                 </div>
                                 <br>
-
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
+                                    <div class="col-sm-7">
+                                        <input type="date" class="form-control" name="fecha_inicio"
+                                            value="{{ $modulo->fecha_inicio }}">
+                                        @if ($errors->has('fecha_inicio'))
+                                            <span class="error text-danger"
+                                                for="input-fecha_inicio">{{ $errors->first('fecha_inicio') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de finalización:</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="date" class="form-control" name="fecha_final"
+                                            value="{{ $modulo->fecha_final }}">
+                                        @if ($errors->has('fecha_final'))
+                                            <span class="error text-danger"
+                                                for="input-fecha_final">{{ $errors->first('fecha_final') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">
