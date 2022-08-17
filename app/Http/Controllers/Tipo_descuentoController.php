@@ -48,7 +48,7 @@ class Tipo_descuentoController extends Controller
             $archivo = Storage::url($file);
         }
 
-        tipo_descuento::create([
+        tipo_descuento::create([ 
             'nombre' => $request->nombre,
             'monto' => $request->monto,
             'archivo' => $archivo

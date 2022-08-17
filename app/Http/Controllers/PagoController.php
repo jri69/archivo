@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Pago;
 use App\Models\Tipo_pago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PagoController extends Controller
 {
@@ -41,17 +43,31 @@ class PagoController extends Controller
      */
     public function store(Request $request,$id)
     {
-        return $id;
-        $request->validate([
-            'pago_estudiante_id'=>'required',
+        //return $id;
+        $request->validate([            
             'monto'=>'required',
             'fecha'=>'required',
             'comprobante'=>'required',
             'compro_file'=>'required',
-            'tipo_pago_id'=>'required',
-            'observaciones'=>'required'
+            'tipo_pago_id'=>'required',            
         ]);
 
+        if($request->hasFile('compro_file')){
+            $file = $request->file('compro_file')->store('public/comprobantes');
+            $archivo = Storage::url($file);
+        }
+
+        Pago::create([
+            'pago_estudiante_id'=>$id,
+            'monto'=> $request->monto,
+            'fecha'=>$request->fecha,
+            'comprobante'=>$request->comprobante,
+            'compro_file'=>$archivo,
+            'tipo_pago_id'=>$request->tipo_pago_id,
+            'observaciones'=>$request->observaciones
+        ]);
+
+        return redirect()->route('pago_estudiante.index');
     }
 
     /**
