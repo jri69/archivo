@@ -134,6 +134,8 @@ Route::group(['prefix' => 'requisito', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
     Route::get('/index', [EstudianteController::class, 'index'])->name('estudiante.index');
     Route::get('/create', [EstudianteController::class, 'create'])->name('estudiante.create');
+    Route::post('/inscribirse/store/{estudiante}', [EstudianteController::class, 'storenewprogram'])->name('estudiante.storenewprogram');
+    Route::get('/inscribirse/{estudiante}', [EstudianteController::class, 'newprogram'])->name('estudiante.newprogram');
     Route::get('/show/{estudiante}', [EstudianteController::class, 'show'])->name('estudiante.show');
     Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
     Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');

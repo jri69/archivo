@@ -25,11 +25,11 @@ class ModuloController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-            'sigla' => 'required',
-            'version' => 'required',
-            'edicion' => 'required',
-            'id_programa' => 'required'
+            'nombre' => 'required|string',
+            'sigla' => 'required|string',
+            'version' => 'required|numeric',
+            'edicion' => 'required|numeric',
+            'id_programa' => 'required|numeric',
         ]);
         $modulo = Modulo::create($request->all());
         ProgramaModulo::create([
@@ -48,10 +48,10 @@ class ModuloController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required',
-            'sigla' => 'required',
-            'version' => 'required',
-            'edicion' => 'required',
+            'nombre' => 'required|string',
+            'sigla' => 'required|string',
+            'version' => 'required|numeric',
+            'edicion' => 'required|numeric',
         ]);
         $modulo = Modulo::findOrFail($id);
         $datos = $request->all();

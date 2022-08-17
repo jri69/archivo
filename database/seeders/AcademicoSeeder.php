@@ -63,7 +63,8 @@ class AcademicoSeeder extends Seeder
             'telefono' => '256589555',
             'cedula' => '2545845',
             'carrera' => 'Ingenieria Informatica',
-            'universidad' => 'UAGRM'
+            'universidad' => 'UAGRM',
+            'expedicion' => 'SC',
         ]);
 
         EstudiantePrograma::create([

@@ -25,12 +25,12 @@ class ActivoFijoController extends Controller
     {
         $request->validate([
             'codigo' => 'required|unique:activo_fijos',
-            'estado' => 'required',
-            'descripcion' => 'required',
-            'unidad' => 'required',
-            'tipo' => 'required',
-            'id_area' => 'required',
-            'id_usuario' => 'required',
+            'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'descripcion' => 'required|string',
+            'unidad' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'id_area' => 'required|numeric',
+            'id_usuario' => 'required|numeric',
         ]);
         $activo = ActivoFijo::create($request->all());
         return redirect()->route('activo.index', $activo);
@@ -48,12 +48,12 @@ class ActivoFijoController extends Controller
     {
         $request->validate([
             'codigo' => 'required|unique:activo_fijos,codigo,' . $id,
-            'estado' => 'required',
-            'descripcion' => 'required',
-            'unidad' => 'required',
-            'tipo' => 'required',
-            'id_area' => 'required',
-            'id_usuario' => 'required',
+            'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'descripcion' => 'required|string',
+            'unidad' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'id_area' => 'required|numeric',
+            'id_usuario' => 'required|numeric',
         ]);
         $activo = ActivoFijo::findOrFail($id);
         $activo->update($request->all());

@@ -12,11 +12,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del estudiante:</b>
-                                    </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre"
-                                            value="{{ $estudiante->nombre }}">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Nombre del estudiante</label>
+                                            <input type="text" class="form-control" name="nombre"
+                                                value="{{ $estudiante->nombre }}">
+                                        </div>
                                         @if ($errors->has('nombre'))
                                             <span class="error text-danger"
                                                 for="input-nombre">{{ $errors->first('nombre') }}</span>
@@ -24,24 +25,24 @@
                                     </div>
                                 </div>
                                 <br>
-
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Correo:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="email" placeholder="Correo"
-                                            value="{{ $estudiante->email }}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Correo Electrónico</label>
+                                            <input type="email" class="form-control" name="email"
+                                                value="{{ $estudiante->email }}">
+                                        </div>
                                         @if ($errors->has('email'))
                                             <span class="error text-danger"
                                                 for="input-email">{{ $errors->first('email') }}</span>
                                         @endif
                                     </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Telefono:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="telefono" placeholder="Telefono"
-                                            value="{{ $estudiante->telefono }}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Telefono</label>
+                                            <input type="text" class="form-control" name="telefono"
+                                                value="{{ $estudiante->telefono }}">
+                                        </div>
                                         @if ($errors->has('telefono'))
                                             <span class="error text-danger"
                                                 for="input-telefono">{{ $errors->first('telefono') }}</span>
@@ -50,35 +51,59 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Cédula de identidad:</b>
-                                    </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="cedula"
-                                            placeholder="Cédula de identidad" value="{{ $estudiante->cedula }}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Cédula de identidad</label>
+                                            <input type="text" class="form-control" name="cedula"
+                                                value="{{ $estudiante->cedula }}">
+                                        </div>
                                         @if ($errors->has('cedula'))
                                             <span class="error text-danger"
                                                 for="input-cedula">{{ $errors->first('cedula') }}</span>
                                         @endif
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="expedicion"
+                                                value="{{ $estudiante->expedicion }}">
+                                                <option disabled>Seleccione la expedición</option>
+                                                <option value="TJ">TJ</option>
+                                                <option value="SC">SC</option>
+                                                <option value="CH">CH</option>
+                                                <option value="LP">LP</option>
+                                                <option value="CB">CB</option>
+                                                <option value="OR">OR</option>
+                                                <option value="PT">PT</option>
+                                                <option value="BE">BE</option>
+                                                <option value="PD">PD</option>
+                                            </select>
+                                        </div>
+                                        @if ($errors->has('expedicion'))
+                                            <span class="error text-danger"
+                                                for="input-expedicion">{{ $errors->first('expedicion') }}</span>
+                                        @endif
+                                    </div>
                                 </div>
                                 <br>
+
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Carrera:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="carrera" placeholder="Carrera"
-                                            value="{{ $estudiante->carrera }}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Carrera</label>
+                                            <input type="text" class="form-control" name="carrera"
+                                                value="{{ $estudiante->carrera }}">
+                                        </div>
                                         @if ($errors->has('carrera'))
                                             <span class="error text-danger"
                                                 for="input-carrera">{{ $errors->first('carrera') }}</span>
                                         @endif
                                     </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Universidad:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="universidad"
-                                            placeholder="Universidad" value="{{ $estudiante->universidad }}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Universidad</label>
+                                            <input type="text" class="form-control" name="universidad"
+                                                value="{{ $estudiante->universidad }}">
+                                        </div>
                                         @if ($errors->has('universidad'))
                                             <span class="error text-danger"
                                                 for="input-universidad">{{ $errors->first('universidad') }}</span>
@@ -87,16 +112,18 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Estado:</b> </label>
-
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="estado"
-                                            value="{{ $estudiante->estado }}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Universidad</label>
+                                            <input type="text" class="form-control" name="estado"
+                                                value="{{ $estudiante->estado }}">
+                                        </div>
                                         @if ($errors->has('estado'))
                                             <span class="error text-danger"
                                                 for="input-estado">{{ $errors->first('estado') }}</span>
                                         @endif
                                     </div>
+
                                 </div>
                                 <br>
 
