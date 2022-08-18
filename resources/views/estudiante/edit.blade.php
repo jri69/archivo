@@ -167,7 +167,7 @@
                                 <button type="submit"class="btn btn-primary">
                                     <b>Guardar Datos</b>
                                 </button>
-                                <a href="{{ route('estudiante.index') }}" class="btn btn-primary"><b>Cancelar</b></a>
+                                <a href="{{ route('estudiante.show',$estudiante->id) }}" class="btn btn-primary"><b>Cancelar</b></a>
                             </div>
                         </div>
                     </form>

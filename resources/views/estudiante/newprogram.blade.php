@@ -30,10 +30,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary pull-right">Guardar</button>
-                                <a href="{{ route('estudiante.show', $estudiante->id) }}"
-                                    class="btn btn-primary pull-right">Cancelar</a>
-                                <div class="clearfix"></div>
+                                <br>
+                                <div class="row">
+                                    <div class="card-footer ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <a href="{{ route('estudiante.show', $estudiante->id) }}"
+                                            class="btn btn-primary pull-right">Cancelar</a>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
