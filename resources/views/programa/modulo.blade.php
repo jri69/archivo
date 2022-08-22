@@ -6,25 +6,27 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{ route('programa.show', [$programa->id]) }}" class="btn btn-outline-primary btn-white">
-                        <b>Atrás</b>
+                    <a href="{{ route('programa.show', $programa->id) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">keyboard_backspace</i>
+                        <span class="sidebar-normal">Volver</span>
                     </a>
-                    <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}"
-                        class="btn btn-outline-primary btn-white">
-                        <b>Actualizar inscritos</b>
+                    <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">update</i>
+                        <span class="sidebar-normal">Actualizar inscritos</span>
                     </a>
-                    <a href="{{ route('programa.notas', [$programa->id, $modulo->id]) }}"
-                        class="btn btn-outline-primary btn-white">
-                        <b>Poner notas</b>
+                    <a href="{{ route('programa.notas', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">summarize</i>
+                        <span class="sidebar-normal">Poner notas</span>
                     </a>
                     @if ($modulo->estado != 'Iniciado' && $modulo->estado != 'Finalizado')
-                        <a href="{{ route('programa.init', [$programa->id, $modulo->id]) }}"
-                            class="btn btn-outline-primary btn-white">
-                            <b>Iniciar</b>
+                        <a href="{{ route('programa.init', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
+                            <i class="material-icons">play_arrow</i>
+                            <span class="sidebar-normal">Iniciar módulo</span>
                         </a>
                     @endif
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -95,8 +97,8 @@
                                             Nota
                                         </th>
                                         <!--<th>
-                                                                    Acciones
-                                                                </th>-->
+                                                                                                            Acciones
+                                                                                                        </th>-->
                                     </thead>
                                     <tbody>
                                         @foreach ($estudiante_programa as $estu_progm)
@@ -111,14 +113,16 @@
                                                     {{ $estu_progm->observaciones }}
                                                 </td>
                                                 <td>
-                                                    {{ $estu_progm->nota }}
+                                                    @if ($estu_progm->nota >= 51)
+                                                        <h4> <span
+                                                                class="badge badge-pill badge-success">{{ $estu_progm->nota }}</span>
+                                                        </h4>
+                                                    @else
+                                                        <h4> <span
+                                                                class="badge badge-pill badge-danger">{{ $estu_progm->nota }}</span>
+                                                        </h4>
+                                                    @endif
                                                 </td>
-                                                <!--<td class="td-actions">
-                                                                            <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
-                                                                                class="btn btn-primary">
-                                                                                <span class="material-icons">edit</span>
-                                                                            </a>
-                                                                        </td>-->
                                             </tr>
                                         @endforeach
                                     </tbody>
