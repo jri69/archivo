@@ -100,10 +100,10 @@
                                         <th>saldo total del programa</th>                                         
                                     </thead>
                                     <tr>
-                                        <td>1</td>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
+                                        <td>{{$monto}}</td>
+                                        <td>{{$deuda}}</td>
+                                        <td>{{$cuenta}}</td>
+                                        <td>{{$saldo}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -129,7 +129,7 @@
                                         <th>Comprobante</th> 
                                         <th>Fecha de pago</th>
                                         <th>Monto Pagado</th>  
-                                        <th>Acumulado</th>                                        
+                                                                               
                                     </thead>
                                     <tbody>
                                         @foreach ($pagos as $pago)
@@ -139,7 +139,7 @@
                                                 <td>{{ $pago->comprobante }}</td>
                                                 <td>{{ $pago->fecha }}</td>
                                                 <td>{{ $pago->monto }}</td>
-                                                <td>{{ $pago->monto }}</td>
+                                                
                                                 <td class="td-actions">
                                                     <a href="#"
                                                         class="btn btn-success">
