@@ -4,6 +4,18 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-12 text-left">
+                    <a href="{{ route('programa.index') }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">keyboard_backspace</i>
+                        <span class="sidebar-normal">Volver</span>
+                    </a>
+                    <a href="{{ route('programa.edit', $programa->id) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">edit</i>
+                        <span class="sidebar-normal">Actualizar datos</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
@@ -145,12 +157,7 @@
                 </div>
 
             </div>
-            <div class="card-footer ml-auto mr-auto">
-                <a href="{{ route('programa.edit', $programa->id) }}" class="text-white btn btn-primary">
-                    <b>Editar programa</b>
-                </a>
-                <a href="{{ route('programa.index') }}" class="btn btn-primary"><b>Regresar</b></a>
-            </div>
+
         </div>
     </div>
 @endsection

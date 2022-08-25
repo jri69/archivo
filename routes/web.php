@@ -135,12 +135,13 @@ Route::group(['prefix' => 'requisito', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'estudiante', 'middleware' => 'auth'], function () {
     Route::get('/index', [EstudianteController::class, 'index'])->name('estudiante.index');
     Route::get('/create', [EstudianteController::class, 'create'])->name('estudiante.create');
-    Route::post('/inscribirse/store/{estudiante}', [EstudianteController::class, 'storenewprogram'])->name('estudiante.storenewprogram');
+    Route::get('/show/notas/{estudiante}/{programa}', [EstudianteController::class, 'showNotas'])->name('estudiante.showNotas');
     Route::get('/inscribirse/{estudiante}', [EstudianteController::class, 'newprogram'])->name('estudiante.newprogram');
     Route::get('/show/{estudiante}', [EstudianteController::class, 'show'])->name('estudiante.show');
-    Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
     Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
     Route::put('/update/{estudiante}', [EstudianteController::class, 'update'])->name('estudiante.update');
+    Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
+    Route::post('/inscribirse/store/{estudiante}', [EstudianteController::class, 'storenewprogram'])->name('estudiante.storenewprogram');
     Route::delete('/delete/{estudiante}', [EstudianteController::class, 'destroy'])->name('estudiante.delete');
 });
 
@@ -164,8 +165,8 @@ Route::group(['prefix' => 'tipo_pago'], function () {
 
 //Pago Estudiante
 Route::group(['prefix'=>'Pago_Estudiante'],function(){
-	Route::get('/index',[Pago_EstudianteController::class,'index'])->name('pago_estudiante.index');
-	Route::get('/create',[Pago_EstudianteController::class,'create'])->name('pago_estudiante.create');
+	  Route::get('/index',[Pago_EstudianteController::class,'index'])->name('pago_estudiante.index');
+	  Route::get('/create',[Pago_EstudianteController::class,'create'])->name('pago_estudiante.create');
     Route::get('/edit/{estudiante}',[Pago_EstudianteController::class,'edit'])->name('pago_estudiante.edit');
     Route::post('/store',[Pago_EstudianteController::class,'store'])->name('pago_estudiante.store');
     Route::get('/show/{estudiante}',[Pago_EstudianteController::class,'show'])->name('pago_estudiante.show');
@@ -179,6 +180,8 @@ Route::get('/create/{id}',[PagoController::class,'create'])->name('pago.create')
 Route::get('/edit/{pago}', [PagoController::class, 'edit'])->name('pago.edit');
 Route::post('/store/{id}',[PagoController::class,'store'])->name('pago.store');
 Route::put('update/{pago}',[PagoController::class,'update'])->name('pago.update');
+
+
 });
 
 // Programas
@@ -191,7 +194,7 @@ Route::group(['prefix' => 'programa', 'middleware' => 'auth'], function () {
     Route::get('/show/modulo/inscritos/{programa}/{modulo}', [ProgramaController::class, 'actInscritos'])->name('programa.inscritos');
 
     Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
-    Route::put('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
+    Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
     Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
 });
 

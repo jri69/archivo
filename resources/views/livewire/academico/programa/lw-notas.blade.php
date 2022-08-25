@@ -1,18 +1,18 @@
     <div class="content">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"
-                        class="btn btn-outline-primary btn-white">
-                        <b>Atrás</b>
+                    <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">keyboard_backspace</i>
+                        <span class="sidebar-normal">Volver</span>
                     </a>
-                    <a wire:click='save' class="btn btn-outline-primary btn-white">
-                        <b>Guardar</b>
+                    <a wire:click='save' class="btn btn-sm btn-primary text-white">
+                        <i class="material-icons">save</i>
+                        <span class="sidebar-normal">Guardar</span>
                     </a>
+
                 </div>
             </div>
-
             <!--Lista de estudiantes inscritos-->
             <div class="row">
                 <div class="col-md-12">
