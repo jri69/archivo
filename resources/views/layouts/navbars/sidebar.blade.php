@@ -112,31 +112,32 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
-                <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="false">
+            <li
+                class="nav-item {{ $activePage == 'estu' || $activePage == 'descuento' || $activePage == 'tipo_pago' ? ' active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#Contabilidad" aria-expanded="false">
                     <i class="material-icons">content_paste</i>
-                    <p>{{ __('Contable') }}
+                    <p>{{ __('Contabilidad') }}
                         <b class="caret"></b>
                     </p>
                 </a>
-                <div class="collapse" id="Contable">
+                <div class="collapse" id="Contabilidad">
                     <ul class="nav">
-                        <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('descuento.index') }}">
-                                <span class="sidebar-mini"> DES </span>
-                                <span class="sidebar-normal">{{ __('Descuento') }} </span>
-                            </a>
-                        </li>
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('tipo_pago.index') }}">
-                                <span class="sidebar-mini"> TP </span>
-                                <span class="sidebar-normal"> {{ __('Tipo de Pagos') }} </span>
-                            </a>
-                        </li>
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'estu' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('pago_estudiante.index') }}">
                                 <span class="sidebar-mini"> ES </span>
-                                <span class="sidebar-normal"> {{ __('Estudiante') }} </span>
+                                <span class="sidebar-normal">{{ __('Estudiantes') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'descuento' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('descuento.index') }}">
+                                <span class="sidebar-mini"> DESC </span>
+                                <span class="sidebar-normal"> {{ __('Descuentos') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'tipo_pago' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('tipo_pago.index') }}">
+                                <span class="sidebar-mini"> TP </span>
+                                <span class="sidebar-normal">{{ __('Tipo de Pago') }} </span>
                             </a>
                         </li>
                     </ul>

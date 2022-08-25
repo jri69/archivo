@@ -6,6 +6,8 @@ use App\Models\tipo_descuento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\isNull;
+
 class Tipo_descuentoController extends Controller
 {
     /**
@@ -37,17 +39,19 @@ class Tipo_descuentoController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'nombre'=>'required',
-            'monto'=>'required',
-            'archivo'=>'required'
+            'monto'=>'required',            
         ]);
-
+        if(isNull($request->hasFile('archivo'))){
+            $archivo = 'null';
+        }
         if($request->hasFile('archivo')){
             $file = $request->file('archivo')->store('public/archivos');
             $archivo = Storage::url($file);
-        }
-
+        }       
+        
         tipo_descuento::create([ 
             'nombre' => $request->nombre,
             'monto' => $request->monto,

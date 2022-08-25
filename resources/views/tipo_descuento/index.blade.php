@@ -29,7 +29,7 @@
                                         @foreach ($descuentos as $descuento )
                                             <tr>
                                                 <td>{{$descuento->id}}</td>
-                                            <td>{{$descuento->nombre}}</td>
+                                            <td><a href="{{ $descuento->archivo }}" target="_blank" rel="noopener noreferrer"><b>{{ $descuento->nombre }}</b></a></td>
                                             <td>{{$descuento->monto}}</td>
                                             <td class="td-actions">
                                                 {{--Editar Tipo pago--}}
