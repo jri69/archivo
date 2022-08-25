@@ -32,7 +32,7 @@
                                     <div class="col-sm-7">
                                         <input type="file" name="archivo" class="form-control"
                                                id="exampleInputEmail" placeholder="Seleccione un archivo..."
-                                               accept=".docx, .pdf, .doc" value="">
+                                               accept=".docx, .pdf, .doc, .png, .jpg" value="">
                                     </div>                                    
                                 </div>
                             </div>

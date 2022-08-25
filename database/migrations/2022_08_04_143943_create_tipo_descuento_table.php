@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->integer('monto');
-            $table->string('archivo');
+            $table->string('archivo')->nullable();
             $table->timestamps();
         });
     }

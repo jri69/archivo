@@ -18,6 +18,7 @@ use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\TiposEstudiosController;
 use App\Models\Estudiante;
+use App\Models\Pago_estudiante;
 use App\Models\Tipo_pago;
 
 /*
@@ -163,18 +164,24 @@ Route::group(['prefix' => 'tipo_pago'], function () {
 });
 
 //Pago Estudiante
-Route::group(['prefix' => 'Pago_Estudiante'], function () {
-    Route::get('/index', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
-    Route::get('/create', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
-    Route::post('/store', [Pago_EstudianteController::class, 'store'])->name('pago_estudiante.store');
-    Route::get('/show/{estudiante}', [Pago_EstudianteController::class, 'show'])->name('pago_estudiante.show');
+Route::group(['prefix'=>'Pago_Estudiante'],function(){
+	  Route::get('/index',[Pago_EstudianteController::class,'index'])->name('pago_estudiante.index');
+	  Route::get('/create',[Pago_EstudianteController::class,'create'])->name('pago_estudiante.create');
+    Route::get('/edit/{estudiante}',[Pago_EstudianteController::class,'edit'])->name('pago_estudiante.edit');
+    Route::post('/store',[Pago_EstudianteController::class,'store'])->name('pago_estudiante.store');
+    Route::get('/show/{estudiante}',[Pago_EstudianteController::class,'show'])->name('pago_estudiante.show');
+    Route::put('/update/{estudiante}',[Pago_EstudianteController::class,'update'])->name('pago_estudiante.update');
 });
 
 //Pago
-Route::group(['prefix' => 'pago'], function () {
-    Route::get('/index', [PagoController::class, 'index'])->name('pago.index');
-    Route::get('/create/{id}', [PagoController::class, 'create'])->name('pago.create');
-    Route::post('/store/{id}', [PagoController::class, 'store'])->name('pago.store');
+Route::group(['prefix'=>'pago'],function(){
+Route::get('/index',[PagoController::class,'index'])->name('pago.index');
+Route::get('/create/{id}',[PagoController::class,'create'])->name('pago.create');
+Route::get('/edit/{pago}', [PagoController::class, 'edit'])->name('pago.edit');
+Route::post('/store/{id}',[PagoController::class,'store'])->name('pago.store');
+Route::put('update/{pago}',[PagoController::class,'update'])->name('pago.update');
+
+
 });
 
 // Programas
