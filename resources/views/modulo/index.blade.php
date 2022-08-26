@@ -21,7 +21,7 @@
                                 <table class="table">
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
-                                        <th>Sigla</th>
+                                        <th>Programa</th>
                                         <th>Nombre</th>
                                         <th>Versión</th>
                                         <th>Edición</th>
@@ -35,7 +35,7 @@
                                         @foreach ($modulos as $modulo)
                                             <tr>
                                                 <td>{{ $modulo->id }} </td>
-                                                <td>{{ $modulo->sigla }}</td>
+                                                <td>{{ $modulo->programa()->sigla }}</td>
                                                 <td>{{ $modulo->nombre }}</td>
                                                 <td>{{ $modulo->version }}</td>
                                                 <td>{{ $modulo->edicion }}</td>

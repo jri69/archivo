@@ -179,6 +179,24 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item {{ $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#recursos" aria-expanded="false">
+                    <i class="material-icons">library_books</i>
+                    <p>{{ __('Recursos Humanos') }}
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="recursos">
+                    <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('activo.index') }}">
+                                <span class="sidebar-mini"> CO </span>
+                                <span class="sidebar-normal">{{ __('Contrataciones') }} </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <!-- <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('map') }}">
           <i class="material-icons">location_ons</i>

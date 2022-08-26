@@ -210,3 +210,9 @@ Route::group(['prefix' => 'activo_fijo'], function () {
     Route::put('/update/{activo}', [ActivoFijoController::class, 'update'])->name('activo.update');
     Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
 });
+
+// Recursos humanos
+
+
+
+
