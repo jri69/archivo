@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
+use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\Requisito;
 use App\Models\RequisitoArchivo;
@@ -152,5 +153,14 @@ class EstudianteController extends Controller
             'id_programa' => $request->id_programa,
         ]);
         return redirect()->route('estudiante.show', $estudiante);
+    }
+
+    public function showNotas($estudiante, $programa)
+    {
+        $estudiante = Estudiante::findOrFail($estudiante);
+        $programa = Programa::findOrFail($programa);
+        $notas = NotasPrograma::where('id_estudiante', $estudiante->id)
+            ->where('id_programa', $programa->id)->get();
+        return view('estudiante.notas', compact('estudiante', 'programa', 'notas'));
     }
 }

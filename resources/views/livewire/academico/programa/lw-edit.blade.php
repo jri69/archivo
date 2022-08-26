@@ -107,7 +107,8 @@
                             <a wire:click="store()" class="btn btn-primary text-white">
                                 <b>Guardar Datos</b>
                             </a>
-                            <a href="{{ route('programa.index') }}" class="btn btn-primary"><b>Cancelar</b></a>
+                            <a href="{{ route('programa.show', $programa->id) }}"
+                                class="btn btn-primary"><b>Cancelar</b></a>
                         </div>
                     </div>
                 </form>

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('sigla', 10);
             $table->string('version', 5);
             $table->string('edicion', 5);
-            $table->string('fecha_inicio');
-            $table->string('fecha_finalizacion');
+            $table->date('fecha_inicio');
+            $table->date('fecha_finalizacion');
             $table->integer('costo');
             $table->string('cantidad_modulos');
             $table->timestamps();

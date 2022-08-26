@@ -155,7 +155,7 @@
                     <ul class="nav">
                         <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('inventario.index') }}">
-                                <span class="sidebar-mini"> IV </span>
+                                <span class="sidebar-mini"> IN </span>
                                 <span class="sidebar-normal">{{ __('Inventario') }} </span>
                             </a>
                         </li>

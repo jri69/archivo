@@ -5,12 +5,17 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{ route('estudiante.edit', [$estudiante->id]) }}" class="btn btn-outline-primary btn-white">
-                        <b>Actualizar datos</b>
+                    <a href="{{ route('estudiante.index') }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">keyboard_backspace</i>
+                        <span class="sidebar-normal">Volver</span>
                     </a>
-                    <a href="{{ route('estudiante.newprogram', [$estudiante->id]) }}"
-                        class="btn btn-outline-primary btn-white">
-                        <b>Nuevo programa</b>
+                    <a href="{{ route('estudiante.edit', $estudiante->id) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">edit</i>
+                        <span class="sidebar-normal">Actualizar datos</span>
+                    </a>
+                    <a href="{{ route('estudiante.newprogram', $estudiante->id) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">add</i>
+                        <span class="sidebar-normal">Nuevo programa</span>
                     </a>
                 </div>
             </div>
@@ -168,7 +173,7 @@
                                                         {{ $programa->sigla }}
                                                     </td>
                                                     <td class="td-actions">
-                                                        <a href="{{ route('programa.show', $programa->id) }}"
+                                                        <a href="{{ route('estudiante.showNotas', [$estudiante->id, $programa->id]) }}"
                                                             class="btn btn-success">
                                                             <span class="material-icons">visibility</span>
                                                         </a>
