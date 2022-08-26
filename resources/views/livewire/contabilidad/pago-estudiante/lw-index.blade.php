@@ -42,13 +42,11 @@
                                             <td>{{$estudiante->email}}</td>
                                             <td>{{$estudiante->telefono}}</td>
                                             <td>{{$estudiante->cedula}}</td>
-                                            <td class="td-actions">
-                                                {{----}}
+                                            <td class="td-actions">                                                
                                                 <a href="{{route('pago_estudiante.show',$estudiante->id)}}" class="btn btn-primary">
                                                     <span class="material-icons">visibility</span>
-
                                                 </a>   
-                                                <a href="{{route('pago_estudiante.edit',$estudiante->id)}}" class="btn btn-primary">
+                                                <a href="{{route('pago_estudiante.edit',$estudiante->id)}}" class="btn btn-danger">
                                                     <span class="material-icons">edit</span>
                                                 </a>                                             
                                             </td>

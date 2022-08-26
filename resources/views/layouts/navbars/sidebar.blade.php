@@ -113,7 +113,7 @@
                 </div>
             </li>
             <li
-                class="nav-item {{ $activePage == 'estu' || $activePage == 'descuento' || $activePage == 'tipo_pago' ? ' active' : '' }}">
+                class="nav-item {{ $activePage == 'estudiantes' || $activePage == 'Descuento' || $activePage == 'tipo_pago' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Contabilidad" aria-expanded="false">
                     <i class="material-icons">content_paste</i>
                     <p>{{ __('Contabilidad') }}
@@ -122,13 +122,13 @@
                 </a>
                 <div class="collapse" id="Contabilidad">
                     <ul class="nav">
-                        <li class="nav-item{{ $activePage == 'estu' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'estudiantes' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('pago_estudiante.index') }}">
                                 <span class="sidebar-mini"> ES </span>
                                 <span class="sidebar-normal">{{ __('Estudiantes') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'descuento' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'Descuento' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('descuento.index') }}">
                                 <span class="sidebar-mini"> DESC </span>
                                 <span class="sidebar-normal"> {{ __('Descuentos') }} </span>
@@ -175,6 +175,30 @@
                             <a class="nav-link" href="{{ route('activo.index') }}">
                                 <span class="sidebar-mini"> AC </span>
                                 <span class="sidebar-normal">{{ __('Activos') }} </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ $activePage == 'pagos' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#servicio" aria-expanded="false">
+                    <i class="material-icons">support_agent</i>
+                    <p>{{ __('Servicios') }}
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="servicio">
+                    <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'pagos' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('pago_servicio.index') }}">
+                                <span class="sidebar-mini"> P </span>
+                                <span class="sidebar-normal">{{ __('Pagos') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'servi' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('servicio.index') }}">
+                                <span class="sidebar-mini"> S </span>
+                                <span class="sidebar-normal">{{ __('Servicios') }} </span>
                             </a>
                         </li>
                     </ul>

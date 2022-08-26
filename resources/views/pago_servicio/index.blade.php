@@ -1,12 +1,12 @@
-@extends('layouts.app',['activePage' => 'tipo_pago', 'titlePage' => 'Agregar Metodo de Pago'])
+@extends('layouts.app',['activePage' => 'pagos', 'titlePage' => 'Pago Servicios'])
 
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{route('tipo_pago.create')}}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Metodo de Pago</b> 
+                    <a href="{{ route('pago_servicio.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Pago de Servicio</b> 
                     </a> 
                 </div>
             </div>
@@ -14,24 +14,28 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4>Listado de Metodos de Pago</h4>
+                            <h4>Listado de Pagos de Servicios</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
-                                        <th>Nombre</th>                                         
+                                        <th>Nombre</th> 
+                                        <th>Monto</th>
+                                        <th>Fecha</th>
                                         <th>Acciones</th>                                         
                                     </thead>
                                     <tbody>
-                                        @foreach ($item as $pago )
+                                        @foreach ($pagos as $pago )
                                             <tr>
                                                 <td>{{$pago->id}}</td>
-                                            <td>{{$pago->nombre}}</td>
+                                            <td><a href="{{ $pago->comprobante }}" target="_blank" rel="noopener noreferrer"><b>{{ $pago->servicio()->pluck('nombre')->first() }}</b></a></td>
+                                            <td>{{$pago->monto}}</td>
+                                            <td>{{ $pago->fecha }}</td>
                                             <td class="td-actions">
                                                 {{--Editar Tipo pago--}}
-                                                <a href="{{route('tipo_pago.edit',$pago->id)}}" class="btn btn-primary">
+                                                <a href="{{ route('pago_servicio.edit',$pago->id) }}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
 
                                                 </a>

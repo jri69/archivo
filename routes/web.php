@@ -11,14 +11,17 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\Pago_EstudianteController;
+use App\Http\Controllers\Pago_ServicioController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\RequisitosController;
+use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\TiposEstudiosController;
 use App\Models\Estudiante;
 use App\Models\Pago_estudiante;
+use App\Models\Pago_Servicio;
 use App\Models\Tipo_pago;
 
 /*
@@ -216,4 +219,22 @@ Route::group(['prefix' => 'activo_fijo'], function () {
     Route::get('/edit/{activo}', [ActivoFijoController::class, 'edit'])->name('activo.edit');
     Route::put('/update/{activo}', [ActivoFijoController::class, 'update'])->name('activo.update');
     Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
+});
+
+//Servicio
+Route::group(['prefix'=> 'servicio'],function(){
+    Route::get('/index',[ServicioController::class,'index'])->name('servicio.index');
+    Route::get('/create',[ServicioController::class,'create'])->name('servicio.create');
+    Route::get('/edit/{servicio}',[ServicioController::class,'edit'])->name('servicio.edit');
+    Route::post('/store',[ServicioController::class,'store'])->name('servicio.store');
+    Route::put('/update/{servicio}',[ServicioController::class,'update'])->name('servicio.update');
+
+});
+//Pago de Servicios
+Route::group(['prefix'=>'pago_servicio'],function(){
+    Route::get('/index',[Pago_ServicioController::class,'index'])->name('pago_servicio.index');
+    Route::get('/create',[Pago_ServicioController::class,'create'])->name('pago_servicio.create');
+    Route::get('/edit/{pago}',[Pago_ServicioController::class,'edit'])->name('pago_servicio.edit');
+    Route::post('/store',[Pago_ServicioController::class,'store'])->name('pago_servicio.store');
+    Route::put('/update/{pago}',[Pago_ServicioController::class,'update'])->name('pago_servicio.update');
 });
