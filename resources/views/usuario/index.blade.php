@@ -25,6 +25,7 @@
                                         <th>Nombre</th>
                                         <th>Apellido</th>
                                         <th>Cargo</th>
+                                        <th>Area</th>
                                         <th>Acciones</th> 
                                     </thead>
                                     <tbody>
@@ -33,7 +34,8 @@
                                                 <td>{{$item->id}}</td>
                                                 <td>{{$item->nombre}}</td>
                                                 <td>{{$item->apellido}}</td>
-                                                <td>{{$item->cargo_id}}</td>
+                                                <td>{{$item->cargo}}</td>
+                                                <td>{{$item->area}}</td>
                                                 <td class="td-actions">
                                                     <a href="{{route('usuario.edit',$item->id)}}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
