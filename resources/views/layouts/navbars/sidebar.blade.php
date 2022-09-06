@@ -55,7 +55,7 @@
                     </ul>
                 </div>
             </li>
-            <!-- <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
+            <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Documento" aria-expanded="false">
                     <i class="material-icons">library_books</i>
                     <p>{{ __('Documentacion') }}
@@ -65,14 +65,20 @@
                 <div class="collapse" id="Documento">
                     <ul class="nav">
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-mini"> Doc </span>
-                                <span class="sidebar-normal"> {{ __('Documento') }} </span>
+                            <a class="nav-link" href="{{ route('unidad.index') }}">
+                                <span class="sidebar-mini"> UO </span>
+                                <span class="sidebar-normal"> {{ __('Unidad Organizacional') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('recepcion.index') }}">
+                                <span class="sidebar-mini"> RC </span>
+                                <span class="sidebar-normal"> {{ __('Recepción') }} </span>
                             </a>
                         </li>
                     </ul>
                 </div>
-            </li> -->
+            </li>
 
             <li
                 class="nav-item {{ $activePage == 'estudiante' || $activePage == 'requisito' || $activePage == 'tipo_estudio' || $activePage == 'modulo' ? ' active' : '' }}">

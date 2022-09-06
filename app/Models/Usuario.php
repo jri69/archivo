@@ -17,4 +17,14 @@ class Usuario extends Model
         'cargo_id',
         'ci'
     ];
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class);
+    }
 }
