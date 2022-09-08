@@ -13,9 +13,12 @@ use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\Pago_EstudianteController;
 use App\Http\Controllers\Pago_ServicioController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PartidaController;
+use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\RequisitosController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\TiposEstudiosController;
@@ -237,4 +240,30 @@ Route::group(['prefix'=>'pago_servicio'],function(){
     Route::get('/edit/{pago}',[Pago_ServicioController::class,'edit'])->name('pago_servicio.edit');
     Route::post('/store',[Pago_ServicioController::class,'store'])->name('pago_servicio.store');
     Route::put('/update/{pago}',[Pago_ServicioController::class,'update'])->name('pago_servicio.update');
+});
+
+//Partida
+Route::group(['prefix'=>'partida'], function(){
+    Route::get('/index',[PartidaController::class,'index'])->name('partida.index');
+    Route::get('/create',[PartidaController::class,'create'])->name('partida.create');
+    Route::get('/edit/{partida}',[PartidaController::class,'edit'])->name('partida.edit');
+    Route::post('/store',[PartidaController::class,'store'])->name('partida.store');
+    Route::put('/update/{partida}',[PartidaController::class,'update'])->name('partida.update');
+});
+
+//Sub Partidas
+Route::group(['prefix'=>'subpartida'], function(){
+    Route::get('/index',[SubPartidaController::class,'index'])->name('subpartida.index');
+    Route::get('/create',[SubPartidaController::class,'create'])->name('subpartida.create');
+    Route::get('/edit/{partida}',[SubPartidaController::class,'edit'])->name('subpartida.edit');
+    Route::post('/store',[SubPartidaController::class,'store'])->name('subpartida.store');
+});
+
+//Presupuesto
+Route::group(['prefix'=>'presupuesto'], function(){
+    Route::get('/index',[PresupuestoController::class, 'index'])->name('presupuesto.index');
+    Route::get('/create',[PresupuestoController::class ,'create'])->name('presupuesto.create');
+    Route::get('/edit/{presupuesto}',[PresupuestoController::class, 'edit'])->name('presupuesto.edit');
+    Route::post('/store',[PresupuestoController::class, 'store'])->name('presupuesto.store');
+    Route::put('/update/{presupuesto}',[PresupuestoController::class,'update'])->name('presupuesto.update');
 });
