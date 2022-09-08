@@ -15,20 +15,20 @@
                     <div class="card">
                         <div class="card-header card-header-primary">
                             <center>
-                            <h4>Pago por Participante</h4>
+                            <h4><b>Pago por Participante</b></h4>
                             </center>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table-border">
+                                <table class="default">
                                     <thead class="text-primary text-dark">          
                                         <tr><th>Nombre</th>
-                                        <td>{{$estudiante->nombre}}</td>
+                                        <td style="width: 25%"><h5><b>{{$estudiante->nombre}}</b></h5></td>
                                         </tr>                              
                                         <tr><th>Estado</th>
-                                        <td></td>
-                                        </tr>                                                                           
-                                        </thead>                                    
+                                        <td><b>{{ $estado }}</b></td>
+                                        </tr>
+                                    <head>            
                                 </table>
                             </div>
                         </div>
@@ -40,42 +40,45 @@
                     <div class="card">
                         <div class="card-header card-header-primary">
                             <center>
-                            <h4>Datos del Programa</h4>
+                            <h4><b>Datos del Programa</b></h4>
                             </center>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table-border">
+                                <table class="default">
                                     <thead class="text-primary text-dark">
-                                        <tr><th>Programa</th>
-                                        <td>{{$programa->programa}}</td>
-                                        </tr>                              
+                                        <tr>
+                                            <th>Programa</th>
+                                            <td style="width: 20%"><h4>{{$pro->nombre}}</h4></td>
+                                        </tr>      
                                         <tr><th>Version</th>
-                                        <td>{{$programa->version}}</td>
-                                        </tr>                                                                           
+                                        <td>{{$pro->version}}</td>
+                                        </tr>   
                                         <tr><th>Edicion</th>
-                                        <td>{{$programa->edicion}}</td>
+                                        <td>{{$pro->edicion}}</td>
                                         </tr>  
                                         <tr><th>Fecha de inicio</th>
-                                        <td>{{\Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y')}}</td>
+                                        <td>{{\Carbon\Carbon::parse($pro->fecha_inicio)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Fecha de finalizacion</th>
-                                        <td>{{\Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y')}}</td>
+                                        <td>{{\Carbon\Carbon::parse($pro->fecha_finalizacion)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Cantidad de Modulos</th> 
-                                        <td>{{$programa->cantidad_modulos}}</td>
-                                        </tr>
+                                        <td>{{ $pro->cantidad_modulos }}</td>
+                                        </tr>                
                                         <tr><th>Costo Total del Programa</th>
-                                        <td>{{$programa->costo}}</td>
+                                        <td>{{$pro->costo}}</td>
                                         </tr>  
+                                        <tr><th>Convalidacion</th> 
+                                        <td>{{$programa->convalidacion}}</td>
+                                        </tr>
                                         <tr><th>Descuento</th> 
                                         <td>{{$descuento->monto}}</td>
                                         </tr>
                                         <tr><th>Costo Total con Descuento</th> 
                                         <td>{{$costo_t}}</td>
-                                        </tr>                           
+                                        </tr>   
                                     </thead>
-                                    
                                 </table>
                             </div>
                         </div>
@@ -87,17 +90,17 @@
                     <div class="card">
                         <div class="card-header card-header-primary">
                             <center>
-                            <h4>Datos Economicos</h4>
+                            <h4><b>Datos Economicos</b></h4>
                             </center>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary text-dark">
-                                        <th>Monto Pagado </th>
-                                        <th>Monto adeudado hasta la fecha</th> 
-                                        <th>Monto pagado hasta la fecha</th>
-                                        <th>saldo total del programa</th>                                         
+                                        <th><b>Monto Pagado</b> </th>
+                                        <th><b>Monto adeudado hasta la fecha</b></th> 
+                                        <th><b>Monto pagado hasta la fecha</b></th>
+                                        <th><b>saldo total del programa</b></th>                                         
                                     </thead>
                                     <tr>
                                         <td>{{$monto}}</td>
@@ -117,18 +120,19 @@
                     <div class="card">
                         <div class="card-header card-header-primary">
                             <center>
-                            <h4>Detalles de Pagos</h4>
+                            <h4><b>Detalles de Pagos</b></h4>
                             </center>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary text-dark">
-                                        <th>#</th>
-                                        <th>Metodo de Pago</th> 
-                                        <th>Comprobante</th> 
-                                        <th>Fecha de pago</th>
-                                        <th>Monto Pagado</th>  
+                                        <th><b>#</b></th>
+                                        <th><b>Metodo de Pago</b></th> 
+                                        <th><b>Comprobante</b></th> 
+                                        <th><b>Fecha de pago</b></th>
+                                        <th><b>Monto Pagado</b></th>  
+                                        <th><b>Acciones</b></th>
                                                                                
                                     </thead>
                                     <tbody>
@@ -136,16 +140,16 @@
                                             <tr>
                                                 <td>{{ $pago->id }}</td>
                                                 <td>{{ $pago->nombre }}</td>
-                                                <td>{{ $pago->comprobante }}</td>
+                                                <td><a href="{{ $pago->compro_file }}" target="_blank"><b>{{ $pago->comprobante }}</b></a></td>
                                                 <td>{{ $pago->fecha }}</td>
                                                 <td>{{ $pago->monto }}</td>
                                                 
                                                 <td class="td-actions">
-                                                    <a href="#"
+                                                    <a href="{{ route('pago.edit',$pago->id) }}"
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
-                                                    <form action="#"
+                                                    <!--<form action="#"
                                                         method="POST" style="display: inline-block;"
                                                         onsubmit="return confirm('¿Está seguro?')">
                                                         @csrf
@@ -153,7 +157,7 @@
                                                         <button class="btn btn-danger" type="submit">
                                                             <i class="material-icons">close</i>
                                                         </button>
-                                                    </form>
+                                                    </form> -->
                                                 </td>
                                             </tr>
                                         @endforeach

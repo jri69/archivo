@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_descuento', function (Blueprint $table) {
+        Schema::create('pago_servicios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->unsignedBigInteger('servicio_id');
             $table->integer('monto');
-            $table->string('archivo')->nullable();
+            $table->date('fecha');
+            $table->string('comprobante');
             $table->timestamps();
+
+            $table->foreign('servicio_id')->on('servicios')->references('id')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_descuento');
+        Schema::dropIfExists('pago_servicios');
     }
 };

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->integer('comprobante');
             $table->string('compro_file');
-            $table->unsignedBigInteger('tipo_pago_id');
+            $table->unsignedBigInteger('tipo_pago_id')->nullable();
             $table->string('observaciones')->nullable();
             $table->timestamps();
 

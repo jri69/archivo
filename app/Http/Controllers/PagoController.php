@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use App\Models\Pago;
+use App\Models\Pago_estudiante;
 use App\Models\Tipo_pago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,6 @@ class PagoController extends Controller
     {
         
         $estudiante = Estudiante::findOrFail($estudiante);
-        //return $estudiante;
         return view('pago.index',compact('estudiante'));
     }
 
@@ -43,7 +43,6 @@ class PagoController extends Controller
      */
     public function store(Request $request,$id)
     {
-        //return $id;
         $request->validate([            
             'monto'=>'required',
             'fecha'=>'required',
@@ -87,9 +86,10 @@ class PagoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pago $pago)
     {
-        //
+        $pagos = Tipo_pago::all();
+        return view('pago.edit',compact('pago','pagos'));
     }
 
     /**
@@ -101,7 +101,29 @@ class PagoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'monto'=>'required',
+            'fecha'=>'required',
+            'comprobante'=>'required',
+            'compro_file'=>'required',
+            'tipo_pago_id'=>'required', 
+        ]);
+        if($request->hasFile('compro_file')){
+            $file = $request->file('compro_file')->store('public/comprobantes');
+            $archivo = Storage::url($file);
+        }
+        $pago = Pago::findOrFail($id);
+        $pago->pago_estudiante_id = $pago->pago_estudiante_id;
+        $pago->monto = $request['monto'];
+        $pago->fecha = $request['fecha'];
+        $pago->comprobante = $request['comprobante'];
+        $pago->tipo_pago_id = $request['tipo_pago_id'];
+        $pago->compro_file = $archivo;
+        $pago->observaciones = $request['observaciones'];
+        
+        $pago->save();
+        $id = Pago_estudiante::findOrFail($id);
+        return redirect()->route('pago_estudiante.show',$id->estudiante_id);
     }
 
     /**

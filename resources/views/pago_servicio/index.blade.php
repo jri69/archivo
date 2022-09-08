@@ -1,12 +1,12 @@
-@extends('layouts.app',['activePage' => 'Descuento', 'titlePage' => 'Descuento'])
+@extends('layouts.app',['activePage' => 'pagos', 'titlePage' => 'Pago Servicios'])
 
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{route('descuento.create')}}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Descuento</b> 
+                    <a href="{{ route('pago_servicio.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Pago de Servicio</b> 
                     </a> 
                 </div>
             </div>
@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4>Listado de Descuentos</h4>
+                            <h4>Listado de Pagos de Servicios</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -23,17 +23,19 @@
                                         <th>#</th>
                                         <th>Nombre</th> 
                                         <th>Monto</th>
+                                        <th>Fecha</th>
                                         <th>Acciones</th>                                         
                                     </thead>
                                     <tbody>
-                                        @foreach ($descuentos as $descuento )
+                                        @foreach ($pagos as $pago )
                                             <tr>
-                                                <td>{{$descuento->id}}</td>
-                                            <td><a href="{{ $descuento->archivo }}" target="_blank" rel="noopener noreferrer"><b>{{ $descuento->nombre }}</b></a></td>
-                                            <td>{{$descuento->monto}}</td>
+                                                <td>{{$pago->id}}</td>
+                                            <td><a href="{{ $pago->comprobante }}" target="_blank" rel="noopener noreferrer"><b>{{ $pago->servicio()->pluck('nombre')->first() }}</b></a></td>
+                                            <td>{{$pago->monto}}</td>
+                                            <td>{{ $pago->fecha }}</td>
                                             <td class="td-actions">
                                                 {{--Editar Tipo pago--}}
-                                                <a href="{{route('descuento.edit',$descuento->id)}}" class="btn btn-primary">
+                                                <a href="{{ route('pago_servicio.edit',$pago->id) }}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
 
                                                 </a>

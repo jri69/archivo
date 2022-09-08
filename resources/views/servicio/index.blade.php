@@ -1,12 +1,12 @@
-@extends('layouts.app',['activePage' => 'Descuento', 'titlePage' => 'Descuento'])
+@extends('layouts.app',['activePage' => 'servi', 'titlePage' => 'Pago Servicios'])
 
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{route('descuento.create')}}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Descuento</b> 
+                    <a href="{{route('servicio.create')}}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Servicio</b> 
                     </a> 
                 </div>
             </div>
@@ -14,30 +14,28 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4>Listado de Descuentos</h4>
+                            <h4>Listado de Servicios</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
-                                        <th>Nombre</th> 
-                                        <th>Monto</th>
+                                        <th>Nombre</th>
                                         <th>Acciones</th>                                         
                                     </thead>
                                     <tbody>
-                                        @foreach ($descuentos as $descuento )
+                                        @foreach ($servicios as $servicio )
                                             <tr>
-                                                <td>{{$descuento->id}}</td>
-                                            <td><a href="{{ $descuento->archivo }}" target="_blank" rel="noopener noreferrer"><b>{{ $descuento->nombre }}</b></a></td>
-                                            <td>{{$descuento->monto}}</td>
+                                                <td>{{$servicio->id}}</td>
+                                            <td><h4>{{$servicio->nombre}}</h4></td>
                                             <td class="td-actions">
-                                                {{--Editar Tipo pago--}}
-                                                <a href="{{route('descuento.edit',$descuento->id)}}" class="btn btn-primary">
+                                                {{--Editar Area--}}
+                                                <a href="{{route('servicio.edit',$servicio->id)}}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
 
                                                 </a>
-                                                <!--<form action="#" method="POST" style="display: inline-block;"
+                                               <!-- <form action="#" method="POST" style="display: inline-block;"
                                                 onsubmit="return confirm('¿Está seguro?')">
                                                 @csrf
                                                 @method('DELETE')

@@ -400,7 +400,8 @@ class Condiciones_Terminos
         $this->fpdf->Ln(4);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['Second']), 0, 'C', 0);
 
-        // first table
-
     }
+
+    
+
 }

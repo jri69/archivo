@@ -38,7 +38,7 @@
                                 <div class="col-sm-7">
                                     <input type="number" class="form-control"
                                     name="cant_modulos"
-                                    value="{{$programa->cantidad_modulos}}">
+                                    >
                                 </div>
                             </div>
                             <br>

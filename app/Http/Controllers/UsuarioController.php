@@ -19,7 +19,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuario = Usuario::all();        
+        $usuario = DB::table('usuarios')->join('cargos','cargos.id','=','usuarios.cargo_id')->join('area','area.id','=','usuarios.area_id')->select('cargos.nombre as cargo','usuarios.nombre as nombre','usuarios.apellido','usuarios.id','area.nombre as area')->get();
+        //return $usuario;
         return view('usuario.index',compact('usuario'));
     }
 

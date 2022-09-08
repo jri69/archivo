@@ -1,4 +1,4 @@
-@extends('layouts.app',['activePage' => 'Pago', 'titlePage' => 'Agregar Metodo de Pago'])
+@extends('layouts.app',['activePage' => 'tipo_pago', 'titlePage' => 'Agregar Metodo de Pago'])
 
 @section('content')
     <div class="content">

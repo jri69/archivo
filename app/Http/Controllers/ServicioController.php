@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tipo_descuento;
+use App\Models\Servicio;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-use function PHPUnit\Framework\isNull;
+use function PHPUnit\Framework\returnSelf;
 
-class Tipo_descuentoController extends Controller
+class ServicioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,8 @@ class Tipo_descuentoController extends Controller
      */
     public function index()
     {
-        $descuentos = tipo_descuento::all();
-        return view('tipo_descuento.index',compact('descuentos'));
+        $servicios = Servicio::all();
+        return view('servicio.index',compact('servicios'));
     }
 
     /**
@@ -28,7 +27,7 @@ class Tipo_descuentoController extends Controller
      */
     public function create()
     {
-        return view('tipo_descuento.create');
+        return view('servicio.create');
     }
 
     /**
@@ -39,26 +38,11 @@ class Tipo_descuentoController extends Controller
      */
     public function store(Request $request)
     {
-        
         $request->validate([
-            'nombre'=>'required',
-            'monto'=>'required',            
+            'nombre'=>'required'
         ]);
-        if(isNull($request->hasFile('archivo'))){
-            $archivo = 'null';
-        }
-        if($request->hasFile('archivo')){
-            $file = $request->file('archivo')->store('public/archivos');
-            $archivo = Storage::url($file);
-        }       
-        
-        tipo_descuento::create([ 
-            'nombre' => $request->nombre,
-            'monto' => $request->monto,
-            'archivo' => $archivo
-        ]);
-
-        return redirect()->route('descuento.index');
+        $servicio = Servicio::create($request->all());
+        return redirect()->route('servicio.index');
     }
 
     /**
@@ -78,9 +62,9 @@ class Tipo_descuentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(tipo_descuento $descuento)
+    public function edit(Servicio $servicio)
     {
-        return view('tipo_descuento.edit', compact('descuento'));
+        return view('servicio.edit',compact('servicio'));
     }
 
     /**
@@ -93,14 +77,12 @@ class Tipo_descuentoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre',
-            'monto'
+            'nombre'=>'required'
         ]);
-
-        $descuento = tipo_descuento::findOrFail($id);
+        $servicio = Servicio::findOrFail($id);
         $datos = $request->all();
-        $descuento->update($datos);
-        return redirect()->route('descuento.index');
+        $servicio->update($datos);
+        return redirect()->route('servicio.index');
     }
 
     /**

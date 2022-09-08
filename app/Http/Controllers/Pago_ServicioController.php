@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tipo_descuento;
+use App\Models\Pago_Servicio;
+use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-use function PHPUnit\Framework\isNull;
-
-class Tipo_descuentoController extends Controller
+class Pago_ServicioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,9 @@ class Tipo_descuentoController extends Controller
      */
     public function index()
     {
-        $descuentos = tipo_descuento::all();
-        return view('tipo_descuento.index',compact('descuentos'));
+        $pagos = Pago_Servicio::all();
+        //return $pagos;
+        return view('pago_servicio.index',compact('pagos'));
     }
 
     /**
@@ -28,7 +28,8 @@ class Tipo_descuentoController extends Controller
      */
     public function create()
     {
-        return view('tipo_descuento.create');
+        $servicios = Servicio::all();
+        return view('pago_servicio.create',compact('servicios'));
     }
 
     /**
@@ -39,26 +40,26 @@ class Tipo_descuentoController extends Controller
      */
     public function store(Request $request)
     {
-        
         $request->validate([
-            'nombre'=>'required',
-            'monto'=>'required',            
-        ]);
-        if(isNull($request->hasFile('archivo'))){
-            $archivo = 'null';
-        }
-        if($request->hasFile('archivo')){
-            $file = $request->file('archivo')->store('public/archivos');
-            $archivo = Storage::url($file);
-        }       
-        
-        tipo_descuento::create([ 
-            'nombre' => $request->nombre,
-            'monto' => $request->monto,
-            'archivo' => $archivo
+            'servicio_id'=>'required',
+            'monto'=>'required',
+            'fecha'=>'required',
+            'comprobante'=>'required'
         ]);
 
-        return redirect()->route('descuento.index');
+        if($request->hasFile('comprobante')){
+            $file = $request->file('comprobante')->store('public/servicios');
+            $archivo = Storage::url($file);
+        }
+
+        Pago_Servicio::create([
+            'servicio_id'=> $request['servicio_id'],
+            'monto'=>$request['monto'],
+            'fecha'=>$request['fecha'],
+            'comprobante'=>$archivo
+        ]);
+        return redirect()->route('pago_servicio.index');
+
     }
 
     /**
@@ -78,9 +79,11 @@ class Tipo_descuentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(tipo_descuento $descuento)
+    public function edit(Pago_Servicio $pago)
     {
-        return view('tipo_descuento.edit', compact('descuento'));
+        //return $pago;
+        $servicios = Servicio::all();
+        return view('pago_servicio.edit',compact('pago','servicios'));
     }
 
     /**
@@ -93,14 +96,14 @@ class Tipo_descuentoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre',
-            'monto'
+            'servicio_id'=>'required',
+            'monto'=>'required',
+            'fecha'=>'required',
+            'comprobante'=>'required'
         ]);
-
-        $descuento = tipo_descuento::findOrFail($id);
-        $datos = $request->all();
-        $descuento->update($datos);
-        return redirect()->route('descuento.index');
+        $servicio = Pago_Servicio::findOrFail($id);
+        $servicio->update($request->all());
+        return redirect()->route('pago_servicio.index');
     }
 
     /**

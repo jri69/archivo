@@ -39,7 +39,8 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Comprobante:</b></label>
                                 <div class="col-sm-7">
-                                    <input type="file" class="form-control" name="compro_file" placeholder="Seleccione un documento...">
+                                    <input type="file" class="form-control" name="compro_file" placeholder="Seleccione un documento..."
+                                    accept=".docx, .pdf, .doc, .png, .jpg">
                                 </div>
                             </div>
                             <br>
@@ -58,7 +59,7 @@
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Observaciones:</b> </label>
                                 <div class="col-sm-7">
-                                    <textarea class="textarea resize-ta" name="observaciones" id="" cols="60" rows="3"  placeholder="Observaciones..."></textarea>
+                                    <textarea class="form-control" name="observaciones" id="" cols="60" rows="3"  placeholder="Observaciones..."></textarea>
                                 </div>                                
                             </div>
                             <br>
