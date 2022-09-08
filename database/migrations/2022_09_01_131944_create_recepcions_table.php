@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('codigo');
             $table->date('fecha');
             $table->string('departamento');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->unsignedBigInteger('unidad_organizativa_id');
             $table->foreign('unidad_organizativa_id')->references('id')->on('unidad_organizacionals');
             $table->unsignedBigInteger('user_id');

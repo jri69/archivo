@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MovimientoDoc extends Model
 {
     use HasFactory;
-    protected $fillable = ['codigo', 'fecha', 'departamento', 'confirmacion', 'user_id', 'recepcion_id'];
+    protected $fillable = ['codigo', 'fecha', 'departamento', 'confirmacion', 'descripcion', 'user_id', 'recepcion_id'];
 
-    public function recepcion() 
+    public function recepcion()
     {
         return $this->belongsTo(Recepcion::class);
     }
@@ -19,6 +19,4 @@ class MovimientoDoc extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }

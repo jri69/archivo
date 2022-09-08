@@ -42,7 +42,7 @@ class RecepcionController extends Controller
         ]);
         foreach ($request->documento as $archivo) {
             $filename = $archivo->getClientOriginalName();
-            $dir = Storage::disk('public')->put('Recepcion', $archivo);
+            $dir = 'storage/' . Storage::disk('public')->put('Recepcion', $archivo);
             Documento::create([
                 'nombre' => $filename,
                 'dir' => $dir,
@@ -56,8 +56,9 @@ class RecepcionController extends Controller
     public function show($id)
     {
         $recepcion = Recepcion::find($id);
-        $movimientos = MovimientoDoc::where('recepcion_id', $id)->get();
-        return view('recepcion.show', compact('recepcion', 'movimientos'));
+        $movimientos = MovimientoDoc::where('recepcion_id', $id)->orderBy('id', 'desc')->get();
+        $documento = Documento::where('recepcion_id', $id)->first();
+        return view('recepcion.show', compact('recepcion', 'movimientos', 'documento'));
     }
 
     public function edit($id)
@@ -83,24 +84,13 @@ class RecepcionController extends Controller
             'unidad_organizativa_id' => $request->unidad_organizativa_id,
             'user_id' => auth()->user()->id,
         ]);
-        if ($request->documento) {
-            foreach ($request->documento as $archivo) {
-                $filename = $archivo->getClientOriginalName();
-                $dir = Storage::disk('public')->put('Recepcion', $archivo);
-                Documento::create([
-                    'nombre' => $filename,
-                    'dir' => $dir,
-                    'tipo' => $request->tipo,
-                    'recepcion_id' => $recepcion->id,
-                ]);
-            }
-        }
-
         return redirect()->route('recepcion.index', $recepcion);
     }
 
     public function destroy($id)
     {
-        //
+        $recepcion = Recepcion::find($id);
+        $recepcion->delete();
+        return redirect()->route('recepcion.index');
     }
 }

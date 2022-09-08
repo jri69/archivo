@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'recepcion', 'titlePage' => 'Ver Recepciones'])
+@extends('layouts.app', ['activePage' => 'recepcion', 'titlePage' => 'Ver Recepcion'])
 
 @section('content')
     <div class="content">
@@ -72,6 +72,14 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">Documento</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <a href="{{ asset($documento->dir) }}" target="_blank">{{ $documento->nombre }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
@@ -83,6 +91,10 @@
                     </div>
                 </div>
             </div>
+
+
+
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -100,11 +112,12 @@
                                         <th>
                                             Encargado
                                         </th>
-                                        <th>
-                                            Fecha
-                                        </th>
+
                                         <th>
                                             Departamento
+                                        </th>
+                                        <th>
+                                            Fecha
                                         </th>
                                         <th>
                                             Estado
@@ -122,18 +135,19 @@
                                                 <td>
                                                     {{ $movimiento->user->usuario->nombre . ' ' . $movimiento->user->usuario->apellido }}
                                                 </td>
-                                                <td>
-                                                    {{ $movimiento->fecha }}
-                                                </td>
+
                                                 <td>
                                                     {{ $movimiento->departamento }}
+                                                </td>
+                                                <td>
+                                                    {{ $movimiento->fecha }}
                                                 </td>
                                                 <td>
                                                     {{ $movimiento->confirmacion }}
                                                 </td>
 
                                                 <td class="td-actions">
-                                                    <a href="{{ route('movimiento.edit', [$recepcion->id, $movimiento->id]) }}"
+                                                    <a href="{{ route('movimiento.show', [$movimiento->id, $recepcion->id]) }}"
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'recepcion', 'titlePage' => 'Ver Recepciones'])
+@extends('layouts.app', ['activePage' => 'recepcion', 'titlePage' => 'Crear Recepciones'])
 
 @section('content')
     <div class="content">
@@ -82,7 +82,7 @@
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Documento:</b> </label>
                                     <div class="col-sm-7">
-                                        <input type="file" class="form-control" name="documento[]" } multiple>
+                                        <input type="file" class="form-control" name="documento[]">
                                         @if ($errors->has('documento'))
                                             <span class="error text-danger"
                                                 for="input-documento">{{ $errors->first('documento') }}</span>

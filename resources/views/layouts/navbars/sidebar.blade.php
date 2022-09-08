@@ -64,18 +64,26 @@
                 </a>
                 <div class="collapse" id="Documento">
                     <ul class="nav">
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('unidad.index') }}">
-                                <span class="sidebar-mini"> UO </span>
-                                <span class="sidebar-normal"> {{ __('Unidad Organizacional') }} </span>
+                        {{-- <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('documentos.index') }}">
+                                <span class="sidebar-mini"> RC </span>
+                                <span class="sidebar-normal"> {{ __('Documentos') }} </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('recepcion.index') }}">
                                 <span class="sidebar-mini"> RC </span>
                                 <span class="sidebar-normal"> {{ __('Recepción') }} </span>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('unidad.index') }}">
+                                <span class="sidebar-mini"> UO </span>
+                                <span class="sidebar-normal"> {{ __('Unidad Organizacional') }} </span>
+                            </a>
+                        </li>
+
+
                     </ul>
                 </div>
             </li>

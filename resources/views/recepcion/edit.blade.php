@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'recepcion', 'titlePage' => 'Ver Recepciones'])
+@extends('layouts.app', ['activePage' => 'recepcion', 'titlePage' => 'Editar Recepciones'])
 
 @section('content')
     <div class="content">
@@ -66,37 +66,6 @@
                                     </div>
                                 </div>
 
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <select class="form-control" name="tipo">
-                                                <option disabled selected>Seleccione el tipo de documento</option>
-                                                <option value="Recepción">Recepción </option>
-                                                <option value="Comprobante">Comprobante</option>
-                                                <option value="Respuesta">Respuesta </option>
-                                            </select>
-                                        </div>
-                                        @if ($errors->has('tipo'))
-                                            <span class="error text-danger"
-                                                for="input-tipo">{{ $errors->first('tipo') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Documento:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="file" class="form-control" name="documento[]" } multiple>
-                                        @if ($errors->has('documento'))
-                                            <span class="error text-danger"
-                                                for="input-documento">{{ $errors->first('documento') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <br>
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Descripción:</b> </label>
                                     <div class="col-sm-7">

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('codigo');
             $table->date('fecha');
             $table->string('departamento');
-            $table->string('confirmacion')->default('No');
+            $table->text('descripcion');
+            $table->string('confirmacion')->default('Sin confirmar');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('recepcion_id');

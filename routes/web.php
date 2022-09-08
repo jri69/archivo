@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
@@ -244,7 +245,11 @@ Route::group(['prefix' => 'movimiento'], function () {
     Route::get('/create/{id}', [MovimientoController::class, 'create'])->name('movimiento.create');
     Route::post('/store', [MovimientoController::class, 'store'])->name('movimiento.store');
     Route::delete('/delete/{movimiento}', [MovimientoController::class, 'destroy'])->name('movimiento.delete');
-    Route::get('/show/{movimiento}', [MovimientoController::class, 'show'])->name('movimiento.show');
-    Route::get('/edit/{movimiento}', [MovimientoController::class, 'edit'])->name('movimiento.edit');
     Route::put('/update/{movimiento}', [MovimientoController::class, 'update'])->name('movimiento.update');
+    Route::get('/edit/{movimiento}/{recepcion}', [MovimientoController::class, 'edit'])->name('movimiento.edit');
+    Route::get('/show/{movimiento}/{recepcion}', [MovimientoController::class, 'show'])->name('movimiento.show');
+    Route::get('/confirm/{movimiento}/{recepcion}', [MovimientoController::class, 'confirmar'])->name('movimiento.confirmar');
 });
+
+// Documentos
+Route::get('/documentos', [DocumentoController::class, 'index'])->name('documentos.index');

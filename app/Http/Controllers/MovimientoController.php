@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Documento;
+use App\Models\MovimientoDoc;
 use App\Models\Recepcion;
 use App\Models\User;
 use App\Models\Usuario;
@@ -23,36 +25,31 @@ class MovimientoController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->codigo) {
-            $request->validate([
-                'recepcion_id' => 'required',
-                'user_id' => 'required',
-                'fecha' => 'required',
-                'departamento' => 'required',
-                'codigo' => 'required',
-                'tipo' => 'required',
-                'documento.*' => 'required',
-            ], [
-                'recepcion_id.required' => 'El campo recepcion es obligatorio',
-                'user_id.required' => 'El campo usuario es obligatorio',
-                'fecha.required' => 'El campo fecha es obligatorio',
-                'departamento.required' => 'El campo departamento es obligatorio',
-                'codigo.required' => 'El campo codigo es obligatorio',
-                'tipo.required' => 'El campo tipo es obligatorio',
-                'documento.*.required' => 'El campo documento es obligatorio',
-            ]);
-        } else {
-            $request->validate([
-                'recepcion_id' => 'required',
-                'user_id' => 'required',
-                'fecha' => 'required',
-                'departamento' => 'required',
-            ], [
-                'recepcion_id.required' => 'El campo recepcion es obligatorio',
-                'user_id.required' => 'El campo usuario es obligatorio',
-                'fecha.required' => 'El campo fecha es obligatorio',
-                'departamento.required' => 'El campo departamento es obligatorio',
-            ]);
-        }
+    }
+
+    public function show($id, $idRecepcion)
+    {
+        $movimiento = MovimientoDoc::find($id);
+        $documento = Documento::where('movimiento_doc_id', $movimiento->id)->first();
+        $recepcion = Recepcion::find($idRecepcion);
+        return view('movimiento.show', compact('movimiento', 'recepcion', 'documento'));
+    }
+
+    public function confirmar($id, $idRecepcion)
+    {
+        $movimiento = MovimientoDoc::find($id);
+        $movimiento->confirmacion = 'Confirmado';
+        $movimiento->save();
+        $recepcion = Recepcion::find($idRecepcion);
+        $documento = Documento::where('movimiento_doc_id', $movimiento->id)->first();
+
+        return view('movimiento.show', compact('movimiento', 'recepcion', 'documento'));
+    }
+
+    public function destroy($id)
+    {
+        $movimiento = MovimientoDoc::find($id);
+        $movimiento->delete();
+        return redirect()->route('recepcion.show', $movimiento->recepcion_id);
     }
 }

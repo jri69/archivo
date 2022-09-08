@@ -9,18 +9,13 @@
                     </span>
                 </div>
             </div>
-            <div class="col text-right">
-                <a href="{{ route('recepcion.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar recepción</b>
-                </a>
-            </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Listado de recepciones</h4>
+                        <h4>Listado de documentos</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -28,36 +23,30 @@
                                 <thead class="text-primary text-dark">
                                     <th>Código</th>
                                     <th>Recibido</th>
-                                    <th>Area</th>
-                                    <th>Unidad organizativa</th>
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Departamento</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($recepciones as $recepcion)
+                                    @foreach ($documentos as $documento)
                                         <tr>
-                                            <td>{{ $recepcion->codigo }} </td>
-                                            <td>{{ $recepcion->user->usuario->nombre . ' ' . $recepcion->user->usuario->apellido }}
+                                            <td>
+                                                @if ($documento->movimiento_doc_id)
+                                                    {{ $documento->movimiento_doc->codigo }}
+                                                @else
+                                                    {{ $documento->recepcion->codigo }}
+                                                @endif
                                             </td>
-                                            <td>{{ $recepcion->user->usuario->area->nombre }}</td>
-                                            <td>{{ $recepcion->unidad_organizativa->nombre }}</td>
-                                            <td>{{ $recepcion->fecha }}</td>
-                                            <td>{{ substr($recepcion->descripcion, 0, 100) }}...</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td class="td-actions">
-                                                <a href="{{ route('recepcion.show', $recepcion->id) }}"
+                                                <a href="{{ route('movimiento.show', $movimiento->id) }}"
                                                     class="btn btn-success">
                                                     <span class="material-icons">visibility</span>
                                                 </a>
-                                                <form action="{{ route('recepcion.delete', $recepcion->id) }}"
-                                                    method="POST" style="display: inline-block;"
-                                                    onsubmit="return confirm('¿Está seguro?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger" type="submit">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -68,7 +57,7 @@
                     <!---paginacion-->
                     <div class="row ">
                         <div class="col text-sm">
-                            {{ $recepciones->links() }}
+                            {{ $documentos->links() }}
                         </div>
                     </div>
                 </div>
