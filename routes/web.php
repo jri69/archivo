@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
@@ -16,12 +17,23 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PartidaController;
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\ProgramaController;
+use App\Http\Controllers\RecepcionController;
+use App\Http\Controllers\Reportes\ReporteController;
 use App\Http\Controllers\RequisitosController;
+
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\TiposEstudiosController;
+
+
+use App\Http\Controllers\Tipo_descuentoController;
+use App\Http\Controllers\tipo_pagoController;
+use App\Http\Controllers\TiposEstudiosController;
+use App\Http\Controllers\UnidadOrganizacionalController;
+use App\Models\Estudiante;
+use App\Models\Tipo_pago;
 
 
 /*
@@ -81,11 +93,11 @@ Route::group(['prefix' => 'usuario'], function () {
     Route::delete('/{usuario}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
 });
 
-/*/Documento
+//Documento
 Route::group(['prefix' => 'documento'], function () {
-	Route::get('/index', [\App\Http\Controllers\DocumentoController::class, 'index'])->name('documento.index');
-	Route::get('/create', [\App\Http\Controllers\DocumentoController::class, 'create'])->name('documento.create');
-});*/
+    Route::get('/index', [\App\Http\Controllers\DocumentoController::class, 'index'])->name('documento.index');
+    Route::get('/create', [\App\Http\Controllers\DocumentoController::class, 'create'])->name('documento.create');
+});
 
 //Area
 Route::group(['prefix' => 'area'], function () {
@@ -220,4 +232,42 @@ Route::group(['prefix' => 'activo_fijo'], function () {
     Route::put('/update/{activo}', [ActivoFijoController::class, 'update'])->name('activo.update');
     Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
 });
+
+// Recursos humanos
+Route::get('/pdf', [ReporteController::class, 'pdf'])->name('reporte.pdf');
+
+// Unidad organizacional
+Route::group(['prefix' => 'unidad_organizacional'], function () {
+    Route::get('/index', [UnidadOrganizacionalController::class, 'index'])->name('unidad.index');
+    Route::get('/create', [UnidadOrganizacionalController::class, 'create'])->name('unidad.create');
+    Route::post('/store', [UnidadOrganizacionalController::class, 'store'])->name('unidad.store');
+    Route::get('/edit/{unidad}', [UnidadOrganizacionalController::class, 'edit'])->name('unidad.edit');
+    Route::put('/update/{unidad}', [UnidadOrganizacionalController::class, 'update'])->name('unidad.update');
+    Route::delete('/delete/{unidad}', [UnidadOrganizacionalController::class, 'destroy'])->name('unidad.delete');
+});
+
+// recepcion de la documentacion
+Route::group(['prefix' => 'recepcion'], function () {
+    Route::get('/index', [RecepcionController::class, 'index'])->name('recepcion.index');       // list of all documents
+    Route::get('/create', [RecepcionController::class, 'create'])->name('recepcion.create');    // create a new recepcion
+    Route::post('/store', [RecepcionController::class, 'store'])->name('recepcion.store');  // store a new recepcion
+    Route::get('/show/{recepcion}', [RecepcionController::class, 'show'])->name('recepcion.show');    // show a recepcion
+    Route::get('/edit/{recepcion}', [RecepcionController::class, 'edit'])->name('recepcion.edit');    // edit a recepcion
+    Route::put('/update/{recepcion}', [RecepcionController::class, 'update'])->name('recepcion.update');  // update a recepcion
+    Route::delete('/delete/{recepcion}', [RecepcionController::class, 'destroy'])->name('recepcion.delete'); // delete a recepcion
+});
+
+// Movimiento de la documentacion
+Route::group(['prefix' => 'movimiento'], function () {
+    Route::get('/create/{id}', [MovimientoController::class, 'create'])->name('movimiento.create');
+    Route::post('/store', [MovimientoController::class, 'store'])->name('movimiento.store');
+    Route::delete('/delete/{movimiento}', [MovimientoController::class, 'destroy'])->name('movimiento.delete');
+    Route::put('/update/{movimiento}', [MovimientoController::class, 'update'])->name('movimiento.update');
+    Route::get('/edit/{movimiento}/{recepcion}', [MovimientoController::class, 'edit'])->name('movimiento.edit');
+    Route::get('/show/{movimiento}/{recepcion}', [MovimientoController::class, 'show'])->name('movimiento.show');
+    Route::get('/confirm/{movimiento}/{recepcion}', [MovimientoController::class, 'confirmar'])->name('movimiento.confirmar');
+});
+
+// Documentos
+Route::get('/documentos', [DocumentoController::class, 'index'])->name('documentos.index');
 

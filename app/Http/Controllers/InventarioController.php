@@ -23,7 +23,7 @@ class InventarioController extends Controller
             'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
             'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
             'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'modelo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'modelo' => 'required|string',
             'cantidad' => 'required|numeric',
         ]);
         $producto = Inventario::create($request->all());
@@ -42,7 +42,7 @@ class InventarioController extends Controller
             'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
             'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
             'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'modelo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'modelo' => 'required|string',
             'cantidad' => 'required|numeric',
         ]);
         $producto = Inventario::findOrFail($id);
