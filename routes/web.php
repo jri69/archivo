@@ -26,14 +26,8 @@ use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\TiposEstudiosController;
-
-
-use App\Http\Controllers\Tipo_descuentoController;
-use App\Http\Controllers\tipo_pagoController;
-use App\Http\Controllers\TiposEstudiosController;
 use App\Http\Controllers\UnidadOrganizacionalController;
-use App\Models\Estudiante;
-use App\Models\Tipo_pago;
+
 
 
 /*
