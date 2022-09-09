@@ -25,7 +25,7 @@
             <p>{{ __('Usuarios') }}</p>
         </a>
       </li> -->
-            <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
+            <li class="nav-item {{ $activePage == 'usuario' || $activePage == 'area' || $activePage == 'cargo' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Usuario" aria-expanded="false">
                     <i class="material-icons">face</i>
                     <p>{{ __('Usuarios') }}
@@ -34,19 +34,19 @@
                 </a>
                 <div class="collapse" id="Usuario">
                     <ul class="nav">
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'usuario' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('usuario.index') }}">
                                 <span class="sidebar-mini"> U </span>
                                 <span class="sidebar-normal"> {{ __('Usuario') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'cargo' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('cargo.index') }}">
                                 <span class="sidebar-mini"> C </span>
                                 <span class="sidebar-normal"> {{ __('Cargo') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'area' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('area.index') }}">
                                 <span class="sidebar-mini"> A </span>
                                 <span class="sidebar-normal"> {{ __('Area') }} </span>

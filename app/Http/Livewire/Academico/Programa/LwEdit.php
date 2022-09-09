@@ -37,7 +37,7 @@ class LwEdit extends Component
         $this->datos['costo'] = $this->programa->costo;
         $this->datos['cantidad_modulos'] = $this->programa->cantidad_modulos;
         $this->listaV = ProgramaModulo::where('id_programa', $this->programa->id)->get();
-        $this->listaV = $this->listaV->pluck('id')->toArray();
+        $this->listaV = $this->listaV->pluck('id')->toArray(); 
         $this->i = count($this->listaV);
     }
 
