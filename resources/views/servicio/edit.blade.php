@@ -9,7 +9,7 @@
                         @csrf
                         @method('PUT')
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Servicio:</b> </label>
                                     <div class="col-sm-7">

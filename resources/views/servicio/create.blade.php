@@ -8,7 +8,7 @@
                     <form action="{{ route('servicio.store') }}" method="post" class="form-horizontal"
                         enctype="multipart/form-data">
                         @csrf
-                        <div class="card">
+                        <div class="card"> 
                             <div class="card-body">
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Servicio:</b> </label>
