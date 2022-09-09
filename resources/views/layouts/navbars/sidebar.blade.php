@@ -211,6 +211,61 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item {{ $activePage == 'partida' || $activePage == 'subpartida' || $activePage == 'user-management' ? ' active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#servicio" aria-expanded="false">
+                    <i class="material-icons">support_agent</i>
+                    <p>{{ __('Servicios') }}
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="servicio">
+                    <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'pagos' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('pago_servicio.index') }}">
+                                <span class="sidebar-mini"> P </span>
+                                <span class="sidebar-normal">{{ __('Pagos') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'servi' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('servicio.index') }}">
+                                <span class="sidebar-mini"> S </span>
+                                <span class="sidebar-normal">{{ __('Servicios') }} </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ $activePage == 'pagos' || $activePage == 'presupuesto' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#partidas" aria-expanded="false">
+                    <i class="material-icons">assignment</i>
+                    <p>{{ __('Partida') }}
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="partidas">
+                    <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'partida' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('partida.index') }}">
+                                <span class="sidebar-mini"> P </span>
+                                <span class="sidebar-normal">{{ __('Partida') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'subpartida' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('subpartida.index') }}">
+                                <span class="sidebar-mini"> S </span>
+                                <span class="sidebar-normal">{{ __('Sub Partidas') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'presupuesto' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('presupuesto.index') }}">
+                                <span class="sidebar-mini"> P </span>
+                                <span class="sidebar-normal">{{ __('Presupuesto') }} </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             <!-- <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('map') }}">
           <i class="material-icons">location_ons</i>
