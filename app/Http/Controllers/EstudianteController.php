@@ -76,7 +76,7 @@ class EstudianteController extends Controller
         if ($request->requisitos) {
             foreach ($request->archivo as $archivo) {
                 $filename = $archivo->getClientOriginalName();
-                $dir = Storage::disk('public')->put('requisitos', $archivo);
+                $dir = 'storage/' . Storage::disk('public')->put('requisitos', $archivo);
                 RequisitoArchivo::create([
                     'id_estudiante' => $estudiante->id,
                     'nombre' => $filename,
@@ -187,11 +187,9 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::findOrFail($idEstudiante);
         $documentos = RequisitoArchivo::where('id_estudiante', $idEstudiante)->get();
         $requisitos = RequisitoEstudiante::where('id_estudiante', $idEstudiante)->get();
-        $requisitosID = $requisitos->pluck('id_requisito')->toArray();
-        $requisitosFaltantes = Requisito::whereNotIn('id', $requisitosID)->get();
         $Idprogramas = EstudiantePrograma::where('id_estudiante', $idEstudiante)->get();
         $programas = Programa::whereIn('id', $Idprogramas->pluck('id_programa')->toArray())->get();
-        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'requisitosFaltantes', 'programas'));
+        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'programas'));
     }
 
     public function newprogram($estudiante)
@@ -219,5 +217,14 @@ class EstudianteController extends Controller
         $notas = NotasPrograma::where('id_estudiante', $estudiante->id)
             ->where('id_programa', $programa->id)->get();
         return view('estudiante.notas', compact('estudiante', 'programa', 'notas'));
+    }
+
+    //elimindar archivo del storage
+    public function deleteFile($id, $idEstudiante)
+    {
+        $archivo = RequisitoArchivo::findOrFail($id);
+        Storage::delete($archivo->dir);
+        $archivo->delete();
+        return back()->with('mensaje', 'Eliminado Correctamente');
     }
 }

@@ -27,7 +27,16 @@
                                 <label class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" disabled value="{{ $programa->nombre }}">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $programa->nombre }} - {{ $programa->version . '.' . $programa->edicion }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">Tipo</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled value="{{ $programa->tipo }}">
                                     </div>
                                 </div>
                             </div>

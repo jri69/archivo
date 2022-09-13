@@ -21,7 +21,7 @@ class InventarioController extends Controller
     {
         $request->validate(
             [
-                'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:150',
+                'nombre' => 'required|string|max:150',
                 'estado' => 'required|string|regex:/^[\pL\s\-]+$/u|max:100',
                 'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u|max:100',
                 'modelo' => 'required|string|max:150',
@@ -30,7 +30,6 @@ class InventarioController extends Controller
             [
                 'nombre.required' => 'El campo nombre es obligatorio',
                 'nombre.string' => 'El campo nombre debe ser de tipo texto',
-                'nombre.regex' => 'El campo nombre solo debe contener letras',
                 'nombre.max' => 'El campo nombre debe contener maximo 150 caracteres',
                 'estado.required' => 'El campo estado es obligatorio',
                 'estado.string' => 'El campo estado debe ser de tipo texto',
@@ -61,7 +60,7 @@ class InventarioController extends Controller
     {
         $request->validate(
             [
-                'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:150',
+                'nombre' => 'required|string|max:150',
                 'estado' => 'required|string|regex:/^[\pL\s\-]+$/u|max:100',
                 'tipo' => 'required|string|regex:/^[\pL\s\-]+$/u|max:100',
                 'modelo' => 'required|string|max:150',
