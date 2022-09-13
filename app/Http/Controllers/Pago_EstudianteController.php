@@ -38,6 +38,7 @@ class Pago_EstudianteController extends Controller
         $id = $id->pluck('estudiante_id')->toArray();
         $estu = Estudiante::all();
         $pago = $estu->except($id);
+        //return $pago;
         $fecha = Carbon::now();
         $programas = DB::table('programas')->select('id','nombre','costo', 'cantidad_modulos')->where('fecha_finalizacion','>=',$fecha)->get();
         $descuentos = tipo_descuento::all();
@@ -57,8 +58,8 @@ class Pago_EstudianteController extends Controller
             'programa_id'=> 'required',
             'cant_modulos'=>'required',
         ]);
-        $pago_estudiante = Pago_estudiante::create($request->all());
-        return redirect()->route('pago_estudiante.index',$pago_estudiante);
+        Pago_estudiante::create($request->all());
+        return view('pago_estudiante.index');
     }
 
     /**
@@ -80,10 +81,13 @@ class Pago_EstudianteController extends Controller
         $deuda = ProgramaModulo::join('programas', 'programas.id','programa_modulos.id_programa')->join('modulos', 'modulos.id','=','programa_modulos.id_modulo')->select('modulos.fecha_final','modulos.costo')->where('programas.id',$programa->programa_id)->where('modulos.fecha_final','<=',$fecha)->sum('modulos.costo');
         
         $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->get();
-        
-        $costo_t = $pro->costo - $descuento->monto - $programa->convalidacion;
+       
+        $porcentaje = ($programa->costo * $descuento->monto)/100;
+        //return $programa->costo;
+        //return $descuento;
+        $costo_t = $pro->costo - $porcentaje - $programa->convalidacion;
         $saldo = $costo_t - $monto;
-        $cuenta = $descuento->monto + $monto + $programa->convalidacion;
+        $cuenta = $porcentaje + $monto + $programa->convalidacion;
         $deuda = $deuda - $cuenta;
         
         $estado = 'SIN DEUDA';
@@ -91,7 +95,7 @@ class Pago_EstudianteController extends Controller
             $estado = 'CON DEUDA';
         };
         
-        return view('pago.index',compact('estado','pro','programa','estudiante', 'descuento', 'costo_t','pagos','monto','saldo','cuenta','deuda'));
+        return view('pago.index',compact('estado','pro','programa','estudiante', 'descuento', 'costo_t','pagos','monto','saldo','cuenta','deuda','porcentaje'));
     }
 
     /**

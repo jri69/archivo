@@ -73,7 +73,7 @@
                                         <td>{{$programa->convalidacion}}</td>
                                         </tr>
                                         <tr><th>Descuento</th> 
-                                        <td>{{$descuento->monto}}</td>
+                                        <td>{{$porcentaje}}</td>
                                         </tr>
                                         <tr><th>Costo Total con Descuento</th> 
                                         <td>{{$costo_t}}</td>

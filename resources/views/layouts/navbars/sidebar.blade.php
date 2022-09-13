@@ -129,7 +129,7 @@
             <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="false">
                     <i class="material-icons">content_paste</i>
-                    <p>{{ __('Contable') }}
+                    <p>{{ __('Contabilidad') }}
                         <b class="caret"></b>
                     </p>
                 </a>

@@ -19,7 +19,7 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Monto del Descuento:</b> </label>
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Monto del Descuento en %:</b> </label>
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control"
                                         name="monto"
