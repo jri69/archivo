@@ -23,8 +23,8 @@ class LwIndex extends Component
 
     public function render()
     {
-        $estudiantes = Estudiante::where('nombre', 'like', '%' . $this->attribute . '%')
-            ->orWhere('cedula', 'like', '%' . $this->attribute . '%')
+        $estudiantes = Estudiante::where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('cedula', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
         return view('livewire.academico.estudiante.lw-index', compact('estudiantes'));

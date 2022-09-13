@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('sigla', 10);
             $table->string('version', 5);
             $table->string('edicion', 5);
+            $table->string('tipo');
             $table->date('fecha_inicio');
             $table->date('fecha_finalizacion');
             $table->integer('costo');

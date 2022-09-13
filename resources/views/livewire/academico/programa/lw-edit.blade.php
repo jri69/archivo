@@ -19,6 +19,21 @@
                             </div>
                             <br>
                             <div class="row">
+                                <label for="nombre" class="col-sm-2 col-form-label"><b>Tipo:</b></label>
+                                <div class="col-sm-7">
+                                    <select wire:model.defer="datos.tipo" name="tipo" id="tipo"
+                                        class="form-control">
+                                        <option value="Sin tipo">Seleccione el tipo de programa</option>
+                                        <option value="Doctorado"> Doctorado</option>
+                                        <option value="Maestria"> Maestria</option>
+                                        <option value="Diplomado"> Diplomado</option>
+                                        <option value="Especialidad"> Especialidad</option>
+                                        <option value="Cursos"> Cursos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Sigla:</b> </label>
                                 <div class="col-sm-7">
                                     <input wire:model.defer="datos.sigla" type="text" class="form-control"
@@ -98,7 +113,8 @@
                                     </select>
                                 </div>
                                 <br>
-                                <a wire:click="add()" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
+                                <a wire:click="add()"
+                                    class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
                                     <i class="material-icons">add</i>
                                 </a>
                             </div>

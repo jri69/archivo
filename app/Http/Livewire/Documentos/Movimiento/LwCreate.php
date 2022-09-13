@@ -33,15 +33,18 @@ class LwCreate extends Component
         $this->validate([
             'datos.user_id' => 'required',
             'datos.fecha' => 'required',
-            'datos.departamento' => 'required',
-            'datos.codigo' => 'required',
-            'datos.descripcion' => 'required',
+            'datos.departamento' => 'required|max:255',
+            'datos.codigo' => 'required|max:255',
+            'datos.descripcion' => 'required|max:300',
         ], [
             'datos.codigo.required' => 'El campo código es obligatorio',
             'datos.user_id.required' => 'El campo usuario es obligatorio',
             'datos.fecha.required' => 'El campo fecha es obligatorio',
             'datos.departamento.required' => 'El campo departamento es obligatorio',
             'datos.descripcion.required' => 'El campo descripción es obligatorio',
+            'datos.departamento.max' => 'El campo departamento debe contener maximo 255 caracteres',
+            'datos.codigo.max' => 'El campo código debe contener maximo 255 caracteres',
+            'datos.descripcion.max' => 'El campo descripción debe contener maximo 300 caracteres',
         ]);
         if ($this->datos['tipo'] != "" || $this->datos['documento'] != null) {
             $this->validate([

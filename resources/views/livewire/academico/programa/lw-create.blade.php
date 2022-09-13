@@ -6,52 +6,90 @@
                     <div class="card">
                         <div class="card-body">
 
+
                             <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input wire:model.defer="datos.nombre" type="text" class="form-control"
-                                        name="nombre" placeholder="Nombre">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nombre del estudiante</label>
+                                        <input wire:model.defer="datos.nombre" type="text" class="form-control"
+                                            name="nombre">
+                                    </div>
                                     @error('datos.nombre')
                                         <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <br>
+
                             <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Sigla:</b> </label>
-                                <div class="col-sm-7">
-                                    <input wire:model.defer="datos.sigla" type="text" class="form-control"
-                                        name="sigla" placeholder="Sigla">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Sigla</label>
+                                        <input wire:model.defer="datos.sigla" type="text" class="form-control"
+                                            name="sigla">
+                                    </div>
                                     @error('datos.sigla')
                                         <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                     @enderror
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select class="form-control" name="tipo" wire:model.defer='datos.tipo'>
+                                            <option value="Sin tipo">Seleccione el tipo de programa</option>
+                                            <option value="Doctorado"> Doctorado</option>
+                                            <option value="Maestria"> Maestria</option>
+                                            <option value="Diplomado"> Diplomado</option>
+                                            <option value="Especialidad"> Especialidad</option>
+                                            <option value="Cursos"> Cursos</option>
+                                        </select>
+                                    </div>
+                                    @if ($errors->has('tipo'))
+                                        <span class="error text-danger"
+                                            for="input-tipo">{{ $errors->first('tipo') }}</span>
+                                    @endif
+                                </div>
                             </div>
+
                             <br>
                             <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Versión:</b> </label>
-                                <div class="col-sm-7">
-                                    <input wire:model.defer="datos.version" type="text" class="form-control"
-                                        name="version" placeholder="Versión">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombre" class="bmd-label-floating">Versión</label>
+                                        <input wire:model.defer="datos.version" type="text" class="form-control"
+                                            name="version">
+                                    </div>
                                     @error('datos.version')
                                         <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Edición:</b> </label>
-                                <div class="col-sm-7">
-                                    <input wire:model.defer="datos.edicion" type="text" class="form-control"
-                                        name="edicion" placeholder="Edición">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombre" class="bmd-label-floating">Edición</label>
+                                        <input wire:model.defer="datos.edicion" type="text" class="form-control"
+                                            name="edicion">
+                                    </div>
                                     @error('datos.edicion')
                                         <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
+
                             <br>
 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Costo</label>
+                                        <input wire:model.defer="datos.costo" type="number" class="form-control"
+                                            name="costo">
+                                    </div>
+                                    @error('datos.costo')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
                                 <div class="col-sm-7">
@@ -75,17 +113,7 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Costo:</b> </label>
-                                <div class="col-sm-7">
-                                    <input wire:model.defer="datos.costo" type="number" class="form-control"
-                                        name="costo" placeholder="Costo">
-                                    @error('datos.costo')
-                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <br>
+
                         </div>
 
                         <div class="card-footer ml-auto mr-auto">

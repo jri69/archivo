@@ -23,6 +23,7 @@ class LwEdit extends Component
         'datos.fecha_inicio.required' => 'El campo fecha de inicio es requerido.',
         'datos.fecha_finalizacion.required' => 'El campo fecha de finalización es requerido.',
         'datos.costo.required' => 'El campo costo es requerido.',
+        'datos.tipo.required' => 'El campo tipo es requerido.',
     ];
 
     public function mount($programa)
@@ -36,8 +37,9 @@ class LwEdit extends Component
         $this->datos['fecha_finalizacion'] = $this->programa->fecha_finalizacion;
         $this->datos['costo'] = $this->programa->costo;
         $this->datos['cantidad_modulos'] = $this->programa->cantidad_modulos;
+        $this->datos['tipo'] = $this->programa->tipo;
         $this->listaV = ProgramaModulo::where('id_programa', $this->programa->id)->get();
-        $this->listaV = $this->listaV->pluck('id')->toArray(); 
+        $this->listaV = $this->listaV->pluck('id')->toArray();
         $this->i = count($this->listaV);
     }
 
@@ -66,6 +68,7 @@ class LwEdit extends Component
             'datos.fecha_inicio' => 'required|date',
             'datos.fecha_finalizacion' => 'required|date',
             'datos.costo' => 'required|numeric',
+            'datos.tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
         ]);
 
         $this->datos['cantidad_modulos'] = sizeof($this->listaV);

@@ -15,8 +15,7 @@ class ProgramaController extends Controller
 {
     public function index()
     {
-        $programas = Programa::all();
-        return view('programa.index', compact('programas'));
+        return view('programa.index');
     }
 
     public function create()
