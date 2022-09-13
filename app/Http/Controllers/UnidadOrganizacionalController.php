@@ -21,9 +21,15 @@ class UnidadOrganizacionalController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|max:255',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.max' => 'El campo nombre debe contener maximo 255 caracteres',
+            ]
+        );
 
         UnidadOrganizacional::create($request->all());
 
@@ -39,9 +45,15 @@ class UnidadOrganizacionalController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|max:255',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.max' => 'El campo nombre debe contener maximo 255 caracteres',
+            ]
+        );
 
         $unidad = UnidadOrganizacional::find($id);
         $unidad->update($request->all());

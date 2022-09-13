@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('estado');
             $table->string('tipo');
             $table->string('modelo');
-            $table->integer('cantidad');
-            $table->text('observaciones');
+            $table->integer('cantidad')->nullable();
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }

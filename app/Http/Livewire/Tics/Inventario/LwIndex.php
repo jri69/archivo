@@ -26,10 +26,11 @@ class LwIndex extends Component
 
     public function render()
     {
-        $productos = Inventario::where('nombre', 'like', '%' . $this->attribute . '%')
-            ->orWhere('id', 'like', '%' . $this->attribute . '%')
-            ->orWhere('modelo', 'like', '%' . $this->attribute . '%')
-            ->orWhere('tipo', 'like', '%' . $this->attribute . '%')
+        $productos = Inventario::orWhere('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('id', 'ILIKE', '%' . $this->attribute . '%')
+            ->orWhere('modelo', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('tipo', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('estado', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
         return view('livewire.tics.inventario.lw-index', compact('productos'));

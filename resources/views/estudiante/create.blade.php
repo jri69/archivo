@@ -129,7 +129,7 @@
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Archivo:</b> </label>
                                     <div class="col-sm-7">
-                                        <input type="file" class="form-control" name="archivo[]" } multiple>
+                                        <input type="file" class="form-control" name="archivo[]" multiple>
                                         @if ($errors->has('archivo'))
                                             <span class="error text-danger"
                                                 for="input-archivo">{{ $errors->first('archivo') }}</span>

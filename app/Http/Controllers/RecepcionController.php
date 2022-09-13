@@ -24,14 +24,32 @@ class RecepcionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'codigo' => 'required|unique:recepcions',
-            'fecha' => 'required|date',
-            'departamento' => 'required|regex:/^[\pL\s\-]+$/u',
-            'descripcion' => 'required',
-            'unidad_organizativa_id' => 'required',
-            'tipo' => 'required|regex:/^[\pL\s\-]+$/u',
-        ]);
+        $request->validate(
+            [
+                'codigo' => 'required|unique:recepcions|max:255',
+                'fecha' => 'required|date',
+                'departamento' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+                'descripcion' => 'required|max:300',
+                'unidad_organizativa_id' => 'required|numeric',
+                'tipo' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+            ],
+            [
+                'codigo.required' => 'El campo codigo es obligatorio',
+                'codigo.unique' => 'El codigo ya existe',
+                'codigo.max' => 'El campo codigo debe contener maximo 255 caracteres',
+                'fecha.required' => 'El campo fecha es obligatorio',
+                'fecha.date' => 'El campo fecha debe ser de tipo fecha',
+                'departamento.required' => 'El campo departamento es obligatorio',
+                'departamento.regex' => 'El campo departamento solo debe contener letras',
+                'departamento.max' => 'El campo departamento debe contener maximo 255 caracteres',
+                'descripcion.required' => 'El campo descripcion es obligatorio',
+                'descripcion.max' => 'El campo descripcion debe contener maximo 300 caracteres',
+                'unidad_organizativa_id.required' => 'El campo unidad organizativa es obligatorio',
+                'tipo.required' => 'El campo tipo es obligatorio',
+                'tipo.regex' => 'El campo tipo solo debe contener letras',
+                'tipo.max' => 'El campo tipo debe contener maximo 255 caracteres',
+            ]
+        );
         $recepcion = Recepcion::create([
             'codigo' => $request->codigo,
             'fecha' => $request->fecha,
@@ -70,12 +88,25 @@ class RecepcionController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'fecha' => 'required|date',
-            'departamento' => 'required|regex:/^[\pL\s\-]+$/u',
-            'descripcion' => 'required',
-            'unidad_organizativa_id' => 'required',
-        ]);
+        $request->validate(
+            [
+                'fecha' => 'required|date',
+                'departamento' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+                'descripcion' => 'required|max:300',
+                'unidad_organizativa_id' => 'required|numeric',
+            ],
+            [
+                'fecha.required' => 'El campo fecha es obligatorio',
+                'fecha.date' => 'El campo fecha debe ser de tipo fecha',
+                'departamento.required' => 'El campo departamento es obligatorio',
+                'departamento.regex' => 'El campo departamento solo debe contener letras',
+                'departamento.max' => 'El campo departamento debe contener maximo 255 caracteres',
+                'descripcion.required' => 'El campo descripcion es obligatorio',
+                'descripcion.max' => 'El campo descripcion debe contener maximo 300 caracteres',
+                'unidad_organizativa_id.required' => 'El campo unidad organizativa es obligatorio',
+                'unidad_organizativa_id.numeric' => 'El campo unidad organizativa debe ser numerico',
+            ]
+        );
         $recepcion = Recepcion::find($id);
         $recepcion->update([
             'fecha' => $request->fecha,
