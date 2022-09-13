@@ -22,15 +22,16 @@
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
                                         <th>Nombre</th> 
-                                        <th>Monto</th>
-                                        <th>Acciones</th>                                         
+                                        <th>Monto %</th>
+                                        <th>Acciones</th>       
+                                                                          
                                     </thead>
                                     <tbody>
                                         @foreach ($descuentos as $descuento )
                                             <tr>
                                                 <td>{{$descuento->id}}</td>
                                             <td><a href="{{ $descuento->archivo }}" target="_blank" rel="noopener noreferrer"><b>{{ $descuento->nombre }}</b></a></td>
-                                            <td>{{$descuento->monto}}</td>
+                                            <td>{{$descuento->monto}} <b>%</b></td>
                                             <td class="td-actions">
                                                 {{--Editar Tipo pago--}}
                                                 <a href="{{route('descuento.edit',$descuento->id)}}" class="btn btn-primary">
