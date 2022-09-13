@@ -27,12 +27,20 @@ class LwIndex extends Component
         $id = $id->pluck('estudiante_id')->toArray();
         $estu = Estudiante::all();
         $pago = $estu->except($id);
-        
-        $prueba = Estudiante::where('id','<>',$pago->pluck('id'))->get();
-        $estudiantes = Estudiante::where('nombre', 'ilike', '%' . $this->attribute . '%')
+        if($pago != ''){
+            $estudiantes = Estudiante::where('nombre', 'ilike', '%' . $this->attribute . '%')
+            ->orWhere('cedula', 'ilike', '%' . $this->attribute . '%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->pagination);
+        }else{
+            $estudiantes = Estudiante::where('nombre', 'ilike', '%' . $this->attribute . '%')
             ->Where('id','<>',$pago->pluck('id'))
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
+        }
+        
+        //$prueba = Estudiante::where('id','<>',$pago->pluck('id'))->get();
+        
         
         return view('livewire.contabilidad.pago-estudiante.lw-index',compact('estudiantes'));
     }
