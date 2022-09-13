@@ -114,7 +114,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Universidad</label>
+                                            <label class="bmd-label-floating">Estado</label>
                                             <input type="text" class="form-control" name="estado"
                                                 value="{{ $estudiante->estado }}">
                                         </div>
@@ -167,7 +167,8 @@
                                 <button type="submit"class="btn btn-primary">
                                     <b>Guardar Datos</b>
                                 </button>
-                                <a href="{{ route('estudiante.show',$estudiante->id) }}" class="btn btn-primary"><b>Cancelar</b></a>
+                                <a href="{{ route('estudiante.show', $estudiante->id) }}"
+                                    class="btn btn-primary"><b>Cancelar</b></a>
                             </div>
                         </div>
                     </form>

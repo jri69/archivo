@@ -30,15 +30,42 @@ class EstudianteController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'email' => 'required|email|unique:estudiantes',
-            'telefono' => 'required|numeric',
-            'cedula' => 'required|numeric',
-            'expedicion' => 'required|alpha|size:2',
-            'carrera' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'universidad' => 'required|string|regex:/^[\pL\s\-]+$/u',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'email' => 'required|email|unique:estudiantes|max:200',
+                'telefono' => 'required|numeric',
+                'cedula' => 'required|numeric',
+                'expedicion' => 'required|alpha|size:2',
+                'carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.string' => 'El campo nombre debe ser de tipo texto',
+                'nombre.regex' => 'El campo nombre solo debe contener letras',
+                'nombre.max' => 'El campo nombre debe tener máximo 100 caracteres',
+                'email.required' => 'El campo email es obligatorio',
+                'email.email' => 'El campo email debe ser de tipo email',
+                'email.unique' => 'El email ya se encuentra registrado',
+                'email.max' => 'El campo email debe tener máximo 100 caracteres',
+                'telefono.required' => 'El campo teléfono es obligatorio',
+                'telefono.numeric' => 'El campo teléfono debe ser de tipo numérico',
+                'cedula.required' => 'El campo cédula es obligatorio',
+                'cedula.numeric' => 'El campo cédula debe ser de tipo numérico',
+                'expedicion.required' => 'El campo expedición es obligatorio',
+                'expedicion.alpha' => 'El campo expedición solo debe contener letras',
+                'expedicion.size' => 'El campo expedición debe tener 2 caracteres',
+                'carrera.required' => 'El campo carrera es obligatorio',
+                'carrera.string' => 'El campo carrera debe ser de tipo texto',
+                'carrera.regex' => 'El campo carrera solo debe contener letras',
+                'carrera.max' => 'El campo carrera debe tener máximo 100 caracteres',
+                'universidad.required' => 'El campo universidad es obligatorio',
+                'universidad.string' => 'El campo universidad debe ser de tipo texto',
+                'universidad.regex' => 'El campo universidad solo debe contener letras',
+                'universidad.max' => 'El campo universidad debe tener máximo 100 caracteres',
+            ]
+        );
         $estudiante = Estudiante::create($request->all());
         if ($request->id_programa) {
             EstudiantePrograma::create([
@@ -49,7 +76,7 @@ class EstudianteController extends Controller
         if ($request->requisitos) {
             foreach ($request->archivo as $archivo) {
                 $filename = $archivo->getClientOriginalName();
-                $dir = Storage::disk('public')->put('requisitos', $archivo);
+                $dir = 'storage/' . Storage::disk('public')->put('requisitos', $archivo);
                 RequisitoArchivo::create([
                     'id_estudiante' => $estudiante->id,
                     'nombre' => $filename,
@@ -77,16 +104,46 @@ class EstudianteController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'email' => 'required|email',
-            'telefono' => 'required|numeric',
-            'estado' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'cedula' => 'required|numeric',
-            'expedicion' => 'required|alpha|size:2',
-            'carrera' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'universidad' => 'required|string|regex:/^[\pL\s\-]+$/u',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:100',
+                'email' => 'required|email|max:100',
+                'telefono' => 'required|numeric',
+                'estado' => 'required|string|regex:/^[\pL\s\-]+$/u|max:100',
+                'cedula' => 'required|numeric',
+                'expedicion' => 'required|alpha|size:2',
+                'carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:150',
+                'universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:150',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.string' => 'El campo nombre debe ser de tipo texto',
+                'nombre.regex' => 'El campo nombre solo debe contener letras',
+                'nombre.max' => 'El campo nombre debe tener máximo 100 caracteres',
+                'email.required' => 'El campo email es obligatorio',
+                'email.email' => 'El campo email debe ser de tipo email',
+                'email.max' => 'El campo email debe tener máximo 100 caracteres',
+                'telefono.required' => 'El campo teléfono es obligatorio',
+                'telefono.numeric' => 'El campo teléfono debe ser de tipo numérico',
+                'estado.required' => 'El campo estado es obligatorio',
+                'estado.string' => 'El campo estado debe ser de tipo texto',
+                'estado.regex' => 'El campo estado solo debe contener letras',
+                'estado.max' => 'El campo estado debe tener máximo 100 caracteres',
+                'cedula.required' => 'El campo cédula es obligatorio',
+                'cedula.numeric' => 'El campo cédula debe ser de tipo numérico',
+                'expedicion.required' => 'El campo expedición es obligatorio',
+                'expedicion.alpha' => 'El campo expedición solo debe contener letras',
+                'expedicion.size' => 'El campo expedición debe tener 2 caracteres',
+                'carrera.required' => 'El campo carrera es obligatorio',
+                'carrera.string' => 'El campo carrera debe ser de tipo texto',
+                'carrera.regex' => 'El campo carrera solo debe contener letras',
+                'carrera.max' => 'El campo carrera debe tener máximo 150 caracteres',
+                'universidad.required' => 'El campo universidad es obligatorio',
+                'universidad.string' => 'El campo universidad debe ser de tipo texto',
+                'universidad.regex' => 'El campo universidad solo debe contener letras',
+                'universidad.max' => 'El campo universidad debe tener máximo 150 caracteres',
+            ]
+        );
         $estudiante = Estudiante::findOrFail($id);
         $datos = $request->all();
         $estudiante->update($datos);
@@ -130,11 +187,9 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::findOrFail($idEstudiante);
         $documentos = RequisitoArchivo::where('id_estudiante', $idEstudiante)->get();
         $requisitos = RequisitoEstudiante::where('id_estudiante', $idEstudiante)->get();
-        $requisitosID = $requisitos->pluck('id_requisito')->toArray();
-        $requisitosFaltantes = Requisito::whereNotIn('id', $requisitosID)->get();
         $Idprogramas = EstudiantePrograma::where('id_estudiante', $idEstudiante)->get();
         $programas = Programa::whereIn('id', $Idprogramas->pluck('id_programa')->toArray())->get();
-        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'requisitosFaltantes', 'programas'));
+        return view('estudiante.show', compact('estudiante', 'documentos', 'requisitos', 'programas'));
     }
 
     public function newprogram($estudiante)
@@ -162,5 +217,14 @@ class EstudianteController extends Controller
         $notas = NotasPrograma::where('id_estudiante', $estudiante->id)
             ->where('id_programa', $programa->id)->get();
         return view('estudiante.notas', compact('estudiante', 'programa', 'notas'));
+    }
+
+    //elimindar archivo del storage
+    public function deleteFile($id, $idEstudiante)
+    {
+        $archivo = RequisitoArchivo::findOrFail($id);
+        Storage::delete($archivo->dir);
+        $archivo->delete();
+        return back()->with('mensaje', 'Eliminado Correctamente');
     }
 }
