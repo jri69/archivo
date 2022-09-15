@@ -100,18 +100,22 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class=" text-primary">
-                                        <th>Nombre</th>
-                                        <th>Tipo</th>
+                                        <th>Requisito</th>
+                                        <th>Nombre documento</th>
+                                        <th>Importancia</th>
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
                                         @foreach ($documentos as $documento)
                                             <tr>
                                                 <td>
+                                                    {{ $documento->requisito->nombre }}
+                                                </td>
+                                                <td>
                                                     {{ $documento->nombre }}
                                                 </td>
                                                 <td>
-                                                    Entregado
+                                                    {{ $documento->requisito->importancia }}
                                                 </td>
                                                 <td class="td-actions">
                                                     <a href="{{ asset($documento->dir) }}" target="_blank"
@@ -119,7 +123,7 @@
                                                         <span class="material-icons">visibility</span>
                                                     </a>
                                                     <form
-                                                        action="{{ route('estudiante.deleteFile', [$documento->id, $estudiante->id]) }}"
+                                                        action="{{ route('estudiante.deleteFile', $documento->id) }}"
                                                         method="POST" style="display: inline-block;"
                                                         onsubmit="return confirm('¿Está seguro?')">
                                                         @csrf

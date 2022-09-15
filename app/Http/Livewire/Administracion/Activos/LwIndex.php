@@ -9,11 +9,11 @@ use Livewire\WithPagination;
 class LwIndex extends Component
 {
     use WithPagination;
-    public $pagination = 10;
+    public $pagination = 20;
     public $attribute = '';
     public $type = 'codigo';
     public $sort = 'codigo';
-    public $direction = 'asc';
+    public $direction = 'desc';
 
     //paginacion bootstrap
     protected $paginationTheme = 'bootstrap';
