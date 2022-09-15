@@ -82,7 +82,7 @@ class LwCreate extends Component
         if ($this->documentos) {
             $requisitos = Requisito::all();
             foreach ($requisitos as $requisito) {
-                if ($this->documentos[$requisito->id] != null) {
+                if (array_key_exists($requisito->id, $this->documentos)) {
                     $archivo = $this->documentos[$requisito->id];
                     $filename = $archivo->getClientOriginalName();
                     $dir = 'storage/' . Storage::disk('public')->put('requisitos', $archivo);
