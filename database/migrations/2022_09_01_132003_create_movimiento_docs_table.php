@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('movimiento_docs', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
+            $table->string('codigo')->unique();
             $table->date('fecha');
             $table->string('departamento');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->string('confirmacion')->default('Sin confirmar');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

@@ -7,6 +7,7 @@ use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
+use App\Models\Requisito;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -126,6 +127,18 @@ class AcademicoSeeder extends Seeder
                 'id_programa' => rand(1, 20),
                 'id_estudiante' => $estudiante->id,
             ]);
-        }
+        };
+        Requisito::create([
+            'nombre' => 'Curriculum',
+            'importancia' => 'Alto',
+        ]);
+        Requisito::create([
+            'nombre' => 'Fotocopia de carnet',
+            'importancia' => 'Alto',
+        ]);
+        Requisito::create([
+            'nombre' => 'Otro',
+            'importancia' => 'Bajo',
+        ]);
     }
 }
