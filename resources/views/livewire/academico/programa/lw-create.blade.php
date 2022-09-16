@@ -44,10 +44,10 @@
                                             <option value="Cursos"> Cursos</option>
                                         </select>
                                     </div>
-                                    @if ($errors->has('tipo'))
-                                        <span class="error text-danger"
-                                            for="input-tipo">{{ $errors->first('tipo') }}</span>
-                                    @endif
+                                    @error('datos.tipo')
+                                        <span class="error text-danger" for="input-tipo">{{ $message }}</span>
+                                    @enderror
+
                                 </div>
                             </div>
 

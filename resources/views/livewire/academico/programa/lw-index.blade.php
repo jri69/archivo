@@ -1,7 +1,16 @@
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 text-left">
+
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group label-floating has-success">
+                    <input type="text" class="form-control" placeholder="Buscar...." wire:model.lazy="attribute">
+                    <span class="form-control-feedback">
+                        <i class="material-icons">search</i>
+                    </span>
+                </div>
+            </div>
+            <div class="col text-right">
                 <a href="{{ route('programa.create') }}" class="btn btn-outline-primary btn-white">
                     <b>Agregar Programa</b>
                 </a>

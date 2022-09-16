@@ -29,9 +29,9 @@ class RecepcionController extends Controller
                 'codigo' => 'required|unique:recepcions|max:255',
                 'fecha' => 'required|date',
                 'departamento' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'descripcion' => 'required|max:300',
                 'unidad_organizativa_id' => 'required|numeric',
                 'tipo' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+                'descripcion' => 'nullable|max:300',
             ],
             [
                 'codigo.required' => 'El campo codigo es obligatorio',
@@ -92,8 +92,8 @@ class RecepcionController extends Controller
             [
                 'fecha' => 'required|date',
                 'departamento' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'descripcion' => 'required|max:300',
                 'unidad_organizativa_id' => 'required|numeric',
+                'descripcion' => 'nullable|max:300',
             ],
             [
                 'fecha.required' => 'El campo fecha es obligatorio',

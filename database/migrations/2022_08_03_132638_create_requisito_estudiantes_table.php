@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('requisito_estudiantes', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('dir');
             $table->string('fecha');
             $table->unsignedBigInteger('id_requisito');
             $table->foreign('id_requisito')->references('id')->on('requisitos');
