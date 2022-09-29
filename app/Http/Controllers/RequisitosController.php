@@ -20,10 +20,22 @@ class RequisitosController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'importancia' => 'required|string|regex:/^[\pL\s\-]+$/u',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:255',
+                'importancia' => 'required|string|regex:/^[\pL\s\-]+$/u|max:255',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.string' => 'El campo nombre debe ser de tipo texto',
+                'nombre.regex' => 'El campo nombre solo debe contener letras',
+                'nombre.max' => 'El campo nombre debe contener maximo 255 caracteres',
+                'importancia.required' => 'El campo importancia es obligatorio',
+                'importancia.string' => 'El campo importancia debe ser de tipo texto',
+                'importancia.regex' => 'El campo importancia solo debe contener letras',
+                'importancia.max' => 'El campo importancia debe contener maximo 255 caracteres',
+            ]
+        );
         $requisito = Requisito::create($request->all());
         return redirect()->route('requisito.index', $requisito);
     }
@@ -35,10 +47,22 @@ class RequisitosController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'importancia' => 'required|string|regex:/^[\pL\s\-]+$/u',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:255',
+                'importancia' => 'required|string|regex:/^[\pL\s\-]+$/u|max:255',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.string' => 'El campo nombre debe ser de tipo texto',
+                'nombre.regex' => 'El campo nombre solo debe contener letras',
+                'nombre.max' => 'El campo nombre debe contener maximo 255 caracteres',
+                'importancia.required' => 'El campo importancia es obligatorio',
+                'importancia.string' => 'El campo importancia debe ser de tipo texto',
+                'importancia.regex' => 'El campo importancia solo debe contener letras',
+                'importancia.max' => 'El campo importancia debe contener maximo 255 caracteres',
+            ]
+        );
         $modulo = Requisito::findOrFail($id);
         $datos = $request->all();
         $modulo->update($datos);

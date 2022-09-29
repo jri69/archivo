@@ -22,7 +22,7 @@
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
                                         <th>Nombre</th> 
-                                        <th>Monto %</th>
+                                        <th>Descuento %</th>
                                         <th>Acciones</th>       
                                                                           
                                     </thead>
