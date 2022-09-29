@@ -8,7 +8,8 @@ use App\Http\Controllers\Reportes\Sol_Contrataciones;
 use App\Http\Controllers\Reportes\Requerimiento_Propuesta;
 use App\Http\Controllers\Reportes\Propuesta_Consultor;
 use App\Http\Controllers\Reportes\Informe_Tecnico;
-use App\Http\Controllers\Reportes\Notificicacion_Adjudicacion;
+use App\Http\Controllers\Reportes\Notificacion_Adjudicacion;
+use App\Http\Controllers\Reportes\Comunicacion_Interna;
 
 class ReporteController extends Controller
 {
@@ -18,7 +19,8 @@ class ReporteController extends Controller
     public $rp;
     public $pc;
     public $it;
-    public $nc;
+    public $na;
+    public $ci;
 
     public function __construct()
     {
@@ -27,11 +29,12 @@ class ReporteController extends Controller
         $this->rp = new Requerimiento_Propuesta();
         $this->pc = new Propuesta_Consultor();
         $this->it = new Informe_Tecnico();
-        $this->nc = new Notificicacion_Adjudicacion();
+        $this->na = new Notificacion_Adjudicacion();
+        $this->ci = new Comunicacion_Interna();
     }
 
     public function pdf()
     {
-        return $this->nc->informe();
+        return $this->ct->Condiciones_Terminos();
     }
 }

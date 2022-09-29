@@ -480,10 +480,16 @@ class Condiciones_Terminos extends Fpdf
         $this->row(array(utf8_decode('CURSOS DE FORMACION CONTINUA')), 0, "C", "S");
         $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3 + $t / 3);
         $this->row(array(utf8_decode($contenido['Second']), utf8_decode('(Seminarios, Cursos, Talleres, Simposios u otros)'), utf8_decode('')), 0, "L", "S");
-        $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3, $t / 3);
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 2 certificados (1 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 4 certificados (3 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 6 certificados (5 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
+
+
+        $this->widths = array($t / 3, $t / 3); //, $t / 3, $t / 3
+        $this->rowM(array(utf8_decode("15"), utf8_decode(' ')), 0, "C", "N", 3, (($t / 3) / 2) + ($t + ($t / 3) / 2));
+
+        $this->Ln(1);
+        $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2); //, $t / 3, $t / 3
+        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 2 certificados (1 puntos)')), 0, "L", "N", true);
+        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 4 certificados (3 puntos)')), 0, "L");
+        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 6 certificados (5 puntos)')), 0, "L");
 
         $this->widths = array($this->width);
         $this->row(array(utf8_decode('PROPUESTA TECNICA')), 0, "C", "S");
@@ -542,7 +548,7 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['First']), 0, 'J', 0);
     }
     // ------------------------------------------------------------------
-    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
+    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N", $salto = true)
     {
         //Calculate the height of the row
         $nb = 0;
@@ -582,10 +588,48 @@ class Condiciones_Terminos extends Fpdf
             // letra color negro
             $this->fpdf->SetTextColor(0, 0, 0);
         }
-        //Go to the next line
-        $this->fpdf->Ln($h);
+        if ($salto == true) {
+            $this->fpdf->Ln($h);
+        }
     }
 
+    function RowM($data, $pintado = 0, $alling = 'C', $negrita = "N", $mul, $wid)
+    {
+        //Calculate the height of the row
+        $nb = 0;
+        for ($i = 0; $i < count($data); $i++)
+            $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
+        $h = 5 * $nb + 2;
+        //Issue a page break first if needed
+        //Draw the cells of the row
+        for ($i = 0; $i < count($data); $i++) {
+            $w = $this->widths[$i];
+            $a = isset($this->aligns[$i]) ? $this->aligns[$i] : $alling;
+            //Save the current position
+
+            $x = $this->fpdf->GetX();
+            $y = $this->fpdf->GetY();
+            if ($i == 0) {
+                $x = $x + $wid;
+            }
+
+            $this->fpdf->Rect($x, $y, $w, $h * $mul);
+            $this->fpdf->SetXY($x, $y + 1);
+            $this->fpdf->SetFont('Arial', '', 10);
+            if ($i == 0) {
+                $a = 'L';
+            }
+            if ($negrita == "S") {
+                $this->fpdf->SetFont('Arial', 'B', 10);
+            }
+
+            $this->fpdf->MultiCell($w, $this->space, $data[$i], 0, $a, $pintado);
+            //Put the position to the right of the cell
+            $this->fpdf->SetXY($x + $w, $y);
+            // letra color negro
+            $this->fpdf->SetTextColor(0, 0, 0);
+        }
+    }
     function CheckPageBreak($h)
     {
         //If the height h would cause an overflow, add a new page immediately
