@@ -20,7 +20,7 @@ class Comunicacion_Interna extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function informe()
+    public function informe($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);

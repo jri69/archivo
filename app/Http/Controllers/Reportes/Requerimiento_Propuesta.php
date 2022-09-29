@@ -20,7 +20,7 @@ class Requerimiento_Propuesta extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function propuesta()
+    public function propuesta($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -50,7 +50,7 @@ class Requerimiento_Propuesta extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Tengo a bien remitir a su persona el requerimiento de propuesta en calidad de consultor en el MÓDULO denominado: “Instrumentación Industrial, Sistema Scada y HMI”, en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL. A realizarse en fecha 15/08/2022 al 28/08/2022. Teniendo una carga horaria de 60 (sesenta) horas Académicas, el programa antes mencionado depende de la coordinación académica.",
+            'first' => "Tengo a bien remitir a su persona el requerimiento de propuesta en calidad de consultor en el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL. A realizarse en fecha 15/08/2022 al 28/08/2022. Teniendo una carga horaria de 60 (sesenta) horas Académicas, el programa antes mencionado depende de la coordinación académica.",
             'second' => "En caso de estar interesado, por favor hacer llegar el CURRÍCULUM VITAE, CÉDULA DE IDENTIDAD, PROGRAMA DE ASIGNATURA (PROPUESTA) y dar la conformidad de aceptación por escrito hasta el 11 de agosto de 2022.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);

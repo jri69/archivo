@@ -20,7 +20,7 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function Condiciones_Terminos()
+    public function Condiciones_Terminos($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
