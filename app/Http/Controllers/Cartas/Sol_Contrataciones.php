@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Cartas;
 
 use Codedge\Fpdf\Fpdf\Fpdf;
 

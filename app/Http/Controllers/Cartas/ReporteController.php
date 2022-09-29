@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Cartas;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Reportes\Condiciones_Terminos;
-use App\Http\Controllers\Reportes\Sol_Contrataciones;
-use App\Http\Controllers\Reportes\Requerimiento_Propuesta;
-use App\Http\Controllers\Reportes\Propuesta_Consultor;
-use App\Http\Controllers\Reportes\Informe_Tecnico;
-use App\Http\Controllers\Reportes\Notificacion_Adjudicacion;
-use App\Http\Controllers\Reportes\Comunicacion_Interna;
+use App\Http\Controllers\Cartas\Condiciones_Terminos;
+use App\Http\Controllers\Cartas\Sol_Contrataciones;
+use App\Http\Controllers\Cartas\Requerimiento_Propuesta;
+use App\Http\Controllers\Cartas\Propuesta_Consultor;
+use App\Http\Controllers\Cartas\Informe_Tecnico;
+use App\Http\Controllers\Cartas\Notificacion_Adjudicacion;
+use App\Http\Controllers\Cartas\Comunicacion_Interna;
 
 class ReporteController extends Controller
 {

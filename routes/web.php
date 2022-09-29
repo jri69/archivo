@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\MovimientoController;
@@ -19,14 +19,11 @@ use App\Http\Controllers\PartidaController;
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\RecepcionController;
-use App\Http\Controllers\Reportes\ReporteController;
 use App\Http\Controllers\RequisitosController;
-
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
-use App\Http\Controllers\TiposEstudiosController;
 use App\Http\Controllers\UnidadOrganizacionalController;
 
 
@@ -228,7 +225,7 @@ Route::group(['prefix' => 'activo_fijo'], function () {
 });
 
 // Recursos humanos
-Route::get('/pdf', [ReporteController::class, 'pdf'])->name('reporte.pdf');
+Route::get('/pdf', [CartasReporteController::class, 'pdf'])->name('reporte.pdf');
 
 // Unidad organizacional
 Route::group(['prefix' => 'unidad_organizacional'], function () {
