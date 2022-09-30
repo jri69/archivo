@@ -9,13 +9,6 @@ use Livewire\WithPagination;
 class LwIndex extends Component
 {
     use WithPagination;
-<<<<<<< HEAD
-    protected $paginationTheme = 'bootstrap';
-
-    public function render()
-    {
-        $modulos = Modulo::paginate(15);
-=======
     public $pagination = 20;
     public $attribute = '';
     public $type = 'id';
@@ -36,7 +29,6 @@ class LwIndex extends Component
             ->orWhere('fecha_final', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
->>>>>>> master
         return view('livewire..academico.modulo.lw-index', compact('modulos'));
     }
 }
