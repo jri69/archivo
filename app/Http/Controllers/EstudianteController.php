@@ -72,7 +72,7 @@ class EstudianteController extends Controller
             ->where('id_programa', $programa->id)->get();
         return view('estudiante.notas', compact('estudiante', 'programa', 'notas'));
     }
-    
+
     public function deleteFile($id)
     {
         $archivo = RequisitoEstudiante::findOrFail($id);
