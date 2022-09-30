@@ -11,7 +11,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Metodo de Pago:</b> </label>
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Descuento:</b> </label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control"
                                         name="nombre"
@@ -21,7 +21,7 @@
                                 </div>
                                 <br>   
                                  <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Metodo de Pago:</b> </label>
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Descuento %:</b> </label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control"
                                         name="monto"

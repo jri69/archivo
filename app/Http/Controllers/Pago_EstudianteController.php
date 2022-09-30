@@ -38,6 +38,12 @@ class Pago_EstudianteController extends Controller
         $id = $id->pluck('estudiante_id')->toArray();
         $estu = Estudiante::all();
         $pago = $estu->except($id);
+        /*$pago = $pago->pluck('id')->toArray();
+        $estudiante = Estudiante::whereIn('id',$pago)->get();
+        //$estu = Pago_estudiante::select('estudiante_id');
+        $prueba = DB::table('estudiantes')->whereIn('id',$id)->get();
+        $es = Estudiante::whereIn('id',$id)->get();
+        return $es;*/        
         //return $pago;
         $fecha = Carbon::now();
         $programas = DB::table('programas')->select('id','nombre','costo', 'cantidad_modulos')->where('fecha_finalizacion','>=',$fecha)->get();

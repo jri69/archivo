@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Partida;
+use App\Models\SubPartida;
 use Illuminate\Http\Request;
 
 class SubPartidaController extends Controller
@@ -14,7 +15,8 @@ class SubPartidaController extends Controller
      */
     public function index()
     {
-        return View('subpartida.index');
+        $items = SubPartida::orderBy('id','asc')->paginate('10');
+        return View('subpartida.index',compact('items'));
     }
 
     /**
@@ -24,8 +26,8 @@ class SubPartidaController extends Controller
      */
     public function create()
     {
-        
-        return View('subpartida.create');
+        $partidas = Partida::all();
+        return View('subpartida.create',compact('partidas'));
     }
 
     /**
@@ -56,9 +58,10 @@ class SubPartidaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(SubPartida $partida)
     {
-        return View('subpartida.edit');
+        $items = Partida::all();
+        return View('subpartida.edit',compact('items','partida'));
     }
 
     /**
@@ -70,7 +73,14 @@ class SubPartidaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'partida_id'=>'required',
+            'codigo'=>'required',
+            'nombre' => 'required'
+        ]);
+        $datos = SubPartida::find($id);
+        $datos->update($request->all());
+        return redirect()->route('subpartida.index');
     }
 
     /**

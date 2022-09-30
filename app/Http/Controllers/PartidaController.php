@@ -14,7 +14,7 @@ class PartidaController extends Controller
      */
     public function index()
     {
-        $partidas = Partida::all();
+        $partidas = Partida::orderBy('id','asc')->paginate(10);
         return view('partida.index',compact('partidas'));
     }
 
