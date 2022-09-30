@@ -35,7 +35,7 @@ class LwCreate extends Component
             'datos.fecha' => 'required',
             'datos.departamento' => 'required|max:255',
             'datos.codigo' => 'required|max:255',
-            'datos.descripcion' => 'required|max:300',
+            'datos.descripcion' => 'max:300',
         ], [
             'datos.codigo.required' => 'El campo código es obligatorio',
             'datos.user_id.required' => 'El campo usuario es obligatorio',

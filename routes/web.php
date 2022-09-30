@@ -11,6 +11,7 @@ use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\Pago_EstudianteController;
 use App\Http\Controllers\Pago_ServicioController;
 use App\Http\Controllers\PagoController;
