@@ -92,8 +92,6 @@ class RecepcionController extends Controller
             [
                 'fecha' => 'required|date',
                 'departamento' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'descripcion' => 'required|max:300',
-                'unidad_organizativa_id' => 'required|numeric',
                 'unidad_organizativa_id' => 'required|numeric',
                 'descripcion' => 'nullable|max:300',
             ],

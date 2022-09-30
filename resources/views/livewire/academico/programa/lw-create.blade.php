@@ -47,7 +47,6 @@
                                     @error('datos.tipo')
                                         <span class="error text-danger" for="input-tipo">{{ $message }}</span>
                                     @enderror
-
                                 </div>
                             </div>
 
