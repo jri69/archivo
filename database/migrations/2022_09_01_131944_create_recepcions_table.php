@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('recepcions', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
+            $table->string('codigo')->unique();
             $table->date('fecha');
             $table->string('departamento');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('unidad_organizativa_id');
             $table->foreign('unidad_organizativa_id')->references('id')->on('unidad_organizacionals');
             $table->unsignedBigInteger('user_id');

@@ -9,12 +9,12 @@ use Livewire\WithPagination;
 class LwIndex extends Component
 {
     use WithPagination;
-    public $pagination = 10;
+    public $pagination = 20;
     public $attribute = '';
-    public $type = 'nombre';
-    public $sort = 'nombre';
-    public $direction = 'asc';
+    public $sort = 'id';
+    public $direction = 'desc';
     protected $paginationTheme = 'bootstrap';
+
     //Metodo de reinicio de buscador
     public function updatingAttribute()
     {
@@ -25,6 +25,7 @@ class LwIndex extends Component
     {
         $estudiantes = Estudiante::where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orWhere('cedula', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('email', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
         return view('livewire.academico.estudiante.lw-index', compact('estudiantes'));
