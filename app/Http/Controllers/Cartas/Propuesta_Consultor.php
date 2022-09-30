@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Cartas;
 
 use Codedge\Fpdf\Fpdf\Fpdf;
 
@@ -20,7 +20,7 @@ class Propuesta_Consultor extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function propuesta()
+    public function propuesta($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -47,7 +47,7 @@ class Propuesta_Consultor extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Mediante la presente hago llegar mi ACEPTACION al requerimiento de propuesta para ser consultor en el MÓDULO denominado: “Instrumentación Industrial, Sistema Scada y HMI”, en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL.",
+            'first' => "Mediante la presente hago llegar mi ACEPTACION al requerimiento de propuesta para ser consultor en el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL.",
             'second' => "Por tanto, adjunto carnet de identidad., programa de asignatura, currículum vitae y demás documentación solicitada por su institución.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Cartas;
 
 use Codedge\Fpdf\Fpdf\Fpdf;
 
@@ -20,7 +20,7 @@ class Informe_Tecnico extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function informe()
+    public function informe($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -46,7 +46,7 @@ class Informe_Tecnico extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el MÓDULO denominado: “Instrumentación Industrial, Sistema Scada y HMI”, en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición) VIRTUAL. Se concluyó con el proceso bajo el siguiente detalle: ",
+            'first' => "En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición) VIRTUAL. Se concluyó con el proceso bajo el siguiente detalle: ",
             'second' => "Por todo lo expuesto anteriormente expreso la conformidad respecto a la recepción de todos los temas arriba citados e informar que CUMPLE con los requerido por la capacitación según los términos de referencia; así también se RECOMIENDA LA ADJUDICACION.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
