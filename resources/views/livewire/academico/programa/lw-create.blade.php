@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Nombre del estudiante</label>
+                                        <label class="bmd-label-floating">Nombre del programa</label>
                                         <input wire:model.defer="datos.nombre" type="text" class="form-control"
                                             name="nombre">
                                     </div>
@@ -47,7 +47,6 @@
                                     @error('datos.tipo')
                                         <span class="error text-danger" for="input-tipo">{{ $message }}</span>
                                     @enderror
-
                                 </div>
                             </div>
 

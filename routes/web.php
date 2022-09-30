@@ -294,6 +294,7 @@ Route::group(['prefix' => 'subpartida'], function () {
     Route::get('/create', [SubPartidaController::class, 'create'])->name('subpartida.create');
     Route::get('/edit/{partida}', [SubPartidaController::class, 'edit'])->name('subpartida.edit');
     Route::post('/store', [SubPartidaController::class, 'store'])->name('subpartida.store');
+    Route::put('/update/{partida}',[SubPartidaController::class,'update'])->name('subpartida.update');
 });
 
 //Presupuesto

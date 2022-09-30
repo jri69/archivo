@@ -25,7 +25,21 @@
                                         <th>Nombre</th> 
                                         <th>Acciones</th>                                         
                                     </thead>
-                                    
+                                    <tbody>
+                                        @foreach ($items as $partida)
+                                            <tr>
+                                                <td>{{ $partida->id }}</td>
+                                                <td>{{ $partida->codigo }}</td>
+                                                <td>{{ $partida->nombre }}</td>
+                                                <td class="td-actions">
+                                                    <a href="{{route('subpartida.edit',$partida->id)}}" class="btn btn-primary">
+                                                        <span class="material-icons">edit</span>
+    
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
