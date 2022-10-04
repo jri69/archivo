@@ -25,7 +25,8 @@
             <p>{{ __('Usuarios') }}</p>
         </a>
       </li> -->
-            <li class="nav-item {{ $activePage == 'usuario' || $activePage == 'area' || $activePage == 'cargo' || $activePage == 'user-management' ? ' active' : '' }}">
+            <li
+                class="nav-item {{ $activePage == 'usuario' || $activePage == 'area' || $activePage == 'cargo' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Usuario" aria-expanded="false">
                     <i class="material-icons">face</i>
                     <p>{{ __('Usuarios') }}
@@ -203,15 +204,30 @@
                 <div class="collapse" id="recursos">
                     <ul class="nav">
                         <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('activo.index') }}">
+                            <a class="nav-link" href="{{ route('contrataciones.index') }}">
                                 <span class="sidebar-mini"> CO </span>
                                 <span class="sidebar-normal">{{ __('Contrataciones') }} </span>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'docentes' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('docentes.index') }}">
+                                <span class="sidebar-mini"> DO </span>
+                                <span class="sidebar-normal">{{ __('Docentes') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'sueldos' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('sueldos.index') }}">
+                                <span class="sidebar-mini"> SU </span>
+                                <span class="sidebar-normal">{{ __('Sueldos') }} </span>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
+
             </li>
-            <li class="nav-item {{ $activePage == 'partida' || $activePage == 'subpartida' || $activePage == 'user-management' ? ' active' : '' }}">
+            <li
+                class="nav-item {{ $activePage == 'partida' || $activePage == 'subpartida' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#servicio" aria-expanded="false">
                     <i class="material-icons">support_agent</i>
                     <p>{{ __('Servicios') }}
@@ -235,7 +251,9 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item {{ $activePage == 'thirdpartida' || $activePage == 'quarterpartida' || $activePage == 'thirdpartida' ||  $activePage == 'presupuesto' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
+
+            <li
+                class="nav-item {{ $activePage == 'thirdpartida' || $activePage == 'quarterpartida' || $activePage == 'thirdpartida' || $activePage == 'presupuesto' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#partidas" aria-expanded="false">
                     <i class="material-icons">assignment</i>
                     <p>{{ __('Partida') }}

@@ -21,9 +21,9 @@ class ReporteController extends Controller
         // $this->Sol_Contrataciones([]);
         // $this->Requerimiento_Propuesta([]);
         // $this->Propuesta_Consultor([]);
-        // $this->Informe_Tecnico([]);
+        $this->Informe_Tecnico([]);
         // $this->Notificacion_Adjudicacion([]);
-        $this->Comunicacion_Interna([]);
+        // $this->Comunicacion_Interna([]);
     }
 
     public function Condiciones_Terminos($data)

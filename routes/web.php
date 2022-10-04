@@ -7,6 +7,8 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
+use App\Http\Controllers\ContratacionesController;
+use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InventarioController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\RecepcionController;
 use App\Http\Controllers\RequisitosController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\SubPartidaController;
+use App\Http\Controllers\SueldosController;
 use App\Http\Controllers\ThirdPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
@@ -296,7 +299,7 @@ Route::group(['prefix' => 'subpartida'], function () {
     Route::get('/create', [SubPartidaController::class, 'create'])->name('subpartida.create');
     Route::get('/edit/{partida}', [SubPartidaController::class, 'edit'])->name('subpartida.edit');
     Route::post('/store', [SubPartidaController::class, 'store'])->name('subpartida.store');
-    Route::put('/update/{partida}',[SubPartidaController::class,'update'])->name('subpartida.update');
+    Route::put('/update/{partida}', [SubPartidaController::class, 'update'])->name('subpartida.update');
 });
 
 //Presupuesto
@@ -308,20 +311,44 @@ Route::group(['prefix' => 'presupuesto'], function () {
     Route::put('/update/{presupuesto}', [PresupuestoController::class, 'update'])->name('presupuesto.update');
 });
 
+// Contrataciones
+Route::group(['prefix' => 'contrataciones'], function () {
+    Route::get('/', [ContratacionesController::class, 'index'])->name('contrataciones.index');
+    Route::get('/create', [ContratacionesController::class, 'create'])->name('contrataciones.create');
+    Route::post('/store', [ContratacionesController::class, 'store'])->name('contrataciones.store');
+    Route::get('/edit/{contrataciones}', [ContratacionesController::class, 'edit'])->name('contrataciones.edit');
+    Route::get('/show/{contrataciones}', [ContratacionesController::class, 'show'])->name('contrataciones.show');
+    Route::put('/update/{contrataciones}', [ContratacionesController::class, 'update'])->name('contrataciones.update');
+    Route::delete('/delete/{contrataciones}', [ContratacionesController::class, 'destroy'])->name('contrataciones.delete');
+});
+
+// Pagos sueldos
+Route::group(['prefix' => 'sueldos'], function () {
+    Route::get('/', [SueldosController::class, 'index'])->name('sueldos.index');
+    Route::get('/create', [SueldosController::class, 'create'])->name('sueldos.create');
+    Route::delete('/delete/{sueldos}', [SueldosController::class, 'destroy'])->name('sueldos.delete');
+});
+
+// Docentes
+Route::group(['prefix' => 'docentes'], function () {
+    Route::get('/', [DocentesController::class, 'index'])->name('docentes.index');
+    Route::get('/show/{docentes}', [DocentesController::class, 'show'])->name('docentes.show');
+    Route::delete('/delete/{docentes}', [DocentesController::class, 'destroy'])->name('docentes.delete');
+});
 //Third Partida
-Route::group(['prefix'=>'thirdpartida'],function(){
-    Route::get('/index',[ThirdPartidaController::class,'index'])->name('t_partida.index');
-    Route::get('/create',[ThirdPartidaController::class,'create'])->name('t_partida.create');
-    Route::get('/edit/{partida}',[ThirdPartidaController::class,'edit'])->name('t_partida.edit');
-    Route::post('/store',[ThirdPartidaController::class,'store'])->name('t_partida.store');
-    Route::put('/update/{partida}',[ThirdPartidaController::class,'update'])->name('t_partida.update');
+Route::group(['prefix' => 'thirdpartida'], function () {
+    Route::get('/index', [ThirdPartidaController::class, 'index'])->name('t_partida.index');
+    Route::get('/create', [ThirdPartidaController::class, 'create'])->name('t_partida.create');
+    Route::get('/edit/{partida}', [ThirdPartidaController::class, 'edit'])->name('t_partida.edit');
+    Route::post('/store', [ThirdPartidaController::class, 'store'])->name('t_partida.store');
+    Route::put('/update/{partida}', [ThirdPartidaController::class, 'update'])->name('t_partida.update');
 });
 
 //Quarter Partida
-Route::group(['prefix'=>'quartecpartida'],function(){
-    Route::get('/index',[QuarterPartidaController::class,'index'])->name('c_partida.index');
-    Route::get('/create',[QuarterPartidaController::class,'create'])->name('c_partida.create');
-    Route::get('/edit/{partida}',[QuarterPartidaController::class,'edit'])->name('c_partida.edit');
-    Route::post('/store',[QuarterPartidaController::class,'store'])->name('c_partida.store');
-    Route::put('/update/{partida}',[QuarterPartidaController::class,'update'])->name('c_partida.update');
+Route::group(['prefix' => 'quartecpartida'], function () {
+    Route::get('/index', [QuarterPartidaController::class, 'index'])->name('c_partida.index');
+    Route::get('/create', [QuarterPartidaController::class, 'create'])->name('c_partida.create');
+    Route::get('/edit/{partida}', [QuarterPartidaController::class, 'edit'])->name('c_partida.edit');
+    Route::post('/store', [QuarterPartidaController::class, 'store'])->name('c_partida.store');
+    Route::put('/update/{partida}', [QuarterPartidaController::class, 'update'])->name('c_partida.update');
 });
