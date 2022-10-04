@@ -1,6 +1,5 @@
 <div class="content">
     <div class="container-fluid">
-
         <div class="form-row">
             <div class="col">
                 <div class="form-group label-floating has-success">

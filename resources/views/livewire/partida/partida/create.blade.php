@@ -9,19 +9,22 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Partidas:</b> </label>
                             <div class="col-sm-7">
-                                <select name="partida_id" id="_partida" class="form-control">
-                                    <option disabled selected>Seleccione la Partida</option>
+                                <select wire:model="partida_id" name="partida_id" class="form-control">
+                                    <option >Seleccione la Partida</option>
                                     @foreach ($partidas as $partida)
                                         <option value="{{$partida->id}}">{{$partida->nombre}}</option>
-                                    @endforeach
+                                    @endforeach 
+                                    
                                 </select>
-                            </div>                                
+                            </div> 
+                                                          
                         </div>
                         <br>                            
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Codigo:</b> </label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
+                                wire:model="codigo"
                                 name="codigo"
                                 >
                             </div>                                
@@ -31,11 +34,11 @@
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b> </label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control"
+                                wire:model="nombre"
                                 name="nombre"
                                 >
-                            </div>  
-                           
-                            <a wire:click="add({{ $partida->id }})" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
+                            </div>                             
+                            <a wire:click="add()" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
                                 <i class="material-icons">add</i>
                             </a>
                         </div>                       
@@ -43,9 +46,9 @@
                         
                     </div>
                     <div class="card-footer ml-auto mr-auto">
-                        <button type="submit"class="btn btn-primary">
-                            <b>Guardar Datos</b>                                 
-                        </button>
+                        <a wire:click="store({{ $partida->id }})" class="btn btn-primary text-white">
+                            <b>Guardar Datos</b>
+                        </a>
                         <a href="{{route('subpartida.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
                     </div>
                 </div>
@@ -69,6 +72,21 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @foreach ($listas as $item)
+                                        <tr>
+                                            <td><b>{{ $item['id'] }}</b></td>
+                                            <td><b>{{ $item['codigo'] }}</b></td>
+                                            <td><b>{{ $item['nombre'] }}</b></td>                                           
+                                            <td class="td-actions">
+                                                <a wire:click="del({{ $item['id'] }})" rel="tooltip"
+                                                    class="btn btn-danger text-white">
+                                                    <i class="material-icons">close</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>

@@ -5,7 +5,10 @@
         <div class="container-fluid">
             <div class="form-row">
                 <div class="col text-right">
-                    <a href="{{route('pago.create',$descuento->estu)}}" class="btn btn-outline-primary btn-white">
+                    <a href="{{ route('pago_estudiante.index') }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">keyboard_backspace</i>
+                        atras</a>
+                    <a href="{{route('pago.create',$descuento->estu)}}" class="btn btn-sm btn-primary">
                         <b>Agregar Pago</b>
                     </a>
                 </div>
@@ -49,7 +52,7 @@
                                     <thead class="text-primary text-dark">
                                         <tr>
                                             <th>Programa</th>
-                                            <td style="width: 20%"><h4>{{$pro->nombre}}</h4></td>
+                                            <td width="10"><h4><b>{{$pro->nombre}}</b></h4></td>
                                         </tr>      
                                         <tr><th>Version</th>
                                         <td>{{$pro->version}}</td>
