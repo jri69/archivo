@@ -1,12 +1,12 @@
-@extends('layouts.app',['activePage' => 'subpartida', 'titlePage' => 'Second Partida'])
+@extends('layouts.app',['activePage' => 'thirdpartida', 'titlePage' => 'Third Partida'])
 
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="{{ route('presupuesto.create') }}">
                 <div class="col-12 text-left">
-                    <a href="{{ route('subpartida.create') }}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Subpartida</b> 
+                    <a href="{{ route('t_partida.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Third partida</b> 
                     </a> 
                 </div>
             </div>
@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4>Listado de Sub partidas</h4>
+                            <h4>Listado de Third partida</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -32,7 +32,7 @@
                                                 <td>{{ $partida->codigo }}</td>
                                                 <td>{{ $partida->nombre }}</td>
                                                 <td class="td-actions">
-                                                    <a href="{{route('subpartida.edit',$partida->id)}}" class="btn btn-primary">
+                                                    <a href="{{route('t_partida.edit',$partida->id)}}" class="btn btn-primary">
                                                         <span class="material-icons">edit</span>
     
                                                     </a>

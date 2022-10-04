@@ -235,7 +235,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item {{ $activePage == 'pagos' || $activePage == 'presupuesto' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
+            <li class="nav-item {{ $activePage == 'thirdpartida' || $activePage == 'quarterpartida' || $activePage == 'thirdpartida' ||  $activePage == 'presupuesto' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#partidas" aria-expanded="false">
                     <i class="material-icons">assignment</i>
                     <p>{{ __('Partida') }}
@@ -244,22 +244,34 @@
                 </a>
                 <div class="collapse" id="partidas">
                     <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'presupuesto' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('presupuesto.index') }}">
+                                <span class="sidebar-mini"> P </span>
+                                <span class="sidebar-normal">{{ __('Presupuesto') }} </span>
+                            </a>
+                        </li>
                         <li class="nav-item{{ $activePage == 'partida' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('partida.index') }}">
                                 <span class="sidebar-mini"> P </span>
-                                <span class="sidebar-normal">{{ __('Partida') }} </span>
+                                <span class="sidebar-normal">{{ __('First Partida') }} </span>
                             </a>
                         </li>
                         <li class="nav-item{{ $activePage == 'subpartida' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('subpartida.index') }}">
                                 <span class="sidebar-mini"> S </span>
-                                <span class="sidebar-normal">{{ __('Sub Partidas') }} </span>
+                                <span class="sidebar-normal">{{ __('Second Partida') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'presupuesto' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('presupuesto.index') }}">
-                                <span class="sidebar-mini"> P </span>
-                                <span class="sidebar-normal">{{ __('Presupuesto') }} </span>
+                        <li class="nav-item{{ $activePage == 'thirdpartida' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('t_partida.index') }}">
+                                <span class="sidebar-mini"> S </span>
+                                <span class="sidebar-normal">{{ __('Third Partida') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'quarterpartida' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('c_partida.index') }}">
+                                <span class="sidebar-mini"> S </span>
+                                <span class="sidebar-normal">{{ __('Quarter Partida') }} </span>
                             </a>
                         </li>
                     </ul>
