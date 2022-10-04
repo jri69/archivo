@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Cartas;
 
 use Codedge\Fpdf\Fpdf\Fpdf;
 
@@ -20,7 +20,7 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function Condiciones_Terminos()
+    public function Condiciones_Terminos($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -455,11 +455,6 @@ class Condiciones_Terminos extends Fpdf
 
     public function cuadroC2()
     {
-        $contenido = [
-            "First" => "1",
-            "Second" => "2",
-            "Third" => "3",
-        ];
         $t = $this->width / 2;
 
         $this->widths = array($this->width);
@@ -467,30 +462,73 @@ class Condiciones_Terminos extends Fpdf
         $this->widths = array(($this->width / 2) / 3 + ($this->width / 2), ($this->width / 2) / 3, ($this->width / 2) / 3);
         $this->row(array(utf8_decode('                                             FORMULARIO C2                                                  PUNTAJE DE LAS CONDICIONES ADICIONALES'), utf8_decode('Puntaje ASIGNADO'), utf8_decode('Condiciones adicionales propuesta.')), 1);
 
+        //-------------------------------
         $this->widths = array($this->width);
         $this->row(array(utf8_decode('EXPERIENCIA ESPECIFICA')), 0, "C", "S");
-        $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3 + $t / 3);
-        $this->row(array(utf8_decode($contenido['First']), utf8_decode('(Experiencia laboral)'), utf8_decode('')), 0, "L", "S");
-        $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3, $t / 3);
-        $this->row(array(utf8_decode($contenido['First']), utf8_decode('* Menor a 1 año (5 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
-        $this->row(array(utf8_decode($contenido['First']), utf8_decode('* entre 1 a 2 años (8 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
-        $this->row(array(utf8_decode($contenido['First']), utf8_decode('* Mayor o igual a 3 años (10 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
+        $this->widths = array(($t / 3) / 2); //, $t / 3, $t / 3
+        $this->rowM(array(utf8_decode("1")), 0, "C", 4, false);
 
+        $this->widths = array($t + ($t / 3) / 2, $t / 3 + $t / 3);
+        $this->row(array(utf8_decode('(Experiencia laboral)'), utf8_decode('')), 0, "L", "S");
+
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->SetXY($x + ($t / 3) / 2, $y);
+
+        $this->widths = array($t + ($t / 3) / 2,);
+        $this->row(array(utf8_decode('* Menor a 1 año (5 puntos)')), 0, "L", "N", false);
+
+        $this->widths = array($t / 3, $t / 3); //, $t / 3, $t / 3
+        $this->rowM(array(utf8_decode("15"), utf8_decode(' ')), 0, "C", 3);
+
+        $this->widths = array($t + ($t / 3) / 2);
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->SetXY($x + ($t / 3) / 2, $y);
+        $this->row(array(utf8_decode('* entre 1 a 2 años (8 puntos)')), 0, "L");
+
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->SetXY($x + ($t / 3) / 2, $y);
+        $this->row(array(utf8_decode('* Mayor o igual a 3 años (10 puntos)')), 0, "L");
+
+        //----------------------------------
         $this->widths = array($this->width);
         $this->row(array(utf8_decode('CURSOS DE FORMACION CONTINUA')), 0, "C", "S");
-        $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3 + $t / 3);
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('(Seminarios, Cursos, Talleres, Simposios u otros)'), utf8_decode('')), 0, "L", "S");
-        $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3, $t / 3);
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 2 certificados (1 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 4 certificados (3 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('* Tiene mayor o igual a 6 certificados (5 puntos)'), utf8_decode('SI'), utf8_decode(' ')), 0, "L");
 
+        $this->widths = array(($t / 3) / 2); //, $t / 3, $t / 3
+        $this->rowM(array(utf8_decode("2")), 0, "C", 4, false);
+
+        $this->widths = array($t + ($t / 3) / 2, $t / 3 + $t / 3);
+        $this->row(array(utf8_decode('(Seminarios, Cursos, Talleres, Simposios u otros)'), utf8_decode('')), 0, "L", "S");
+
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->SetXY($x + ($t / 3) / 2, $y);
+        $this->widths = array($t + ($t / 3) / 2); //, $t / 3, $t / 3
+        $this->row(array(utf8_decode('* Tiene mayor o igual a 2 certificados (1 puntos)')), 0, "L", "N", false);
+
+        $this->widths = array($t / 3, $t / 3); //, $t / 3, $t / 3
+        $this->rowM(array(utf8_decode("15"), utf8_decode(' ')), 0, "C", 3);
+
+        $this->widths = array($t + ($t / 3) / 2); //, $t / 3, $t / 3
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->SetXY($x + ($t / 3) / 2, $y);
+        $this->row(array(utf8_decode('* Tiene mayor o igual a 4 certificados (3 puntos)')), 0, "L");
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->SetXY($x + ($t / 3) / 2, $y);
+        $this->row(array(utf8_decode('* Tiene mayor o igual a 6 certificados (5 puntos)')), 0, "L");
+
+
+        //---------------------------------------
         $this->widths = array($this->width);
         $this->row(array(utf8_decode('PROPUESTA TECNICA')), 0, "C", "S");
         $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3, $t / 3);
-        $this->row(array(utf8_decode($contenido['Third']), utf8_decode('*Objetivo y desarrollo de las actividades (20 puntos)'), utf8_decode('20'), utf8_decode(' ')), 0, "L");
+        $this->row(array(utf8_decode('     3'), utf8_decode('*Objetivo y desarrollo de las actividades (20 puntos)'), utf8_decode('           20'), utf8_decode(' ')), 0, "L");
         $this->widths = array(($this->width / 2) / 3 + ($this->width / 2), ($this->width / 2) / 3, ($this->width / 2) / 3);
-        $this->row(array(utf8_decode('TOTAL'), utf8_decode('15'), utf8_decode('')), 0, "L");
+        $this->row(array(utf8_decode('TOTAL'), utf8_decode('           15'), utf8_decode('')), 0, "L");
     }
 
     public function cuadroTotal()
@@ -499,7 +537,8 @@ class Condiciones_Terminos extends Fpdf
             "First" => "1.- PUNTAJE DE EVALUACION CUMPLE/ NO CUMPLE",
             "Second" => "2.- PUNTAJE DE LAS CONDICIONES ADICIONALES",
         ];
-        $this->widths = array($this->width / 3, $this->width / 3, $this->width / 3);
+        $t = $this->width / 2;
+        $this->widths = array($t, $t / 2, $t / 2);
         $this->row(array(utf8_decode('RESUMEN DEL FORUMARIO C1 Y C2'), utf8_decode('PUNTAJE TOTAL'), utf8_decode('PUNTAJE OBTENIDO')), 1);
         $this->row(array(utf8_decode($contenido['First']), utf8_decode('15'), utf8_decode('')));
         $this->row(array(utf8_decode($contenido['Second']), utf8_decode('15'), utf8_decode('')));
@@ -542,7 +581,7 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['First']), 0, 'J', 0);
     }
     // ------------------------------------------------------------------
-    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
+    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N", $salto = true)
     {
         //Calculate the height of the row
         $nb = 0;
@@ -582,10 +621,41 @@ class Condiciones_Terminos extends Fpdf
             // letra color negro
             $this->fpdf->SetTextColor(0, 0, 0);
         }
-        //Go to the next line
-        $this->fpdf->Ln($h);
+        if ($salto == true) {
+            $this->fpdf->Ln($h);
+        }
     }
 
+    function RowM($data, $pintado = 0, $alling = 'C', $mul, $salto = true)
+    {
+        //Calculate the height of the row
+        $nb = 0;
+        for ($i = 0; $i < count($data); $i++)
+            $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
+        $h = 5 * $nb + 2;
+        //Issue a page break first if needed
+        //Draw the cells of the row
+        for ($i = 0; $i < count($data); $i++) {
+            $w = $this->widths[$i];
+            $a = isset($this->aligns[$i]) ? $this->aligns[$i] : $alling;
+            //Save the current position
+
+            $x = $this->fpdf->GetX();
+            $y = $this->fpdf->GetY();
+
+            $this->fpdf->Rect($x, $y, $w, $h * $mul);
+            $this->fpdf->SetXY($x, $y + 1);
+            $this->fpdf->SetFont('Arial', '', 10);
+            $this->fpdf->MultiCell($w, $h * $mul, $data[$i], 0, $a, $pintado);
+            //Put the position to the right of the cell
+            $this->fpdf->SetXY($x + $w, $y);
+            // letra color negro
+            $this->fpdf->SetTextColor(0, 0, 0);
+        }
+        if ($salto == true) {
+            $this->fpdf->Ln($h);
+        }
+    }
     function CheckPageBreak($h)
     {
         //If the height h would cause an overflow, add a new page immediately

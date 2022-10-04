@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reportes;
+namespace App\Http\Controllers\Cartas;
 
 use Codedge\Fpdf\Fpdf\Fpdf;
 
@@ -20,7 +20,7 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
-    public function contrataciones()
+    public function contrataciones($data)
     {
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -37,7 +37,7 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("A:        Ph.D. Ing. Orlando Pedraza Mérida - Decano de la F.C.E.T."), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("           Lic. María Rene Muguertegui de Méndez - Responsable de Procesos de Contratación-JAF"), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Via:     M.Sc. Ing. Erick Rojas Balcazar - Director Escuela de Ingeniería de la F.C.E.T."), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De:      M.Sc. Ing. Daniel Tejerina Claudio – Coordinador Académico - Escuela de Ingeniería."), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De:      M.Sc. Ing. Daniel Tejerina Claudio - Coordinador Académico - Escuela de Ingeniería."), 0, 'L', 0);
 
         $this->fpdf->Ln(8);
         $this->fpdf->SetFont('Arial', 'B', 10);
@@ -46,7 +46,7 @@ class Sol_Contrataciones extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Mediante la presente solicito contratación de consultor e informe presupuestario para el MÓDULO denominado: “Instrumentación Industrial, Sistema Scada y HMI”, en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL. a realizarse en fecha 15/08/2022 al 28/08/2022. Se adjunta TDR.",
+            'first' => "Mediante la presente solicito contratación de consultor e informe presupuestario para el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL. a realizarse en fecha 15/08/2022 al 28/08/2022. Se adjunta TDR.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
