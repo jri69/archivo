@@ -297,7 +297,7 @@ Route::group(['prefix' => 'subpartida'], function () {
     Route::get('/create', [SubPartidaController::class, 'create'])->name('subpartida.create');
     Route::get('/edit/{partida}', [SubPartidaController::class, 'edit'])->name('subpartida.edit');
     Route::post('/store', [SubPartidaController::class, 'store'])->name('subpartida.store');
-    Route::put('/update/{partida}',[SubPartidaController::class,'update'])->name('subpartida.update');
+    Route::put('/update/{partida}', [SubPartidaController::class, 'update'])->name('subpartida.update');
 });
 
 //Presupuesto
@@ -329,7 +329,7 @@ Route::group(['prefix' => 'sueldos'], function () {
 
 // Docentes
 Route::group(['prefix' => 'docentes'], function () {
-    Route::get('/', [SueldosController::class, 'index'])->name('docentes.index');
+    Route::get('/', [DocentesController::class, 'index'])->name('docentes.index');
     Route::get('/show/{docentes}', [DocentesController::class, 'show'])->name('docentes.show');
     Route::delete('/delete/{docentes}', [DocentesController::class, 'destroy'])->name('docentes.delete');
 });
