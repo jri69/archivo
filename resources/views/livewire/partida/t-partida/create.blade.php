@@ -9,15 +9,13 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Partidas:</b> </label>
                             <div class="col-sm-7">
-                                <select wire:model="partida_id" name="partida_id" class="form-control">
-                                    <option >Seleccione la Partida</option>
+                                <select wire:model="partida_id" name="second_partida_id" class="form-control">
+                                    <option >Seleccione la Second Partida</option>
                                     @foreach ($partidas as $partida)
                                         <option value="{{$partida->id}}">{{$partida->nombre}}</option>
-                                    @endforeach 
-                                    
+                                    @endforeach
                                 </select>
-                            </div> 
-                                                          
+                            </div>                        
                         </div>
                         <br>                            
                         <div class="row">
@@ -49,7 +47,7 @@
                         <a wire:click="store()" class="btn btn-primary text-white">
                             <b>Guardar Datos</b>
                         </a>
-                        <a href="{{route('subpartida.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
+                        <a href="{{route('t_partida.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
                     </div>
                 </div>
             </form>
@@ -59,7 +57,7 @@
             <div class="col-md-11">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Listado de Sub Partidas</h4>
+                        <h4>Listado de Second Partidas</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

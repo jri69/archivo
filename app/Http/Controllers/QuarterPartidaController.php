@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Partida;
-use App\Models\SubPartida;
+use App\Models\Quarter_Partida;
+use App\Models\Third_Partida;
 use Illuminate\Http\Request;
 
-class SubPartidaController extends Controller
+class QuarterPartidaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class SubPartidaController extends Controller
      */
     public function index()
     {
-        $items = SubPartida::orderBy('id','asc')->paginate('10');
-        return View('subpartida.index',compact('items'));
+        $items = Quarter_Partida::orderBy('id','asc')->paginate('10');
+        return view('c_partida.index',compact('items'));
     }
 
     /**
@@ -26,8 +26,8 @@ class SubPartidaController extends Controller
      */
     public function create()
     {
-        $partidas = Partida::all();
-        return View('subpartida.create',compact('partidas'));
+        $partidas = Third_Partida::all();
+        return view('c_partida.create',compact('partidas'));
     }
 
     /**
@@ -38,7 +38,7 @@ class SubPartidaController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
+        //
     }
 
     /**
@@ -58,10 +58,10 @@ class SubPartidaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubPartida $partida)
+    public function edit(Quarter_Partida $partida)
     {
-        $items = Partida::all();
-        return View('subpartida.edit',compact('items','partida'));
+        $items = Third_Partida::all();
+        return view('c_partida.edit',compact('partidas','items'));
     }
 
     /**
@@ -74,13 +74,13 @@ class SubPartidaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'partida_id'=>'required',
+            'third_partida_id'=>'required',
             'codigo'=>'required',
             'nombre' => 'required'
         ]);
-        $datos = SubPartida::find($id);
+        $datos = Quarter_Partida::find($id);
         $datos->update($request->all());
-        return redirect()->route('subpartida.index');
+        return redirect()->route('c_partida.index');
     }
 
     /**
