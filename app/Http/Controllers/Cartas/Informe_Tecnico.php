@@ -30,14 +30,10 @@ class Informe_Tecnico extends Fpdf
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($this->title), 0, 'C', 0);
 
-
         $this->fpdf->Ln(4);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->SetX($this->vineta - 4);
-        $this->MultiCellBlt($this->width - 10, 4, 'De:', utf8_decode('M.Sc. Daniel Tejerina Claudio - Coordinador Académico ESCUELA DE INGENIERIA - UAGRM'));
-
-        $this->fpdf->SetX($this->vineta - 4);
-        $this->MultiCellBlt($this->width - 10, 4, 'A: ', utf8_decode('Ph.D. Ing. Orlando Pedraza Mérida - DECANO DE LA FACULTAD DE CIENCIAS EXACTAS Y TECNOLOGIA.'));
+        $this->widths = array(14, $this->width - 14);
+        $this->Row(array(utf8_decode('De:'), utf8_decode('M.Sc. Daniel Tejerina Claudio - Coordinador Académico ESCUELA DE INGENIERIA - UAGRM')), 1, "L", "N");
+        $this->Row(array(utf8_decode('A:'), utf8_decode('Ph.D. Ing. Orlando Pedraza Mérida - DECANO DE LA FACULTAD DE CIENCIAS EXACTAS Y TECNOLOGIA.')), 1, "L", "N");
 
         $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 10);
@@ -116,5 +112,103 @@ class Informe_Tecnico extends Fpdf
 
         //Restore x
         $this->fpdf->SetX($bak_x);
+    }
+
+    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
+    {
+        //Calculate the height of the row
+        $nb = 0;
+        for ($i = 0; $i < count($data); $i++)
+            $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
+        $h = 5 * $nb + 2;
+        //Issue a page break first if needed
+        //Draw the cells of the row
+        for ($i = 0; $i < count($data); $i++) {
+            $w = $this->widths[$i];
+            $a = isset($this->aligns[$i]) ? $this->aligns[$i] : $alling;
+            //Save the current position
+            $x = $this->fpdf->GetX();
+            $y = $this->fpdf->GetY();
+            if ($pintado == 1) {
+                $this->fpdf->SetFillColor(224, 235, 255);
+                $this->fpdf->Rect($x - 1, $y, $w + 1, $h, 'DF');
+                $this->fpdf->SetXY($x, $y + 1);
+                // celeste clarito
+                $this->fpdf->SetFont('Arial', 'B', 10);
+            } else {
+
+                $this->fpdf->Rect($x, $y, $w, $h);
+                $this->fpdf->SetXY($x, $y + 1);
+                $this->fpdf->SetFont('Arial', '', 10);
+                if ($i == 0) {
+                    $a = 'L';
+                }
+                if ($negrita === "S") {
+                    $this->fpdf->SetFont('Arial', 'B', 10);
+                }
+                if ($negrita === "SI") {
+                    $this->fpdf->SetFont('Arial', 'BI', 10);
+                }
+            }
+            $this->fpdf->MultiCell($w, $this->space, $data[$i], 0, $a, $pintado);
+            $pintado = 0;
+            //Put the position to the right of the cell
+            $this->fpdf->SetXY($x + $w, $y);
+            // letra color negro
+            $this->fpdf->SetTextColor(0, 0, 0);
+        }
+        $this->fpdf->Ln($h);
+    }
+
+    function CheckPageBreak($h)
+    {
+        //If the height h would cause an overflow, add a new page immediately
+        if ($this->fpdf->GetY() + $h > $this->PageBreakTrigger)
+            $this->fpdf->AddPage($this->CurOrientation);
+    }
+
+    function NbLines($w, $txt)
+    {
+        //Computes the number of lines a MultiCell of width w will take
+        $cw = &$this->fpdf->CurrentFont['cw'];
+        if ($w == 0)
+            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdfx;
+        $wmax = ($w - 2 * $this->fpdf->cMargin) * 1000 / $this->fpdf->FontSize;
+        $s = str_replace("\r", '', $txt);
+        $nb = strlen($s);
+        if ($nb > 0 and $s[$nb - 1] == "\n")
+            $nb--;
+        $sep = -1;
+        $i = 0;
+        $j = 0;
+        $l = 0;
+        $nl = 1;
+        while ($i < $nb) {
+            $c = $s[$i];
+            if ($c == "\n") {
+                $i++;
+                $sep = -1;
+                $j = $i;
+                $l = 0;
+                $nl++;
+                continue;
+            }
+            if ($c == ' ')
+                $sep = $i;
+            $l += $cw[$c];
+            if ($l > $wmax) {
+                if ($sep == -1) {
+                    if ($i == $j)
+                        $i++;
+                } else
+                    $i = $sep + 1;
+                $sep = -1;
+                $j = $i;
+                $l = 0;
+                $nl++;
+            } else
+                $i++;
+        }
+        return $nl;
     }
 }

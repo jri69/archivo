@@ -7,6 +7,8 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
+use App\Http\Controllers\ContratacionesController;
+use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InventarioController;
@@ -22,6 +24,7 @@ use App\Http\Controllers\RecepcionController;
 use App\Http\Controllers\RequisitosController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\SubPartidaController;
+use App\Http\Controllers\SueldosController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\UnidadOrganizacionalController;
@@ -303,4 +306,29 @@ Route::group(['prefix' => 'presupuesto'], function () {
     Route::get('/edit/{presupuesto}', [PresupuestoController::class, 'edit'])->name('presupuesto.edit');
     Route::post('/store', [PresupuestoController::class, 'store'])->name('presupuesto.store');
     Route::put('/update/{presupuesto}', [PresupuestoController::class, 'update'])->name('presupuesto.update');
+});
+
+// Contrataciones
+Route::group(['prefix' => 'contrataciones'], function () {
+    Route::get('/', [ContratacionesController::class, 'index'])->name('contrataciones.index');
+    Route::get('/create', [ContratacionesController::class, 'create'])->name('contrataciones.create');
+    Route::post('/store', [ContratacionesController::class, 'store'])->name('contrataciones.store');
+    Route::get('/edit/{contrataciones}', [ContratacionesController::class, 'edit'])->name('contrataciones.edit');
+    Route::get('/show/{contrataciones}', [ContratacionesController::class, 'show'])->name('contrataciones.show');
+    Route::put('/update/{contrataciones}', [ContratacionesController::class, 'update'])->name('contrataciones.update');
+    Route::delete('/delete/{contrataciones}', [ContratacionesController::class, 'destroy'])->name('contrataciones.delete');
+});
+
+// Pagos sueldos
+Route::group(['prefix' => 'sueldos'], function () {
+    Route::get('/', [SueldosController::class, 'index'])->name('sueldos.index');
+    Route::get('/create', [SueldosController::class, 'create'])->name('sueldos.create');
+    Route::delete('/delete/{sueldos}', [SueldosController::class, 'destroy'])->name('sueldos.delete');
+});
+
+// Docentes
+Route::group(['prefix' => 'docentes'], function () {
+    Route::get('/', [SueldosController::class, 'index'])->name('docentes.index');
+    Route::get('/show/{docentes}', [DocentesController::class, 'show'])->name('docentes.show');
+    Route::delete('/delete/{docentes}', [DocentesController::class, 'destroy'])->name('docentes.delete');
 });
