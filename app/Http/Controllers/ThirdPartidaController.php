@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Partida;
 use App\Models\SubPartida;
+use App\Models\Third_Partida;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class SubPartidaController extends Controller
+class ThirdPartidaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class SubPartidaController extends Controller
      */
     public function index()
     {
-        $items = SubPartida::orderBy('id','asc')->paginate('10');
-        return View('subpartida.index',compact('items'));
+        $items = Third_Partida::orderBy('id','asc')->paginate('10');
+        return view('t_partida.index',compact('items'));
     }
 
     /**
@@ -26,8 +27,9 @@ class SubPartidaController extends Controller
      */
     public function create()
     {
-        $partidas = Partida::all();
-        return View('subpartida.create',compact('partidas'));
+        //$partidas = DB::table('sub_partidas')->select('id','nombre')->orderBy('id','asc')->get();
+        //return $partidas; 
+        return View('t_partida.create');
     }
 
     /**
@@ -38,7 +40,7 @@ class SubPartidaController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
+        //
     }
 
     /**
@@ -58,10 +60,10 @@ class SubPartidaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubPartida $partida)
+    public function edit(Third_Partida $partida)
     {
-        $items = Partida::all();
-        return View('subpartida.edit',compact('items','partida'));
+        $items = SubPartida::all();
+        return view('t_partida.edit',compact('partida','items'));
     }
 
     /**
@@ -74,13 +76,13 @@ class SubPartidaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'partida_id'=>'required',
+            'second_partida_id'=>'required',
             'codigo'=>'required',
             'nombre' => 'required'
         ]);
-        $datos = SubPartida::find($id);
+        $datos = Third_Partida::find($id);
         $datos->update($request->all());
-        return redirect()->route('subpartida.index');
+        return redirect()->route('t_partida.index');
     }
 
     /**

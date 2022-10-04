@@ -1,11 +1,11 @@
-@extends('layouts.app',['activePage' => 'partida', 'titlePage' => 'Second Partida'])
+@extends('layouts.app',['activePage' => 'quarterpartida', 'titlePage' => 'Quarter Partida'])
 
 @section('content')
 <div class="content">
     <div class="container-fluid">
         <div class="row" style="margin-left: 10%">
             <div class="col-md-11">
-                <form action="{{route('subpartida.update',$partida->id)}}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="{{route('c_partida.update',$partida->id)}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card">
@@ -50,7 +50,7 @@
                         <button type="submit"class="btn btn-primary">
                             <b>Guardar Datos</b>
                         </button>
-                        <a href="{{route('subpartida.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
+                        <a href="{{route('c_partida.index')}}" class="btn btn-primary"><b>Cancelar</b></a>
                     </div>
                 </div>
             </form>

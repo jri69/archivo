@@ -20,11 +20,13 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PartidaController;
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\ProgramaController;
+use App\Http\Controllers\QuarterPartidaController;
 use App\Http\Controllers\RecepcionController;
 use App\Http\Controllers\RequisitosController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\SueldosController;
+use App\Http\Controllers\ThirdPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\UnidadOrganizacionalController;
@@ -332,4 +334,21 @@ Route::group(['prefix' => 'docentes'], function () {
     Route::get('/', [DocentesController::class, 'index'])->name('docentes.index');
     Route::get('/show/{docentes}', [DocentesController::class, 'show'])->name('docentes.show');
     Route::delete('/delete/{docentes}', [DocentesController::class, 'destroy'])->name('docentes.delete');
+});
+//Third Partida
+Route::group(['prefix' => 'thirdpartida'], function () {
+    Route::get('/index', [ThirdPartidaController::class, 'index'])->name('t_partida.index');
+    Route::get('/create', [ThirdPartidaController::class, 'create'])->name('t_partida.create');
+    Route::get('/edit/{partida}', [ThirdPartidaController::class, 'edit'])->name('t_partida.edit');
+    Route::post('/store', [ThirdPartidaController::class, 'store'])->name('t_partida.store');
+    Route::put('/update/{partida}', [ThirdPartidaController::class, 'update'])->name('t_partida.update');
+});
+
+//Quarter Partida
+Route::group(['prefix' => 'quartecpartida'], function () {
+    Route::get('/index', [QuarterPartidaController::class, 'index'])->name('c_partida.index');
+    Route::get('/create', [QuarterPartidaController::class, 'create'])->name('c_partida.create');
+    Route::get('/edit/{partida}', [QuarterPartidaController::class, 'edit'])->name('c_partida.edit');
+    Route::post('/store', [QuarterPartidaController::class, 'store'])->name('c_partida.store');
+    Route::put('/update/{partida}', [QuarterPartidaController::class, 'update'])->name('c_partida.update');
 });
