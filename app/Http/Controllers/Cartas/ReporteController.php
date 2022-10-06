@@ -18,10 +18,10 @@ class ReporteController extends Controller
     public function pdf()
     {
         // $this->Condiciones_Terminos([]);
-        // $this->Sol_Contrataciones([]);
+        $this->Sol_Contrataciones([]);
         // $this->Requerimiento_Propuesta([]);
         // $this->Propuesta_Consultor([]);
-        $this->Informe_Tecnico([]);
+        // $this->Informe_Tecnico([]);
         // $this->Notificacion_Adjudicacion([]);
         // $this->Comunicacion_Interna([]);
     }

@@ -335,6 +335,7 @@ Route::group(['prefix' => 'docentes'], function () {
     Route::get('/show/{docentes}', [DocentesController::class, 'show'])->name('docentes.show');
     Route::delete('/delete/{docentes}', [DocentesController::class, 'destroy'])->name('docentes.delete');
 });
+
 //Third Partida
 Route::group(['prefix' => 'thirdpartida'], function () {
     Route::get('/index', [ThirdPartidaController::class, 'index'])->name('t_partida.index');

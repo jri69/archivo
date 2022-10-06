@@ -28,7 +28,7 @@ class Propuesta_Consultor extends Fpdf
 
         $this->fpdf->Ln(25);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Santa Cruz de la sierra 01 de agosto del 2022"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Santa Cruz de la Sierra, 01 de agosto del 2022"), 0, 'L', 0);
 
         $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', '', 10);
@@ -47,14 +47,17 @@ class Propuesta_Consultor extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Mediante la presente hago llegar mi ACEPTACION al requerimiento de propuesta para ser consultor en el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL.",
-            'second' => "Por tanto, adjunto carnet de identidad., programa de asignatura, currículum vitae y demás documentación solicitada por su institución.",
+            'first' => 'Mediante la presente hago llegar mi ACEPTACION al requerimiento de propuesta para ser consultor en el <MÓDULO> denominado: "Instrumentación Industrial, Sistema Scada y HMI", en relación al <DIPLOMADO> en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL.',
+            'second' => 'Por tanto, adjunto carnet de identidad., programa de asignatura, currículum vitae y demás documentación solicitada por su institución.',
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode('Estimado Ingeniero:'), 0, 'J', 0);
-        $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode($contenido['first']), 0, 'J', 0);
+        // $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode($contenido['first']), 0, 'J', 0);
+        $this->WriteText($contenido['first']);
+        $this->fpdf->Ln(8);
+        // $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode($contenido['second']), 0, 'J', 0);
+        $this->WriteText($contenido['second']);
         $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode($contenido['second']), 0, 'J', 0);
         $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode('Con este grato motivo, saludo a usted cordialmente.'), 0, 'L', 0);
 
         // pie de pagina
@@ -68,5 +71,50 @@ class Propuesta_Consultor extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("CONSULTOR."), 0, 'C', 0);
 
         $this->fpdf->Output("I", "Propuesta Consultor.pdf");
+    }
+
+    function WriteText($text)
+    {
+        $intPosIni = 0;
+        $intPosFim = 0;
+        if (strpos($text, '<') !== false && strpos($text, '[') !== false) {
+            if (strpos($text, '<') < strpos($text, '[')) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->fpdf->Write(5, utf8_decode(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1)));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            }
+        } else {
+            if (strpos($text, '<') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->WriteText(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } elseif (strpos($text, '[') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode($text));
+            }
+        }
     }
 }
