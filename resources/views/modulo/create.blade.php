@@ -31,6 +31,25 @@
                                 </div>
                                 <br>
                                 <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Docente:</b> </label>
+                                    <div class="col-sm-7">
+                                        <select class="form-control" name="docente_id">
+                                            <option disabled selected>Seleccione el docente</option>
+                                            @foreach ($docentes as $docente)
+                                                <option value="{{ $docente->id }}">
+                                                    {{ $docente->honorifico }} {{ $docente->nombre }}
+                                                    {{ $docente->apellido }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('docente_id'))
+                                            <span class="error text-danger"
+                                                for="input-docente_id">{{ $errors->first('docente_id') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Módulo:</b>
                                     </label>
                                     <div class="col-sm-7">

@@ -22,4 +22,6 @@ class Docente extends Model
     {
         return $this->belongsToMany(Modulo::class);
     }
+
+    
 }

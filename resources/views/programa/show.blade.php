@@ -111,6 +111,9 @@
                                             Estado
                                         </th>
                                         <th>
+                                            Docente
+                                        </th>
+                                        <th>
                                             Edición
                                         </th>
                                         <th>
@@ -134,6 +137,10 @@
                                                 </td>
                                                 <td>
                                                     {{ $modulo->estado }}
+                                                </td>
+                                                <td>
+                                                    {{ $modulo->docente->honorifico }} {{ $modulo->docente->nombre }}
+                                                    {{ $modulo->docente->apellido }}
                                                 </td>
                                                 <td>
                                                     {{ $modulo->edicion }}

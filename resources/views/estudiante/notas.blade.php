@@ -28,6 +28,9 @@
                                             Modulo
                                         </th>
                                         <th>
+                                            Docente
+                                        </th>
+                                        <th>
                                             Observaciones
                                         </th>
                                         <th>
@@ -43,6 +46,11 @@
                                                 </td>
                                                 <td>
                                                     {{ $nota->modulo->nombre }}
+                                                </td>
+                                                <td>
+                                                    {{ $nota->modulo->docente->honorifico }}
+                                                    {{ $nota->modulo->docente->nombre }}
+                                                    {{ $nota->modulo->docente->apellido }}
                                                 </td>
                                                 <td>
                                                     @if ($nota->observaciones)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
@@ -19,7 +20,8 @@ class ModuloController extends Controller
     public function create()
     {
         $programas = Programa::all();
-        return view('modulo.create', compact('programas'));
+        $docentes = Docente::all();
+        return view('modulo.create', compact('programas', 'docentes'));
     }
 
     public function store(Request $request)
@@ -33,6 +35,7 @@ class ModuloController extends Controller
                 'fecha_inicio' => 'required|date',
                 'fecha_final' => 'required|date',
                 'id_programa' => 'required|numeric',
+                'docente_id' => 'required|numeric',
             ],
             [
                 'nombre.required' => 'El campo nombre es obligatorio',
@@ -53,6 +56,8 @@ class ModuloController extends Controller
                 'fecha_final.date' => 'El campo fecha final debe ser de tipo fecha',
                 'id_programa.required' => 'El campo programa es obligatorio',
                 'id_programa.numeric' => 'El campo programa debe ser de tipo numerico',
+                'docente_id.required' => 'El campo docente es obligatorio',
+                'docente_id.numeric' => 'El campo docente debe ser de tipo numerico',
             ]
         );
         $modulos = ProgramaModulo::where('id_programa', $request->id_programa)->get();
@@ -74,6 +79,7 @@ class ModuloController extends Controller
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_final' => $request->fecha_final,
             'id_programa' => $request->id_programa,
+            'docente_id' => $request->docente_id,
         ]);
         ProgramaModulo::create([
             'id_programa' => $request->id_programa,
@@ -85,7 +91,8 @@ class ModuloController extends Controller
     public function edit(Modulo $modulo)
     {
         $programa = ProgramaModulo::where('id_modulo', $modulo->id)->first();
-        return view('modulo.edit', compact('modulo', 'programa'));
+        $docentes = Docente::all();
+        return view('modulo.edit', compact('modulo', 'programa', 'docentes'));
     }
 
     public function update(Request $request, $id)
@@ -99,6 +106,7 @@ class ModuloController extends Controller
                 'fecha_inicio' => 'required|date',
                 'fecha_final' => 'required|date',
                 'id_programa' => 'required|numeric',
+                'docente_id' => 'required|numeric',
             ],
             [
                 'nombre.required' => 'El campo nombre es obligatorio',
@@ -119,6 +127,8 @@ class ModuloController extends Controller
                 'fecha_final.date' => 'El campo fecha final debe ser de tipo fecha',
                 'id_programa.required' => 'El campo programa es obligatorio',
                 'id_programa.numeric' => 'El campo programa debe ser de tipo numerico',
+                'docente_id.required' => 'El campo docente es obligatorio',
+                'docente_id.numeric' => 'El campo docente debe ser de tipo numerico',
             ]
         );
         $modulo = Modulo::findOrFail($id);

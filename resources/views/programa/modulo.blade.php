@@ -44,6 +44,15 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">Docente</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">Sigla</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
@@ -97,8 +106,8 @@
                                             Nota
                                         </th>
                                         <!--<th>
-                                                                                                            Acciones
-                                                                                                        </th>-->
+                                                                                                                        Acciones
+                                                                                                                    </th>-->
                                     </thead>
                                     <tbody>
                                         @foreach ($estudiante_programa as $estu_progm)

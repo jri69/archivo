@@ -20,6 +20,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br>
+                                <div class="row">
+                                    <label class="col-sm-2 col-form-label"><b> Docente:</b></label>
+                                    <div class="col-sm-7">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" disabled
+                                                value="{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Módulo:</b>
                                     </label>
