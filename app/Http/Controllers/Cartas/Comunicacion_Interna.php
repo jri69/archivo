@@ -7,7 +7,7 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 class Comunicacion_Interna extends Fpdf
 {
     protected $fpdf;
-    public $title = "INFORME TECNICO";
+    public $title = "Comunicacion Interna";
     public $margin = 30;
     public $width = 165;
     public $space = 5;
@@ -111,7 +111,7 @@ class Comunicacion_Interna extends Fpdf
         //Restore x
         $this->fpdf->SetX($bak_x);
     }
-    
+
     function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
     {
         //Calculate the height of the row

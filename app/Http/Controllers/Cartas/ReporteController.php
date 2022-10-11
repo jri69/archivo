@@ -10,6 +10,7 @@ use App\Http\Controllers\Cartas\Propuesta_Consultor;
 use App\Http\Controllers\Cartas\Informe_Tecnico;
 use App\Http\Controllers\Cartas\Notificacion_Adjudicacion;
 use App\Http\Controllers\Cartas\Comunicacion_Interna;
+use App\Http\Controllers\Cartas\Informe_Conformidad;
 
 class ReporteController extends Controller
 {
@@ -18,12 +19,13 @@ class ReporteController extends Controller
     public function pdf()
     {
         // $this->Condiciones_Terminos([]);
-        $this->Sol_Contrataciones([]);
+        // $this->Sol_Contrataciones([]);
         // $this->Requerimiento_Propuesta([]);
         // $this->Propuesta_Consultor([]);
         // $this->Informe_Tecnico([]);
         // $this->Notificacion_Adjudicacion([]);
         // $this->Comunicacion_Interna([]);
+        $this->Informe_Conformidad([]);
     }
 
     public function Condiciones_Terminos($data)
@@ -66,5 +68,11 @@ class ReporteController extends Controller
     {
         $ci = new Comunicacion_Interna();
         return $ci->informe($data);
+    }
+
+    public function Informe_Conformidad($data)
+    {
+        $ic = new Informe_Conformidad();
+        return $ic->informe($data);
     }
 }

@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('modulos', function (Blueprint $table) {
+        Schema::create('contratos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('sigla', 10);
-            $table->string('estado');
-            $table->string('version', 5);
-            $table->string('edicion', 5);
-            $table->double('costo');
+            $table->string('honorario');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
-            // foreing key con docente
-            $table->foreignId('docente_id')->constrained('docentes')->onDelete('set null')->onUpdate('cascade')->nullable();
+            $table->text('horarios')->nullable();
+            $table->boolean('pagado')->default(false);
+
+            // foreing key con modulo
+            $table->foreignId('modulo_id')->constrained('modulos')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modulos');
+        Schema::dropIfExists('contratos');
     }
 };
