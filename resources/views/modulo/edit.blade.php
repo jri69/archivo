@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'modulo', 'titlePage' => 'Agregar Módulo'])
+@extends('layouts.app', ['activePage' => 'modulo', 'titlePage' => 'Editar Módulo'])
 
 @section('content')
     <div class="content">

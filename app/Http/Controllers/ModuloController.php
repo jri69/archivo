@@ -19,7 +19,8 @@ class ModuloController extends Controller
 
     public function create()
     {
-        $programas = Programa::all();
+        $date = date('Y-m-d');
+        $programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
         $docentes = Docente::all();
         return view('modulo.create', compact('programas', 'docentes'));
     }
@@ -101,12 +102,10 @@ class ModuloController extends Controller
             [
                 'nombre' => 'required|string|max:150',
                 'sigla' => 'required|string|max:10',
-                'version' => 'required|numeric|max:10',
-                'edicion' => 'required|numeric|max:10',
+                'version' => 'required|numeric',
+                'edicion' => 'required|numeric',
                 'fecha_inicio' => 'required|date',
                 'fecha_final' => 'required|date',
-                'id_programa' => 'required|numeric',
-                'docente_id' => 'required|numeric',
             ],
             [
                 'nombre.required' => 'El campo nombre es obligatorio',
@@ -114,10 +113,8 @@ class ModuloController extends Controller
                 'nombre.max' => 'El campo nombre debe contener maximo 150 caracteres',
                 'sigla.required' => 'El campo sigla es obligatorio',
                 'sigla.string' => 'El campo sigla debe ser de tipo texto',
-                'sigla.max' => 'El campo sigla debe contener maximo 10 caracteres',
                 'version.required' => 'El campo version es obligatorio',
                 'version.numeric' => 'El campo version debe ser de tipo numerico',
-                'version.max' => 'El campo version debe contener maximo 10 caracteres',
                 'edicion.required' => 'El campo edicion es obligatorio',
                 'edicion.numeric' => 'El campo edicion debe ser de tipo numerico',
                 'edicion.max' => 'El campo edicion debe contener maximo 10 caracteres',
@@ -125,10 +122,6 @@ class ModuloController extends Controller
                 'fecha_inicio.date' => 'El campo fecha de inicio debe ser de tipo fecha',
                 'fecha_final.required' => 'El campo fecha final es obligatorio',
                 'fecha_final.date' => 'El campo fecha final debe ser de tipo fecha',
-                'id_programa.required' => 'El campo programa es obligatorio',
-                'id_programa.numeric' => 'El campo programa debe ser de tipo numerico',
-                'docente_id.required' => 'El campo docente es obligatorio',
-                'docente_id.numeric' => 'El campo docente debe ser de tipo numerico',
             ]
         );
         $modulo = Modulo::findOrFail($id);

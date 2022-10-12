@@ -15,8 +15,10 @@
                                             <label class="bmd-label-floating">Honorifico</label>
                                             <select name="honorifico" id="_honorifico" class="form-control">
                                                 <option disabled selected>Seleccione el honorifico</option>
+                                                <option value="Lic">Lic</option>
                                                 <option value="Ing">Ing</option>
-                                                <option value="Doc">Doc</option>
+                                                <option value="MsC">MsC</option>
+                                                <option value="PhD">PhD</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('honorifico'))

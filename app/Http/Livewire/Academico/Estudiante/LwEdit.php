@@ -90,6 +90,7 @@ class LwEdit extends Component
         }
         return redirect()->route('estudiante.index', $this->estudiante);
     }
+    
     public function render()
     {
         $entregados = RequisitoEstudiante::where('id_estudiante', $this->estudiante->id)->get();
