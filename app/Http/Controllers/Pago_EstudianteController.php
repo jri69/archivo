@@ -46,8 +46,8 @@ class Pago_EstudianteController extends Controller
         return $es;*/
         //return $pago;
         $fecha = Carbon::now();
-        $programas = Programa::all();
-        //$programas = DB::table('programas')->select('id', 'nombre', 'costo', 'cantidad_modulos')->where('fecha_finalizacion', '>=', $fecha)->get();
+        //$programas = Programa::all();
+        $programas = DB::table('programas')->select('id', 'nombre', 'costo', 'cantidad_modulos')->where('fecha_finalizacion', '>=', $fecha)->get();
         $descuentos = tipo_descuento::all();
         return view('pago_estudiante.create', compact('descuentos', 'programas', 'pago'));
     }
