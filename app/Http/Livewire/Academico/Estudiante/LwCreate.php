@@ -16,6 +16,8 @@ class LwCreate extends Component
     use WithFileUploads;
     public $datos = [];
     public $documentos = [];
+    public $programas;
+    public $requisitos;
 
 
     public function mount()
@@ -28,6 +30,10 @@ class LwCreate extends Component
         $this->datos['expedicion'] = '';
         $this->datos['estado'] = '';
         $this->datos['id_programa'] = '';
+        // pedir todos los programas que aun estan en fechas de finalizacion disponible
+        $date = date('Y-m-d');
+        $this->programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
+        $this->requisitos = Requisito::all();
     }
 
     public function store()
@@ -101,8 +107,6 @@ class LwCreate extends Component
 
     public function render()
     {
-        $requisitos = Requisito::all();
-        $programas = Programa::all();
-        return view('livewire.academico.estudiante.lw-create', compact('requisitos', 'programas'));
+        return view('livewire.academico.estudiante.lw-create');
     }
 }

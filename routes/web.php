@@ -332,9 +332,14 @@ Route::group(['prefix' => 'sueldos'], function () {
 // Docentes
 Route::group(['prefix' => 'docentes'], function () {
     Route::get('/', [DocentesController::class, 'index'])->name('docentes.index');
+    Route::get('/create', [DocentesController::class, 'create'])->name('docentes.create');
+    Route::post('/store', [DocentesController::class, 'store'])->name('docentes.store');
+    Route::get('/edit/{docentes}', [DocentesController::class, 'edit'])->name('docentes.edit');
     Route::get('/show/{docentes}', [DocentesController::class, 'show'])->name('docentes.show');
+    Route::put('/update/{docentes}', [DocentesController::class, 'update'])->name('docentes.update');
     Route::delete('/delete/{docentes}', [DocentesController::class, 'destroy'])->name('docentes.delete');
 });
+
 //Third Partida
 Route::group(['prefix' => 'thirdpartida'], function () {
     Route::get('/index', [ThirdPartidaController::class, 'index'])->name('t_partida.index');

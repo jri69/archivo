@@ -51,7 +51,9 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::findOrFail($estudiante);
         $programaEstudiante = EstudiantePrograma::where('id_estudiante', $estudiante->id)->get();
         $idProgramas = $programaEstudiante->pluck('id_programa')->toArray();
-        $programas = Programa::whereNotIn('id', $idProgramas)->get();
+        $programas = Programa::whereNotIn('id', $idProgramas)
+            ->where('fecha_finalizacion', '>=', now())
+            ->get();
         return view('estudiante.newprogram', compact('estudiante', 'programas'));
     }
 

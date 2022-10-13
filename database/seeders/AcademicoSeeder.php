@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Docente;
 use App\Models\Estudiante;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
@@ -45,6 +46,18 @@ class AcademicoSeeder extends Seeder
             ]);
         }
 
+        for ($i = 0; $i < 20; $i++) {
+            Docente::create([
+                'nombre' => 'Docente ' . $i + 1,
+                'apellido' => 'Apellido ' . $i + 1,
+                'honorifico' => 'Ing.',
+                'cedula' => 'V-12345678',
+                'correo' => 'docente' . $i + 1 . '@gmail.com',
+                'telefono' => '0414-1234567',
+                'facturacion' => true,
+            ]);
+        }
+
         $modulo1 = Modulo::create([
             'nombre' => 'Modulo 1',
             'sigla' => 'MD',
@@ -53,7 +66,8 @@ class AcademicoSeeder extends Seeder
             'edicion' => 1,
             'costo' => 15000,
             'fecha_inicio' => "2022/08/10",
-            'fecha_final' => "2022/09/10"
+            'fecha_final' => "2022/09/10",
+            'docente_id' => rand(1, 20),
         ]);
 
         $modulo2 = Modulo::create([
@@ -64,7 +78,8 @@ class AcademicoSeeder extends Seeder
             'edicion' => 1,
             'costo' => 15000,
             'fecha_inicio' => "2022/09/10",
-            'fecha_final' => "2022/10/10"
+            'fecha_final' => "2022/10/10",
+            'docente_id' => rand(1, 20),
         ]);
 
         ProgramaModulo::create([
@@ -86,7 +101,8 @@ class AcademicoSeeder extends Seeder
                 'edicion' => $i + 1,
                 'costo' => 150 * $i,
                 'fecha_inicio' => "2022/08/10",
-                'fecha_final' => "2022/09/10"
+                'fecha_final' => "2022/09/10",
+                'docente_id' => rand(1, 20),
             ]);
 
             ProgramaModulo::create([

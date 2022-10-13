@@ -7,7 +7,7 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 class Comunicacion_Interna extends Fpdf
 {
     protected $fpdf;
-    public $title = "INFORME TECNICO";
+    public $title = "Comunicacion Interna";
     public $margin = 30;
     public $width = 165;
     public $space = 5;
@@ -38,22 +38,24 @@ class Comunicacion_Interna extends Fpdf
         $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL M.SC. MIGUEL ANGEL VILLALOBOS RIVAS, ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "INSTRUMENTACIÓN INDUSTRIAL, SISTEMA SCADA Y HMI", EN RELACIÓN AL DIPLOMADO EN CONTROL Y AUTOMATIZACION DE PROCESOS INDUSTRIALES (1º VERSIÓN, 3º EDICIÓN) VIRTUAL. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS. 6,000.00 (SEIS MIL CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
 
         $this->fpdf->Ln(5);
-        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, 11 de agosto del 2022'), 0, 'R', 0);
         $this->fpdf->Ln(5);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Según el oficio OF.COORD. ACA. N.º 1269/2022 del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el MÓDULO DENOMINADO: 'INSTRUMENTACIÓN INDUSTRIAL, SISTEMA SCADA Y HMI', EN RELACIÓN AL DIPLOMADO EN CONTROL Y AUTOMATIZACION DE PROCESOS INDUSTRIALES (1º VERSIÓN, 3º EDICIÓN) VIRTUAL. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el 13/08/22.",
-            'second' => "Proceda a ejecutar las siguientes acciones: En sujeción al D.S. 181 art. 37.- (ASESORIA LEGAL). En cada proceso de contratación, tiene como principales funciones:",
+            'first' => 'Según el oficio OF.COORD. ACA. N.º 1269/2022 del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "INSTRUMENTACIÓN INDUSTRIAL, SISTEMA SCADA Y HMI", EN RELACIÓN AL <DIPLOMADO> EN CONTROL Y AUTOMATIZACION DE PROCESOS INDUSTRIALES (1º VERSIÓN, 3º EDICIÓN) VIRTUAL. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el 13/08/22.',
+            'second' => 'Proceda a ejecutar las siguientes acciones: En sujeción al D.S. 181 art. 37.- (ASESORIA LEGAL). En cada proceso de contratación, tiene como principales funciones:',
         ];
         $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi mayor consideración:"), 0, 'L', 0);
         $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
+        $this->WriteText($contenido['first']);
+        $this->fpdf->Ln(8);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
+        $this->WriteText($contenido['second']);
         $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
-
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, 'a)', utf8_decode('Atender y asesorar en la revisión de documentos y asuntos legales que sean sometidos a su consideración durante el proceso de contratación.'));
 
@@ -104,11 +106,12 @@ class Comunicacion_Interna extends Fpdf
         $this->fpdf->Cell($blt_width, $h, $blt, 0, '', $fill);
 
         //Output text
-        $this->fpdf->MultiCell($w - $blt_width, $this->space, $txt, $border, $align, $fill);
+        $this->fpdf->MultiCell($w - $blt_width, $this->space - 1, $txt, $border, $align, $fill);
 
         //Restore x
         $this->fpdf->SetX($bak_x);
     }
+
     function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
     {
         //Calculate the height of the row
@@ -205,5 +208,50 @@ class Comunicacion_Interna extends Fpdf
                 $i++;
         }
         return $nl;
+    }
+
+    function WriteText($text)
+    {
+        $intPosIni = 0;
+        $intPosFim = 0;
+        if (strpos($text, '<') !== false && strpos($text, '[') !== false) {
+            if (strpos($text, '<') < strpos($text, '[')) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->fpdf->Write(5, utf8_decode(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1)));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            }
+        } else {
+            if (strpos($text, '<') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->WriteText(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } elseif (strpos($text, '[') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode($text));
+            }
+        }
     }
 }

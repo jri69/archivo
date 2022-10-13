@@ -215,12 +215,12 @@
                                 <span class="sidebar-normal">{{ __('Docentes') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'sueldos' ? ' active' : '' }}">
+                        {{--                        <li class="nav-item{{ $activePage == 'sueldos' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('sueldos.index') }}">
                                 <span class="sidebar-mini"> SU </span>
                                 <span class="sidebar-normal">{{ __('Sueldos') }} </span>
                             </a>
-                        </li>
+                        </li> --}}
 
                     </ul>
                 </div>

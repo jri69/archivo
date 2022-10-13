@@ -14,6 +14,7 @@ class LwEdit extends Component
     public $idModulo = 'null';
     public $i = 0;
     public $programa;
+    public $modulos;
 
     protected $messages = [
         'datos.nombre.required' => 'El campo nombre es requerido.',
@@ -41,6 +42,8 @@ class LwEdit extends Component
         $this->listaV = ProgramaModulo::where('id_programa', $this->programa->id)->get();
         $this->listaV = $this->listaV->pluck('id')->toArray();
         $this->i = count($this->listaV);
+        $date = date('Y-m-d');
+        $this->modulos = Modulo::where('fecha_final', '>=', $date)->get();
     }
 
     public function add()
@@ -61,14 +64,14 @@ class LwEdit extends Component
     public function store()
     {
         $this->validate([
-            'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'datos.sigla' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'datos.version' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'datos.edicion' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'datos.nombre' => 'required|string',
+            'datos.sigla' => 'required|string',
+            'datos.version' => 'required|string',
+            'datos.edicion' => 'required|string',
             'datos.fecha_inicio' => 'required|date',
             'datos.fecha_finalizacion' => 'required|date',
             'datos.costo' => 'required|numeric',
-            'datos.tipo' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'datos.tipo' => 'required|string',
         ]);
 
         $this->datos['cantidad_modulos'] = sizeof($this->listaV);
@@ -79,8 +82,7 @@ class LwEdit extends Component
     public function render()
     {
         $lista = Modulo::whereIn('id',  $this->listaV)->get();
-        $modulos = Modulo::all();
-        $modulos = $modulos->except($this->listaV);
-        return view('livewire.academico.programa.lw-edit', compact('modulos', 'lista'));
+        $this->modulos = $this->modulos->except($this->listaV);
+        return view('livewire.academico.programa.lw-edit', compact('lista'));
     }
 }
