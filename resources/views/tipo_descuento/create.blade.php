@@ -14,7 +14,13 @@
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control"
                                         name="nombre"
+                                        value="{{ old('nombre') }}" autofocus
                                         >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                                     </div>                                
                                 </div>
                                 <br>
@@ -23,7 +29,13 @@
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control"
                                         name="monto"
+                                        value="{{ old('monto') }}" autofocus
                                         >
+                                        @if ($errors->has('monto'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('monto') }}
+                                    </span>
+                                @endif
                                     </div>                                
                                 </div>
                                 <br>
@@ -32,7 +44,14 @@
                                     <div class="col-sm-7">
                                         <input type="file" name="archivo" class="form-control"
                                                id="exampleInputEmail" placeholder="Seleccione un archivo..."
-                                               accept=".docx, .pdf, .doc, .png, .jpg" value="">
+                                               accept=".docx, .pdf, .doc, .png, .jpg" 
+                                               value="{{ old('archivo') }}" autofocus
+                                               >
+                                               @if ($errors->has('archivo'))
+                                           <span class="error text-danger" for="input-nombre">
+                                               {{ $errors->first('archivo') }}
+                                           </span>
+                                           @endif
                                     </div>                                    
                                 </div>
                             </div>

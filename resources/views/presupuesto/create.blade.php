@@ -13,21 +13,39 @@
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b> </label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="nombre">
+                                        <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" autofocus
+                                        >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Monto:</b> </label>
                                     <div class="col-sm-7">
-                                        <input type="number" class="form-control" name="monto">
+                                        <input type="number" class="form-control" name="monto" value="{{ old('monto') }}" autofocus
+                                        >
+                                        @if ($errors->has('monto'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('monto') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Año:</b> </label>
                                     <div class="col-sm-7">
-                                        <input type="date" class="form-control" name="anio">
+                                        <input type="date" class="form-control" name="anio" value="{{ old('anio') }}" autofocus
+                                        >
+                                        @if ($errors->has('anio'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('anio') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>

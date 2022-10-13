@@ -8,9 +8,12 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
 use App\Http\Controllers\ContratacionesController;
+use App\Http\Controllers\DetalleFacturaController;
 use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\FifthPartidaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\MovimientoController;
@@ -193,6 +196,7 @@ Route::group(['prefix' => 'pago'], function () {
     Route::get('/edit/{pago}', [PagoController::class, 'edit'])->name('pago.edit');
     Route::post('/store/{id}', [PagoController::class, 'store'])->name('pago.store');
     Route::put('update/{pago}', [PagoController::class, 'update'])->name('pago.update');
+    Route::get('/pdf/{id}', [PagoController::class, 'pdf'])->name('pago.pdf');
 });
 
 // Programas
@@ -345,10 +349,35 @@ Route::group(['prefix' => 'thirdpartida'], function () {
 });
 
 //Quarter Partida
-Route::group(['prefix' => 'quartecpartida'], function () {
+Route::group(['prefix' => 'quarterpartida'], function () {
     Route::get('/index', [QuarterPartidaController::class, 'index'])->name('c_partida.index');
     Route::get('/create', [QuarterPartidaController::class, 'create'])->name('c_partida.create');
     Route::get('/edit/{partida}', [QuarterPartidaController::class, 'edit'])->name('c_partida.edit');
     Route::post('/store', [QuarterPartidaController::class, 'store'])->name('c_partida.store');
     Route::put('/update/{partida}', [QuarterPartidaController::class, 'update'])->name('c_partida.update');
+});
+
+//Quinta Partida
+Route::group(['prefix' => 'fifthpartida'], function () {
+    Route::get('/index', [FifthPartidaController::class, 'index'])->name('f_partida.index');
+    Route::get('/create', [FifthPartidaController::class, 'create'])->name('f_partida.create');
+    Route::get('/edit/{partida}', [FifthPartidaController::class, 'edit'])->name('f_partida.edit');
+    Route::post('/store', [FifthPartidaController::class, 'store'])->name('f_partida.store');
+    Route::put('/update/{partida}', [FifthPartidaController::class, 'update'])->name('f_partida.update');
+});
+
+//Factura
+Route::group(['prefix' => 'factura'], function () {
+    Route::get('/index', [FacturaController::class, 'index'])->name('factura.index');
+    Route::get('/create', [FacturaController::class, 'create'])->name('factura.create');
+    Route::get('/edit/{factura}', [FacturaController::class, 'edit'])->name('factura.edit');
+    Route::post('/store', [FacturaController::class, 'store'])->name('factura.store');
+    Route::put('/update/{factura}', [FacturaController::class, 'update'])->name('factura.update');
+});
+
+//Detalle Factura
+Route::group(['prefix' => 'detalle_factura'], function () {
+    Route::get('/index', [DetalleFacturaController::class, 'index'])->name('detalle_factura.index');
+    Route::get('/create', [DetalleFacturaController::class, 'create'])->name('detalle_factura.create');
+    Route::get('/edit', [DetalleFacturaController::class, 'edit'])->name('detalle_factura.edit');
 });

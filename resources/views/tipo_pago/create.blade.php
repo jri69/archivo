@@ -14,7 +14,13 @@
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control"
                                         name="nombre"
+                                        autofocus
                                         >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                                     </div>                                
                                 </div>
                                 <br>                                

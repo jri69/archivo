@@ -127,7 +127,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
+            <li class="nav-item {{ $activePage == 'Descuento' ||$activePage == 'tipo_pago' || $activePage == 'estudiantes' ||  $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="false">
                     <i class="material-icons">content_paste</i>
                     <p>{{ __('Contabilidad') }}
@@ -136,19 +136,19 @@
                 </a>
                 <div class="collapse" id="Contable">
                     <ul class="nav">
-                        <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'Descuento' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('descuento.index') }}">
                                 <span class="sidebar-mini"> DES </span>
                                 <span class="sidebar-normal">{{ __('Descuento') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'tipo_pago' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('tipo_pago.index') }}">
                                 <span class="sidebar-mini"> TP </span>
                                 <span class="sidebar-normal"> {{ __('Tipo de Pagos') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'estudiantes' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('pago_estudiante.index') }}">
                                 <span class="sidebar-mini"> ES </span>
                                 <span class="sidebar-normal"> {{ __('Estudiante') }} </span>
@@ -271,25 +271,13 @@
                         <li class="nav-item{{ $activePage == 'partida' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('partida.index') }}">
                                 <span class="sidebar-mini"> P </span>
-                                <span class="sidebar-normal">{{ __('First Partida') }} </span>
+                                <span class="sidebar-normal">{{ __('Partida') }} </span>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'subpartida' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('subpartida.index') }}">
-                                <span class="sidebar-mini"> S </span>
-                                <span class="sidebar-normal">{{ __('Second Partida') }} </span>
-                            </a>
-                        </li>
-                        <li class="nav-item{{ $activePage == 'thirdpartida' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('t_partida.index') }}">
-                                <span class="sidebar-mini"> S </span>
-                                <span class="sidebar-normal">{{ __('Third Partida') }} </span>
-                            </a>
-                        </li>
-                        <li class="nav-item{{ $activePage == 'quarterpartida' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('c_partida.index') }}">
-                                <span class="sidebar-mini"> S </span>
-                                <span class="sidebar-normal">{{ __('Quarter Partida') }} </span>
+                        <li class="nav-item{{ $activePage == 'factura' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('factura.index') }}">
+                                <span class="sidebar-mini"> CC </span>
+                                <span class="sidebar-normal">{{ __('Caja Chica') }} </span>
                             </a>
                         </li>
                     </ul>

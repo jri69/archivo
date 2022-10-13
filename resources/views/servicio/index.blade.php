@@ -50,6 +50,11 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ $servicios->links() }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

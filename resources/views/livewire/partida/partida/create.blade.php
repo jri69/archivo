@@ -12,12 +12,10 @@
                                 <select wire:model="partida_id" name="partida_id" class="form-control">
                                     <option >Seleccione la Partida</option>
                                     @foreach ($partidas as $partida)
-                                        <option value="{{$partida->id}}">{{$partida->nombre}}</option>
+                                        <option value="{{$partida->id}}">{{$partida->codigo}} {{$partida->nombre}}</option>
                                     @endforeach 
-                                    
                                 </select>
-                            </div> 
-                                                          
+                            </div>                        
                         </div>
                         <br>                            
                         <div class="row">
@@ -26,7 +24,13 @@
                                 <input type="number" class="form-control"
                                 wire:model="codigo"
                                 name="codigo"
+                                value="{{ old('codigo') }}" autofocus
                                 >
+                                @if ($errors->has('codigo'))
+                            <span class="error text-danger" for="input-nombre">
+                                {{ $errors->first('codigo') }}
+                            </span>
+                        @endif
                             </div>                                
                         </div>
                         <br>
@@ -36,7 +40,13 @@
                                 <input type="text" class="form-control"
                                 wire:model="nombre"
                                 name="nombre"
+                                value="{{ old('nombre') }}" autofocus
                                 >
+                                @if ($errors->has('nombre'))
+                            <span class="error text-danger" for="input-nombre">
+                                {{ $errors->first('nombre') }}
+                            </span>
+                        @endif
                             </div>                             
                             <a wire:click="add()" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
                                 <i class="material-icons">add</i>

@@ -17,8 +17,8 @@ class Tipo_descuentoController extends Controller
      */
     public function index()
     {
-        $descuentos = tipo_descuento::all();
-        return view('tipo_descuento.index',compact('descuentos'));
+        $descuentos = tipo_descuento::orderBy('id', 'asc')->paginate(10);
+        return view('tipo_descuento.index', compact('descuentos'));
     }
 
     /**
@@ -39,20 +39,21 @@ class Tipo_descuentoController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
-            'nombre'=>'required',
-            'monto'=>'required',            
+            'nombre' => 'required',
+            'monto' => 'required',
+
         ]);
-        if(isNull($request->hasFile('archivo'))){
+        if (isNull($request->hasFile('archivo'))) {
             $archivo = 'null';
         }
-        if($request->hasFile('archivo')){
+        if ($request->hasFile('archivo')) {
             $file = $request->file('archivo')->store('public/archivos');
             $archivo = Storage::url($file);
-        }       
-        
-        tipo_descuento::create([ 
+        }
+
+        tipo_descuento::create([
             'nombre' => $request->nombre,
             'monto' => $request->monto,
             'archivo' => $archivo
@@ -93,13 +94,22 @@ class Tipo_descuentoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre',
-            'monto'
+            'nombre' => 'required',
+            'monto' => 'required'
         ]);
+        if (isNull($request->hasFile('archivo'))) {
+            $archivo = 'null';
+        }
+        if ($request->hasFile('archivo')) {
+            $file = $request->file('archivo')->store('public/archivos');
+            $archivo = Storage::url($file);
+        }
 
         $descuento = tipo_descuento::findOrFail($id);
-        $datos = $request->all();
-        $descuento->update($datos);
+        $descuento->nombre = $request['nombre'];
+        $descuento->monto = $request['monto'];
+        $descuento->archivo = $archivo;
+        $descuento->save();
         return redirect()->route('descuento.index');
     }
 

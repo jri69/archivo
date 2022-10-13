@@ -16,9 +16,9 @@ class Pago_ServicioController extends Controller
      */
     public function index()
     {
-        $pagos = Pago_Servicio::all();
+        $pagos = Pago_Servicio::orderBy('id', 'asc')->paginate(10);
         //return $pagos;
-        return view('pago_servicio.index',compact('pagos'));
+        return view('pago_servicio.index', compact('pagos'));
     }
 
     /**
@@ -29,7 +29,7 @@ class Pago_ServicioController extends Controller
     public function create()
     {
         $servicios = Servicio::all();
-        return view('pago_servicio.create',compact('servicios'));
+        return view('pago_servicio.create', compact('servicios'));
     }
 
     /**
@@ -41,25 +41,24 @@ class Pago_ServicioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'servicio_id'=>'required',
-            'monto'=>'required',
-            'fecha'=>'required',
-            'comprobante'=>'required'
+            'servicio_id' => 'required',
+            'monto' => 'required',
+            'fecha' => 'required',
+            'comprobante' => 'required'
         ]);
 
-        if($request->hasFile('comprobante')){
+        if ($request->hasFile('comprobante')) {
             $file = $request->file('comprobante')->store('public/servicios');
             $archivo = Storage::url($file);
         }
 
         Pago_Servicio::create([
-            'servicio_id'=> $request['servicio_id'],
-            'monto'=>$request['monto'],
-            'fecha'=>$request['fecha'],
-            'comprobante'=>$archivo
+            'servicio_id' => $request['servicio_id'],
+            'monto' => $request['monto'],
+            'fecha' => $request['fecha'],
+            'comprobante' => $archivo
         ]);
         return redirect()->route('pago_servicio.index');
-
     }
 
     /**
@@ -83,7 +82,7 @@ class Pago_ServicioController extends Controller
     {
         //return $pago;
         $servicios = Servicio::all();
-        return view('pago_servicio.edit',compact('pago','servicios'));
+        return view('pago_servicio.edit', compact('pago', 'servicios'));
     }
 
     /**
@@ -96,10 +95,10 @@ class Pago_ServicioController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'servicio_id'=>'required',
-            'monto'=>'required',
-            'fecha'=>'required',
-            'comprobante'=>'required'
+            'servicio_id' => 'required',
+            'monto' => 'required',
+            'fecha' => 'required',
+            'comprobante' => 'required'
         ]);
         $servicio = Pago_Servicio::findOrFail($id);
         $servicio->update($request->all());

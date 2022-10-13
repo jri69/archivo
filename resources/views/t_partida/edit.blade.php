@@ -16,7 +16,7 @@
                                 <select name="partida_id" class="form-control">
                                     <option >Seleccione la Partida</option>
                                     @foreach ($items as $item)
-                                        <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                        <option value="{{$item->id}}">{{$item->codigo}} {{$item->nombre}}</option>
                                     @endforeach 
                                     
                                 </select>
@@ -30,7 +30,13 @@
                                 <input type="number" class="form-control"
                                 value="{{ old('codigo',$partida->codigo) }}"
                                 name="codigo"
+                                autofocus
                                 >
+                                @if ($errors->has('codigo'))
+                            <span class="error text-danger" for="input-nombre">
+                                {{ $errors->first('codigo') }}
+                            </span>
+                        @endif
                             </div>                                
                         </div>
                         <br>
@@ -40,7 +46,13 @@
                                 <input type="text" class="form-control"
                                 value="{{ old('nombre',$partida->nombre) }}"
                                 name="nombre"
+                                autofocus
                                 >
+                                @if ($errors->has('nombre'))
+                            <span class="error text-danger" for="input-nombre">
+                                {{ $errors->first('nombre') }}
+                            </span>
+                        @endif
                             </div>
                         </div>                       
                         

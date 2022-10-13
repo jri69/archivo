@@ -16,7 +16,13 @@
                                 <input type="number" class="form-control"
                                 name="monto"
                                 value="{{ old('monto',$pago->monto) }}"
-                                >
+                                autofocus
+                                        >
+                                        @if ($errors->has('monto'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('monto') }}
+                                    </span>
+                                @endif
                             </div>                                
                         </div>
                         <br>
@@ -26,7 +32,13 @@
                                 <input type="date" class="form-control"
                                 name="fecha"
                                 value="{{ old('fecha',$pago->fecha) }}"
-                                >
+                                autofocus
+                                        >
+                                        @if ($errors->has('fecha'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('fecha') }}
+                                    </span>
+                                @endif
                             </div>                                
                         </div>
                         <br>
@@ -36,14 +48,26 @@
                                 <input type="number" class="form-control"
                                 name="comprobante"
                                 value="{{ old('comprobante',$pago->comprobante) }}"
-                                >
+                                autofocus
+                                        >
+                                        @if ($errors->has('comprobante'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('comprobante') }}
+                                    </span>
+                                @endif
                             </div>                                
                         </div>
                         <br>
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"><b>Comprobante:</b></label>
                             <div class="col-sm-7">
-                                <input type="file" class="form-control" name="compro_file" placeholder="Seleccione un documento...">
+                                <input type="file" class="form-control" name="compro_file" placeholder="Seleccione un documento..." autofocus
+                                >
+                                @if ($errors->has('compro_file'))
+                            <span class="error text-danger" for="input-nombre">
+                                {{ $errors->first('compro_file') }}
+                            </span>
+                        @endif
                             </div>
                         </div>
                         <br>

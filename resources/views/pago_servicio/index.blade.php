@@ -54,6 +54,11 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ $pagos->links() }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

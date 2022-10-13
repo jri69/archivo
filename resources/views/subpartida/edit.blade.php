@@ -16,7 +16,7 @@
                                 <select name="partida_id" class="form-control">
                                     <option >Seleccione la Partida</option>
                                     @foreach ($items as $item)
-                                        <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                        <option value="{{$item->id}}">{{$item->codigo}} {{$item->nombre}}</option>
                                     @endforeach 
                                     
                                 </select>

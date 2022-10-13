@@ -28,7 +28,13 @@
                                     <input type="number" class="form-control"
                                     name="monto"
                                     value="{{ old('monto',$pago->monto) }}"
-                                    >
+                                    autofocus
+                                        >
+                                        @if ($errors->has('monto'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('monto') }}
+                                    </span>
+                                @endif
                                 </div>                                
                             </div>
                             <br>
@@ -38,7 +44,13 @@
                                     <input type="date" class="form-control"
                                     name="fecha"
                                     value="{{ old('fecha',$pago->fecha) }}"
-                                    >
+                                    autofocus
+                                        >
+                                        @if ($errors->has('fecha'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('fecha') }}
+                                    </span>
+                                @endif
                                 </div>                                
                             </div>
                             <br>
@@ -46,7 +58,13 @@
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Comprobante:</b></label>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="comprobante" placeholder="Seleccione un documento..."
-                                    accept=".docx, .pdf, .doc, .png, .jpg">
+                                    accept=".docx, .pdf, .doc, .png, .jpg" autofocus
+                                    >
+                                    @if ($errors->has('comprobante'))
+                                <span class="error text-danger" for="input-nombre">
+                                    {{ $errors->first('comprobante') }}
+                                </span>
+                            @endif
                                 </div>
                             </div>
                             

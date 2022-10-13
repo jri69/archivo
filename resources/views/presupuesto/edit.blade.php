@@ -16,7 +16,13 @@
                                         <input type="text" class="form-control"
                                         name="nombre"
                                         value="{{old('nombre',$presupuesto->nombre)}}"
+                                        autofocus
                                         >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>       
@@ -26,7 +32,13 @@
                                         <input type="number" class="form-control"
                                         name="monto"
                                         value="{{old('monto',$presupuesto->monto)}}"
+                                        autofocus
                                         >
+                                        @if ($errors->has('monto'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('monto') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>  
@@ -36,7 +48,13 @@
                                         <input type="date" class="form-control"
                                         name="anio"
                                         value="{{old('anio',$presupuesto->anio)}}"
+                                        autofocus
                                         >
+                                        @if ($errors->has('anio'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('anio') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>                           

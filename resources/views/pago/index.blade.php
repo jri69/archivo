@@ -4,12 +4,15 @@
     <div class="content">
         <div class="container-fluid">
             <div class="form-row">
-                <div class="col text-right">
+                <div class="col text-left">
                     <a href="{{ route('pago_estudiante.index') }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">keyboard_backspace</i>
                         atras</a>
                     <a href="{{route('pago.create',$descuento->estu)}}" class="btn btn-sm btn-primary">
                         <b>Agregar Pago</b>
+                    </a>
+                    <a href="{{route('pago.pdf',$estudiante->id)}}" class="btn btn-sm btn-primary">
+                        <b>PDF</b>
                     </a>
                 </div>
             </div>
@@ -47,15 +50,15 @@
                             </center>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive"> 
                                 <table class="default">
                                     <thead class="text-primary text-dark">
                                         <tr>
-                                            <th>Programa</th>
-                                            <td width="10"><h4><b>{{$pro->nombre}}</b></h4></td>
+                                        <th>Programa</th>
+                                        <td width="46%"><h4><b>{{$pro->nombre}}</b></h4></td>
                                         </tr>      
                                         <tr><th>Version</th>
-                                        <td>{{$pro->version}}</td>
+                                        <td><b>{{$pro->version}}</b></td>
                                         </tr>   
                                         <tr><th>Edicion</th>
                                         <td>{{$pro->edicion}}</td>
@@ -67,7 +70,7 @@
                                         <td>{{\Carbon\Carbon::parse($pro->fecha_finalizacion)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Cantidad de Modulos</th> 
-                                        <td>{{ $pro->cantidad_modulos }}</td>
+                                        <td>{{ $programa->cantidad_modulos }}</td>
                                         </tr>                
                                         <tr><th>Costo Total del Programa</th>
                                         <td>{{$pro->costo}}</td>
