@@ -16,7 +16,7 @@
                                 <select name="partida_id" class="form-control">
                                     <option >Seleccione la Partida</option>
                                     @foreach ($items as $item)
-                                        <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                        <option value="{{$item->id}}">{{$item->codigo}} {{$item->nombre}}</option>
                                     @endforeach 
                                     
                                 </select>
@@ -28,9 +28,15 @@
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Codigo:</b> </label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
-                                value="{{ old('codigo',$partida->codigo) }}"
                                 name="codigo"
-                                >
+                                value="{{ old('codigo',$partida->codigo) }}"                                
+                                autofocus
+                                        >
+                                        @if ($errors->has('codigo'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('codigo') }}
+                                    </span>
+                                @endif
                             </div>                                
                         </div>
                         <br>
@@ -38,9 +44,15 @@
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b> </label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control"
-                                value="{{ old('nombre',$partida->nombre) }}"
                                 name="nombre"
-                                >
+                                value="{{ old('nombre',$partida->nombre) }}"
+                                autofocus
+                                        >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                             </div>
                         </div>                       
                         

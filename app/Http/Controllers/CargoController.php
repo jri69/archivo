@@ -14,8 +14,8 @@ class CargoController extends Controller
      */
     public function index()
     {
-        $cargos = Cargo::all();
-        return view('cargo.index',compact('cargos'));
+        $cargos = Cargo::orderBy('id', 'asc')->paginate(10);
+        return view('cargo.index', compact('cargos'));
     }
 
     /**
@@ -37,10 +37,10 @@ class CargoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'=>'required'
+            'nombre' => 'required'
         ]);
         $cargo = Cargo::create($request->all());
-        return redirect()->route('cargo.index',$cargo);
+        return redirect()->route('cargo.index', $cargo);
     }
 
     /**
@@ -62,7 +62,7 @@ class CargoController extends Controller
      */
     public function edit(Cargo $cargo)
     {
-        return view('cargo.edit',compact('cargo'));
+        return view('cargo.edit', compact('cargo'));
     }
 
     /**
@@ -75,7 +75,7 @@ class CargoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre'=>'required'
+            'nombre' => 'required'
         ]);
         $cargo = Cargo::findOrFail($id);
         $datos = $request->all();
@@ -92,6 +92,6 @@ class CargoController extends Controller
     public function destroy(Cargo $cargo)
     {
         $cargo->delete();
-        return back()->with('mensaje','Eliminado Correctamente');
+        return back()->with('mensaje', 'Eliminado Correctamente');
     }
 }

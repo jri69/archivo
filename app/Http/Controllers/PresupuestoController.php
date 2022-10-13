@@ -14,7 +14,7 @@ class PresupuestoController extends Controller
      */
     public function index()
     {
-        $presupuestos = Presupuesto::all();
+        $presupuestos = Presupuesto::orderBy('id', 'asc')->paginate(10);
         return view('presupuesto.index', compact('presupuestos'));
     }
 
@@ -37,12 +37,12 @@ class PresupuestoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'=>'required',
-            'monto'=>'required',
-            'anio'=>'required'
+            'nombre' => 'required',
+            'monto' => 'required',
+            'anio' => 'required'
         ]);
         $presupuesto = Presupuesto::create($request->all());
-        return redirect()->route('presupuesto.index',$presupuesto);
+        return redirect()->route('presupuesto.index', $presupuesto);
     }
 
     /**
@@ -64,7 +64,7 @@ class PresupuestoController extends Controller
      */
     public function edit(Presupuesto $presupuesto)
     {
-        return view('presupuesto.edit',compact('presupuesto'));
+        return view('presupuesto.edit', compact('presupuesto'));
     }
 
     /**
@@ -77,9 +77,9 @@ class PresupuestoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre'=>'required',
-            'monto'=>'required',
-            'anio'=>'required'
+            'nombre' => 'required',
+            'monto' => 'required',
+            'anio' => 'required'
         ]);
         $presupuesto = Presupuesto::findOrFaild($id);
         $datos = $request->all();

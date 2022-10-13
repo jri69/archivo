@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
             'apellido' => 'Administrador',
             'area_id' => $area->id,
             'cargo_id' => $cargo->id,
-            'ci' => '00000000',
+            'ci' => '00000001',
         ]);
         DB::table('users')->insert([
             'name' => 'Admin Admin',

@@ -6,8 +6,11 @@
             <div class="{{ route('presupuesto.create') }}">
                 <div class="col-12 text-left">
                     <a href="{{ route('subpartida.create') }}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Subpartida</b> 
+                        <b>Agregar 2da partida</b> 
                     </a> 
+                    <a href="{{ route('partida.index') }}" style="margin-left:70%" class="btn btn-sm btn-primary">
+                        <i class="material-icons">keyboard_backspace</i>
+                        atras</a>
                 </div>
             </div>
             <div class="row">
@@ -41,6 +44,11 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ $items->links() }}
                             </div>
                         </div>
                     </div>

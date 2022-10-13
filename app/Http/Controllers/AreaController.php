@@ -14,7 +14,7 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $areas = area::all();
+        $areas = area::orderBy('id', 'asc')->paginate(10);
         return view('area.index', compact('areas'));
     }
 

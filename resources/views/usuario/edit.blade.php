@@ -16,7 +16,13 @@
                                     <input type="text" class="form-control"
                                     name="nombre"
                                     value="{{old('nombre',$usuario->nombre)}}"
-                                    >
+                                    autofocus
+                                        >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                                 </div>
                             </div>
                             <br>
@@ -26,7 +32,13 @@
                                     <input type="text" class="form-control"
                                     name="apellido"
                                     value="{{old('apellido',$usuario->apellido)}}"
-                                    >
+                                    autofocus
+                                        >
+                                        @if ($errors->has('apellido'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('apellido') }}
+                                    </span>
+                                @endif
                                 </div>
                             </div>
                             <br>
@@ -60,7 +72,13 @@
                                     <input type="text" class="form-control"
                                     name="ci"
                                     value="{{old('ci',$usuario->ci)}}"
-                                    >
+                                    autofocus
+                                        >
+                                        @if ($errors->has('ci'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('ci') }}
+                                    </span>
+                                @endif
                                 </div>
                             </div>
                             <br>
@@ -69,19 +87,9 @@
                                 <div class="col-sm-7">
                                     <input type="email" class="form-control"
                                     name="email"
-                                    value="#"
                                     >
                                 </div>
                             </div>
-                           <!-- <br>
-                            <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"><b>Usuario:</b></label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control"
-                                    name="username"
-                                    >
-                                </div>
-                            </div> -->
                             <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Contraseña:</b></label>

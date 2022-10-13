@@ -56,6 +56,11 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ $usuario->links() }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

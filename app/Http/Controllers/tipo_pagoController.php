@@ -14,8 +14,8 @@ class tipo_pagoController extends Controller
      */
     public function index()
     {
-        $item = Tipo_pago::all();
-        return view('tipo_pago.index',compact('item'));
+        $item = Tipo_pago::orderBy('id', 'asc')->paginate(10);
+        return view('tipo_pago.index', compact('item'));
     }
 
     /**
@@ -37,11 +37,11 @@ class tipo_pagoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'
+            'nombre' => 'required'
         ]);
 
         $pago = Tipo_pago::create($request->all());
-        return redirect()->route('tipo_pago.index',$pago);
+        return redirect()->route('tipo_pago.index', $pago);
     }
 
     /**
@@ -63,7 +63,7 @@ class tipo_pagoController extends Controller
      */
     public function edit(Tipo_pago $pago)
     {
-        return view('tipo_pago.edit',compact('pago'));
+        return view('tipo_pago.edit', compact('pago'));
     }
 
     /**
@@ -76,7 +76,7 @@ class tipo_pagoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre'
+            'nombre' => 'required'
         ]);
 
         $pago = Tipo_pago::findOrFail($id);

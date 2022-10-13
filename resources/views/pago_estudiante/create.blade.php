@@ -38,7 +38,13 @@
                                 <div class="col-sm-7">
                                     <input type="number" class="form-control"
                                     name="cant_modulos"
-                                    >
+                                    value="{{ old('cant_modulos') }}" autofocus
+                                        >
+                                        @if ($errors->has('cant_modulos'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('cant_modulos') }}
+                                    </span>
+                                @endif
                                 </div>
                             </div>
                             <br>

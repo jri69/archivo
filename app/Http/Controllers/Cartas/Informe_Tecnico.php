@@ -215,7 +215,7 @@ class Informe_Tecnico extends Fpdf
         }
         return $nl;
     }
-
+    
     function WriteText($text)
     {
         $intPosIni = 0;

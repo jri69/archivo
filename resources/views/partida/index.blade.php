@@ -8,7 +8,12 @@
                     <a href="{{ route('partida.create') }}" class="btn btn-outline-primary btn-white">
                         <b>Agregar Partida</b> 
                     </a> 
+                    <a href="{{ route('subpartida.index')}}" style="margin-left: 40%" class="btn btn-sm btn-primary">2 Partida</a>
+                    <a href="{{ route('t_partida.index') }}" style="margin-left: 1%" class="btn btn-sm btn-primary">3 Partida</a>
+                    <a href="{{ route('c_partida.index') }}" style="margin-left: 1%" class="btn btn-sm btn-primary">4 Partida</a>
+                    <a href="{{ route('f_partida.index') }}" style="margin-left: 1%" class="btn btn-sm btn-primary">5 Partida</a>
                 </div>
+               
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -41,6 +46,11 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ $partidas->links() }}
                             </div>
                         </div>
                     </div>

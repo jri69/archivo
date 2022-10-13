@@ -19,7 +19,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuario = DB::table('usuarios')->join('cargos', 'cargos.id', '=', 'usuarios.cargo_id')->join('area', 'area.id', '=', 'usuarios.area_id')->select('cargos.nombre as cargo', 'usuarios.nombre as nombre', 'usuarios.apellido', 'usuarios.id', 'area.nombre as area')->get();
+        $usuario = DB::table('usuarios')->join('cargos', 'cargos.id', '=', 'usuarios.cargo_id')->join('area', 'area.id', '=', 'usuarios.area_id')->select('cargos.nombre as cargo', 'usuarios.nombre as nombre', 'usuarios.apellido', 'usuarios.id', 'area.nombre as area')->orderBy('id', 'asc')->paginate(10);
         //return $usuario;
         return view('usuario.index', compact('usuario'));
     }
@@ -50,7 +50,9 @@ class UsuarioController extends Controller
             'apellido' => 'required',
             'area_id' => 'required',
             'cargo_id' => 'required',
-            'ci' => 'required'
+            'ci' => 'required',
+            'email' => 'required',
+
         ]);
 
         $usuario = Usuario::create([

@@ -10,9 +10,9 @@
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Partidas:</b> </label>
                             <div class="col-sm-7">
                                 <select wire:model="partida_id" name="partida_id" class="form-control">
-                                    <option >Seleccione la Third Partida</option>
+                                    <option >Seleccione la 3 Partida</option>
                                     @foreach ($partidas as $partida)
-                                        <option value="{{$partida->id}}">{{$partida->nombre}}</option>
+                                        <option value="{{$partida->id}}">{{$partida->codigo}} {{$partida->nombre}}</option>
                                     @endforeach 
                                     
                                 </select>
@@ -26,7 +26,13 @@
                                 <input type="number" class="form-control"
                                 wire:model="codigo"
                                 name="codigo"
-                                >
+                                value="{{ old('codigo') }}" autofocus
+                                        >
+                                        @if ($errors->has('codigo'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('codigo') }}
+                                    </span>
+                                @endif
                             </div>                                
                         </div>
                         <br>
@@ -36,7 +42,13 @@
                                 <input type="text" class="form-control"
                                 wire:model="nombre"
                                 name="nombre"
-                                >
+                                value="{{ old('nombre') }}" autofocus
+                                        >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                             </div>                             
                             <a wire:click="add()" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
                                 <i class="material-icons">add</i>
@@ -59,7 +71,7 @@
             <div class="col-md-11">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Listado de Third Partidas</h4>
+                        <h4>Listado de Cuarta Partida</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

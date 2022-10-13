@@ -16,7 +16,13 @@
                                     <div class="col-sm-7">
                                         <input type="number" class="form-control" name="codigo"
                                         value="{{ old('codigo',$partida->codigo) }}"
+                                        autofocus
                                         >
+                                        @if ($errors->has('codigo'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('codigo') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>
@@ -25,7 +31,13 @@
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="nombre"
                                         value="{{ old('nombre',$partida->nombre) }}"
+                                        autofocus
                                         >
+                                        @if ($errors->has('nombre'))
+                                    <span class="error text-danger" for="input-nombre">
+                                        {{ $errors->first('nombre') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                                 <br>
