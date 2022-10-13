@@ -34,10 +34,18 @@ class Sol_Contrataciones extends Fpdf
 
         $this->fpdf->Ln(8);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("A:        Ph.D. Ing. Orlando Pedraza Mérida - Decano de la F.C.E.T."), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("           Lic. María Rene Muguertegui de Méndez - Responsable de Procesos de Contratación-JAF"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Via:     M.Sc. Ing. Erick Rojas Balcazar - Director Escuela de Ingeniería de la F.C.E.T."), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De:      M.Sc. Ing. Daniel Tejerina Claudio - Coordinador Académico - Escuela de Ingeniería."), 0, 'L', 0);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("A:        Ph.D. Ing. Orlando Pedraza Mérida - Decano de la F.C.E.T."), 0, 'L', 0);
+        $this->WriteText("A:        Ph.D. Ing. Orlando Pedraza Mérida - <Decano de la F.C.E.T.>");
+        $this->fpdf->Ln(5);
+        $this->WriteText("           Lic. María Rene Muguertegui de Méndez - <Responsable de Procesos de Contratación-JAF>");
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("           Lic. María Rene Muguertegui de Méndez - Responsable de Procesos de Contratación-JAF"), 0, 'L', 0);
+        $this->fpdf->Ln(5);
+        $this->WriteText("Via:     M.Sc. Ing. Erick Rojas Balcazar - <Director Escuela de Ingeniería de la F.C.E.T.>");
+        $this->fpdf->Ln(5);
+        $this->WriteText("De:      M.Sc. Ing. Daniel Tejerina Claudio - <Coordinador Académico - Escuela de Ingeniería.>");
+
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Via:     M.Sc. Ing. Erick Rojas Balcazar - Director Escuela de Ingeniería de la F.C.E.T."), 0, 'L', 0);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De:      M.Sc. Ing. Daniel Tejerina Claudio - Coordinador Académico - Escuela de Ingeniería."), 0, 'L', 0);
 
         $this->fpdf->Ln(8);
         $this->fpdf->SetFont('Arial', 'B', 10);
@@ -46,33 +54,34 @@ class Sol_Contrataciones extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Mediante la presente solicito contratación de consultor e informe presupuestario para el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL. a realizarse en fecha 15/08/2022 al 28/08/2022. Se adjunta TDR.",
+            'first' => 'Mediante la presente solicito contratación de consultor e informe presupuestario para el <MÓDULO> denominado: "Instrumentación Industrial, Sistema Scada y HMI", en relación al <DIPLOMADO> en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición). VIRTUAL. a realizarse en fecha <15/08/2022 al 28/08/2022>. Se adjunta TDR.',
         ];
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
-        $this->fpdf->Ln(4);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
+        $this->WriteText($contenido['first']);
+        $this->fpdf->Ln(8);
 
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Los fondos están contemplados en el presupuesto de ingresos propios de esta dirección en:'), 0, 'L', 0);
 
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Apertura programática: 14.00.13'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Partida Presupuestaria: 25210'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Fuente de Financiamiento:202-230 (Recurso Propio)'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Plazo del servicio: 60 Horas Académicas.'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Forma de Adjudicación: Total a pagar.'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Método de selección y adjudicación: Presupuesto Fijo.'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Lugar del servicio: Escuela de Ingeniería - F.C.E.T.'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Contratación: Mediante Contrato.'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Costo Total: Bs.- 6000.'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Sin otro particular, me despido de usted con las consideraciones más distinguidas'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Apertura programática: 14.00.13'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Partida Presupuestaria: 25210'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Fuente de Financiamiento:202-230 (Recurso Propio)'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Plazo del servicio: 60 Horas Académicas.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Forma de Adjudicación: Total a pagar.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Método de selección y adjudicación: Presupuesto Fijo.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Lugar del servicio: Escuela de Ingeniería - F.C.E.T.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Contratación: Mediante Contrato.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Costo Total: Bs.- 6000.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Sin otro particular, me despido de usted con las consideraciones más distinguidas'), 0, 'L', 0);
         $this->fpdf->Ln(5);
 
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Atentamente. -'), 0, 'L', 0);
 
 
         // pie de pagina
-        $this->fpdf->Ln(15);
+        $this->fpdf->Ln(25);
 
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
@@ -82,11 +91,56 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - F.C.E.T"), 0, 'C', 0);
 
-        $this->fpdf->Ln(2);
+        $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 8);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode('C.c./ Coordinación académica'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode('C.c/ Decanato'), 0, 'L', 0);
-
+        $this->WriteText('<C.c/> Coordinación académica');
+        $this->fpdf->Ln(4);
+        $this->WriteText('<C.c/> Decanato');
         $this->fpdf->Output("I", "Solicitud Contratacion.pdf");
+    }
+
+    function WriteText($text)
+    {
+        $intPosIni = 0;
+        $intPosFim = 0;
+        if (strpos($text, '<') !== false && strpos($text, '[') !== false) {
+            if (strpos($text, '<') < strpos($text, '[')) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->fpdf->Write(5, utf8_decode(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1)));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            }
+        } else {
+            if (strpos($text, '<') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->WriteText(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } elseif (strpos($text, '[') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode($text));
+            }
+        }
     }
 }

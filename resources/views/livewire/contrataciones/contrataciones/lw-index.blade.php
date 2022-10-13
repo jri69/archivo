@@ -28,47 +28,51 @@
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
                                     <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Modelo</th>
-                                    <th>Cantidad</th>
-                                    <th>Estado</th>
-                                    <th>Observaciones</th>
+                                    <th>CI</th>
+                                    <th>Modulo</th>
+                                    <th>Inicio</th>
+                                    <th>Final</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>a</td>
-                                        <td>s</td>
-                                        <td>s</td>
-                                        <td>s</td>
-                                        <td>s</td>
-                                        <td>d</td>
-                                        <td class="td-actions">
-                                            <a href="{{ route('contrataciones.show', 0) }}" class="btn btn-success">
-                                                <span class="material-icons">visibility</span>
-                                            </a>
-                                            <form action="{{ route('contrataciones.delete', 0) }}" method="POST"
-                                                style="display: inline-block;"
-                                                onsubmit="return confirm('¿Está seguro?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" type="submit">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @foreach ($contratos as $contrato)
+                                        <tr>
+
+                                            <td>{{ $contrato->contrato_id }}</td>
+                                            <td>{{ $contrato->modulo->docente->nombre . ' ' . $contrato->modulo->docente->apellido }}
+                                            </td>
+                                            <td>{{ $contrato->modulo->docente->cedula }}</td>
+                                            <td>{{ $contrato->modulo->nombre }}</td>
+                                            <td>{{ $contrato->fecha_inicio }}</td>
+                                            <td>{{ $contrato->fecha_final }}</td>
+                                            <td class="td-actions">
+                                                <a href="{{ route('contrataciones.show', $contrato->contrato_id) }}"
+                                                    class="btn btn-success">
+                                                    <span class="material-icons">visibility</span>
+                                                </a>
+                                                <form
+                                                    action="{{ route('contrataciones.delete', $contrato->contrato_id) }}"
+                                                    method="POST" style="display: inline-block;"
+                                                    onsubmit="return confirm('¿Está seguro?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!---paginacion-->
-                    {{-- <div class="row ">
+                    <div class="row ">
                         <div class="col text-sm">
-                            {{ $productos->links() }}
+                            {{ $contratos->links() }}
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>

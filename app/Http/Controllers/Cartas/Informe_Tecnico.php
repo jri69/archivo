@@ -42,12 +42,13 @@ class Informe_Tecnico extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el MÓDULO denominado: 'Instrumentación Industrial, Sistema Scada y HMI', en relación al DIPLOMADO en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición) VIRTUAL. Se concluyó con el proceso bajo el siguiente detalle: ",
-            'second' => "Por todo lo expuesto anteriormente expreso la conformidad respecto a la recepción de todos los temas arriba citados e informar que CUMPLE con los requerido por la capacitación según los términos de referencia; así también se RECOMIENDA LA ADJUDICACION.",
+            'first' => 'En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el <MÓDULO> denominado: "Instrumentación Industrial, Sistema Scada y HMI", en relación al <DIPLOMADO> en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición) VIRTUAL. Se concluyó con el proceso bajo el siguiente detalle: ',
+            'second' => 'Por todo lo expuesto anteriormente expreso la conformidad respecto a la recepción de todos los temas arriba citados e informar que <CUMPLE> con los requerido por la capacitación según los términos de referencia; así también se <RECOMIENDA LA ADJUDICACION>.',
         ];
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
-        $this->fpdf->Ln(4);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
+        $this->WriteText($contenido['first']);
+        $this->fpdf->Ln(8);
 
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Solicitud de contratación para consultor e informe presupuestario mediante comunicación ESCUELA DE INGENIERIA OF.COORD. ACA. N.º 1269/2022.'));
@@ -77,14 +78,17 @@ class Informe_Tecnico extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORARIOS   :  Lunes a Viernes de 18:30 a 22:00 , Sábados y Domingos de 10:00 a 12:30 horas'));
 
         $this->fpdf->Ln(4);
+        $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('EL CONSULTOR NO PRESENTA FACTURA.'), 0, 'L', 0);
         $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
-        $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz 11 de agosto del 2022.'), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 10);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
+        $this->WriteText($contenido['second']);
+        $this->fpdf->Ln(8);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, 11 de agosto del 2022.'), 0, 'L', 0);
 
         // pie de pagina
-        $this->fpdf->Ln(40);
+        $this->fpdf->Ln(30);
 
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
@@ -210,5 +214,50 @@ class Informe_Tecnico extends Fpdf
                 $i++;
         }
         return $nl;
+    }
+    
+    function WriteText($text)
+    {
+        $intPosIni = 0;
+        $intPosFim = 0;
+        if (strpos($text, '<') !== false && strpos($text, '[') !== false) {
+            if (strpos($text, '<') < strpos($text, '[')) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->fpdf->Write(5, utf8_decode(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1)));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            }
+        } else {
+            if (strpos($text, '<') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '<'))));
+                $intPosIni = strpos($text, '<');
+                $intPosFim = strpos($text, '>');
+                $this->fpdf->SetFont('', 'B');
+                $this->WriteText(substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1));
+                $this->fpdf->SetFont('', '');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } elseif (strpos($text, '[') !== false) {
+                $this->fpdf->Write(5, utf8_decode(substr($text, 0, strpos($text, '['))));
+                $intPosIni = strpos($text, '[');
+                $intPosFim = strpos($text, ']');
+                // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
+                $w = $this->width;
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
+                $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
+            } else {
+                $this->fpdf->Write(5, utf8_decode($text));
+            }
+        }
     }
 }

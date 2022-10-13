@@ -9,6 +9,11 @@
                     </span>
                 </div>
             </div>
+            <div class="col text-right">
+                <a href="{{ route('docentes.create') }}" class="btn btn-outline-primary btn-white">
+                    <b>Agregar Docente</b>
+                </a>
+            </div>
         </div>
 
         <div class="row">
@@ -22,48 +27,51 @@
                             <table class="table">
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
+                                    <td>Honorifico</td>
                                     <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Modelo</th>
-                                    <th>Cantidad</th>
-                                    <th>Estado</th>
-                                    <th>Observaciones</th>
+                                    <th>Apellido</th>
+                                    <th>Cedula</th>
+                                    <th>Correo</th>
+                                    <th>Telefono</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>a</td>
-                                        <td>s</td>
-                                        <td>s</td>
-                                        <td>s</td>
-                                        <td>s</td>
-                                        <td>d</td>
-                                        <td class="td-actions">
-                                            <a href="{{ route('docentes.show', 0) }}" class="btn btn-success">
-                                                <span class="material-icons">visibility</span>
-                                            </a>
-                                            <form action="{{ route('docentes.delete', 0) }}" method="POST"
-                                                style="display: inline-block;"
-                                                onsubmit="return confirm('¿Está seguro?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" type="submit">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @foreach ($docentes as $docente)
+                                        <tr>
+                                            <td>{{ $docente->id }}</td>
+                                            <td>{{ $docente->honorifico }}</td>
+                                            <td>{{ $docente->nombre }}</td>
+                                            <td>{{ $docente->apellido }}</td>
+                                            <td>{{ $docente->cedula }}</td>
+                                            <td>{{ $docente->correo }}</td>
+                                            <td>{{ $docente->telefono }}</td>
+                                            <td class="td-actions">
+                                                <a href="{{ route('docentes.show', $docente->id) }}"
+                                                    class="btn btn-success">
+                                                    <span class="material-icons">visibility</span>
+                                                </a>
+                                                <form action="{{ route('docentes.delete', $docente->id) }}"
+                                                    method="POST" style="display: inline-block;"
+                                                    onsubmit="return confirm('¿Está seguro?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!---paginacion-->
-                    {{-- <div class="row ">
+                    <div class="row ">
                         <div class="col text-sm">
-                            {{ $productos->links() }}
+                            {{ $docentes->links() }}
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>

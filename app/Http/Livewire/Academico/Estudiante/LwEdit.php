@@ -33,7 +33,7 @@ class LwEdit extends Component
     {
         $this->validate(
             [
-                'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'datos.nombre' => 'required|string|max:200',
                 'datos.email' => 'required|email|max:200|unique:estudiantes,email,' . $this->estudiante->id,
                 'datos.telefono' => 'required|numeric',
                 'datos.cedula' => 'required|numeric|unique:estudiantes,cedula,' . $this->estudiante->id,
@@ -90,6 +90,7 @@ class LwEdit extends Component
         }
         return redirect()->route('estudiante.index', $this->estudiante);
     }
+
     public function render()
     {
         $entregados = RequisitoEstudiante::where('id_estudiante', $this->estudiante->id)->get();

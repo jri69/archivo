@@ -28,8 +28,7 @@
                                     <th>#</th>
                                     <th>Programa</th>
                                     <th>Nombre</th>
-                                    <th>Versión</th>
-                                    <th>Edición</th>
+                                    <th>Docente</th>
                                     <th>Costo</th>
                                     <th>Fecha inicio</th>
                                     <th>Fecha final</th>
@@ -41,9 +40,11 @@
                                         <tr>
                                             <td>{{ $modulo->id }} </td>
                                             <td>{{ $modulo->programa()->sigla }}</td>
-                                            <td>{{ $modulo->nombre }}</td>
-                                            <td>{{ $modulo->version }}</td>
-                                            <td>{{ $modulo->edicion }}</td>
+                                            <td>{{ $modulo->nombre }}
+                                                <span>{{ $modulo->version . '.' . $modulo->edicion }}</span>
+                                            </td>
+                                            <td>{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}
+                                            </td>
                                             <td>{{ $modulo->costo }}</td>
                                             <td>{{ $modulo->fecha_inicio }}</td>
                                             <td>{{ $modulo->fecha_final }}</td>
