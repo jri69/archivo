@@ -11,9 +11,10 @@ class Contrato extends Model
     protected $fillable = [
         'modulo_id',
         'fecha_inicio',
-        'fecha_fin',
+        'fecha_final',
         'horarios',
         'pagado',
+        'honorario'
     ];
 
     public function modulo()

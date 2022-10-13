@@ -1,4 +1,4 @@
 @extends('layouts.app', ['activePage' => 'contrataciones', 'titlePage' => 'Contrataciones'])
 @section('content')
-    Create contrataciones
+    @livewire('contrataciones.contrataciones.lw-create')
 @endsection

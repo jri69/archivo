@@ -21,7 +21,7 @@ class ModuloController extends Controller
     {
         $date = date('Y-m-d');
         $programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
-        $docentes = Docente::all();
+        $docentes = Docente::orderBy('nombre', 'desc')->get();
         return view('modulo.create', compact('programas', 'docentes'));
     }
 
