@@ -248,6 +248,6 @@ class PagoController extends Controller
         $fpdf->Cell(98, 6, '', 0, 0);
         $fpdf->Cell(45, 6, 'TOTAL PAGADO.', 1, 0);
         $fpdf->Cell(45, 6, $pagado, 1, 1);
-        $fpdf->Output();
+        $fpdf->Output("I", "Reporte de Pagos.pdf");
     }
 }
