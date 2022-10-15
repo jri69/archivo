@@ -19,14 +19,9 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
-            <!--<li class="nav-item{{ $activePage == 'usuario' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('usuario.index') }}">
-          <i class="material-icons">face</i>
-            <p>{{ __('Usuarios') }}</p>
-        </a>
-      </li> -->
             <li
                 class="nav-item {{ $activePage == 'usuario' || $activePage == 'area' || $activePage == 'cargo' || $activePage == 'user-management' ? ' active' : '' }}">
+
                 <a class="nav-link" data-toggle="collapse" href="#Usuario" aria-expanded="false">
                     <i class="material-icons">face</i>
                     <p>{{ __('Usuarios') }}
@@ -35,12 +30,14 @@
                 </a>
                 <div class="collapse" id="Usuario">
                     <ul class="nav">
+                        {{-- @can('usuario.index') --}}
                         <li class="nav-item{{ $activePage == 'usuario' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('usuario.index') }}">
                                 <span class="sidebar-mini"> U </span>
                                 <span class="sidebar-normal"> {{ __('Usuario') }} </span>
                             </a>
                         </li>
+                        {{-- @endcan --}}
                         <li class="nav-item{{ $activePage == 'cargo' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('cargo.index') }}">
                                 <span class="sidebar-mini"> C </span>
@@ -51,6 +48,12 @@
                             <a class="nav-link" href="{{ route('area.index') }}">
                                 <span class="sidebar-mini"> A </span>
                                 <span class="sidebar-normal"> {{ __('Area') }} </span>
+                            </a>
+                        </li>
+                        <li class="nav-item{{ $activePage == 'roles' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('roles.index') }}">
+                                <span class="sidebar-mini"> R </span>
+                                <span class="sidebar-normal"> {{ __('Roles') }} </span>
                             </a>
                         </li>
                     </ul>
@@ -127,7 +130,8 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item {{ $activePage == 'Descuento' ||$activePage == 'tipo_pago' || $activePage == 'estudiantes' ||  $activePage == 'user-management' ? ' active' : '' }}">
+            <li
+                class="nav-item {{ $activePage == 'Descuento' || $activePage == 'tipo_pago' || $activePage == 'estudiantes' || $activePage == 'user-management' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="false">
                     <i class="material-icons">content_paste</i>
                     <p>{{ __('Contabilidad') }}

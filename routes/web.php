@@ -26,6 +26,7 @@ use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\QuarterPartidaController;
 use App\Http\Controllers\RecepcionController;
 use App\Http\Controllers\RequisitosController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\SueldosController;
@@ -91,12 +92,6 @@ Route::group(['prefix' => 'usuario'], function () {
     Route::get('/edit/{usuario}', [UsuarioController::class, 'edit'])->name('usuario.edit');
     Route::put('/{usuario}', [UsuarioController::class, 'update'])->name('usuario.update');
     Route::delete('/{usuario}', [UsuarioController::class, 'destroy'])->name('usuario.delete');
-});
-
-//Documento
-Route::group(['prefix' => 'documento'], function () {
-    Route::get('/index', [\App\Http\Controllers\DocumentoController::class, 'index'])->name('documento.index');
-    Route::get('/create', [\App\Http\Controllers\DocumentoController::class, 'create'])->name('documento.create');
 });
 
 //Area
@@ -385,4 +380,12 @@ Route::group(['prefix' => 'detalle_factura'], function () {
     Route::get('/index', [DetalleFacturaController::class, 'index'])->name('detalle_factura.index');
     Route::get('/create', [DetalleFacturaController::class, 'create'])->name('detalle_factura.create');
     Route::get('/edit', [DetalleFacturaController::class, 'edit'])->name('detalle_factura.edit');
+});
+
+// Roles
+Route::group(['prefix' => 'roles'], function () {
+    Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::get('/edit/{rol}', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::delete('/{rol}', [RoleController::class, 'destroy'])->name('roles.delete');
 });

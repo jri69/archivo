@@ -9,6 +9,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller
 {
@@ -33,7 +34,8 @@ class UsuarioController extends Controller
     {
         $areas = Area::all();
         $cargos = Cargo::all();
-        return view('usuario.create', compact('areas', 'cargos'));
+        $roles = Role::all();
+        return view('usuario.create', compact('areas', 'cargos', 'roles'));
     }
 
     /**
