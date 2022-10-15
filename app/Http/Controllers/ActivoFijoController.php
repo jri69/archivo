@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class ActivoFijoController extends Controller
 {
+
     public function index()
     {
         return view('activo.index');

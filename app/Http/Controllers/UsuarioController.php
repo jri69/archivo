@@ -20,9 +20,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuario = DB::table('usuarios')->join('cargos', 'cargos.id', '=', 'usuarios.cargo_id')->join('area', 'area.id', '=', 'usuarios.area_id')->select('cargos.nombre as cargo', 'usuarios.nombre as nombre', 'usuarios.apellido', 'usuarios.id', 'area.nombre as area')->orderBy('id', 'asc')->paginate(10);
+        $usuarios = Usuario::all();
         //return $usuario;
-        return view('usuario.index', compact('usuario'));
+        return view('usuario.index', compact('usuarios'));
     }
 
     /**
@@ -48,13 +48,23 @@ class UsuarioController extends Controller
     {
 
         $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'area_id' => 'required',
-            'cargo_id' => 'required',
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'area_id' => 'required|numeric',
+            'cargo_id' => 'required|numeric',
             'ci' => 'required',
-            'email' => 'required',
-
+            'email' => 'required|email',
+            'rol_id' => 'required|numeric',
+            'password' => 'required',
+        ], [
+            'nombre.required' => 'El campo nombre es obligatorio',
+            'apellido.required' => 'El campo apellido es obligatorio',
+            'area_id.required' => 'El campo area es obligatorio',
+            'cargo_id.required' => 'El campo cargo es obligatorio',
+            'ci.required' => 'El campo ci es obligatorio',
+            'email.required' => 'El campo correo es obligatorio',
+            'rol_id.required' => 'El campo rol es obligatorio',
+            'password.required' => 'El campo contraseña es obligatorio',
         ]);
 
         $usuario = Usuario::create([
@@ -65,15 +75,16 @@ class UsuarioController extends Controller
             'ci' => $request['ci'],
         ]);
         $pass = Hash::make($request['password']);
-        $id = Usuario::latest('id')->first()->id;
-
 
         $users = new User();
         $users->name = $request['apellido'];
         $users->email = $request['email'];
         $users->password = $pass;
-        $users->usuario_id = $id;
+        $users->usuario_id = $usuario->id;
         $users->save();
+
+        // vincular rol
+        $users->assignRole($request['rol_id']);
 
         return redirect()->route('usuario.index', $usuario);
     }
@@ -98,9 +109,11 @@ class UsuarioController extends Controller
     public function edit(Usuario $usuario)
     {
         $cargos = Cargo::all();
-        $user = User::all();
+        $user = User::find($usuario->user->id);
         $areas = Area::all();
-        return view('usuario.edit', compact('usuario', 'cargos', 'user', 'areas'));
+        $roles = Role::all();
+        $rol = $user->roles->first();
+        return view('usuario.edit', compact('usuario', 'cargos', 'user', 'areas', 'roles', 'rol'));
     }
 
     /**
@@ -112,29 +125,32 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = User::where('users.usuario_id', $id)->first();
-
         $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'area_id' => 'required',
-            'cargo_id' => 'required',
-            'ci' => 'required'
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'ci' => 'required',
+            'email' => 'required|email',
+        ], [
+            'nombre.required' => 'El campo nombre es obligatorio',
+            'apellido.required' => 'El campo apellido es obligatorio',
+            'ci.required' => 'El campo ci es obligatorio',
+            'email.required' => 'El campo correo es obligatorio',
         ]);
 
         $usuario = Usuario::find($id);
-        $usuario->nombre = $request['nombre'];
-        $usuario->apellido = $request['apellido'];
-        $usuario->area_id = $request['area_id'];
-        $usuario->cargo_id = $request['cargo_id'];
-        $usuario->ci = $request['ci'];
-        $usuario->save();
-        $pass = Hash::make($request['password']);
-        $users = User::find($user_id->id);
-        $users->name = $request['apellido'];
-        $users->email = $request['email'];
-        $users->password = $pass;
-        $users->save();
+        $user = User::find($usuario->user->id);
+
+        $usuario->update($request->all());
+
+        $request['password'] ? $pass = Hash::make($request['password']) : $pass = $user->password;
+        $user->update([
+            'name' => $request['apellido'],
+            'email' => $request['email'],
+            'password' => $pass,
+        ]);
+
+        // vincular rol
+        $request['rol_id'] ? $user->syncRoles($request['rol_id']) : '';
 
         return redirect()->route('usuario.index');
     }
