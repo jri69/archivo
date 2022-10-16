@@ -28,6 +28,7 @@
                                     <th>#</th>
                                     <th>Programa</th>
                                     <th>Nombre</th>
+                                    <th>Version y Edicion</th>
                                     <th>Docente</th>
                                     <th>Costo</th>
                                     <th>Fecha inicio</th>
@@ -39,10 +40,12 @@
                                     @foreach ($modulos as $modulo)
                                         <tr>
                                             <td>{{ $modulo->id }} </td>
-                                            <td>{{ $modulo->programa()->sigla }}</td>
+                                            <td>{{ $modulo->programa()->sigla . ' ' . $modulo->programa()->version . '.' . $modulo->programa()->edicion }}
+                                            </td>
                                             <td>{{ $modulo->nombre }}
                                                 <span>{{ $modulo->version . '.' . $modulo->edicion }}</span>
                                             </td>
+                                            <td>{{ $modulo->version . '.' . $modulo->edicion }}</td>
                                             <td>{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}
                                             </td>
                                             <td>{{ $modulo->costo }}</td>

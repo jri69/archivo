@@ -61,6 +61,24 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">Fecha de inicio</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $modulo->fecha_inicio }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">Fecha de finalizacion</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $modulo->fecha_final }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">Versión</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
@@ -106,8 +124,8 @@
                                             Nota
                                         </th>
                                         <!--<th>
-                                                                                                                        Acciones
-                                                                                                                    </th>-->
+                                                                                                                                                Acciones
+                                                                                                                                            </th>-->
                                     </thead>
                                     <tbody>
                                         @foreach ($estudiante_programa as $estu_progm)

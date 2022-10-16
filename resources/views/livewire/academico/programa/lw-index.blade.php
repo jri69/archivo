@@ -40,7 +40,8 @@
                                             <td>{{ $programa->id }} </td>
                                             <td>{{ $programa->nombre }}</td>
                                             <td>{{ $programa->tipo }}</td>
-                                            <td>{{ $programa->sigla }}</td>
+                                            <td>{{ $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion }}
+                                            </td>
                                             <td>{{ $programa->costo }}</td>
                                             <td>{{ \Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y') }}
                                             </td>

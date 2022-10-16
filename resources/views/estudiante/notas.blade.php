@@ -45,7 +45,7 @@
                                                     {{ $nota->id }}
                                                 </td>
                                                 <td>
-                                                    {{ $nota->modulo->nombre }}
+                                                    {{ $nota->modulo->nombre . ' ' . $nota->modulo->version . '.' . $nota->modulo->edicion }}
                                                 </td>
                                                 <td>
                                                     {{ $nota->modulo->docente->honorifico }}
