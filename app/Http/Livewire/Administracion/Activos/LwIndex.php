@@ -24,7 +24,6 @@ class LwIndex extends Component
         $this->resetPage();
     }
 
-
     public function render()
     {
         $activos = ActivoFijo::join('users', 'users.id', '=', 'activo_fijos.id_usuario')
