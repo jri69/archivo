@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 
 class InventarioController extends Controller
 {
+    // Ver el inventario
     public function index()
     {
         return view('inventario.index');
     }
 
+    // Interface para crear un inventario
     public function create()
     {
         return view('inventario.create');
     }
 
+    // Guardar un inventario
     public function store(Request $request)
     {
         $request->validate(
@@ -50,12 +53,13 @@ class InventarioController extends Controller
         return redirect()->route('inventario.index', $producto);
     }
 
+    // Interface de edición de un inventario
     public function edit(Inventario $inventario)
     {
-
         return view('inventario.edit', compact('inventario'));
     }
 
+    // Actualizar un inventario
     public function update(Request $request, $id)
     {
         $request->validate(
@@ -91,6 +95,7 @@ class InventarioController extends Controller
         return redirect()->route('inventario.index');
     }
 
+    // Eliminar un inventario
     public function destroy($requisito)
     {
         $requisito = Inventario::findOrFail($requisito);

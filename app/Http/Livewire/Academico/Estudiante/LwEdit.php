@@ -70,7 +70,6 @@ class LwEdit extends Component
             'carrera' => $this->datos['carrera'],
             'universidad' => $this->datos['universidad'],
         ]);
-
         if ($this->documentos) {
             $requisitos = Requisito::all();
             foreach ($requisitos as $requisito) {

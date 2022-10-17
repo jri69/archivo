@@ -42,8 +42,7 @@ class LwEdit extends Component
         $this->listaV = ProgramaModulo::where('id_programa', $this->programa->id)->get();
         $this->listaV = $this->listaV->pluck('id')->toArray();
         $this->i = count($this->listaV);
-        $date = date('Y-m-d');
-        $this->modulos = Modulo::where('fecha_final', '>=', $date)->get();
+        $this->modulos = Modulo::where('fecha_final', '>', now())->get();
     }
 
     public function add()

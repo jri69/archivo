@@ -19,7 +19,6 @@ class LwCreate extends Component
     public $programas;
     public $requisitos;
 
-
     public function mount()
     {
         $this->datos['nombre'] = '';

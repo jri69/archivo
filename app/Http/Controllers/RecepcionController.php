@@ -11,17 +11,20 @@ use Illuminate\Support\Facades\Storage;
 
 class RecepcionController extends Controller
 {
+    // Ver las recepciones
     public function index()
     {
         return view('recepcion.index');
     }
 
+    // Interface para crear una recepcion
     public function create()
     {
         $unidades = UnidadOrganizacional::all();
         return view('recepcion.create', compact('unidades'));
     }
 
+    // Guardar una recepcion
     public function store(Request $request)
     {
         $request->validate(
@@ -71,21 +74,24 @@ class RecepcionController extends Controller
         return redirect()->route('recepcion.index', $recepcion);
     }
 
+    // Ver detalles de una recepcion
     public function show($id)
     {
-        $recepcion = Recepcion::find($id);
+        $recepcion = Recepcion::findOrFail($id);
         $movimientos = MovimientoDoc::where('recepcion_id', $id)->orderBy('id', 'desc')->get();
         $documento = Documento::where('recepcion_id', $id)->first();
         return view('recepcion.show', compact('recepcion', 'movimientos', 'documento'));
     }
 
+    // Interface para editar una recepcion
     public function edit($id)
     {
-        $recepcion = Recepcion::find($id);
+        $recepcion = Recepcion::findOrFail($id);
         $unidades = UnidadOrganizacional::all();
         return view('recepcion.edit', compact('recepcion', 'unidades'));
     }
 
+    // Actualizar una recepcion
     public function update(Request $request, $id)
     {
         $request->validate(
@@ -107,7 +113,7 @@ class RecepcionController extends Controller
                 'unidad_organizativa_id.numeric' => 'El campo unidad organizativa debe ser numerico',
             ]
         );
-        $recepcion = Recepcion::find($id);
+        $recepcion = Recepcion::findOrFail($id);
         $recepcion->update([
             'fecha' => $request->fecha,
             'departamento' => $request->departamento,
@@ -118,9 +124,10 @@ class RecepcionController extends Controller
         return redirect()->route('recepcion.index', $recepcion);
     }
 
+    // Eliminar una recepcion
     public function destroy($id)
     {
-        $recepcion = Recepcion::find($id);
+        $recepcion = Recepcion::findOrFail($id);
         $recepcion->delete();
         return redirect()->route('recepcion.index');
     }

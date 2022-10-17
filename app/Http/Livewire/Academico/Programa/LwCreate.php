@@ -2,11 +2,7 @@
 
 namespace App\Http\Livewire\Academico\Programa;
 
-use App\Models\EstudiantePrograma;
-use App\Models\Modulo;
-use App\Models\NotasPrograma;
 use App\Models\Programa;
-use App\Models\ProgramaModulo;
 use Livewire\Component;
 
 class LwCreate extends Component

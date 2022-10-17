@@ -10,50 +10,37 @@
                 </div>
             </div>
             <div class="col text-right">
-                <a href="{{ route('programa.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Programa</b>
+                <a href="{{ route('roles.create') }}" class="btn btn-outline-primary btn-white">
+                    <b>Agregar rol</b>
                 </a>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Listado de programas</h4>
+                        <h4>Listado de roles</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary text-dark">
-                                    <th>#</th>
+                                    <th>Código</th>
                                     <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Sigla</th>
-                                    <th>Costo</th>
-                                    <th>Inicio</th>
-                                    <th>Finalización</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($programas as $programa)
+                                    @foreach ($roles as $rol)
                                         <tr>
-                                            <td>{{ $programa->id }} </td>
-                                            <td>{{ $programa->nombre }}</td>
-                                            <td>{{ $programa->tipo }}</td>
-                                            <td>{{ $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion }}
-                                            </td>
-                                            <td>{{ $programa->costo }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y') }}
-                                            </td>
-                                            <td>{{ \Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y') }}
-                                            </td>
+                                            <td>{{ $rol->id }} </td>
+                                            <td>{{ $rol->name }}</td>
                                             <td class="td-actions">
-                                                <a href="{{ route('programa.show', $programa->id) }}"
-                                                    class="btn btn-success">
-                                                    <span class="material-icons">visibility</span>
+                                                <a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-primary">
+                                                    <span class="material-icons">edit</span>
                                                 </a>
-                                                <form action="{{ route('programa.delete', $programa->id) }}"
-                                                    method="POST" style="display: inline-block;"
+                                                <form action="{{ route('roles.delete', $rol->id) }}" method="POST"
+                                                    style="display: inline-block;"
                                                     onsubmit="return confirm('¿Está seguro?')">
                                                     @csrf
                                                     @method('DELETE')
@@ -68,9 +55,10 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            {{ $programas->links() }}
+                    <!---paginacion-->
+                    <div class="row ">
+                        <div class="col text-sm">
+                            {{ $roles->links() }}
                         </div>
                     </div>
                 </div>

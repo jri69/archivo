@@ -7,33 +7,20 @@ use Illuminate\Http\Request;
 
 class AreaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Ver las áreas
     public function index()
     {
-        $areas = area::orderBy('id', 'asc')->paginate(10);
+        $areas = Area::orderBy('nombre', 'asc')->paginate(10);
         return view('area.index', compact('areas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Interface para crear un área
     public function create()
     {
         return view('area.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Guardar un área
     public function store(Request $request)
     {
         $request->validate([
@@ -43,35 +30,13 @@ class AreaController extends Controller
         return redirect()->route('area.index', $area);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Interface de edición de un área
     public function edit(Area $area)
     {
         return view('area.edit', compact('area'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Actualizar un área
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -83,12 +48,7 @@ class AreaController extends Controller
         return redirect()->route('area.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Eliminar un área
     public function destroy(Area $area)
     {
         $area->delete();

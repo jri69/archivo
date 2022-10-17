@@ -7,17 +7,20 @@ use Illuminate\Http\Request;
 
 class RequisitosController extends Controller
 {
+    // Ver los requisitos
     public function index()
     {
         $requisitos = Requisito::all();
         return view('requisitos.index', compact('requisitos'));
     }
 
+    // Interface para crear un requisito
     public function create()
     {
         return view('requisitos.create');
     }
 
+    // Guardar un requisito
     public function store(Request $request)
     {
         $request->validate(
@@ -40,11 +43,13 @@ class RequisitosController extends Controller
         return redirect()->route('requisito.index', $requisito);
     }
 
+    // Interface para editar un requisito
     public function edit(Requisito $requisito)
     {
         return view('requisitos.edit', compact('requisito'));
     }
 
+    // Actualizar un requisito
     public function update(Request $request, $id)
     {
         $request->validate(
@@ -69,6 +74,7 @@ class RequisitosController extends Controller
         return redirect()->route('requisito.index');
     }
 
+    // Eliminar un requisito
     public function destroy($requisito)
     {
         $requisito = Requisito::findOrFail($requisito);

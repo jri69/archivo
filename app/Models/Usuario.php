@@ -27,4 +27,9 @@ class Usuario extends Model
     {
         return $this->belongsTo(Cargo::class);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'usuario_id');
+    }
 }

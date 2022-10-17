@@ -1,12 +1,12 @@
-@extends('layouts.app',['activePage' => 'usuario', 'titlePage' => 'Usuario'])
+@extends('layouts.app', ['activePage' => 'usuario', 'titlePage' => 'Usuario'])
 
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{route('usuario.create')}}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar Usuario</b> 
+                    <a href="{{ route('usuario.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Usuario</b>
                     </a>
                 </div>
             </div>
@@ -26,29 +26,37 @@
                                         <th>Apellido</th>
                                         <th>Cargo</th>
                                         <th>Area</th>
-                                        <th>Acciones</th> 
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($usuario as $item)
+                                        @foreach ($usuarios as $user)
                                             <tr>
-                                                <td>{{$item->id}}</td>
-                                                <td>{{$item->nombre}}</td>
-                                                <td>{{$item->apellido}}</td>
-                                                <td>{{$item->cargo}}</td>
-                                                <td>{{$item->area}}</td>
+                                                <td>{{ $user->id }}</td>
+                                                <td>{{ $user->nombre }}</td>
+                                                <td>{{ $user->apellido }}</td>
+                                                <td>{{ $user->cargo->nombre }}</td>
+                                                <td>{{ $user->area->nombre }}</td>
+                                                <td>
+                                                    @foreach ($user->user->getRoleNames() as $rol)
+                                                        {{ $rol }}
+                                                    @endforeach
+                                                </td>
                                                 <td class="td-actions">
-                                                    <a href="{{route('usuario.edit',$item->id)}}" class="btn btn-primary">
-                                                    <span class="material-icons">edit</span>
+                                                    <a href="{{ route('usuario.edit', $user->id) }}"
+                                                        class="btn btn-primary">
+                                                        <span class="material-icons">edit</span>
 
-                                                </a>
-                                                <form action="{{route('usuario.delete',$item->id)}}" method="POST" style="display: inline-block;"
-                                                onsubmit="return confirm('¿Está seguro?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" type="submit">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                                </form>
+                                                    </a>
+                                                    <form action="{{ route('usuario.delete', $user->id) }}" method="POST"
+                                                        style="display: inline-block;"
+                                                        onsubmit="return confirm('¿Está seguro?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger" type="submit">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -56,11 +64,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                {{ $usuario->links() }}
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

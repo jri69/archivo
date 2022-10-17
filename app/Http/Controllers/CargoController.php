@@ -7,33 +7,20 @@ use Illuminate\Http\Request;
 
 class CargoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Ver los cargos
     public function index()
     {
         $cargos = Cargo::orderBy('id', 'asc')->paginate(10);
         return view('cargo.index', compact('cargos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Interface para crear un cargo
     public function create()
     {
         return view('cargo.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Guardar un cargo
     public function store(Request $request)
     {
         $request->validate([
@@ -43,52 +30,24 @@ class CargoController extends Controller
         return redirect()->route('cargo.index', $cargo);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Interface de edición de un cargo
     public function edit(Cargo $cargo)
     {
         return view('cargo.edit', compact('cargo'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Actualizar un cargo
     public function update(Request $request, $id)
     {
         $request->validate([
             'nombre' => 'required'
         ]);
         $cargo = Cargo::findOrFail($id);
-        $datos = $request->all();
-        $cargo->update($datos);
+        $cargo->update($request->all());
         return redirect()->route('cargo.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Eliminar un cargo
     public function destroy(Cargo $cargo)
     {
         $cargo->delete();
