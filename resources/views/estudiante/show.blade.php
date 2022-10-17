@@ -186,10 +186,10 @@
                                                         {{ $programa->tipo }}
                                                     </td>
                                                     <td>
-                                                        {{ $programa->fecha_inicio }}
+                                                        {{ date('d-m-Y', strtotime($programa->fecha_inicio)) }}
                                                     </td>
                                                     <td>
-                                                        {{ $programa->fecha_finalizacion }}
+                                                        {{ date('d-m-Y', strtotime($programa->fecha_finalizacion)) }}
                                                     </td>
                                                     <td class="td-actions">
                                                         <a href="{{ route('estudiante.showNotas', [$estudiante->id, $programa->id]) }}"

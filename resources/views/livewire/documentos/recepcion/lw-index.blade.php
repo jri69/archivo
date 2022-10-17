@@ -42,7 +42,7 @@
                                             </td>
                                             <td>{{ $recepcion->user->usuario->area->nombre }}</td>
                                             <td>{{ $recepcion->unidad_organizativa->nombre }}</td>
-                                            <td>{{ $recepcion->fecha }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($recepcion->fecha)) }}</td>
                                             <td>{{ substr($recepcion->descripcion, 0, 100) }}...</td>
                                             <td class="td-actions">
                                                 <a href="{{ route('recepcion.show', $recepcion->id) }}"

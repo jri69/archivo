@@ -50,20 +50,21 @@
                                 </div>
                             </div>
                             <br>
+                            {{-- dar formato a la fecha --}}
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="bmd-label-floating">Fecha de inicio</label>
                                     <div class="form-group">
-                                        <input type="date" class="form-control" value="{{ $contrato->fecha_inicio }}"
-                                            disabled>
+                                        <input type="text" class="form-control"
+                                            value="{{ date('d-m-Y', strtotime($contrato->fecha_inicio)) }}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="bmd-label-floating">Fecha de finalizacion</label>
                                     <div class="form-group">
-                                        <input type="date" class="form-control" value="{{ $contrato->fecha_final }}"
-                                            disabled>
+                                        <input type="text" class="form-control"
+                                            value="{{ date('d-m-Y', strtotime($contrato->fecha_final)) }}" disabled>
                                     </div>
                                 </div>
                             </div>

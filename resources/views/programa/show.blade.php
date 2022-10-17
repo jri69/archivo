@@ -45,7 +45,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-group">
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $programa->fecha_inicio }}">
+                                            value="{{ date('d-m-Y', strtotime($programa->fecha_inicio)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-group">
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $programa->fecha_finalizacion }}">
+                                            value="{{ date('d-m-Y', strtotime($programa->fecha_finalizacion)) }}">
                                     </div>
                                 </div>
                             </div>
