@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Contrato;
 use App\Models\Docente;
 use App\Models\Estudiante;
 use App\Models\EstudiantePrograma;
@@ -32,7 +33,7 @@ class AcademicoSeeder extends Seeder
             'costo' => 30000,
             'tipo' => 'Doctorado',
         ]);
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             Programa::create([
                 'nombre' => 'Programa ' . $i + 1,
                 'sigla' => 'PR',
@@ -46,7 +47,7 @@ class AcademicoSeeder extends Seeder
             ]);
         }
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             Docente::create([
                 'nombre' => 'Docente ' . $i + 1,
                 'apellido' => 'Apellido ' . $i + 1,
@@ -67,7 +68,7 @@ class AcademicoSeeder extends Seeder
             'costo' => 15000,
             'fecha_inicio' => "2022/08/10",
             'fecha_final' => "2022/09/10",
-            'docente_id' => rand(1, 20),
+            'docente_id' => rand(1, 500),
         ]);
 
         $modulo2 = Modulo::create([
@@ -79,7 +80,7 @@ class AcademicoSeeder extends Seeder
             'costo' => 15000,
             'fecha_inicio' => "2022/09/10",
             'fecha_final' => "2022/10/10",
-            'docente_id' => rand(1, 20),
+            'docente_id' => rand(1, 500),
         ]);
 
         ProgramaModulo::create([
@@ -92,7 +93,7 @@ class AcademicoSeeder extends Seeder
             'id_modulo' => $modulo2->id,
         ]);
 
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             $modulo = Modulo::create([
                 'nombre' => 'Modulo ' . $i + 10,
                 'sigla' => 'PR ' . $i,
@@ -102,12 +103,22 @@ class AcademicoSeeder extends Seeder
                 'costo' => 150 * $i,
                 'fecha_inicio' => "2022/08/10",
                 'fecha_final' => "2022/09/10",
-                'docente_id' => rand(1, 20),
+                'docente_id' => rand(1, 500),
             ]);
 
             ProgramaModulo::create([
-                'id_programa' => rand(1, 20),
+                'id_programa' => rand(1, 500),
                 'id_modulo' => $modulo->id,
+            ]);
+        }
+        for ($i = 0; $i < 500; $i++) {
+            Contrato::create([
+                'fecha_inicio' => now(),
+                'fecha_final' => '2022/12/10',
+                'horarios' => 'Lunes 8:00-10:00, Martes 8:00-10:00, Miercoles 8:00-10:00',
+                'pagado' => $i % 2 == 0 ? true : false,
+                'honorario' => rand(5000, 10000),
+                'modulo_id' => rand(1, 500),
             ]);
         }
         $estudiante = Estudiante::create([
@@ -126,7 +137,7 @@ class AcademicoSeeder extends Seeder
             'id_estudiante' => $estudiante->id,
         ]);
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             $name = 'Estudiante ' . $i + 1;
             $estudiante = Estudiante::create([
                 'nombre' => $name,
@@ -140,7 +151,7 @@ class AcademicoSeeder extends Seeder
             ]);
 
             EstudiantePrograma::create([
-                'id_programa' => rand(1, 20),
+                'id_programa' => rand(1, 500),
                 'id_estudiante' => $estudiante->id,
             ]);
         };

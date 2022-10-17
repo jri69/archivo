@@ -11,44 +11,43 @@ use Illuminate\Http\Request;
 
 class MovimientoController extends Controller
 {
-
+    // Ver los movimientos
     public function index()
     {
         return view('movimiento.index');
     }
 
+    // Interface para crear un movimiento
     public function create($id_recepcion)
     {
-        $recepcion = Recepcion::find($id_recepcion);
+        $recepcion = Recepcion::findOrFail($id_recepcion);
         return view('movimiento.create', compact('recepcion'));
     }
 
-    public function store(Request $request)
-    {
-    }
-
+    // Ver detalles de un movimiento
     public function show($id, $idRecepcion)
     {
-        $movimiento = MovimientoDoc::find($id);
+        $movimiento = MovimientoDoc::findOrFail($id);
         $documento = Documento::where('movimiento_doc_id', $movimiento->id)->first();
-        $recepcion = Recepcion::find($idRecepcion);
+        $recepcion = Recepcion::findOrFail($idRecepcion);
         return view('movimiento.show', compact('movimiento', 'recepcion', 'documento'));
     }
 
+    // Confirmar el recibo del documento
     public function confirmar($id, $idRecepcion)
     {
-        $movimiento = MovimientoDoc::find($id);
+        $movimiento = MovimientoDoc::findOrFail($id);
         $movimiento->confirmacion = 'Confirmado';
         $movimiento->save();
-        $recepcion = Recepcion::find($idRecepcion);
+        $recepcion = Recepcion::findOrFail($idRecepcion);
         $documento = Documento::where('movimiento_doc_id', $movimiento->id)->first();
-
         return view('movimiento.show', compact('movimiento', 'recepcion', 'documento'));
     }
 
+    // Eliminar un movimiento
     public function destroy($id)
     {
-        $movimiento = MovimientoDoc::find($id);
+        $movimiento = MovimientoDoc::findOrFail($id);
         $movimiento->delete();
         return redirect()->route('recepcion.show', $movimiento->recepcion_id);
     }

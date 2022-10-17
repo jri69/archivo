@@ -2,43 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Carta;
 use App\Models\Contrato;
 use App\Models\ContratoCarta;
-use App\Models\Docente;
-use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use Illuminate\Http\Request;
 
 class ContratacionesController extends Controller
 {
-    // estructura de controller
+    // ver las contrataciones
     public function index()
     {
         return view('contrataciones.index');
     }
 
+    // Interface para crear una contratación
     public function create()
     {
         return view('contrataciones.create');
     }
 
+    // Ver datos del contrato
     public function show($id)
     {
-        $contrato = Contrato::find($id);
+        $contrato = Contrato::findOrFail($id);
         $cartas = ContratoCarta::where('contrato_id', $id)->get();
         $programa_modulo = ProgramaModulo::where('id_modulo', $contrato->modulo_id)->first();
-        $programa = Programa::find($programa_modulo->id_programa);
+        $programa = Programa::findOrFail($programa_modulo->id_programa);
         return view('contrataciones.show', compact('contrato', 'cartas', 'programa'));
     }
 
+    // Interface de edición de una contratación
     public function edit($id)
     {
-        $contrato = Contrato::find($id);
+        $contrato = Contrato::findOrFail($id);
         return view('contrataciones.edit', compact('contrato'));
     }
 
+    // Actualizar una contratación
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -52,14 +53,15 @@ class ContratacionesController extends Controller
             'honorarios.required' => 'Los honorarios son requeridos',
             'horarios.required' => 'Los horarios son requeridos',
         ]);
-        $contrato = Contrato::find($id);
+        $contrato = Contrato::findOrFail($id);
         $contrato->update($request->all());
         return redirect()->route('contrataciones.show', $id);
     }
 
+    // Eliminar una contratación
     public function destroy($id)
     {
-        $contrato = Contrato::find($id);
+        $contrato = Contrato::findOrFail($id);
         $contrato->delete();
         return redirect()->route('contrataciones.index');
     }

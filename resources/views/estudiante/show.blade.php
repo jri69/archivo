@@ -15,7 +15,7 @@
                     </a>
                     <a href="{{ route('estudiante.newprogram', $estudiante->id) }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">add</i>
-                        <span class="sidebar-normal">Nuevo programa</span>
+                        <span class="sidebar-normal">Inscribir</span>
                     </a>
                 </div>
             </div>
@@ -122,8 +122,7 @@
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
-                                                    <form
-                                                        action="{{ route('estudiante.deleteFile', $documento->id) }}"
+                                                    <form action="{{ route('estudiante.deleteFile', $documento->id) }}"
                                                         method="POST" style="display: inline-block;"
                                                         onsubmit="return confirm('¿Está seguro?')">
                                                         @csrf
@@ -158,6 +157,11 @@
                                             <th>#</th>
                                             <th>Nombre</th>
                                             <th>Sigla</th>
+                                            <th>Version</th>
+                                            <th>Edicion</th>
+                                            <th>Tipo</th>
+                                            <th>Inicio</th>
+                                            <th>Final</th>
                                             <th>Acciones</th>
                                         </thead>
                                         <tbody>
@@ -171,6 +175,21 @@
                                                     </td>
                                                     <td>
                                                         {{ $programa->sigla }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $programa->version }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $programa->edicion }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $programa->tipo }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $programa->fecha_inicio }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $programa->fecha_finalizacion }}
                                                     </td>
                                                     <td class="td-actions">
                                                         <a href="{{ route('estudiante.showNotas', [$estudiante->id, $programa->id]) }}"

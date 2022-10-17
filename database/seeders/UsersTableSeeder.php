@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Area;
 use App\Models\Cargo;
+use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
@@ -31,7 +32,8 @@ class UsersTableSeeder extends Seeder
             'cargo_id' => $cargo->id,
             'ci' => '00000001',
         ]);
-        DB::table('users')->insert([
+
+        $user = User::create([
             'name' => 'Admin Admin',
             'email' => 'admin@material.com',
             'email_verified_at' => now(),
@@ -40,5 +42,6 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        $user->assignRole('Administrador');
     }
 }

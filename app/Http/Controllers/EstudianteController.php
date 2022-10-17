@@ -4,32 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use App\Models\EstudiantePrograma;
-use App\Models\Modulo;
 use App\Models\NotasPrograma;
 use App\Models\Programa;
-use App\Models\Requisito;
-use App\Models\RequisitoArchivo;
 use App\Models\RequisitoEstudiante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class EstudianteController extends Controller
 {
+    // Ver los estudiantes
     public function index()
     {
         return view('estudiante.index');
     }
 
+    // Interface para crear un estudiante
     public function create()
     {
         return view('estudiante.create');
     }
 
+    // Interface para editar un estudiante
     public function edit($id_estudiante)
     {
         return view('estudiante.edit', compact('id_estudiante'));
     }
 
+    // Eliminar un estudiante
     public function destroy($modulo)
     {
         $estudiante = Estudiante::findOrFail($modulo);
@@ -37,6 +38,7 @@ class EstudianteController extends Controller
         return back()->with('mensaje', 'Eliminado Correctamente');
     }
 
+    // Ver detalles de un estudiante
     public function show($idEstudiante)
     {
         $estudiante = Estudiante::findOrFail($idEstudiante);
@@ -46,6 +48,7 @@ class EstudianteController extends Controller
         return view('estudiante.show', compact('estudiante', 'documentos', 'programas'));
     }
 
+    // Añadir al estudiante a un nuevo programa
     public function newprogram($estudiante)
     {
         $estudiante = Estudiante::findOrFail($estudiante);
@@ -57,6 +60,7 @@ class EstudianteController extends Controller
         return view('estudiante.newprogram', compact('estudiante', 'programas'));
     }
 
+    // Guardar el nuevo programa del estudiante
     public function storenewprogram(Request $request, $estudiante)
     {
         EstudiantePrograma::create([
@@ -66,6 +70,7 @@ class EstudianteController extends Controller
         return redirect()->route('estudiante.show', $estudiante);
     }
 
+    // Ver las notas de los módulos de un programa
     public function showNotas($estudiante, $programa)
     {
         $estudiante = Estudiante::findOrFail($estudiante);
@@ -75,6 +80,7 @@ class EstudianteController extends Controller
         return view('estudiante.notas', compact('estudiante', 'programa', 'notas'));
     }
 
+    // Eliminar un documento de un estudiante
     public function deleteFile($id)
     {
         $archivo = RequisitoEstudiante::findOrFail($id);

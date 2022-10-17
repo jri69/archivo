@@ -10,13 +10,13 @@ use Illuminate\Http\Request;
 
 class ModuloController extends Controller
 {
-
+    // Ver los módulos
     public function index()
     {
-        $modulos = Modulo::all();
-        return view('modulo.index', compact('modulos'));
+        return view('modulo.index');
     }
 
+    // Interface para crear un módulo
     public function create()
     {
         $date = date('Y-m-d');
@@ -25,6 +25,7 @@ class ModuloController extends Controller
         return view('modulo.create', compact('programas', 'docentes'));
     }
 
+    // Guardar un módulo
     public function store(Request $request)
     {
         $request->validate(
@@ -63,10 +64,10 @@ class ModuloController extends Controller
         );
         $modulos = ProgramaModulo::where('id_programa', $request->id_programa)->get();
         $cantidad = count($modulos) + 1;
-        $programa = Programa::find($request->id_programa);
+        $programa = Programa::findOrFail($request->id_programa);
         $costoXmodulo = $programa->costo / $cantidad;
         foreach ($modulos as $modulo) {
-            $mod = Modulo::find($modulo->id_modulo);
+            $mod = Modulo::findOrFail($modulo->id_modulo);
             $mod->costo = $costoXmodulo;
             $mod->save();
         }
@@ -89,6 +90,7 @@ class ModuloController extends Controller
         return redirect()->route('modulo.index', $modulo);
     }
 
+    // Interface para editar un módulo
     public function edit(Modulo $modulo)
     {
         $programa = ProgramaModulo::where('id_modulo', $modulo->id)->first();
@@ -96,6 +98,7 @@ class ModuloController extends Controller
         return view('modulo.edit', compact('modulo', 'programa', 'docentes'));
     }
 
+    // Actualizar un módulo
     public function update(Request $request, $id)
     {
         $request->validate(
@@ -130,6 +133,7 @@ class ModuloController extends Controller
         return redirect()->route('modulo.index');
     }
 
+    // Eliminar un módulo
     public function destroy($modulo)
     {
         $modulo = Modulo::findOrFail($modulo);

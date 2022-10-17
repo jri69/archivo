@@ -8,16 +8,19 @@ use Illuminate\Http\Request;
 
 class DocentesController extends Controller
 {
+    // Ver los docentes
     public function index()
     {
         return view('docentes.index');
     }
 
+    // Interface para crear un docente
     public function create()
     {
         return view('docentes.create');
     }
 
+    // Guardar un docente
     public function store(Request $request)
     {
         $request->validate([
@@ -41,26 +44,28 @@ class DocentesController extends Controller
             'cedula.max' => 'La cédula debe tener máximo 10 caracteres',
             'facturacion.required' => 'La facturación es requerida',
         ]);
-
         Docente::create($request->all());
         return redirect()->route('docentes.index');
     }
 
+    // Ver los detalles de un docente
     public function show($id)
     {
-        $docente = Docente::find($id);
+        $docente = Docente::findOrFail($id);
         $contratos = Contrato::join('modulos', 'modulos.id', '=', 'contratos.modulo_id')
             ->join('docentes', 'docentes.id', '=', 'modulos.docente_id')
             ->where('docente_id', $id)->get();
         return view('docentes.show', compact('docente', 'contratos'));
     }
 
+    // Interface de edición de un docente
     public function edit($id)
     {
-        $docente = Docente::find($id);
+        $docente = Docente::findOrFail($id);
         return view('docentes.edit', compact('docente'));
     }
 
+    // Actualizar un docente
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -84,14 +89,15 @@ class DocentesController extends Controller
             'cedula.max' => 'La cédula debe tener máximo 10 caracteres',
             'facturacion.required' => 'La facturación es requerida',
         ]);
-        $docente = Docente::find($id);
+        $docente = Docente::findOrFail($id);
         $docente->update($request->all());
         return redirect()->route('docentes.show', $docente->id);
     }
 
+    // Eliminar un docente
     public function destroy($id)
     {
-        $docente = Docente::find($id);
+        $docente = Docente::findOrFail($id);
         $docente->delete();
         return redirect()->route('docentes.index');
     }
