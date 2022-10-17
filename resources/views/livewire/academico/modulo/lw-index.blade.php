@@ -27,8 +27,7 @@
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
                                     <th>Programa</th>
-                                    <th>Nombre</th>
-                                    <th>Version y Edicion</th>
+                                    <th>Modulo</th>
                                     <th>Docente</th>
                                     <th>Costo</th>
                                     <th>Fecha inicio</th>
@@ -45,12 +44,11 @@
                                             <td>{{ $modulo->nombre }}
                                                 <span>{{ $modulo->version . '.' . $modulo->edicion }}</span>
                                             </td>
-                                            <td>{{ $modulo->version . '.' . $modulo->edicion }}</td>
                                             <td>{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}
                                             </td>
                                             <td>{{ $modulo->costo }}</td>
-                                            <td>{{ $modulo->fecha_inicio }}</td>
-                                            <td>{{ $modulo->fecha_final }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($modulo->fecha_inicio)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($modulo->fecha_final)) }}</td>
 
                                             <td class="td-actions">
                                                 <a href="{{ route('modulo.edit', $modulo->id) }}"
