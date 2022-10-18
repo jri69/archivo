@@ -42,7 +42,7 @@
                                                 <a href="{{route('factura.edit',$item->id)}}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
                                                 </a>
-                                                <a href="{{route('detalle_factura.index')}}" class="btn btn-succes">
+                                                <a href="{{route('detalle_factura.index',$item->id)}}" class="btn btn-danger">
                                                     <span class="material-icons">add</span>
                                                 </a>
                                             </td>
@@ -55,7 +55,7 @@
                     <!---paginacion-->
                     <div class="row">
                         <div class="col">
-                            {{ $facturas->links() }}
+                           {{--  {{ $facturas->links() }} --}}
                         </div>
                     </div>
                 </div>

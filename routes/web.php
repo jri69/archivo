@@ -348,7 +348,7 @@ Route::group(['prefix' => 'factura', 'middleware' => ['can:factura.index', 'auth
 
 //Detalle Factura
 Route::group(['prefix' => 'detalle_factura', 'middleware' => ['can:detalle_factura.index', 'auth']], function () {
-    Route::get('/index', [DetalleFacturaController::class, 'index'])->name('detalle_factura.index');
+    Route::get('/index/{id}', [DetalleFacturaController::class, 'index'])->name('detalle_factura.index');
     Route::get('/create', [DetalleFacturaController::class, 'create'])->name('detalle_factura.create');
     Route::get('/edit', [DetalleFacturaController::class, 'edit'])->name('detalle_factura.edit');
 });
