@@ -153,7 +153,7 @@
                                                 <td class="td-actions">
                                                     <a href="{{ route('pago.edit',$pago->id) }}"
                                                         class="btn btn-success">
-                                                        <span class="material-icons">visibility</span>
+                                                        <span class="material-icons">edit</span>
                                                     </a>
                                                     <!--<form action="#"
                                                         method="POST" style="display: inline-block;"
