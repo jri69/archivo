@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-left">
-                    <a href="{{ route('contrataciones.index') }}" class="btn btn-sm btn-primary">
+                    <a href="{{ route('docentes.show', $contrato->modulo->docente->id) }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">keyboard_backspace</i>
                         <span class="sidebar-normal">Volver</span>
                     </a>
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <br>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -130,7 +130,7 @@
                                                 <td> {{ $carta->tipo }}</td>
                                                 <td> {{ $carta->fecha }}</td>
                                                 <td class="td-actions">
-                                                    <a {{-- href="{{ route('carta.edit', $carta->id) }}" --}} target="_blank" class="btn btn-success">
+                                                    <a {{-- href="{{ route('carta.edit', $carta->id) }}" --}} class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
                                                 </td>

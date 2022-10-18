@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\ActivoFijoController;
+use App\Http\Controllers\AdministrativoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
+use App\Http\Controllers\ContratacionController;
 use App\Http\Controllers\ContratacionesController;
 use App\Http\Controllers\DetalleFacturaController;
 use App\Http\Controllers\DocentesController;
@@ -34,8 +36,6 @@ use App\Http\Controllers\ThirdPartidaController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\UnidadOrganizacionalController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -283,8 +283,8 @@ Route::group(['prefix' => 'presupuesto', 'middleware' => ['can:presupuesto.index
 
 // Contrataciones
 Route::group(['prefix' => 'contrataciones', 'middleware' => ['can:contrataciones.index', 'auth']], function () {
-    Route::get('/', [ContratacionesController::class, 'index'])->name('contrataciones.index');
-    Route::get('/create', [ContratacionesController::class, 'create'])->name('contrataciones.create');
+    // Route::get('/', [ContratacionesController::class, 'index'])->name('contrataciones.index');
+    Route::get('/create/{contrataciones}', [ContratacionesController::class, 'create'])->name('contrataciones.create');
     Route::post('/store', [ContratacionesController::class, 'store'])->name('contrataciones.store');
     Route::get('/edit/{contrataciones}', [ContratacionesController::class, 'edit'])->name('contrataciones.edit');
     Route::get('/show/{contrataciones}', [ContratacionesController::class, 'show'])->name('contrataciones.show');
@@ -359,4 +359,26 @@ Route::group(['prefix' => 'roles', 'middleware' => ['can:roles.index', 'auth']],
     Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
     Route::get('/edit/{rol}', [RoleController::class, 'edit'])->name('roles.edit');
     Route::delete('/{rol}', [RoleController::class, 'destroy'])->name('roles.delete');
+});
+
+// Contratacion administrativos
+Route::group(['prefix' => 'contratacion', 'middleware' => ['can:contratacion.index', 'auth']], function () {
+    // Route::get('/', [ContratacionController::class, 'index'])->name('contratacion.index');
+    Route::get('/create/{contratacion}', [ContratacionController::class, 'create'])->name('contratacion.create');
+    Route::post('/store', [ContratacionController::class, 'store'])->name('contratacion.store');
+    Route::get('/edit/{contratacion}', [ContratacionController::class, 'edit'])->name('contratacion.edit');
+    Route::get('/show/{contratacion}', [ContratacionController::class, 'show'])->name('contratacion.show');
+    Route::put('/update/{contratacion}', [ContratacionController::class, 'update'])->name('contratacion.update');
+    Route::delete('/delete/{contratacion}', [ContratacionController::class, 'destroy'])->name('contratacion.delete');
+});
+
+// Administrativos
+Route::group(['prefix' => 'administrativos', 'middleware' => ['can:administrativo.index', 'auth']], function () {
+    Route::get('/', [AdministrativoController::class, 'index'])->name('administrativo.index');
+    Route::get('/create', [AdministrativoController::class, 'create'])->name('administrativo.create');
+    Route::post('/store', [AdministrativoController::class, 'store'])->name('administrativo.store');
+    Route::get('/edit/{administrativo}', [AdministrativoController::class, 'edit'])->name('administrativo.edit');
+    Route::get('/show/{administrativo}', [AdministrativoController::class, 'show'])->name('administrativo.show');
+    Route::put('/update/{administrativo}', [AdministrativoController::class, 'update'])->name('administrativo.update');
+    Route::delete('/delete/{administrativo}', [AdministrativoController::class, 'destroy'])->name('administrativo.delete');
 });

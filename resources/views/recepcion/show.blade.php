@@ -9,10 +9,12 @@
                         <i class="material-icons">keyboard_backspace</i>
                         <span class="sidebar-normal">Volver</span>
                     </a>
-                    <a href="{{ route('recepcion.edit', $recepcion->id) }}" class="btn btn-sm btn-primary">
-                        <i class="material-icons">edit</i>
-                        <span class="sidebar-normal">Actualizar datos</span>
-                    </a>
+                    @if (Auth::user()->id == $recepcion->user_id)
+                        <a href="{{ route('recepcion.edit', $recepcion->id) }}" class="btn btn-sm btn-primary">
+                            <i class="material-icons">edit</i>
+                            <span class="sidebar-normal">Actualizar datos</span>
+                        </a>
+                    @endif
                     <a href="{{ route('movimiento.create', $recepcion->id) }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">add</i>
                         <span class="sidebar-normal">Nuevo movimiento</span>
@@ -49,7 +51,8 @@
                                 <label class="col-sm-2 col-form-label">Fecha</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" disabled value="{{ date('d-m-Y', strtotime($recepcion->fecha)) }}">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ date('d-m-Y', strtotime($recepcion->fecha)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -91,10 +94,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -140,7 +139,7 @@
                                                     {{ $movimiento->departamento }}
                                                 </td>
                                                 <td>
-                                                    {{ $movimiento->fecha }}
+                                                    {{ date('d-m-Y', strtotime($movimiento->fecha)) }}
                                                 </td>
                                                 <td>
                                                     {{ $movimiento->confirmacion }}
@@ -151,15 +150,17 @@
                                                         class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
-                                                    <form action="{{ route('movimiento.delete', $movimiento->id) }}"
-                                                        method="POST" style="display: inline-block;"
-                                                        onsubmit="return confirm('¿Está seguro?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger" type="submit">
-                                                            <i class="material-icons">close</i>
-                                                        </button>
-                                                    </form>
+                                                    @can('administrador')
+                                                        <form action="{{ route('movimiento.delete', $movimiento->id) }}"
+                                                            method="POST" style="display: inline-block;"
+                                                            onsubmit="return confirm('¿Está seguro?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="btn btn-danger" type="submit">
+                                                                <i class="material-icons">close</i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
