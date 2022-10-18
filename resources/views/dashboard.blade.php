@@ -10,7 +10,9 @@
                         <div class="card-icon">
                             <i class="material-icons">groups</i>
                         </div>
-                        <p class="card-category">Estudiantes Registrados</p>
+                        <p class="card-category">
+                            <strong class="h6 card-title">Estudiantes Registrados</strong>
+                        </p>
                         <h3 class="card-title">{{ $estudiantes }} </h3>
                     </div>
                     @can('estudiante.index')
@@ -29,7 +31,9 @@
                         <div class="card-icon">
                             <i class="material-icons">auto_awesome_motion</i>
                         </div>
-                        <p class="card-category">Programas en curso</p>
+                        <p class="card-category">
+                            <strong class="h6 card-title">Programas <br> en curso</strong>
+                        </p>
                         <h3 class="card-title">{{ $programas_cursos }} </h3>
                     </div>
                     @can('programa.index')
@@ -48,7 +52,9 @@
                         <div class="card-icon">
                             <i class="material-icons">domain_verification</i>
                         </div>
-                        <p class="card-category">Programas finalizados</p>
+                        <p class="card-category">
+                            <strong class="h6 card-title">Programas finalizados</strong>
+                        </p>
                         <h3 class="card-title">{{ $programas_finalizado }} </h3>
                     </div>
                     @can('programa.index')
@@ -67,7 +73,9 @@
                         <div class="card-icon">
                             <i class="material-icons">article</i>
                         </div>
-                        <p class="card-category">Modulos <br> en curso</p>
+                        <p class="card-category">
+                            <strong class="h6 card-title">Modulos <br> en curso</strong>
+                        </p>
                         <h3 class="card-title">{{ $modulos }} </h3>
                     </div>
                     @can('modulo.index')
