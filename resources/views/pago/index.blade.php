@@ -8,7 +8,7 @@
                     <a href="{{ route('pago_estudiante.index') }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">keyboard_backspace</i>
                         atras</a>
-                    <a href="{{route('pago.create',$descuento->estu)}}" class="btn btn-sm btn-primary">
+                    <a href="{{route('pago.create',$pago_id->id)}}" class="btn btn-sm btn-primary">
                         <b>Agregar Pago</b>
                     </a>
                     <a href="{{route('pago.pdf',$estudiante->id)}}" class="btn btn-sm btn-primary">
@@ -147,7 +147,7 @@
                                                 <td>{{ $pago->id }}</td>
                                                 <td>{{ $pago->nombre }}</td>
                                                 <td><a href="{{ $pago->compro_file }}" target="_blank"><b>{{ $pago->comprobante }}</b></a></td>
-                                                <td>{{ $pago->fecha }}</td>
+                                                <td>{{\Carbon\Carbon::parse($pago->fecha)->format('d-m-Y') }}</td>
                                                 <td>{{ $pago->monto }}</td>
                                                 
                                                 <td class="td-actions">

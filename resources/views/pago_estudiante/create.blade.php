@@ -31,22 +31,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <label for="modulos" class="col-sm-2 col-form-label"><b>Cantidad de Modulos:</b></label>
-                                <div class="col-sm-7">
-                                    <input type="number" class="form-control"
-                                    name="cant_modulos"
-                                    value="{{ old('cant_modulos') }}" autofocus
-                                        >
-                                        @if ($errors->has('cant_modulos'))
-                                    <span class="error text-danger" for="input-nombre">
-                                        {{ $errors->first('cant_modulos') }}
-                                    </span>
-                                @endif
-                                </div>
-                            </div>
+                            </div>                            
                             <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Nombre del Descuento:</b></label>

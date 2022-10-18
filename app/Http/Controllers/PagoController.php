@@ -147,22 +147,37 @@ class PagoController extends Controller
     {
         $fecha = Carbon::now();
         $estudiante = Estudiante::findOrFail($id);
-        $monto = DB::table('pago')->select('monto')->where('pago_estudiante_id', '=', $id)->sum('monto');
-        $pagos = Pago::join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->join('tipo_pagos', 'tipo_pagos.id', '=', 'pago.tipo_pago_id')->select('pago.*', 'tipo_pagos.*', 'pago.id')->where('pago_estudiante.id', $id)->get();
-
+        //$monto = DB::table('pago')->select('monto')->where('pago_estudiante_id', '=', $id)->sum('monto');
+        $monto = DB::table('pago')->join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->select('monto')->where('pago_estudiante.estudiante_id', '=', $id)->sum('monto');
+        //return $monto;
+        $pagos = Pago::join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->join('tipo_pagos', 'tipo_pagos.id', '=', 'pago.tipo_pago_id')->select('pago.*', 'tipo_pagos.*', 'pago.id')->where('pago_estudiante.estudiante_id', $id)->get();
+        //return $pagos;
         $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiantes.id", $estudiante->id)->select("pago_estudiante.*", "programas.*")->get()->first();
+
         $pro = DB::table('programas')->where('id', '=', $programa->programa_id)->get()->first();
+
         $descuento = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->join("tipo_descuento", "tipo_descuento.id", "=", "pago_estudiante.tipo_descuento_id")->select("tipo_descuento.*", "pago_estudiante.id as estu")->where("estudiantes.id", $estudiante->id)->get()->first();
+
+        $pago_id = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->select("pago_estudiante.id as id")->where("estudiantes.id", $estudiante->id)->get()->first();
+
         $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo');
 
         $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->get();
-        //return $programa;
-        $porcentaje = ($programa->costo * $descuento->monto) / 100;
-        $costo_t = $pro->costo - $porcentaje - $programa->convalidacion;
-        $saldo = $costo_t - $monto;
-        $cuenta = $porcentaje + $monto + $programa->convalidacion;
-        $deuda = $deuda - $cuenta;
+        //return $pago_id;
+        if ($descuento == []) {
 
+            $costo_t = $pro->costo - $programa->convalidacion;
+            $cuenta =  $monto + $programa->convalidacion;
+            $porcentaje = 0;
+        } else {
+
+            $porcentaje = ($programa->costo * $descuento->monto) / 100;
+            $costo_t = $pro->costo - $porcentaje - $programa->convalidacion;
+            $cuenta = $porcentaje + $monto + $programa->convalidacion;
+        }
+
+        $saldo = $costo_t - $monto;
+        $deuda = $deuda - $cuenta;
         $estado = 'SIN DEUDA';
         if ($deuda > 0) {
             $estado = 'CON DEUDA';
