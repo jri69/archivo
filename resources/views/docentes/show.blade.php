@@ -12,6 +12,12 @@
                         <i class="material-icons">edit</i>
                         <span class="sidebar-normal">Actualizar datos</span>
                     </a>
+                    @can('contrataciones.index')
+                        <a href="{{ route('contrataciones.create', $docente->id) }}" class="btn btn-sm btn-primary">
+                            <i class="material-icons">add</i>
+                            <span class="sidebar-normal">Nuevo contrato</span>
+                        </a>
+                    @endcan
                 </div>
             </div>
             <div class="row">
@@ -66,8 +72,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -89,7 +93,8 @@
                                         <th>Modulo</th>
                                         <th>Version</th>
                                         <th>Edicion</th>
-                                        <th>Fecha</th>
+                                        <th>Inicio</th>
+                                        <th>Final</th>
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
@@ -104,11 +109,14 @@
                                                 <td> {{ $contrato->modulo->version }}</td>
                                                 <td> {{ $contrato->modulo->edicion }}</td>
                                                 <td>
-                                                    {{ date('d-m-Y', strtotime($contrato->fecha)) }}
+                                                    {{ date('d-m-Y', strtotime($contrato->fecha_inicio)) }}
+                                                </td>
+                                                <td>
+                                                    {{ date('d-m-Y', strtotime($contrato->fecha_final)) }}
                                                 </td>
                                                 <td class="td-actions">
                                                     <a href="{{ route('contrataciones.show', $contrato->id) }}"
-                                                        target="_blank" class="btn btn-success">
+                                                        class="btn btn-success">
                                                         <span class="material-icons">visibility</span>
                                                     </a>
                                                 </td>

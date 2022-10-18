@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contrato;
 use App\Models\ContratoCarta;
+use App\Models\Docente;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use Illuminate\Http\Request;
@@ -17,9 +18,10 @@ class ContratacionesController extends Controller
     }
 
     // Interface para crear una contratación
-    public function create()
+    public function create($docente)
     {
-        return view('contrataciones.create');
+        $docente = Docente::findOrFail($docente);
+        return view('contrataciones.create', compact('docente'));
     }
 
     // Ver datos del contrato
