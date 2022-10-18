@@ -39,15 +39,17 @@
                                                 <a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
                                                 </a>
-                                                <form action="{{ route('roles.delete', $rol->id) }}" method="POST"
-                                                    style="display: inline-block;"
-                                                    onsubmit="return confirm('¿Está seguro?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger" type="submit">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </form>
+                                                @if ($rol->id != 1)
+                                                    <form action="{{ route('roles.delete', $rol->id) }}" method="POST"
+                                                        style="display: inline-block;"
+                                                        onsubmit="return confirm('¿Está seguro?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger" type="submit">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('modulos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('sigla', 10);
+            $table->string('sigla');
             $table->string('estado');
             $table->string('version', 5);
             $table->string('edicion', 5);

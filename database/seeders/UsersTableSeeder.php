@@ -34,10 +34,10 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user = User::create([
-            'name' => 'Admin Admin',
-            'email' => 'admin@material.com',
+            'name' => 'Administrador',
+            'email' => 'desarrollo@ei-uagrm.edu.bo',
             'email_verified_at' => now(),
-            'password' => Hash::make('secret'),
+            'password' => Hash::make('secret2022'),
             'usuario_id' => $usuario->id,
             'created_at' => now(),
             'updated_at' => now()

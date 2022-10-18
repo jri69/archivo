@@ -43,8 +43,8 @@
                                             </td>
                                             <td>{{ $contrato->modulo->docente->cedula }}</td>
                                             <td>{{ $contrato->modulo->nombre }}</td>
-                                            <td>{{ $contrato->fecha_inicio }}</td>
-                                            <td>{{ $contrato->fecha_final }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($contrato->fecha_inicio)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($contrato->fecha_final)) }}</td>
                                             <td class="td-actions">
                                                 <a href="{{ route('contrataciones.show', $contrato->contrato_id) }}"
                                                     class="btn btn-success">

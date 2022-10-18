@@ -49,7 +49,7 @@
                                 <label class="col-sm-2 col-form-label">Fecha</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" disabled value="{{ $recepcion->fecha }}">
+                                        <input type="text" class="form-control" disabled value="{{ date('d-m-Y', strtotime($recepcion->fecha)) }}">
                                     </div>
                                 </div>
                             </div>

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estudiante;
+use App\Models\Modulo;
+use App\Models\Programa;
+
 class HomeController extends Controller
 {
     /**
@@ -21,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $estudiantes = Estudiante::all()->count();
+        $programas_finalizado = Programa::where('fecha_finalizacion', '>=', now())->get()->count();
+        $programas_cursos = Programa::where('fecha_finalizacion', '<=', now())->get()->count();
+        $modulos = Modulo::where('fecha_final', '<=', now())->get()->count();
+        $programas = Programa::orderBy('created_at', 'desc')->paginate(10);
+        return view('dashboard', compact('estudiantes', 'programas_finalizado', 'programas_cursos', 'modulos', 'programas'));
     }
 }

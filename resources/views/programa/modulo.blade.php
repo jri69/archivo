@@ -65,7 +65,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-group">
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $modulo->fecha_inicio }}">
+                                            value="{{ date('d-m-Y', strtotime($modulo->fecha_inicio)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-group">
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $modulo->fecha_final }}">
+                                            value="{{ date('d-m-Y', strtotime($modulo->fecha_final)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -124,8 +124,8 @@
                                             Nota
                                         </th>
                                         <!--<th>
-                                                                                                                                                Acciones
-                                                                                                                                            </th>-->
+                                                                                                                                                    Acciones
+                                                                                                                                                </th>-->
                                     </thead>
                                     <tbody>
                                         @foreach ($estudiante_programa as $estu_progm)

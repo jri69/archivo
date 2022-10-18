@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('programas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('sigla', 10);
+            $table->string('nombre');
+            $table->string('sigla');
             $table->string('version', 5);
             $table->string('edicion', 5);
             $table->string('tipo');

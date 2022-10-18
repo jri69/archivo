@@ -104,7 +104,7 @@
                                                 <td> {{ $contrato->modulo->version }}</td>
                                                 <td> {{ $contrato->modulo->edicion }}</td>
                                                 <td>
-                                                    {{ $contrato->fecha }}
+                                                    {{ date('d-m-Y', strtotime($contrato->fecha)) }}
                                                 </td>
                                                 <td class="td-actions">
                                                     <a href="{{ route('contrataciones.show', $contrato->id) }}"
