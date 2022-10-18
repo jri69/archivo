@@ -14,14 +14,16 @@
                         <i class="material-icons">update</i>
                         <span class="sidebar-normal">Actualizar inscritos</span>
                     </a>
-                    <a href="{{ route('programa.notas', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
-                        <i class="material-icons">summarize</i>
-                        <span class="sidebar-normal">Poner notas</span>
-                    </a>
                     @if ($modulo->estado != 'Iniciado' && $modulo->estado != 'Finalizado')
                         <a href="{{ route('programa.init', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
                             <i class="material-icons">play_arrow</i>
                             <span class="sidebar-normal">Iniciar módulo</span>
+                        </a>
+                    @else
+                        <a href="{{ route('programa.notas', [$programa->id, $modulo->id]) }}"
+                            class="btn btn-sm btn-primary">
+                            <i class="material-icons">summarize</i>
+                            <span class="sidebar-normal">Poner notas</span>
                         </a>
                     @endif
                 </div>
@@ -123,9 +125,6 @@
                                         <th>
                                             Nota
                                         </th>
-                                        <!--<th>
-                                                                                                                                                    Acciones
-                                                                                                                                                </th>-->
                                     </thead>
                                     <tbody>
                                         @foreach ($estudiante_programa as $estu_progm)

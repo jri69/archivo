@@ -197,45 +197,37 @@
                 </li>
             @endif
 
-            @if (auth()->user()->can('inventario.index'))
+            @if (auth()->user()->can('inventario.index') ||
+                auth()->user()->can('activo.index'))
                 <li
-                    class="nav-item {{ $activePage == 'inventario' || $activePage == 'user-management' ? ' active' : '' }}">
+                    class="nav-item {{ $activePage == 'inventario' || $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Tics" aria-expanded="false">
                         <i class="material-icons">settings</i>
-                        <p>{{ __("TIC'S") }}
+                        <p>{{ __('Inventario') }}
                             <b class="caret"></b>
                         </p>
                     </a>
                     <div class="collapse" id="Tics">
-                        <ul class="nav">
-                            <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('inventario.index') }}">
-                                    <span class="sidebar-mini"> IN </span>
-                                    <span class="sidebar-normal">{{ __('Inventario') }} </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            @endif
-            @if (auth()->user()->can('activo.index'))
-                <li
-                    class="nav-item {{ $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
-                    <a class="nav-link" data-toggle="collapse" href="#administracion" aria-expanded="false">
-                        <i class="material-icons">library_books</i>
-                        <p>{{ __('Administración') }}
-                            <b class="caret"></b>
-                        </p>
-                    </a>
-                    <div class="collapse" id="administracion">
-                        <ul class="nav">
-                            <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('activo.index') }}">
-                                    <span class="sidebar-mini"> AC </span>
-                                    <span class="sidebar-normal">{{ __('Activos') }} </span>
-                                </a>
-                            </li>
-                        </ul>
+                        @can('inventario.index')
+                            <ul class="nav">
+                                <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('inventario.index') }}">
+                                        <span class="sidebar-mini"> IN </span>
+                                        <span class="sidebar-normal">{{ __('Inventario') }} </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
+                        @can('activo.index')
+                            <ul class="nav">
+                                <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('activo.index') }}">
+                                        <span class="sidebar-mini"> AC </span>
+                                        <span class="sidebar-normal">{{ __('Activos') }} </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
                     </div>
                 </li>
             @endif
@@ -252,19 +244,19 @@
                     </a>
                     <div class="collapse" id="recursos">
                         <ul class="nav">
-                            @can('contrataciones.index')
-                                <li class="nav-item{{ $activePage == 'contrataciones' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('contrataciones.index') }}">
-                                        <span class="sidebar-mini"> CO </span>
-                                        <span class="sidebar-normal">{{ __('Contrataciones') }} </span>
-                                    </a>
-                                </li>
-                            @endcan
                             @can('docentes.index')
                                 <li class="nav-item{{ $activePage == 'docentes' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('docentes.index') }}">
                                         <span class="sidebar-mini"> DO </span>
                                         <span class="sidebar-normal">{{ __('Docentes') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('administrativo.index')
+                                <li class="nav-item{{ $activePage == 'administrativo' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('administrativo.index') }}">
+                                        <span class="sidebar-mini"> AD </span>
+                                        <span class="sidebar-normal">{{ __('Administrativos') }} </span>
                                     </a>
                                 </li>
                             @endcan
