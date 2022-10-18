@@ -264,7 +264,7 @@ Route::group(['prefix' => 'partida', 'middleware' => ['can:partida.index', 'auth
 });
 
 //Sub Partidas
-Route::group(['prefix' => 'subpartida', 'middleware' => ['can:subpartida.index', 'auth']], function () {
+Route::group(['prefix' => 'subpartida', 'middleware' => ['can:partida.index', 'auth']], function () {
     Route::get('/index', [SubPartidaController::class, 'index'])->name('subpartida.index');
     Route::get('/create', [SubPartidaController::class, 'create'])->name('subpartida.create');
     Route::get('/edit/{partida}', [SubPartidaController::class, 'edit'])->name('subpartida.edit');
@@ -311,7 +311,7 @@ Route::group(['prefix' => 'docentes', 'middleware' => ['can:docentes.index', 'au
 });
 
 //Third Partida
-Route::group(['prefix' => 'thirdpartida', 'middleware' => ['can:t_partida.index', 'auth']], function () {
+Route::group(['prefix' => 'thirdpartida', 'middleware' => ['can:partida.index', 'auth']], function () {
     Route::get('/index', [ThirdPartidaController::class, 'index'])->name('t_partida.index');
     Route::get('/create', [ThirdPartidaController::class, 'create'])->name('t_partida.create');
     Route::get('/edit/{partida}', [ThirdPartidaController::class, 'edit'])->name('t_partida.edit');
@@ -320,7 +320,7 @@ Route::group(['prefix' => 'thirdpartida', 'middleware' => ['can:t_partida.index'
 });
 
 //Quarter Partida
-Route::group(['prefix' => 'quarterpartida', 'middleware' => ['can:c_partida.index', 'auth']], function () {
+Route::group(['prefix' => 'quarterpartida', 'middleware' => ['can:partida.index', 'auth']], function () {
     Route::get('/index', [QuarterPartidaController::class, 'index'])->name('c_partida.index');
     Route::get('/create', [QuarterPartidaController::class, 'create'])->name('c_partida.create');
     Route::get('/edit/{partida}', [QuarterPartidaController::class, 'edit'])->name('c_partida.edit');
@@ -329,7 +329,7 @@ Route::group(['prefix' => 'quarterpartida', 'middleware' => ['can:c_partida.inde
 });
 
 //Quinta Partida
-Route::group(['prefix' => 'fifthpartida', 'middleware' => ['can:f_partida.index', 'auth']], function () {
+Route::group(['prefix' => 'fifthpartida', 'middleware' => ['can:partida.index', 'auth']], function () {
     Route::get('/index', [FifthPartidaController::class, 'index'])->name('f_partida.index');
     Route::get('/create', [FifthPartidaController::class, 'create'])->name('f_partida.create');
     Route::get('/edit/{partida}', [FifthPartidaController::class, 'edit'])->name('f_partida.edit');
