@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pago_estudiante_id');
             $table->integer('monto');
             $table->date('fecha');
-            $table->integer('comprobante');
+            $table->string('comprobante');
             $table->string('compro_file');
             $table->unsignedBigInteger('tipo_pago_id')->nullable();
             $table->string('observaciones')->nullable();
