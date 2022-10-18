@@ -55,25 +55,25 @@
                                     <thead class="text-primary text-dark">
                                         <tr>
                                         <th>Programa</th>
-                                        <td width="46%"><h4><b>{{$pro->nombre}}</b></h4></td>
+                                        <td width="46%"><h4><b>{{$programa->nombre}}</b></h4></td>
                                         </tr>      
                                         <tr><th>Version</th>
-                                        <td><b>{{$pro->version}}</b></td>
+                                        <td><b>{{$programa->version}}</b></td>
                                         </tr>   
                                         <tr><th>Edicion</th>
-                                        <td>{{$pro->edicion}}</td>
+                                        <td>{{$programa->edicion}}</td>
                                         </tr>  
                                         <tr><th>Fecha de inicio</th>
-                                        <td>{{\Carbon\Carbon::parse($pro->fecha_inicio)->format('d-m-Y')}}</td>
+                                        <td>{{\Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Fecha de finalizacion</th>
-                                        <td>{{\Carbon\Carbon::parse($pro->fecha_finalizacion)->format('d-m-Y')}}</td>
+                                        <td>{{\Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Cantidad de Modulos</th> 
-                                        <td>{{ $pro->cantidad_modulos }}</td>
+                                        <td>{{ $programa->cantidad_modulos }}</td>
                                         </tr>                
                                         <tr><th>Costo Total del Programa</th>
-                                        <td>{{$pro->costo}}</td>
+                                        <td>{{$programa->costo}}</td>
                                         </tr>  
                                         <tr><th>Convalidacion</th> 
                                         <td>{{$programa->convalidacion}}</td>

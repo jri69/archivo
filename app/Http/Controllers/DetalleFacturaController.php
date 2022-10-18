@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fifth_Partida;
+use App\Models\Partida;
+use App\Models\Quarter_Partida;
+use App\Models\SubPartida;
+use App\Models\Third_Partida;
 use Illuminate\Http\Request;
 
 class DetalleFacturaController extends Controller
@@ -11,9 +16,9 @@ class DetalleFacturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return view('detalle_factura.index');
+        return view('detalle_factura.index', compact('id'));
     }
 
     /**
@@ -21,9 +26,14 @@ class DetalleFacturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('detalle_factura.create');
+        $primero = Partida::all();
+        $segundo = SubPartida::all();
+        $tercero = Third_Partida::all();
+        $cuarto = Quarter_Partida::all();
+        $quinto = Fifth_Partida::all();
+        return view('detalle_factura.create', compact('id', 'primero', 'segundo', 'tercero', 'cuarto', 'quinto'));
     }
 
     /**
