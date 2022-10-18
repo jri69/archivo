@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row" style="margin-left: 10%">
                 <div class="col-md-11">
-                    <form action="{{ route('pago_estudiante.update',$estudiante->id) }}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{ route('pago_estudiante.update',$estudiante->id)  }}" method="post" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card">
@@ -20,22 +20,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <label for="modulos" class="col-sm-2 col-form-label"><b>Cantidad de Modulos:</b></label>
-                                <div class="col-sm-7">
-                                    <input type="number" class="form-control"
-                                    name="cant_modulos"
-                                    autofocus
-                                        >
-                                        @if ($errors->has('cant_modulos'))
-                                    <span class="error text-danger" for="input-nombre">
-                                        {{ $errors->first('cant_modulos') }}
-                                    </span>
-                                @endif
-                                </div>
-                            </div>
+                            </div>                            
                             <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"><b>Nombre del Descuento:</b></label>

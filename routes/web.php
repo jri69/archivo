@@ -149,7 +149,7 @@ Route::group(['prefix' => 'tipo_pago', 'middleware' => ['can:tipo_pago.index', '
 Route::group(['prefix' => 'Pago_Estudiante', 'middleware' => ['can:pago_estudiante.index', 'auth']], function () {
     Route::get('/index', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
     Route::get('/create', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
-    Route::get('/edit/{estudiante}', [Pago_EstudianteController::class, 'edit'])->name('pago_estudiante.edit');
+    Route::get('/edit/{id}', [Pago_EstudianteController::class, 'edit'])->name('pago_estudiante.edit');
     Route::post('/store', [Pago_EstudianteController::class, 'store'])->name('pago_estudiante.store');
     Route::get('/show/{estudiante}', [Pago_EstudianteController::class, 'show'])->name('pago_estudiante.show');
     Route::put('/update/{estudiante}', [Pago_EstudianteController::class, 'update'])->name('pago_estudiante.update');
