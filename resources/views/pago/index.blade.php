@@ -70,7 +70,7 @@
                                         <td>{{\Carbon\Carbon::parse($pro->fecha_finalizacion)->format('d-m-Y')}}</td>
                                         </tr>
                                         <tr><th>Cantidad de Modulos</th> 
-                                        <td>{{ $programa->cantidad_modulos }}</td>
+                                        <td>{{ $pro->cantidad_modulos }}</td>
                                         </tr>                
                                         <tr><th>Costo Total del Programa</th>
                                         <td>{{$pro->costo}}</td>

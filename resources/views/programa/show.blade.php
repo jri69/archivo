@@ -114,10 +114,10 @@
                                             Docente
                                         </th>
                                         <th>
-                                            Edición
+                                            Versión
                                         </th>
                                         <th>
-                                            Versión
+                                            Edición
                                         </th>
                                         <th>
                                             Acciones
@@ -143,10 +143,10 @@
                                                     {{ $modulo->docente->apellido }}
                                                 </td>
                                                 <td>
-                                                    {{ $modulo->edicion }}
+                                                    {{ $modulo->version }}
                                                 </td>
                                                 <td>
-                                                    {{ $modulo->version }}
+                                                    {{ $modulo->edicion }}
                                                 </td>
                                                 <td class="td-actions">
                                                     <a href="{{ route('programa.modulo', [$programa->id, $modulo->id]) }}"

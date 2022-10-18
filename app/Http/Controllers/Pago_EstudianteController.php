@@ -79,14 +79,17 @@ class Pago_EstudianteController extends Controller
     public function show($id)
     {
         $fecha = Carbon::now();
+        $prueba = Pago_estudiante::find($id);
+        //$programa = Pago_estudiante::join('programas','programas.id','=','pago_estudiante.programa_id')->select('programas.*','pago_estudiante.*')->get();
+        //return $programa;
         $estudiante = Estudiante::findOrFail($id);
         //$monto = DB::table('pago')->select('monto')->where('pago_estudiante_id', '=', $id)->sum('monto');
         $monto = DB::table('pago')->join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->select('monto')->where('pago_estudiante.estudiante_id', '=', $id)->sum('monto');
         //return $monto;
         $pagos = Pago::join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->join('tipo_pagos', 'tipo_pagos.id', '=', 'pago.tipo_pago_id')->select('pago.*', 'tipo_pagos.*', 'pago.id')->where('pago_estudiante.estudiante_id', $id)->get();
         //return $pagos;
-        $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiantes.id", $estudiante->id)->select("pago_estudiante.*", "programas.*")->get()->first();
-
+        $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiante_programas.id_estudiante", $estudiante->id)->select("pago_estudiante.*", "programas.*")->get();
+        return $programa;
         $pro = DB::table('programas')->where('id', '=', $programa->programa_id)->get()->first();
 
         $descuento = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->join("tipo_descuento", "tipo_descuento.id", "=", "pago_estudiante.tipo_descuento_id")->select("tipo_descuento.*", "pago_estudiante.id as estu")->where("estudiantes.id", $estudiante->id)->get()->first();
@@ -104,11 +107,11 @@ class Pago_EstudianteController extends Controller
             $porcentaje = 0;
         } else {
 
-            $porcentaje = ($programa->costo * $descuento->monto) / 100;
+            $porcentaje = ($pro->costo * $descuento->monto) / 100;
             $costo_t = $pro->costo - $porcentaje - $programa->convalidacion;
             $cuenta = $porcentaje + $monto + $programa->convalidacion;
         }
-
+        return $pro;
         $saldo = $costo_t - $monto;
         $deuda = $deuda - $cuenta;
         $estado = 'SIN DEUDA';
