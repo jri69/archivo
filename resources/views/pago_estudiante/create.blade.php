@@ -19,18 +19,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"><b>Nombre del Programa:</b></label>
-                                <div class="col-sm-7">
-                                    <select name="programa_id" id="_programa" class="form-control">
-                                        <option disabled selected>Seleccione el Programa</option>
-                                        @foreach ($programas as $programa)
-                                            <option value="{{$programa->id}}">{{$programa->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
                             </div>                            
                             <br>
                             <div class="row">
