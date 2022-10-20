@@ -63,7 +63,6 @@ class Pago_EstudianteController extends Controller
     {
         $request->validate([
             'estudiante_id' => 'required',
-            'programa_id' => 'required',
 
         ]);
         Pago_estudiante::create($request->all());
@@ -147,10 +146,6 @@ class Pago_EstudianteController extends Controller
     {
         //return $id;
         $pago_estu = Pago_estudiante::findOrFail($id);
-        $request->validate([
-            'programa_id' => 'required',
-
-        ]);
         $pago_estu->estudiante_id =  $pago_estu->estudiante_id;
         $pago_estu->programa_id = $request['programa_id'];
         $pago_estu->tipo_descuento_id = $request['tipo_descuento_id'];
