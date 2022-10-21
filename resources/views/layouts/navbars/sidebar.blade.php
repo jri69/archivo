@@ -19,6 +19,12 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
+            <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
+                <a class="nav-link" href="{{ route('calendario.index') }}">
+                    <i class="material-icons">calendar_month</i>
+                    <p>{{ __('Calendario') }}</p>
+                </a>
+            </li>
             @if (auth()->user()->can('usuario.index') ||
                 auth()->user()->can('cargo.index') ||
                 auth()->user()->can('area.index') ||

@@ -5,6 +5,7 @@ use App\Http\Controllers\AdministrativoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
@@ -54,6 +55,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
 });
+
+//Usuario
+Route::group(['prefix' => 'calendario', 'middleware' => ['auth']], function () {
+    Route::get('/', [CalendarioController::class, 'index'])->name('calendario.index');
+    Route::get('/doctorados', [CalendarioController::class, 'doctorados'])->name('calendario.doctorado');
+    Route::get('/maestrias', [CalendarioController::class, 'maestrias'])->name('calendario.maestria');
+    Route::get('/diplomados', [CalendarioController::class, 'diplomados'])->name('calendario.diplomado');
+    Route::get('/cursos', [CalendarioController::class, 'cursos'])->name('calendario.curso');
+    Route::get('/especialidades', [CalendarioController::class, 'especialidades'])->name('calendario.especialidades');
+    Route::get('/otros', [CalendarioController::class, 'otros'])->name('calendario.otros');
+    Route::get('/inicio', [CalendarioController::class, 'inicio'])->name('calendario.inicio');
+    Route::get('/finalizado', [CalendarioController::class, 'finalizado'])->name('calendario.finalizado');
+});
+
 
 //Usuario
 Route::group(['prefix' => 'usuario', 'middleware' => ['can:usuario.index', 'auth']], function () {

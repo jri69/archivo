@@ -17,5 +17,8 @@
         "vite": "^3.0.0",
         "vue": "^2.6.12",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "fullcalendar": "^5.11.3"
     }
 }
