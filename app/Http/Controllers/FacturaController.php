@@ -15,7 +15,7 @@ class FacturaController extends Controller
      */
     public function index()
     {
-       
+
         return View('factura.index');
     }
 
@@ -38,23 +38,23 @@ class FacturaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'numero'=>'required',
-            'fecha'=>'required',
-            'monto'=>'required',
-            'file'=>'required'
+            'numero' => 'required',
+            'fecha' => 'required',
+            'monto' => 'required',
+            'file' => 'required'
         ]);
-          if (is_null($request->file)){
-            return back()->withErrors(['error'=>'Introduce un Documento']);
+        if (is_null($request->file)) {
+            return back()->withErrors(['error' => 'Introduce un Documento']);
         }
-        if($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $file = $request->file('file')->store('public/facturas');
             $archivo = Storage::url($file);
         }
         Factura::create([
-            'numero'=> $request->numero,
-            'fecha'=> $request->fecha,
-            'monto'=> $request->monto,
-            'file'=> $archivo
+            'numero' => $request->numero,
+            'fecha' => $request->fecha,
+            'monto' => $request->monto,
+            'file' => $archivo
         ]);
         return redirect()->route('factura.index');
     }
@@ -78,7 +78,7 @@ class FacturaController extends Controller
      */
     public function edit(Factura $factura)
     {
-        return View('factura.edit',compact('factura'));
+        return View('factura.edit', compact('factura'));
     }
 
     /**
@@ -91,9 +91,9 @@ class FacturaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'numero'=>'required',
-            'fecha'=>'required',
-            'monto'=>'required',
+            'numero' => 'required',
+            'fecha' => 'required',
+            'monto' => 'required',
         ]);
         $datos = Factura::find($id);
         $datos->update($request->all());

@@ -10,6 +10,6 @@ class Index extends Component
     public function render()
     {
         $facturas = Factura::all();
-        return view('livewire.factura.factura.index',compact('facturas'));
+        return view('livewire.factura.factura.index', compact('facturas'));
     }
 }

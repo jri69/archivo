@@ -25,18 +25,21 @@
                             </center>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="default">
+                           
+                                <div class="table-responsive-xl">
+                                <table class="table">
                                     <thead class="text-primary text-dark">          
                                         <tr><th>Nombre</th>
-                                        <td style="width: 25%"><h5><b>{{$estudiante->nombre}}</b></h5></td>
+                                        <th>{{$estudiante->nombre}}</th>
                                         </tr>                              
                                         <tr><th>Estado</th>
-                                        <td><b>{{ $estado }}</b></td>
+                                        <th>{{ $estado }}</th>
                                         </tr>
-                                    <head>            
+                                    </thead>            
                                 </table>
                             </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -51,38 +54,38 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive"> 
-                                <table class="default">
+                                <table class="table">
                                     <thead class="text-primary text-dark">
                                         <tr>
                                         <th>Programa</th>
-                                        <td width="46%"><h4><b>{{$pro->nombre}}</b></h4></td>
+                                        <th><h4><b>{{$programa->nombre}}</b></h4></th>
                                         </tr>      
                                         <tr><th>Version</th>
-                                        <td><b>{{$pro->version}}</b></td>
+                                        <th>{{$programa->version}}</th>
                                         </tr>   
                                         <tr><th>Edicion</th>
-                                        <td>{{$pro->edicion}}</td>
+                                        <th>{{$programa->edicion}}</th>
                                         </tr>  
                                         <tr><th>Fecha de inicio</th>
-                                        <td>{{\Carbon\Carbon::parse($pro->fecha_inicio)->format('d-m-Y')}}</td>
+                                        <th>{{\Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y')}}</th>
                                         </tr>
                                         <tr><th>Fecha de finalizacion</th>
-                                        <td>{{\Carbon\Carbon::parse($pro->fecha_finalizacion)->format('d-m-Y')}}</td>
+                                        <th>{{\Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y')}}</th>
                                         </tr>
                                         <tr><th>Cantidad de Modulos</th> 
-                                        <td>{{ $programa->cantidad_modulos }}</td>
+                                        <th>{{ $programa->cantidad_modulos }}</th>
                                         </tr>                
                                         <tr><th>Costo Total del Programa</th>
-                                        <td>{{$pro->costo}}</td>
+                                        <th>{{$programa->costo}}</th>
                                         </tr>  
                                         <tr><th>Convalidacion</th> 
-                                        <td>{{$programa->convalidacion}}</td>
+                                        <th>{{$programa->convalidacion}}</th>
                                         </tr>
                                         <tr><th>Descuento</th> 
-                                        <td>{{$porcentaje}}</td>
+                                        <th>{{$porcentaje}}</th>
                                         </tr>
                                         <tr><th>Costo Total con Descuento</th> 
-                                        <td>{{$costo_t}}</td>
+                                        <th>{{$costo_t}}</th>
                                         </tr>   
                                     </thead>
                                 </table>
@@ -153,17 +156,8 @@
                                                 <td class="td-actions">
                                                     <a href="{{ route('pago.edit',$pago->id) }}"
                                                         class="btn btn-success">
-                                                        <span class="material-icons">visibility</span>
+                                                        <span class="material-icons">edit</span>
                                                     </a>
-                                                    <!--<form action="#"
-                                                        method="POST" style="display: inline-block;"
-                                                        onsubmit="return confirm('¿Está seguro?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger" type="submit">
-                                                            <i class="material-icons">close</i>
-                                                        </button>
-                                                    </form> -->
                                                 </td>
                                             </tr>
                                         @endforeach

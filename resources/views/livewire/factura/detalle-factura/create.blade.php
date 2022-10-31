@@ -10,7 +10,7 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"><b>Primera Partida:</b></label>
                             <div class="col-sm-7">
-                                <select name="id_itinerario" id="_itinerario" class="form-control">
+                                <select name="primero" id="_primero" class="form-control">
                                     <option disabled selected>Seleccione la Primera Partida</option>
                                 </select>
                             </div>
@@ -19,7 +19,7 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"><b>Segunda Partida:</b></label>
                             <div class="col-sm-7">
-                                <select name="id_bus" id="_bus" class="form-control">
+                                <select name="segundo" id="_segundo" class="form-control">
                                     <option disabled selected>Seleccione la Segunda Partida</option>
                                 </select>
                             </div>
@@ -28,7 +28,7 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"><b>Tercera Partida:</b></label>
                             <div class="col-sm-7">
-                                <select name="asiento" id="_asiento" class="form-control">
+                                <select name="tercero" id="_tercero" class="form-control">
                                     <option disabled selected>Seleccione la Tercera Partida</option>
                                 </select>
                             </div>
@@ -37,7 +37,7 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"><b>Cuarta Partida:</b></label>
                             <div class="col-sm-7">
-                                <select name="asiento" id="_asiento" class="form-control">
+                                <select name="cuarto" id="_cuarto" class="form-control">
                                     <option disabled selected>Seleccione la Cuarta Partida</option>
                                 </select>
                             </div>
@@ -46,7 +46,7 @@
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"><b>Quinta Partida:</b></label>
                             <div class="col-sm-7">
-                                <select name="asiento" id="_asiento" class="form-control">
+                                <select name="quinto" id="_quinto" class="form-control">
                                     <option disabled selected>Seleccione la Quinta Partida</option>
                                 </select>
                             </div>
@@ -80,7 +80,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="nombre" class="col-sm-2 col-form-label"><b>Subtotal:</b></label>
+                            <label for="nombre" class="col-sm-2 col-form-label"><b>Total:</b></label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
                                 name="subtotal"
@@ -102,7 +102,7 @@
             </div>
             
         </div>
-        <div class="row" style="margin-left: 10%">
+        {{-- <div class="row" style="margin-left: 10%">
             <div class="col-md-11">
                 <div class="card">
                     <div class="card-header card-header-primary">
@@ -127,10 +127,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
-{{-- <script>
+{<script>
     const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
     //llenado del select itinerario
     document.getElementById('_fecha').addEventListener('change',(e)=>{
@@ -192,4 +192,4 @@
             document.getElementById("_asiento").innerHTML = opciones;
         }).catch(error =>console.error(error));
     })
-</script> --}}
+</script> 

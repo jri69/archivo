@@ -63,7 +63,6 @@ class Pago_EstudianteController extends Controller
     {
         $request->validate([
             'estudiante_id' => 'required',
-            'programa_id' => 'required',
 
         ]);
         Pago_estudiante::create($request->all());
@@ -85,9 +84,9 @@ class Pago_EstudianteController extends Controller
         //return $monto;
         $pagos = Pago::join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->join('tipo_pagos', 'tipo_pagos.id', '=', 'pago.tipo_pago_id')->select('pago.*', 'tipo_pagos.*', 'pago.id')->where('pago_estudiante.estudiante_id', $id)->get();
         //return $pagos;
-        $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiantes.id", $estudiante->id)->select("pago_estudiante.*", "programas.*")->get()->first();
+        $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiantes.id", $estudiante->id)->select("pago_estudiante.*", "programas.*", 'programas.nombre as nombre')->get()->first();
 
-        $pro = DB::table('programas')->where('id', '=', $programa->programa_id)->get()->first();
+        //$pro = DB::table('programas')->where('id', '=', $programa->programa_id)->get()->first();
 
         $descuento = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->join("tipo_descuento", "tipo_descuento.id", "=", "pago_estudiante.tipo_descuento_id")->select("tipo_descuento.*", "pago_estudiante.id as estu")->where("estudiantes.id", $estudiante->id)->get()->first();
 
@@ -96,19 +95,19 @@ class Pago_EstudianteController extends Controller
         $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo');
 
         $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->get();
-        //return $pago_id;
+        //return $descuento;
         if ($descuento == []) {
 
-            $costo_t = $pro->costo - $programa->convalidacion;
+            $costo_t = $programa->costo - $programa->convalidacion;
             $cuenta =  $monto + $programa->convalidacion;
             $porcentaje = 0;
         } else {
 
             $porcentaje = ($programa->costo * $descuento->monto) / 100;
-            $costo_t = $pro->costo - $porcentaje - $programa->convalidacion;
+            $costo_t = $programa->costo - $porcentaje - $programa->convalidacion;
             $cuenta = $porcentaje + $monto + $programa->convalidacion;
         }
-
+        //return $programa;
         $saldo = $costo_t - $monto;
         $deuda = $deuda - $cuenta;
         $estado = 'SIN DEUDA';
@@ -116,7 +115,8 @@ class Pago_EstudianteController extends Controller
             $estado = 'CON DEUDA';
         };
 
-        return view('pago.index', compact('estado', 'pro', 'programa', 'estudiante', 'descuento', 'costo_t', 'pagos', 'monto', 'saldo', 'cuenta', 'deuda', 'porcentaje', 'pago_id'));
+
+        return view('pago.index', compact('estado', 'programa', 'estudiante', 'descuento', 'costo_t', 'pagos', 'monto', 'saldo', 'cuenta', 'deuda', 'porcentaje', 'pago_id'));
     }
 
     /**
@@ -144,12 +144,8 @@ class Pago_EstudianteController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //return $id;
         $pago_estu = Pago_estudiante::findOrFail($id);
-        $request->validate([
-            'estudiante_id' => 'required',
-            'programa_id' => 'required',
-
-        ]);
         $pago_estu->estudiante_id =  $pago_estu->estudiante_id;
         $pago_estu->programa_id = $request['programa_id'];
         $pago_estu->tipo_descuento_id = $request['tipo_descuento_id'];
