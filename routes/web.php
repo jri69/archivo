@@ -69,7 +69,6 @@ Route::group(['prefix' => 'calendario', 'middleware' => ['auth']], function () {
     Route::get('/finalizado', [CalendarioController::class, 'finalizado'])->name('calendario.finalizado');
 });
 
-
 //Usuario
 Route::group(['prefix' => 'usuario', 'middleware' => ['can:usuario.index', 'auth']], function () {
     Route::get('/index', [UsuarioController::class, 'index'])->name('usuario.index');
@@ -305,6 +304,14 @@ Route::group(['prefix' => 'contrataciones', 'middleware' => ['can:contrataciones
     Route::get('/show/{contrataciones}', [ContratacionesController::class, 'show'])->name('contrataciones.show');
     Route::put('/update/{contrataciones}', [ContratacionesController::class, 'update'])->name('contrataciones.update');
     Route::delete('/delete/{contrataciones}', [ContratacionesController::class, 'destroy'])->name('contrataciones.delete');
+});
+
+// Cartas de contrataciones
+Route::group(['prefix' => 'contratacion/carta', 'middleware' => ['can:contratacion.index', 'auth']], function () {
+    Route::get('/create/{carta}', [ContratacionesController::class, 'carta_create'])->name('carta.create');
+    Route::post('/store', [ContratacionesController::class, 'carta_store'])->name('carta.store');
+    Route::get('/edit/{carta}', [ContratacionesController::class, 'carta_edit'])->name('carta.edit');
+    Route::put('/update/{carta}', [ContratacionesController::class, 'carta_update'])->name('carta.update');
 });
 
 // Pagos sueldos

@@ -7,6 +7,7 @@ use App\Models\ContratoCarta;
 use App\Models\Docente;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
+use App\Models\TipoCarta;
 use Illuminate\Http\Request;
 
 class ContratacionesController extends Controller
@@ -28,10 +29,21 @@ class ContratacionesController extends Controller
     public function show($id)
     {
         $contrato = Contrato::findOrFail($id);
+        $tipos = TipoCarta::Where('tipo', 'Docente')->get();
         $cartas = ContratoCarta::where('contrato_id', $id)->get();
         $programa_modulo = ProgramaModulo::where('id_modulo', $contrato->modulo_id)->first();
         $programa = Programa::findOrFail($programa_modulo->id_programa);
-        return view('contrataciones.show', compact('contrato', 'cartas', 'programa'));
+
+        // unir los tipos con las cartas
+        $tipos_cartas = [];
+        foreach ($tipos as $key => $tipo) {
+            $carta = $cartas->where('tipo_carta_id', $tipo->id)->first();
+            $tipos_cartas[$key] = [
+                'tipo' => $tipo,
+                'carta' => $carta
+            ];
+        }
+        return view('contrataciones.show', compact('contrato', 'tipos_cartas', 'programa'));
     }
 
     // Interface de edición de una contratación
