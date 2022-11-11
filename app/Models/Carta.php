@@ -12,6 +12,7 @@ class Carta extends Model
         'codigo_admi',
         'fecha',
         'tipo_id',
+        'contrato_id',
     ];
 
     public function directivos()
@@ -22,5 +23,10 @@ class Carta extends Model
     public function tipo()
     {
         return $this->belongsTo(TipoCarta::class, 'tipo_id');
+    }
+
+    public function contrato()
+    {
+        return $this->belongsTo(Contrato::class, 'contrato_id');
     }
 }

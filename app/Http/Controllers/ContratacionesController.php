@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carta;
 use App\Models\Contrato;
 use App\Models\ContratoCarta;
 use App\Models\Docente;
@@ -30,14 +31,15 @@ class ContratacionesController extends Controller
     {
         $contrato = Contrato::findOrFail($id);
         $tipos = TipoCarta::Where('tipo', 'Docente')->get();
-        $cartas = ContratoCarta::where('contrato_id', $id)->get();
+        $cartas = Carta::where('contrato_id', $id)->get();
         $programa_modulo = ProgramaModulo::where('id_modulo', $contrato->modulo_id)->first();
         $programa = Programa::findOrFail($programa_modulo->id_programa);
 
         // unir los tipos con las cartas
         $tipos_cartas = [];
         foreach ($tipos as $key => $tipo) {
-            $carta = $cartas->where('tipo_carta_id', $tipo->id)->first();
+            // $carta = $cartas->where('tipo_carta_id', $tipo->id)->first();
+            $carta = $cartas->where('tipo_id', $tipo->id)->first();
             $tipos_cartas[$key] = [
                 'tipo' => $tipo,
                 'carta' => $carta

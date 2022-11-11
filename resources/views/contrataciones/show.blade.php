@@ -123,12 +123,17 @@
                                                 <td>{{ $tipo['carta'] ? 'Creado' : 'No creado' }}</td>
                                                 <td>{{ $tipo['carta'] ? $tipo['carta']->fecha : 'No creado' }}</td>
                                                 <td class="td-actions">
-                                                    <a {{-- href="{{ route('carta.edit', $carta->id) }}" --}} class="btn btn-success">
+                                                    <a href="{{ route('carta.create', [$contrato->id, $tipo['tipo']->id]) }}"
+                                                        class="btn btn-success">
                                                         <span class="material-icons">edit</span>
                                                     </a>
-                                                    <a href="" class="btn btn-primary">
-                                                        <span class="material-icons">cloud_download</span>
-                                                    </a>
+                                                    {{-- abrir enlace en otra pesta;a --}}
+                                                    @if ($tipo['carta'])
+                                                        <a href="{{ route('carta.pdf', [$contrato->id, $tipo['tipo']->nombre, $tipo['carta']->id]) }}"
+                                                            class="btn btn-primary" target="_blank">
+                                                            <span class="material-icons">cloud_download</span>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

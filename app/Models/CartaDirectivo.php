@@ -9,7 +9,7 @@ class CartaDirectivo extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'docente_id',
+        'directivo_id',
         'carta_id',
     ];
 
@@ -18,8 +18,8 @@ class CartaDirectivo extends Model
         return $this->belongsTo(Carta::class);
     }
 
-    public function docente()
+    public function directivo()
     {
-        return $this->belongsTo(Docente::class);
+        return $this->belongsTo(Directivo::class);
     }
 }

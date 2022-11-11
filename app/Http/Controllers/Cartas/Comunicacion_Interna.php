@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Cartas;
 
+use App\Models\Carta;
+use App\Models\CartaDirectivo;
+use App\Models\Docente;
+use App\Models\Modulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Comunicacion_Interna extends Fpdf
@@ -20,15 +24,60 @@ class Comunicacion_Interna extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
+    private function fechaLiteral($fecha)
+    {
+        $fecha = explode('/', $fecha);
+        $meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Noviembre',
+            '12' => 'Diciembre',
+        ];
+        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+    }
+
     public function informe($data)
     {
+        // obtencion de datos
+        $contrato = $data[0];
+        $idCarta = $data[1];
+        $modulo = Modulo::find($contrato->modulo_id);
+        $docente = Docente::find($modulo->docente_id);
+        $carta = Carta::find($idCarta);
+        $fecha = date('d/m/Y', strtotime($carta->fecha));
+        $fechaLiteral = $this->fechaLiteral($fecha);
+        $gestion = date('Y', strtotime($carta->fecha));
+        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $director = '';
+        $asesor = '';
+        $responsable = '';
+        foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Director') {
+                $director = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Asesor Legal') {
+                $asesor = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
+                $responsable = $directivo->directivo;
+            }
+        }
+
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
         $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ADM XXXXX"), 0, 'R', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ADM No. " . $carta->codigo_admi), 0, 'R', 0);
 
         $this->fpdf->Ln(2);
         $this->widths = array(14, $this->width - 14);

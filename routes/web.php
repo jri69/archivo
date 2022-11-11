@@ -213,8 +213,6 @@ Route::group(['prefix' => 'activo_fijo', 'middleware' => ['can:activo.index', 'a
     Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
 });
 
-// Recursos humanos
-Route::get('/pdf', [CartasReporteController::class, 'pdf'])->name('reporte.pdf');
 
 // Unidad organizacional
 Route::group(['prefix' => 'unidad_organizacional', 'middleware' => ['can:unidad.index', 'auth']], function () {
@@ -259,6 +257,7 @@ Route::group(['prefix' => 'servicio', 'middleware' => ['can:servicio.index', 'au
     Route::post('/store', [ServicioController::class, 'store'])->name('servicio.store');
     Route::put('/update/{servicio}', [ServicioController::class, 'update'])->name('servicio.update');
 });
+
 //Pago de Servicios
 Route::group(['prefix' => 'pago_servicio', 'middleware' => ['can:pago_servicio.index', 'auth']], function () {
     Route::get('/index', [Pago_ServicioController::class, 'index'])->name('pago_servicio.index');
@@ -308,10 +307,13 @@ Route::group(['prefix' => 'contrataciones', 'middleware' => ['can:contrataciones
 
 // Cartas de contrataciones
 Route::group(['prefix' => 'contratacion/carta', 'middleware' => ['can:contratacion.index', 'auth']], function () {
-    Route::get('/create/{carta}', [ContratacionesController::class, 'carta_create'])->name('carta.create');
-    Route::post('/store', [ContratacionesController::class, 'carta_store'])->name('carta.store');
-    Route::get('/edit/{carta}', [ContratacionesController::class, 'carta_edit'])->name('carta.edit');
-    Route::put('/update/{carta}', [ContratacionesController::class, 'carta_update'])->name('carta.update');
+    Route::get('/create/{idContrato}/{tipoCarta}', [CartasReporteController::class, 'carta_create'])->name('carta.create');
+    Route::post('/store', [CartasReporteController::class, 'carta_store'])->name('carta.store');
+    Route::get('/edit/{carta}', [CartasReporteController::class, 'carta_edit'])->name('carta.edit');
+    Route::put('/update/{carta}', [CartasReporteController::class, 'carta_update'])->name('carta.update');
+
+    Route::post('/pdf', [CartasReporteController::class, 'index'])->name('carta.index');
+    Route::get('/pdf/{id}/{tipo}/{idCarta}', [CartasReporteController::class, 'pdf'])->name('carta.pdf');
 });
 
 // Pagos sueldos

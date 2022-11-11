@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Directivo;
 use App\Models\TipoCarta;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,44 +17,69 @@ class CartasSeeder extends Seeder
     public function run()
     {
         TipoCarta::create([
-            'id' => 1,
             'nombre' => 'Comunicación interna',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 2,
             'nombre' => 'Condiciones y términos para la contratación',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 3,
             'nombre' => 'Informe de conformidad',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 4,
             'nombre' => 'Informe técnico',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 5,
             'nombre' => 'Notificación de adjudicación',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 6,
             'nombre' => 'Propuesta del consultor',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 7,
             'nombre' => 'Requerimiento de propuesta',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'id' => 8,
             'nombre' => 'Solicitud de contratacion',
             'tipo' => 'Docente',
+        ]);
+
+        Directivo::create([
+            'nombre' => 'Erick Rojas',
+            'apellido' => 'Balcazar',
+            'honorifico' => 'M.Sc.',
+            'cargo' => 'Director',
+            'institucion' => 'Escuela de Ingeniería - F.C.E.T.',
+            'activo' => true,
+        ]);
+        Directivo::create([
+            'nombre' => 'Daniel',
+            'apellido' => 'Tejerina Claudio',
+            'honorifico' => 'M.Sc.',
+            'cargo' => 'Coordinador Académico',
+            'institucion' => 'Escuela de Ingeniería - UAGRM',
+            'activo' => true,
+        ]);
+        Directivo::create([
+            'nombre' => 'Rene',
+            'apellido' => 'Menacho',
+            'honorifico' => 'Abog.',
+            'cargo' => 'Asesor Legal',
+            'institucion' => 'F.C.E.T. - UAGRM',
+            'activo' => true,
+        ]);
+        Directivo::create([
+            'nombre' => 'Ruben',
+            'apellido' => 'Orozco',
+            'honorifico' => 'Lic.',
+            'cargo' => 'Responsable del proceso de contratación',
+            'institucion' => 'JAF',
+            'activo' => true,
         ]);
     }
 }
