@@ -58,20 +58,31 @@ class ReporteController extends Controller
             case 'Informe de conformidad':
                 $this->Informe_Conformidad([$contrato, $idCarta]);
                 break;
-
             case 'Comunicación interna':
                 $this->Comunicacion_Interna([$contrato, $idCarta]);
+                break;
+            case 'Notificación de adjudicación':
+                $this->Notificacion_Adjudicacion([$contrato, $idCarta]);
+                break;
+            case 'Informe técnico':
+                $this->Informe_Tecnico([$contrato, $idCarta]);
+                break;
+            case 'Propuesta del consultor':
+                $this->Propuesta_Consultor([$contrato, $idCarta]);
+                break;
+            case 'Requerimiento de propuesta':
+                $this->Requerimiento_Propuesta([$contrato, $idCarta]);
+                break;
+            case 'Solicitud de contratación':
+                $this->Sol_Contrataciones([$contrato, $idCarta]);
+                break;
+            case 'Condiciones y términos para la contratación':
+                $this->Condiciones_Terminos([$contrato, $idCarta]);
                 break;
             default:
                 # code...
                 break;
         }
-        // $this->Condiciones_Terminos([]);
-        // $this->Sol_Contrataciones([]);
-        // $this->Requerimiento_Propuesta([]);
-        // $this->Propuesta_Consultor([]);
-        // $this->Informe_Tecnico([]);
-        // $this->Notificacion_Adjudicacion([]);
     }
 
     private function createDirectivo($tipo, $carta)
@@ -106,7 +117,61 @@ class ReporteController extends Controller
                     'directivo_id' => $responsable->id,
                 ]);
                 break;
-
+            case 'Informe técnico':
+                $coordinador = Directivo::where('cargo', 'Coordinador Académico')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - UAGRM')->first();
+                $responsable = Directivo::where('cargo', 'Responsable del proceso de contratación')->where('activo', true)->where('institucion', 'JAF')->first();
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $coordinador->id,
+                ]);
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $responsable->id,
+                ]);
+                break;
+            case 'Propuesta Consultor':
+                $coordinador = Directivo::where('cargo', 'Coordinador Académico')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - UAGRM')->first();
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $coordinador->id,
+                ]);
+                break;
+            case 'Requerimiento de propuesta':
+                $coordinador = Directivo::where('cargo', 'Coordinador Académico')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - UAGRM')->first();
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $coordinador->id,
+                ]);
+                break;
+            case 'Solicitud de contratación':
+                $director = Directivo::where('cargo', 'Director')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - F.C.E.T.')->first();
+                $coordinador = Directivo::where('cargo', 'Coordinador Académico')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - UAGRM')->first();
+                $responsable = Directivo::where('cargo', 'Responsable del proceso de contratación')->where('activo', true)->where('institucion', 'JAF')->first();
+                $decano = Directivo::where('cargo', 'Decano')->where('activo', true)->where('institucion', 'F.C.E.T')->first();
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $director->id,
+                ]);
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $coordinador->id,
+                ]);
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $responsable->id,
+                ]);
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $decano->id,
+                ]);
+                break;
+            case 'Condiciones y términos para la contratación':
+                $coordinador = Directivo::where('cargo', 'Coordinador Académico')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - UAGRM')->first();
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $coordinador->id,
+                ]);
+                break;
             default:
                 # code...
                 break;

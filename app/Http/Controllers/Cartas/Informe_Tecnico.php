@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Cartas;
 
+use App\Models\Carta;
+use App\Models\CartaDirectivo;
+use App\Models\Docente;
+use App\Models\Modulo;
+use App\Models\Programa;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Informe_Tecnico extends Fpdf
 {
     protected $fpdf;
-    public $title = "INFORME TECNICO";
     public $margin = 30;
     public $width = 165;
     public $space = 5;
@@ -20,29 +24,98 @@ class Informe_Tecnico extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
+    private function fechaLiteral($fecha)
+    {
+        $fecha = explode('/', $fecha);
+        $meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Noviembre',
+            '12' => 'Diciembre',
+        ];
+        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+    }
+
+    private function tipoPrograma($tipo)
+    {
+        if ($tipo == 'Maestria') {
+            return 'a la <MAESTRIA> en';
+        }
+        if ($tipo == 'Diplomado') {
+            return 'al <DIPLOMADO> en';
+        }
+        if ($tipo == 'Curso') {
+            return 'al <CURSO> de';
+        }
+        if ($tipo == 'Doctorado') {
+            return 'al <DOCTORADO> en';
+        }
+    }
+
     public function informe($data)
     {
+        // obtencion de datos
+        $contrato = $data[0];
+        $idCarta = $data[1];
+        $modulo = Modulo::find($contrato->modulo_id);
+        $docente = Docente::find($modulo->docente_id);
+        $carta = Carta::find($idCarta);
+        $fecha = date('d/m/Y', strtotime($carta->fecha));
+        $fechaLiteral = $this->fechaLiteral($fecha);
+        $facturacion = $docente->facturacion == 'Si' ? "SI" : "NO";
+        $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
+        $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
+        $title = 'INFORME TECNICO';
+        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
+        $programa = Programa::find($modulo->programa_id);
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad;
+        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
+
+        // directivos
+        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $responsable = '';
+        $coordinador = '';
+        foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
+                $responsable = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo;
+            }
+        }
+
+        $responsable ? $responsable_name = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo . ' ' . $responsable->institucion : $responsable_name = '';
+        $coordinador ? $coordinador = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido  . ' - ' . $coordinador->cargo . ' ' . $coordinador->institucion : $coordinador = '';
+
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
 
         $this->fpdf->Ln(20);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($this->title), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($title), 0, 'C', 0);
 
         $this->fpdf->Ln(4);
         $this->widths = array(14, $this->width - 14);
-        $this->Row(array(utf8_decode('De:'), utf8_decode('M.Sc. Daniel Tejerina Claudio - Coordinador Académico ESCUELA DE INGENIERIA - UAGRM')), 1, "L", "N");
-        $this->Row(array(utf8_decode('A:'), utf8_decode('Ph.D. Ing. Orlando Pedraza Mérida - DECANO DE LA FACULTAD DE CIENCIAS EXACTAS Y TECNOLOGIA.')), 1, "L", "N");
+        $this->Row(array(utf8_decode('De:'), utf8_decode($coordinador)), 1, "L", "N");
+        $this->Row(array(utf8_decode('A:'), utf8_decode($responsable_name)), 1, "L", "N");
 
         $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Distinguida Lic. Orosco:'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Distinguido ' . $responsable->honorifico . ' ' . $responsable->nombre), 0, 'L', 0);
         $this->fpdf->Ln(5);
 
         // CONTENIDO
         $contenido = [
-            'first' => 'En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el <MÓDULO> denominado: "Instrumentación Industrial, Sistema Scada y HMI", en relación al <DIPLOMADO> en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición) VIRTUAL. Se concluyó con el proceso bajo el siguiente detalle: ',
+            'first' => 'En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el <MÓDULO> denominado: "' . $modulo->nombre . '", en relación ' . $name_programa . '. Se concluyó con el proceso bajo el siguiente detalle: ',
             'second' => 'Por todo lo expuesto anteriormente expreso la conformidad respecto a la recepción de todos los temas arriba citados e informar que <CUMPLE> con los requerido por la capacitación según los términos de referencia; así también se <RECOMIENDA LA ADJUDICACION>.',
         ];
         $this->fpdf->SetFont('Arial', '', 10);
@@ -54,38 +127,38 @@ class Informe_Tecnico extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Solicitud de contratación para consultor e informe presupuestario mediante comunicación ESCUELA DE INGENIERIA OF.COORD. ACA. N.º 1269/2022.'));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CONSULTOR	: M.Sc. Miguel Angel Villalobos Rivas.'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CONSULTOR	: ' . $name_docente));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CEDULA DE IDENTIDAD: 2378154 S.C.'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CEDULA DE IDENTIDAD: ' . $docente->cedula . ' ' . $docente->expedido));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('PROGRAMAS 	:  DIPLOMADO EN CONTROL Y AUTOMATIZACION DE PROCESOS INDUSTRIALES (1º Versión, 3º Edición) VIRTUAL.'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('PROGRAMAS 	: ' . $programa->tipo . ' en ' . $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('MODULO   : "Instrumentación Industrial, Sistema Scada y HMI".'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('MODULO   : "' . $modulo->nombre . '".'));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HONORARIO	: 6000Bs (Total Ganado).'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HONORARIO	: ' . $contrato->honorario . 'Bs (Total Ganado).'));
 
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORAS ACADEMICAS: 60 hrs.'));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, ' ', utf8_decode('DURACION DEL MODULO:  15/08/2022 al 28/08/2022.'));
+        $this->MultiCellBlt($this->width - 10, 4, ' ', utf8_decode('DURACION DEL MODULO: ' . $fechaIni . 'al ' . $fechaFin . '.'));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORARIOS   :  Lunes a Viernes de 18:30 a 22:00 , Sábados y Domingos de 10:00 a 12:30 horas'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORARIOS   : ' . $contrato->horario . '.'));
 
         $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('EL CONSULTOR NO PRESENTA FACTURA.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('EL CONSULTOR ' . $facturacion . ' PRESENTA FACTURA.'), 0, 'L', 0);
         $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', '', 10);
         // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
         $this->WriteText($contenido['second']);
         $this->fpdf->Ln(8);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, 11 de agosto del 2022.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 'L', 0);
 
         // pie de pagina
         $this->fpdf->Ln(30);
@@ -93,11 +166,11 @@ class Informe_Tecnico extends Fpdf
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("M.Sc. Daniel Tejerina Claudio"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode($coordinador), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - UAGRM"), 0, 'C', 0);
-        $this->fpdf->Output("I", "Informe Tecnico.pdf");
+        $this->fpdf->Output("I", $docente->nombre . " - Informe Tecnico.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
@@ -215,7 +288,7 @@ class Informe_Tecnico extends Fpdf
         }
         return $nl;
     }
-    
+
     function WriteText($text)
     {
         $intPosIni = 0;

@@ -81,5 +81,13 @@ class CartasSeeder extends Seeder
             'institucion' => 'JAF',
             'activo' => true,
         ]);
+        Directivo::create([
+            'nombre' => 'Orlando',
+            'apellido' => 'Pedraza Merida',
+            'honorifico' => 'Ph.D.',
+            'cargo' => 'Decano',
+            'institucion' => 'F.C.E.T.',
+            'activo' => true,
+        ]);
     }
 }

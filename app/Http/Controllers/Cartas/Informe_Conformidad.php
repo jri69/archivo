@@ -44,7 +44,6 @@ class Informe_Conformidad extends Fpdf
         return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
     }
 
-
     public function informe($data)
     {
         // obtencion de datos
@@ -60,9 +59,9 @@ class Informe_Conformidad extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = "REF: INFORME DE CONFORMIDAD DEL MODULO: " . strtoupper($modulo->nombre);
+        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
 
         // directivos
-        // $director = Directivo::where('cargo', 'Director')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - F.C.E.T.')->first();
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
         $director = '';
         $coordinador = '';
@@ -74,8 +73,6 @@ class Informe_Conformidad extends Fpdf
                 $coordinador = $directivo->directivo;
             }
         }
-        // $coordinador = Directivo::where('cargo', 'Coordinador Académico')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - UAGRM')->first();
-
         $docente_nombre = $docente->nombre . ' ' . $docente->apellido;
 
         // validaciones
@@ -108,7 +105,7 @@ class Informe_Conformidad extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => 'De acuerdo al Contrato Administrativo <N° 86/2022> suscrito en la Escuela de Ingeniería, dependiente de la Facultad de Ciencias Exactas y Tecnología de la UAGRM y el <consultor ' . $docente->honorifico . ' ' . $docente_nombre . '>, cuyo objetivo fue el de desarrollar como facilitador (a) en el <MÓDULO>: ' . $modulo->nombre . ' (' . $modulo->version . 'º Versión, ' . $modulo->edicion . 'º Edición) virtual; ejecutado en fecha <' . $fechaIni . ' a ' . $fechaFin . '.>',
+            'first' => 'De acuerdo al Contrato Administrativo <N° 86/2022> suscrito en la Escuela de Ingeniería, dependiente de la Facultad de Ciencias Exactas y Tecnología de la UAGRM y el <consultor ' . $docente->honorifico . ' ' . $docente_nombre . '>, cuyo objetivo fue el de desarrollar como facilitador (a) en el <MÓDULO>: ' . $modulo->nombre . ' (' . $modulo->version . 'º Versión, ' . $modulo->edicion . 'º Edición) ' . $modalidad . '; ejecutado en fecha <' . $fechaIni . ' a ' . $fechaFin . '.>',
             'second' => 'Que, revisado el informe académico, acta de nota y el Programa de asignatura impartido por <el consultor>, cumplió con todas nuestras exigencias tanto académicas como de calidad. Expresando por tanto mi CONFORMIDAD por el servicio prestado en la presente gestión ' . $gestion . '. En cumplimiento de los procedimientos institucionales y la ejecución satisfactoria del servicio, solicito la cancelación de los honorarios de <Bs. ' . $contrato->honorario . '> del consultor, que fueron presupuestado en el <OF. COORD. ACAD. N° 1017/2022> en fecha <07 de junio del 2022>; con N° de preventiva 1085.',
             'third' => 'Informándole que el consultor ' . $facturacion . ' PRESENTA FACTURA, debiendo realizarse las deducciones de impuesto de ley correspondientes'
         ];
