@@ -50,8 +50,6 @@
                                 </div>
                             </div>
                             <br>
-                            {{-- dar formato a la fecha --}}
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="bmd-label-floating">Fecha de inicio</label>
@@ -112,30 +110,34 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class=" text-primary">
-                                        <th>Código</th>
+                                        {{-- <th>Código</th> --}}
                                         <th>Nombre</th>
-                                        <th>Tipo</th>
+                                        <th>Estado</th>
                                         <th>Fecha</th>
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($cartas as $carta)
+                                        @foreach ($tipos_cartas as $tipo)
                                             <tr>
-                                                <td>
-                                                    {{ $carta->codigo_admi }}
-                                                </td>
-                                                <td>
-                                                    {{ $carta->nombre }}
-                                                </td>
-                                                <td> {{ $carta->tipo }}</td>
-                                                <td> {{ $carta->fecha }}</td>
+                                                <td> {{ $tipo['tipo']->nombre }}</td>
+                                                <td>{{ $tipo['carta'] ? 'Creado' : 'No creado' }}</td>
+                                                <td>{{ $tipo['carta'] ? $tipo['carta']->fecha : 'No creado' }}</td>
                                                 <td class="td-actions">
-                                                    <a {{-- href="{{ route('carta.edit', $carta->id) }}" --}} class="btn btn-success">
-                                                        <span class="material-icons">visibility</span>
+                                                    <a href="{{ route('carta.create', [$contrato->id, $tipo['tipo']->id]) }}"
+                                                        class="btn btn-success">
+                                                        <span class="material-icons">edit</span>
                                                     </a>
+                                                    {{-- abrir enlace en otra pesta;a --}}
+                                                    @if ($tipo['carta'])
+                                                        <a href="{{ route('carta.pdf', [$contrato->id, $tipo['tipo']->nombre, $tipo['carta']->id]) }}"
+                                                            class="btn btn-primary" target="_blank">
+                                                            <span class="material-icons">cloud_download</span>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
+
                                     </tbody>
                                 </table>
                             </div>

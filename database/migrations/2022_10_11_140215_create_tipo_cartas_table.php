@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contrato_cartas', function (Blueprint $table) {
+        Schema::create('tipo_cartas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contrato_id')->constrained('contratos')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('carta_id')->constrained('cartas')->onDelete('set null')->onUpdate('cascade');
+            $table->string('nombre');
+            $table->string('tipo');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contrato_cartas');
+        Schema::dropIfExists('tipo_cartas');
     }
 };

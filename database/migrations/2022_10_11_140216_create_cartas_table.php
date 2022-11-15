@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('codigo_admi');
             $table->date('fecha');
-            $table->string('tipo');
+            $table->unsignedBigInteger('tipo_id');
+            $table->foreign('tipo_id')->references('id')->on('tipo_cartas');
+            $table->unsignedBigInteger('contrato_id');
+            $table->foreign('contrato_id')->references('id')->on('contratos');
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
+
             @if (auth()->user()->can('usuario.index') ||
                 auth()->user()->can('cargo.index') ||
                 auth()->user()->can('area.index') ||
@@ -118,6 +119,12 @@
                     </a>
                     <div class="collapse" id="Academico">
                         <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('calendario.index') }}">
+                                    <span class="sidebar-mini"> CA </span>
+                                    <span class="sidebar-normal">{{ __('Calendario') }} </span>
+                                </a>
+                            </li>
                             @can('estudiante.index')
                                 <li class="nav-item{{ $activePage == 'estudiante' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('estudiante.index') }}">

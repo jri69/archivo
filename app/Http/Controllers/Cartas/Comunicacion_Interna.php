@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\Cartas;
 
+use App\Models\Carta;
+use App\Models\CartaDirectivo;
+use App\Models\Docente;
+use App\Models\Modulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use NumberFormatter;
 
 class Comunicacion_Interna extends Fpdf
 {
@@ -20,31 +25,96 @@ class Comunicacion_Interna extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
+    private function fechaLiteral($fecha)
+    {
+        $fecha = explode('/', $fecha);
+        $meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Noviembre',
+            '12' => 'Diciembre',
+        ];
+        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+    }
+
+    private function numeroAliteral($number)
+    {
+        $f = new NumberFormatter("es", NumberFormatter::SPELLOUT);
+        return $f->format($number);
+    }
+
     public function informe($data)
     {
+        // obtencion de datos
+        $contrato = $data[0];
+        $idCarta = $data[1];
+        $modulo = Modulo::find($contrato->modulo_id);
+        $docente = Docente::find($modulo->docente_id);
+        $carta = Carta::find($idCarta);
+        $fecha = date('d/m/Y', strtotime($carta->fecha));
+        $fechaLiteral = $this->fechaLiteral($fecha);
+        $gestion = date('Y', strtotime($carta->fecha));
+        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
+        $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
+
+        $director = '';
+        $asesor = '';
+        $responsable = '';
+        foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Director') {
+                $director = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Asesor Legal') {
+                $asesor = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
+                $responsable = $directivo->directivo;
+            }
+        }
+
+        // validaciones
+        $director ? $director = $director->honorifico . " " . $director->nombre . " " . $director->apellido . " - " . $director->cargo . ' ' . $director->institucion : $director = '';
+
+        $asesor ? $asesor = $asesor->honorifico . " " . $asesor->nombre . " " . $asesor->apellido . " - " . $asesor->cargo . ' ' . $asesor->institucion : $asesor = '';
+
+        $responsable ? $responsable = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo : $responsable = '';
+
+        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
+
+
+
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
         $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ADM XXXXX"), 0, 'R', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ADM No. " . $carta->codigo_admi), 0, 'R', 0);
 
         $this->fpdf->Ln(2);
         $this->widths = array(14, $this->width - 14);
-        $this->Row(array(utf8_decode('A:'), utf8_decode('Abog. Rene Menacho - ASESOR LEGAL F.C.E.T. - UAGRM.')), 1, "L", "N");
-        $this->Row(array(utf8_decode('VIA:'), utf8_decode('M.Sc. Ing. Erick Rojas Balcazar - DIRECTOR DE LA ESCUELA DE INGENIERIA F.C.E.T.')), 1, "L", "N");
-        $this->Row(array(utf8_decode('DE:'), utf8_decode('Lic. María Rene Muguertegui de Méndez - RESPONSABLE DEL PROCESO DE CONTRATACIÓN')), 1, "L", "N");
-        $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL M.SC. MIGUEL ANGEL VILLALOBOS RIVAS, ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "INSTRUMENTACIÓN INDUSTRIAL, SISTEMA SCADA Y HMI", EN RELACIÓN AL DIPLOMADO EN CONTROL Y AUTOMATIZACION DE PROCESOS INDUSTRIALES (1º VERSIÓN, 3º EDICIÓN) VIRTUAL. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS. 6,000.00 (SEIS MIL CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
+        $this->Row(array(utf8_decode('A:'), utf8_decode($asesor)), 1, "L", "N");
+        $this->Row(array(utf8_decode('VIA:'), utf8_decode($director)), 1, "L", "N");
+        $this->Row(array(utf8_decode('DE:'), utf8_decode($responsable)), 1, "L", "N");
+        $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL ' . $name_docente . ', ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "' . $modulo->nombre . '" (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN) ' . $modalidad . '. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS.' . $contrato->honorario . ' (' . $honorarioLiteral . ' CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
 
         $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, 11 de agosto del 2022'), 0, 'R', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 'R', 0);
         $this->fpdf->Ln(5);
 
         // CONTENIDO
         $contenido = [
-            'first' => 'Según el oficio OF.COORD. ACA. N.º 1269/2022 del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "INSTRUMENTACIÓN INDUSTRIAL, SISTEMA SCADA Y HMI", EN RELACIÓN AL <DIPLOMADO> EN CONTROL Y AUTOMATIZACION DE PROCESOS INDUSTRIALES (1º VERSIÓN, 3º EDICIÓN) VIRTUAL. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el 13/08/22.',
+            'first' => 'Según el oficio OF.COORD. ACA. N.º 1269/2022 del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "' . $modulo->nombre . ' (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN)  ' . $modalidad . '. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el 13/08/22.',
             'second' => 'Proceda a ejecutar las siguientes acciones: En sujeción al D.S. 181 art. 37.- (ASESORIA LEGAL). En cada proceso de contratación, tiene como principales funciones:',
         ];
         $this->fpdf->SetFont('Arial', '', 9);
@@ -91,7 +161,7 @@ class Comunicacion_Interna extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("C.c.  Archivo-Dirección E.I."), 0, 'L', 0);
 
         // FONT BOLD
-        $this->fpdf->Output("I", "Comunicacion Interna.pdf");
+        $this->fpdf->Output("I", $name_docente . " - Comunicacion Interna.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
