@@ -56,7 +56,7 @@
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,listWeek'
+                right: 'dayGridMonth,listWeek'
             },
             eventSources: [{
                     url: "{{ env('APP_URL') }} " + '/calendario/inicio',
@@ -125,7 +125,7 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,listWeek'
+                    right: 'dayGridMonth,listWeek'
                 },
                 eventSources: [{
                         url: "{{ env('APP_URL') }} " + '/calendario/inicio',
