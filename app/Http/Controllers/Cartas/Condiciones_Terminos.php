@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Cartas;
 
+use App\Models\Carta;
+use App\Models\CartaDirectivo;
+use App\Models\cuadroEvaluativo;
+use App\Models\Docente;
+use App\Models\Modulo;
+use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Condiciones_Terminos extends Fpdf
@@ -20,8 +27,64 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
+    private function fechaLiteral($fecha)
+    {
+        $fecha = explode('/', $fecha);
+        $meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Noviembre',
+            '12' => 'Diciembre',
+        ];
+        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+    }
+
+
     public function Condiciones_Terminos($data)
     {
+        // obtencion de datos
+        $contrato = $data[0];
+        $idCarta = $data[1];
+        $modulo = Modulo::find($contrato->modulo_id);
+        $docente = Docente::find($modulo->docente_id);
+        $carta = Carta::find($idCarta);
+        $fecha = date('d/m/Y', strtotime($carta->fecha));
+        $fechaLiteral = $this->fechaLiteral($fecha);
+        $gestion = date('Y', strtotime($carta->fecha));
+        $facturacion = $docente->facturacion == 'Si' ? "SI" : "NO";
+        $fechaIni = date('d/m/Y', strtotime($modulo->fecha_inicio));
+        $fechaFin = date('d/m/Y', strtotime($modulo->fecha_final));
+        $title = "REF: INFORME DE CONFORMIDAD DEL MODULO: " . strtoupper($modulo->nombre);
+        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
+        $cartas = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        $fecha_carta_literal = $this->fechaLiteral(date('d/m/Y', strtotime($cartas->fecha)));
+
+        // directivos
+        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $coordinador = '';
+        foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo;
+            }
+        }
+        $docente_nombre = $docente->nombre . ' ' . $docente->apellido;
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
+        $name_programa =  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
+
+        $cuadro = cuadroEvaluativo::where('carta_id', $carta->id)->first();
+
+        // validaciones
+        $coordinador ? $coordinador = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido : $coordinador = 'COORDINADOR ACADÉMICO';
+
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
@@ -43,12 +106,12 @@ class Condiciones_Terminos extends Fpdf
         $this->perfilRequerido();
         $this->fpdf->Ln(5);
         $this->informacionReferencia([
-            'programa' => "Diplomado en Control y Automatización de Procesos Industriales (1º Versión, 3º Edición) Virtual.  ",
-            'modulo' => "Instrumentación Industrial, Sistema Scada y HMI.",
-            'honorario' => "6000 Bs (Total Ganado).",
+            'programa' => $programa->tipo . ' en ' . $name_programa,
+            'modulo' => $modulo->nombre,
+            'honorario' => $contrato->honorario . " Bs (Total Ganado).",
             'horas' => "60 Hrs",
-            'fecha_modulo' => "15/08/2022 al 28/08/2022.",
-            'horario' => "Lunes a Viernes de 18:30 a 22:00, Sábados y Domingos de 10:00 a 12:30 horas"
+            'fecha_modulo' => $fechaIni . " al " . $fechaFin,
+            'horario' => $contrato->horarios
         ]);
         $this->fpdf->Ln(5);
         $this->lugar();
@@ -68,11 +131,11 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf->Ln(5);
         $this->fpdf->AddPage();
 
-        $this->cuadroEvaluativo();
+        $this->cuadroEvaluativo($cuadro);
         $this->fpdf->Ln(2);
-        $this->cuadroC2();
+        $this->cuadroC2($cuadro);
         $this->fpdf->AddPage();
-        $this->cuadroTotal();
+        $this->cuadroTotal($cuadro);
         $this->fpdf->Ln(5);
         $this->multas();
         $this->fpdf->Ln(5);
@@ -82,13 +145,13 @@ class Condiciones_Terminos extends Fpdf
 
         // pie de pagina
         $this->fpdf->Ln(12);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la sierra 01 de agosto del 2022"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la sierra, " . $fechaLiteral), 0, 'C', 0);
         $this->fpdf->Ln(35);
 
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("M.Sc. Ing. Daniel Tejerina Claudio"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($coordinador), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("ESCUELA DE INGENIERÍA"), 0, 'C', 0);
@@ -221,7 +284,6 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode($contenido['Seventh']));
     }
-
 
     public function perfilRequerido()
     {
@@ -411,7 +473,7 @@ class Condiciones_Terminos extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode($contenido['Third']));
     }
 
-    public function cuadroEvaluativo()
+    public function cuadroEvaluativo($cuadro)
     {
         $contenido = [
             "First" => "CUADRO DE CALIFICACION",
@@ -423,6 +485,11 @@ class Condiciones_Terminos extends Fpdf
             "Seventh" => "1.4 NACIONALIDAD: Boliviana; Extranjero con residencia en el país y/o permiso de trabajo.",
 
         ];
+        $total = 0;
+        $cuadro->formacion == 'Si' ? $total += 15 : $total += 0;
+        $cuadro->cursos_continuo == 'Si' ? $total += 10 : $total += 0;
+        $cuadro->experiencia_general == 'Si' ? $total += 10 : $total += 0;
+
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("14.- CUADRO DE EVALUACION Y CALIFICACION AL CONSULTOR."), 0, 'L', 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
@@ -442,18 +509,18 @@ class Condiciones_Terminos extends Fpdf
         $this->row(array(utf8_decode('CONDICIONES MINIMA REQUERIDAS')), 1);
         $this->widths = array($this->width / 2, ($this->width / 2) / 3, ($this->width / 2) / 3, ($this->width / 2) / 3);
         $this->row(array(utf8_decode($contenido['Third']), utf8_decode('PUNTAJE'), utf8_decode('CUMPLE'), utf8_decode('NO CUMPLE'),));
-        $this->row(array(utf8_decode($contenido['Fourth']), utf8_decode('15'), utf8_decode('SI'), utf8_decode(' ')));
-        $this->row(array(utf8_decode($contenido['Fifth']), utf8_decode('15'), utf8_decode('SI'), utf8_decode(' ')));
-        $this->row(array(utf8_decode($contenido['Sixth']), utf8_decode('15'), utf8_decode('SI'), utf8_decode(' ')));
-        $this->row(array(utf8_decode($contenido['Seventh']), utf8_decode('15'), utf8_decode('SI'), utf8_decode(' ')));
+        $this->row(array(utf8_decode($contenido['Fourth']), utf8_decode('15'), utf8_decode($cuadro->formacion == 'Si' ? 'Si' : ' '), utf8_decode($cuadro->formacion == 'No' ? 'No' : ' ')));
+        $this->row(array(utf8_decode($contenido['Fifth']), utf8_decode('10'), utf8_decode($cuadro->cursos_continuo == 'Si' ? 'Si' : ' '), utf8_decode($cuadro->cursos_continuo == 'No' ? 'No' : ' ')));
+        $this->row(array(utf8_decode($contenido['Sixth']), utf8_decode('10'), utf8_decode($cuadro->experiencia_general == 'Si' ? 'Si' : ' '), utf8_decode($cuadro->experiencia_general == 'No' ? 'No' : ' ')));
+        $this->row(array(utf8_decode($contenido['Seventh']), utf8_decode(' '), utf8_decode($cuadro->nacionalidad == 'Si' ? 'Si' : ' '), utf8_decode($cuadro->nacionalidad == 'No' ? 'No' : ' ')));
 
         $this->widths = array($this->width / 2, ($this->width / 2) / 3, ($this->width / 2) * 2 / 3);
-        $this->row(array(utf8_decode('TOTAL'), utf8_decode('15'), utf8_decode('')));
+        $this->row(array(utf8_decode('TOTAL'), utf8_decode($total . ' Puntos'), utf8_decode('')));
         $this->widths = array($this->width / 2, $this->width / 2);
         $this->row(array(utf8_decode('METODOLOGIA: CUMPLE/ NO CUMPLE'), utf8_decode('por asignar')));
     }
 
-    public function cuadroC2()
+    public function cuadroC2($cuadro)
     {
         $t = $this->width / 2;
 
@@ -479,7 +546,7 @@ class Condiciones_Terminos extends Fpdf
         $this->row(array(utf8_decode('* Menor a 1 año (5 puntos)')), 0, "L", "N", false);
 
         $this->widths = array($t / 3, $t / 3); //, $t / 3, $t / 3
-        $this->rowM(array(utf8_decode("15"), utf8_decode(' ')), 0, "C", 3);
+        $this->rowM(array(utf8_decode($cuadro->experiencia_especifica), utf8_decode(' ')), 0, "C", 3);
 
         $this->widths = array($t + ($t / 3) / 2);
         $x = $this->fpdf->GetX();
@@ -509,7 +576,7 @@ class Condiciones_Terminos extends Fpdf
         $this->row(array(utf8_decode('* Tiene mayor o igual a 2 certificados (1 puntos)')), 0, "L", "N", false);
 
         $this->widths = array($t / 3, $t / 3); //, $t / 3, $t / 3
-        $this->rowM(array(utf8_decode("15"), utf8_decode(' ')), 0, "C", 3);
+        $this->rowM(array(utf8_decode($cuadro->formacion_continua), utf8_decode(' ')), 0, "C", 3);
 
         $this->widths = array($t + ($t / 3) / 2); //, $t / 3, $t / 3
         $x = $this->fpdf->GetX();
@@ -526,12 +593,13 @@ class Condiciones_Terminos extends Fpdf
         $this->widths = array($this->width);
         $this->row(array(utf8_decode('PROPUESTA TECNICA')), 0, "C", "S");
         $this->widths = array(($t / 3) / 2, $t + ($t / 3) / 2, $t / 3, $t / 3);
-        $this->row(array(utf8_decode('     3'), utf8_decode('*Objetivo y desarrollo de las actividades (20 puntos)'), utf8_decode('           20'), utf8_decode(' ')), 0, "L");
+        $this->row(array(utf8_decode('     3'), utf8_decode('*Objetivo y desarrollo de las actividades (20 puntos)'), utf8_decode('           ' . $cuadro->propuesta_tecnica), utf8_decode(' ')), 0, "L");
+
         $this->widths = array(($this->width / 2) / 3 + ($this->width / 2), ($this->width / 2) / 3, ($this->width / 2) / 3);
-        $this->row(array(utf8_decode('TOTAL'), utf8_decode('           15'), utf8_decode('')), 0, "L");
+        $this->row(array(utf8_decode('TOTAL'), utf8_decode('     ' . $cuadro->formacion_continua + $cuadro->experiencia_especifica + $cuadro->propuesta_tecnica . ' Puntos'), utf8_decode('')), 0, "L");
     }
 
-    public function cuadroTotal()
+    public function cuadroTotal($cuadro)
     {
         $contenido = [
             "First" => "1.- PUNTAJE DE EVALUACION CUMPLE/ NO CUMPLE",
@@ -539,10 +607,15 @@ class Condiciones_Terminos extends Fpdf
         ];
         $t = $this->width / 2;
         $this->widths = array($t, $t / 2, $t / 2);
+        $c2 = $cuadro->formacion_continua + $cuadro->experiencia_especifica + $cuadro->propuesta_tecnica;
+        $c1 = 0;
+        $cuadro->formacion == 'Si' ? $c1 += 15 : $c1 += 0;
+        $cuadro->cursos_continuo == 'Si' ? $c1 += 10 : $c1 += 0;
+        $cuadro->experiencia_general == 'Si' ? $c1 += 10 : $c1 += 0;
         $this->row(array(utf8_decode('RESUMEN DEL FORUMARIO C1 Y C2'), utf8_decode('PUNTAJE TOTAL'), utf8_decode('PUNTAJE OBTENIDO')), 1);
-        $this->row(array(utf8_decode($contenido['First']), utf8_decode('15'), utf8_decode('')));
-        $this->row(array(utf8_decode($contenido['Second']), utf8_decode('15'), utf8_decode('')));
-        $this->row(array(utf8_decode("TOTAL PUNTAJE"), utf8_decode('15'), utf8_decode('')));
+        $this->row(array(utf8_decode($contenido['First']), utf8_decode($c1 . ' Puntos'), utf8_decode('')));
+        $this->row(array(utf8_decode($contenido['Second']), utf8_decode($c2 . ' Puntos'), utf8_decode('')));
+        $this->row(array(utf8_decode("TOTAL PUNTAJE"), utf8_decode($c1 + $c2 . ' Puntos'), utf8_decode('')));
     }
 
     public function multas()

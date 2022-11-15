@@ -7,6 +7,7 @@ use App\Models\CartaDirectivo;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Sol_Contrataciones extends Fpdf
@@ -48,16 +49,16 @@ class Sol_Contrataciones extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'a la <MAESTRIA> en';
+            return 'a la <MAESTRIA> en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'al <DIPLOMADO> en';
+            return 'al <DIPLOMADO> en ';
         }
-        if ($tipo == 'Curso') {
-            return 'al <CURSO> de';
+        if ($tipo == 'Cursos') {
+            return 'al <CURSO> de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'al <DOCTORADO> en';
+            return 'al <DOCTORADO> en ';
         }
     }
 
@@ -76,9 +77,9 @@ class Sol_Contrataciones extends Fpdf
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
         $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
         $title = 'Ref.: SOLICITUD DE CONTRATACION PARA CONSULTOR E INFORME PRESUPUESTARIO';
-        $programa = Programa::find($modulo->programa_id);
-        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad;
-
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $director = '';
         $decano = '';
         $responsable = '';
@@ -105,7 +106,7 @@ class Sol_Contrataciones extends Fpdf
 
         $responsable ? $responsable = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - <" . $responsable->cargo . '>' : $responsable = '';
 
-        $coordinador ? $coordinador = $coordinador->honorifico . " " . $coordinador->nombre . " " . $coordinador->apellido . " - <" . $coordinador->cargo . '>' : $coordinador = '';
+        $coordinador ? $coordinador_name = $coordinador->honorifico . " " . $coordinador->nombre . " " . $coordinador->apellido . " - <" . $coordinador->cargo . '>' : $coordinador_name = '';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -125,7 +126,7 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf->Ln(5);
         $this->WriteText("Via:     " . $director);
         $this->fpdf->Ln(5);
-        $this->WriteText("De:      " . $coordinador);
+        $this->WriteText("De:      " . $coordinador_name);
 
 
         $this->fpdf->Ln(8);
@@ -167,7 +168,7 @@ class Sol_Contrataciones extends Fpdf
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode($coordinador), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode($coordinador->honorifico . " " . $coordinador->nombre . " " . $coordinador->apellido), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - F.C.E.T"), 0, 'C', 0);

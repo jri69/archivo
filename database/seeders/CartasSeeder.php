@@ -17,7 +17,7 @@ class CartasSeeder extends Seeder
     public function run()
     {
         TipoCarta::create([
-            'nombre' => 'Comunicación interna',
+            'nombre' => 'Solicitud de contratacion',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
@@ -25,7 +25,11 @@ class CartasSeeder extends Seeder
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'nombre' => 'Informe de conformidad',
+            'nombre' => 'Requerimiento de propuesta',
+            'tipo' => 'Docente',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Propuesta del consultor',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
@@ -37,15 +41,15 @@ class CartasSeeder extends Seeder
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'nombre' => 'Propuesta del consultor',
+            'nombre' => 'Comunicación interna',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'nombre' => 'Requerimiento de propuesta',
+            'nombre' => 'Informe de conformidad',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
-            'nombre' => 'Solicitud de contratacion',
+            'nombre' => 'Planilla de pago',
             'tipo' => 'Docente',
         ]);
 

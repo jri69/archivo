@@ -7,6 +7,7 @@ use App\Models\CartaDirectivo;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Informe_Tecnico extends Fpdf
@@ -47,16 +48,16 @@ class Informe_Tecnico extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'a la <MAESTRIA> en';
+            return 'a la <MAESTRIA> en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'al <DIPLOMADO> en';
+            return 'al <DIPLOMADO> en ';
         }
-        if ($tipo == 'Curso') {
-            return 'al <CURSO> de';
+        if ($tipo == 'Cursos') {
+            return 'al <CURSO> de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'al <DOCTORADO> en';
+            return 'al <DOCTORADO> en ';
         }
     }
 
@@ -75,10 +76,14 @@ class Informe_Tecnico extends Fpdf
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = 'INFORME TECNICO';
         $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
-        $programa = Programa::find($modulo->programa_id);
-        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad;
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
+
+        // carta
+        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
         // directivos
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
         $responsable = '';
@@ -93,7 +98,7 @@ class Informe_Tecnico extends Fpdf
         }
 
         $responsable ? $responsable_name = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo . ' ' . $responsable->institucion : $responsable_name = '';
-        $coordinador ? $coordinador = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido  . ' - ' . $coordinador->cargo . ' ' . $coordinador->institucion : $coordinador = '';
+        $coordinador ? $coordinador_name = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido  . ' - ' . $coordinador->cargo . ' ' . $coordinador->institucion : $coordinador_name = '';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -105,7 +110,7 @@ class Informe_Tecnico extends Fpdf
 
         $this->fpdf->Ln(4);
         $this->widths = array(14, $this->width - 14);
-        $this->Row(array(utf8_decode('De:'), utf8_decode($coordinador)), 1, "L", "N");
+        $this->Row(array(utf8_decode('De:'), utf8_decode($coordinador_name)), 1, "L", "N");
         $this->Row(array(utf8_decode('A:'), utf8_decode($responsable_name)), 1, "L", "N");
 
         $this->fpdf->Ln(5);
@@ -124,7 +129,7 @@ class Informe_Tecnico extends Fpdf
         $this->fpdf->Ln(8);
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Solicitud de contratación para consultor e informe presupuestario mediante comunicación ESCUELA DE INGENIERIA OF.COORD. ACA. N.º 1269/2022.'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Solicitud de contratación para consultor e informe presupuestario mediante comunicación ESCUELA DE INGENIERIA OF.COORD. ACA. N.º ' . $carta->codigo_admi . '.'));
 
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CONSULTOR	: ' . $name_docente));
@@ -133,7 +138,7 @@ class Informe_Tecnico extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CEDULA DE IDENTIDAD: ' . $docente->cedula . ' ' . $docente->expedido));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('PROGRAMAS 	: ' . $programa->tipo . ' en ' . $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('PROGRAMAS 	: ' . $programa->tipo . ' en ' . $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad));
 
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('MODULO   : "' . $modulo->nombre . '".'));
@@ -145,7 +150,7 @@ class Informe_Tecnico extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORAS ACADEMICAS: 60 hrs.'));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, ' ', utf8_decode('DURACION DEL MODULO: ' . $fechaIni . 'al ' . $fechaFin . '.'));
+        $this->MultiCellBlt($this->width - 10, 4, ' ', utf8_decode('DURACION DEL MODULO: ' . $fechaIni . ' al ' . $fechaFin . '.'));
 
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORARIOS   : ' . $contrato->horario . '.'));
@@ -166,7 +171,7 @@ class Informe_Tecnico extends Fpdf
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode($coordinador), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode($coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - UAGRM"), 0, 'C', 0);

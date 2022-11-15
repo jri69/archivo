@@ -7,6 +7,7 @@ use App\Models\CartaDirectivo;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Requerimiento_Propuesta extends Fpdf
@@ -23,6 +24,7 @@ class Requerimiento_Propuesta extends Fpdf
     {
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
+
     private function fechaLiteral($fecha)
     {
         $fecha = explode('/', $fecha);
@@ -46,18 +48,19 @@ class Requerimiento_Propuesta extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'a la <MAESTRIA> en';
+            return 'a la <MAESTRIA> en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'al <DIPLOMADO> en';
+            return 'al <DIPLOMADO> en ';
         }
-        if ($tipo == 'Curso') {
-            return 'al <CURSO> de';
+        if ($tipo == 'Cursos') {
+            return 'al <CURSO> de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'al <DOCTORADO> en';
+            return 'al <DOCTORADO> en ';
         }
     }
+
     public function propuesta($data)
     {
         // obtencion de datos
@@ -72,8 +75,9 @@ class Requerimiento_Propuesta extends Fpdf
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = 'REF.- REQUERIMIENTO DE PROPUESTA';
         $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
-        $programa = Programa::find($modulo->programa_id);
-        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad;
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
         // directivos
@@ -117,13 +121,14 @@ class Requerimiento_Propuesta extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => 'Tengo a bien remitir a su persona el requerimiento de propuesta en calidad de consultor en el <MÓDULO> denominado: "' . $modulo->nombre . '", en relación' . $name_programa . '. A realizarse en fecha <' . $fechaIni . ' al ' . $fechaFin . '>. Teniendo una carga horaria de 60 (sesenta) horas Académicas, el programa antes mencionado depende de la coordinación académica.',
+            'first' => 'Tengo a bien remitir a su persona el requerimiento de propuesta en calidad de consultor en el <MÓDULO> denominado: "' . $modulo->nombre . '", en relación ' . $name_programa . '. A realizarse en fecha <' . $fechaIni . ' al ' . $fechaFin . '>. Teniendo una carga horaria de 60 (sesenta) horas Académicas, el programa antes mencionado depende de la coordinación académica.',
             'second' => 'En caso de estar interesado, por favor hacer llegar el <CURRÍCULUM VITAE, CÉDULA DE IDENTIDAD, PROGRAMA DE ASIGNATURA (PROPUESTA)> y dar la conformidad de aceptación por escrito hasta el 11 de agosto de 2022.',
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['first']);
         $this->fpdf->Ln(8);
         $this->WriteText($contenido['second']);
+        $this->fpdf->Ln(8);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Sin otro particular, saludo a usted atentamente.'), 0, 'L', 0);
 
         // pie de pagina

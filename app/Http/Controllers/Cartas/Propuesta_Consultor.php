@@ -7,6 +7,7 @@ use App\Models\CartaDirectivo;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Propuesta_Consultor extends Fpdf
@@ -47,16 +48,16 @@ class Propuesta_Consultor extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'a la <MAESTRIA> en';
+            return 'a la <MAESTRIA> en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'al <DIPLOMADO> en';
+            return 'al <DIPLOMADO> en ';
         }
-        if ($tipo == 'Curso') {
-            return 'al <CURSO> de';
+        if ($tipo == 'Cursos') {
+            return 'al <CURSO> de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'al <DOCTORADO> en';
+            return 'al <DOCTORADO> en ';
         }
     }
 
@@ -72,10 +73,10 @@ class Propuesta_Consultor extends Fpdf
         $fechaLiteral = $this->fechaLiteral($fecha);
         $title = 'REF.- PROPUESTA CONSULTOR';
         $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
-        $programa = Programa::find($modulo->programa_id);
-        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . "( " . $programa->version . "° versión, " . $programa->edicion . "° edición )" . $modalidad;
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
-
 
         // directivos
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();

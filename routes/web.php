@@ -8,6 +8,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\CartaController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
 use App\Http\Controllers\ContratacionController;
 use App\Http\Controllers\ContratacionesController;
@@ -307,10 +308,12 @@ Route::group(['prefix' => 'contrataciones', 'middleware' => ['can:contrataciones
 
 // Cartas de contrataciones
 Route::group(['prefix' => 'contratacion/carta', 'middleware' => ['can:contratacion.index', 'auth']], function () {
-    Route::get('/create/{idContrato}/{tipoCarta}', [CartasReporteController::class, 'carta_create'])->name('carta.create');
-    Route::post('/store', [CartasReporteController::class, 'carta_store'])->name('carta.store');
-    Route::get('/edit/{carta}', [CartasReporteController::class, 'carta_edit'])->name('carta.edit');
-    Route::put('/update/{carta}', [CartasReporteController::class, 'carta_update'])->name('carta.update');
+    Route::get('/create/{idContrato}/{tipoCarta}', [CartaController::class, 'carta_create'])->name('carta.create');
+    Route::post('/store', [CartaController::class, 'carta_store'])->name('carta.store');
+    Route::get('/edit/{carta}', [CartaController::class, 'carta_edit'])->name('carta.edit');
+    Route::put('/update/{carta}', [CartaController::class, 'carta_update'])->name('carta.update');
+    Route::delete('/delete/{carta}', [CartaController::class, 'carta_delete'])->name('carta.delete');
+
 
     Route::post('/pdf', [CartasReporteController::class, 'index'])->name('carta.index');
     Route::get('/pdf/{id}/{tipo}/{idCarta}', [CartasReporteController::class, 'pdf'])->name('carta.pdf');
