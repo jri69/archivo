@@ -7,6 +7,8 @@ use App\Models\CartaDirectivo;
 use App\Models\Directivo;
 use App\Models\Docente;
 use App\Models\Modulo;
+use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class Informe_Conformidad extends Fpdf
@@ -59,7 +61,9 @@ class Informe_Conformidad extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = "REF: INFORME DE CONFORMIDAD DEL MODULO: " . strtoupper($modulo->nombre);
-        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $cartas = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
         $fecha_carta_literal = $this->fechaLiteral(date('d/m/Y', strtotime($cartas->fecha)));
 

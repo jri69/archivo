@@ -16,6 +16,7 @@ class cuadroEvaluativo extends Model
         'experiencia_especifica',
         'formacion_continua',
         'propuesta_tecnica',
+        'formacion_requerida',
         'carta_id',
     ];
 }

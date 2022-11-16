@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('experiencia_especifica');
             $table->integer('formacion_continua');
             $table->integer('propuesta_tecnica');
+            $table->string('formacion_requerida');
             $table->unsignedBigInteger('carta_id');
             $table->foreign('carta_id')->references('id')->on('cartas')->onDelete('cascade');
             $table->timestamps();

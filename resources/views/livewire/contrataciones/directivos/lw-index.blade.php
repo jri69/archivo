@@ -10,55 +10,57 @@
                 </div>
             </div>
             <div class="col text-right">
-                <a href="{{ route('modulo.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Módulo</b>
+                <a href="{{ route('directivo.create') }}" class="btn btn-outline-primary btn-white">
+                    <b>Agregar Directivo</b>
                 </a>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Listado de Módulos</h4>
+                        <h4>Listado de directivos</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
-                                    <th>Programa</th>
-                                    <th>Modulo</th>
-                                    <th>Docente</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Fecha final</th>
-
+                                    <td>Honorifico</td>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Cargo</th>
+                                    <th>Activo</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($modulos as $modulo)
+                                    @foreach ($directivos as $directivo)
                                         <tr>
-                                            <td>{{ $modulo->id }} </td>
-                                            <td>{{ $modulo->programa()->sigla . ' ' . $modulo->programa()->version . '.' . $modulo->programa()->edicion }}
-                                            </td>
-                                            <td>{{ $modulo->nombre }}
-                                                <span>{{ $modulo->version . '.' . $modulo->edicion }}</span>
-                                                <br>
-                                                <small class="">
-                                                    {{ $modulo->modalidad }}
+                                            <td>{{ $directivo->id }}</td>
+                                            <td>{{ $directivo->honorifico }}</td>
+                                            <td>{{ $directivo->nombre }}</td>
+                                            <td>{{ $directivo->apellido }}</td>
+                                            <td>
+                                                {{ $directivo->cargo }} <br>
+                                                <small>
+                                                    {{ $directivo->institucion }}
                                                 </small>
                                             </td>
-                                            <td>{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}
+                                            <td>
+                                                @if ($directivo->activo)
+                                                    <span class="badge badge-success">Activo</span>
+                                                @else
+                                                    <span class="badge badge-danger">Inactivo</span>
+                                                @endif
                                             </td>
-                                            <td>{{ date('d-m-Y', strtotime($modulo->fecha_inicio)) }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($modulo->fecha_final)) }}</td>
-
                                             <td class="td-actions">
-                                                <a href="{{ route('modulo.edit', $modulo->id) }}"
+                                                <a href="{{ route('directivo.edit', $directivo->id) }}"
                                                     class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
                                                 </a>
-                                                <form action="{{ route('modulo.delete', $modulo->id) }}" method="POST"
-                                                    style="display: inline-block;"
+                                                <form action="{{ route('directivo.delete', $directivo->id) }}"
+                                                    method="POST" style="display: inline-block;"
                                                     onsubmit="return confirm('¿Está seguro?')">
                                                     @csrf
                                                     @method('DELETE')
@@ -73,12 +75,12 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            {{ $modulos->links() }}
+                    <!---paginacion-->
+                    <div class="row ">
+                        <div class="col text-sm">
+                            {{ $directivos->links() }}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

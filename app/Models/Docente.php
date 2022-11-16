@@ -13,6 +13,7 @@ class Docente extends Model
         'apellido',
         'honorifico',
         'cedula',
+        'expedicion',
         'correo',
         'telefono',
         'facturacion',
@@ -22,6 +23,4 @@ class Docente extends Model
     {
         return $this->belongsToMany(Modulo::class);
     }
-
-    
 }

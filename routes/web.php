@@ -13,6 +13,7 @@ use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
 use App\Http\Controllers\ContratacionController;
 use App\Http\Controllers\ContratacionesController;
 use App\Http\Controllers\DetalleFacturaController;
+use App\Http\Controllers\DirectivoController;
 use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
@@ -58,7 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //Usuario
-Route::group(['prefix' => 'calendario', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'calendario', 'middleware' => ['can:calendario.index', 'auth']], function () {
     Route::get('/', [CalendarioController::class, 'index'])->name('calendario.index');
     Route::get('/doctorados', [CalendarioController::class, 'doctorados'])->name('calendario.doctorado');
     Route::get('/maestrias', [CalendarioController::class, 'maestrias'])->name('calendario.maestria');
@@ -317,6 +318,16 @@ Route::group(['prefix' => 'contratacion/carta', 'middleware' => ['can:contrataci
 
     Route::post('/pdf', [CartasReporteController::class, 'index'])->name('carta.index');
     Route::get('/pdf/{id}/{tipo}/{idCarta}', [CartasReporteController::class, 'pdf'])->name('carta.pdf');
+});
+
+// Directivos
+Route::group(['prefix' => 'directivos', 'middleware' => ['can:directivos.index', 'auth']], function () {
+    Route::get('/', [DirectivoController::class, 'index'])->name('directivo.index');
+    Route::get('/create', [DirectivoController::class, 'create'])->name('directivo.create');
+    Route::get('/edit/{directivo}', [DirectivoController::class, 'edit'])->name('directivo.edit');
+    Route::post('/store', [DirectivoController::class, 'store'])->name('directivo.store');
+    Route::put('/update/{directivo}', [DirectivoController::class, 'update'])->name('directivo.update');
+    Route::delete('/delete/{directivo}', [DirectivoController::class, 'destroy'])->name('directivo.delete');
 });
 
 // Pagos sueldos

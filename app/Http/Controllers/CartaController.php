@@ -54,6 +54,11 @@ class CartaController extends Controller
         if ($tipoCarta->nombre == 'Propuesta del consultor' || $tipoCarta->nombre == 'Informe técnico' || $tipoCarta->nombre == 'Condiciones y términos para la contratación') {
             $request->validate([
                 'fecha' => 'required|date',
+                'formacion_requerida' => 'required',
+            ], [
+                'fecha.required' => 'La fecha es requerida',
+                'fecha.date' => 'La fecha debe ser una fecha válida',
+                'formacion_requerida.required' => 'La formación requerida es requerida',
             ]);
             // else if
         } else if ($tipoCarta->nombre == 'Requerimiento de propuesta' || $tipoCarta->nombre == 'Comunicación interna') {
@@ -61,6 +66,9 @@ class CartaController extends Controller
                 'codigo' => 'required|string',
                 'fecha' => 'required|date',
                 'fecha_plazo' => 'required|date',
+            ], [
+                'fecha_plazo.required' => 'La fecha de plazo es requerida',
+                'fecha_plazo.date' => 'La fecha de plazo debe ser una fecha válida',
             ]);
         } else {
             $request->validate([
@@ -84,6 +92,7 @@ class CartaController extends Controller
                 'experiencia_especifica' => $request->experiencia_especifica,
                 'formacion_continua' => $request->formacion_continua,
                 'propuesta_tecnica' => $request->propuesta_tecnica,
+                'formacion_requerida' => $request->formacion_requerida,
             ]);
         }
         return redirect()->route('contrataciones.show', $carta->contrato_id);
@@ -95,6 +104,11 @@ class CartaController extends Controller
         if ($tipoCarta->nombre == 'Propuesta del consultor' || $tipoCarta->nombre == 'Informe técnico' || $tipoCarta->nombre == 'Condiciones y términos para la contratación') {
             $request->validate([
                 'fecha' => 'required|date',
+                'formacion_requerida' => 'required',
+            ], [
+                'fecha.required' => 'La fecha es requerida',
+                'fecha.date' => 'La fecha debe ser una fecha válida',
+                'formacion_requerida.required' => 'La formación requerida es requerida',
             ]);
             // else if
         } else if ($tipoCarta->nombre == 'Requerimiento de propuesta' || $tipoCarta->nombre == 'Comunicación interna') {
@@ -102,6 +116,9 @@ class CartaController extends Controller
                 'codigo' => 'required|string',
                 'fecha' => 'required|date',
                 'fecha_plazo' => 'required|date',
+            ], [
+                'fecha_plazo.required' => 'La fecha de plazo es requerida',
+                'fecha_plazo.date' => 'La fecha de plazo debe ser una fecha válida',
             ]);
         } else {
             $request->validate([
@@ -120,7 +137,7 @@ class CartaController extends Controller
         $carta = Carta::create($dataCarta);
         $this->createDirectivo($tipoCarta->nombre, $carta->id);
         if ($tipoCarta->nombre == 'Condiciones y términos para la contratación') {
-            $cuadro = cuadroEvaluativo::create([
+            cuadroEvaluativo::create([
                 'carta_id' => $carta->id,
                 'formacion' => $request->formacion,
                 'cursos_continuo' => $request->cursos_continuo,
@@ -129,6 +146,7 @@ class CartaController extends Controller
                 'experiencia_especifica' => $request->experiencia_especifica,
                 'formacion_continua' => $request->formacion_continua,
                 'propuesta_tecnica' => $request->propuesta_tecnica,
+                'formacion_requerida' => $request->formacion_requerida,
             ]);
         }
         return redirect()->route('contrataciones.show', $contrato->id);

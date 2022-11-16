@@ -86,10 +86,42 @@
                                         <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombre" class="bmd-label-floating">Horas académicas</label>
+                                        <input wire:model.defer="datos.hrs_academicas" type="number"
+                                            class="form-control" name="hrs_academicas">
+                                    </div>
+                                    @error('datos.hrs_academicas')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                             <br>
+
                             <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
+                                </label>
+                                <div class="col-sm-7">
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Presencial">
+                                    <span>Presencial</span>
+
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Virtual" style='margin-left: 20px'>
+                                    <span>Virtual</span>
+                                </div>
+                                <div class="col-sm-7">
+                                    @error('datos.modalidad')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b>
+                                </label>
                                 <div class="col-sm-7">
                                     <input wire:model.defer="datos.fecha_inicio" type="date" class="form-control"
                                         name="fecha_inicio">
@@ -100,7 +132,8 @@
                             </div>
                             <br>
                             <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de finalización:</b>
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de
+                                        finalización:</b>
                                 </label>
                                 <div class="col-sm-7">
                                     <input wire:model.defer='datos.fecha_finalizacion' type="date"

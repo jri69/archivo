@@ -75,9 +75,9 @@ class Informe_Tecnico extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = 'INFORME TECNICO';
-        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
         $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
         $programa = Programa::find($id_programa);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
@@ -147,7 +147,7 @@ class Informe_Tecnico extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HONORARIO	: ' . $contrato->honorario . 'Bs (Total Ganado).'));
 
         $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORAS ACADEMICAS: 60 hrs.'));
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORAS ACADEMICAS: ' . $programa->hrs_academicas . ' hrs.'));
 
         $this->fpdf->SetX($this->vineta);
         $this->MultiCellBlt($this->width - 10, 4, ' ', utf8_decode('DURACION DEL MODULO: ' . $fechaIni . ' al ' . $fechaFin . '.'));

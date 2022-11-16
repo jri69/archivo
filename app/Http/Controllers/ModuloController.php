@@ -38,6 +38,7 @@ class ModuloController extends Controller
                 'fecha_final' => 'required|date',
                 'id_programa' => 'required|numeric',
                 'docente_id' => 'required|numeric',
+                'modalidad' => 'required|string',
             ],
             [
                 'nombre.required' => 'El nombre es requerido',
@@ -48,6 +49,7 @@ class ModuloController extends Controller
                 'fecha_final.required' => 'La fecha final es requerida',
                 'id_programa.required' => 'El programa es requerido',
                 'docente_id.required' => 'El docente es requerido',
+                'modalidad.required' => 'La modalidad es requerida',
             ]
         );
         $modulos = ProgramaModulo::where('id_programa', $request->id_programa)->get();
@@ -70,6 +72,7 @@ class ModuloController extends Controller
             'fecha_final' => $request->fecha_final,
             'id_programa' => $request->id_programa,
             'docente_id' => $request->docente_id,
+            'modalidad' => $request->modalidad,
         ]);
         ProgramaModulo::create([
             'id_programa' => $request->id_programa,
@@ -97,6 +100,7 @@ class ModuloController extends Controller
                 'edicion' => 'required|numeric',
                 'fecha_inicio' => 'required|date',
                 'fecha_final' => 'required|date',
+                'modalidad' => 'required|string',
             ],
             [
                 'nombre.required' => 'El nombre es requerido',
@@ -107,6 +111,7 @@ class ModuloController extends Controller
                 'fecha_final.required' => 'La fecha final es requerida',
                 'id_programa.required' => 'El programa es requerido',
                 'docente_id.required' => 'El docente es requerido',
+                'modalidad.required' => 'La modalidad es requerida',
             ]
         );
         $modulo = Modulo::findOrFail($id);

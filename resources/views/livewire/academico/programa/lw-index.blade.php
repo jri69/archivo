@@ -38,7 +38,12 @@
                                     @foreach ($programas as $programa)
                                         <tr>
                                             <td>{{ $programa->id }} </td>
-                                            <td>{{ $programa->nombre }}</td>
+                                            <td>{{ $programa->nombre }}
+                                                <br>
+                                                <small class=" text-capitalize">
+                                                    {{ $programa->modalidad }}
+                                                </small>
+                                            </td>
                                             <td>{{ $programa->tipo }}</td>
                                             <td>{{ $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion }}
                                             </td>

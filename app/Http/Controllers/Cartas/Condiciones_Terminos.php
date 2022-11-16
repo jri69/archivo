@@ -63,7 +63,8 @@ class Condiciones_Terminos extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($modulo->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($modulo->fecha_final));
         $title = "REF: INFORME DE CONFORMIDAD DEL MODULO: " . strtoupper($modulo->nombre);
-        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
+        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($id_programa);
         $cartas = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
         $fecha_carta_literal = $this->fechaLiteral(date('d/m/Y', strtotime($cartas->fecha)));
 
@@ -78,6 +79,7 @@ class Condiciones_Terminos extends Fpdf
         $docente_nombre = $docente->nombre . ' ' . $docente->apellido;
         $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
         $programa = Programa::find($id_programa);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa =  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
 
         $cuadro = cuadroEvaluativo::where('carta_id', $carta->id)->first();
@@ -103,13 +105,13 @@ class Condiciones_Terminos extends Fpdf
         $this->fpdf->AddPage();
         $this->actividadesCondiciones();
         $this->fpdf->Ln(5);
-        $this->perfilRequerido();
+        $this->perfilRequerido($cuadro->formacion_requerida);
         $this->fpdf->Ln(5);
         $this->informacionReferencia([
             'programa' => $programa->tipo . ' en ' . $name_programa,
             'modulo' => $modulo->nombre,
             'honorario' => $contrato->honorario . " Bs (Total Ganado).",
-            'horas' => "60 Hrs",
+            'horas' => $programa->hrs_academicas . " Hrs",
             'fecha_modulo' => $fechaIni . " al " . $fechaFin,
             'horario' => $contrato->horarios
         ]);
@@ -285,10 +287,10 @@ class Condiciones_Terminos extends Fpdf
         $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode($contenido['Seventh']));
     }
 
-    public function perfilRequerido()
+    public function perfilRequerido($formacion_requerida = '')
     {
         $contenido = [
-            "First" => "Formación: a Nivel Licenciatura Ing. Industrial o ramas afines.",
+            "First" => "Formación: a " . $formacion_requerida . ".",
             "Second" => "Titulo de maestría.",
             "Third" => "Experiencia General: 3 años de experiencia laboral certificada.",
             "Fourth" => "Formación continua: Certificado de asistencia a seminario, cursos cortos, seminarios taller y otros. ",

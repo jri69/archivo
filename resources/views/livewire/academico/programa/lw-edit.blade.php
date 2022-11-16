@@ -66,7 +66,37 @@
                                 </div>
                             </div>
                             <br>
+                            <div class="row">
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Horas Academicas:</b>
+                                </label>
+                                <div class="col-sm-7">
+                                    <input wire:model.defer="datos.hrs_academicas" type="number" class="form-control"
+                                        name="edicion" placeholder="Horas Academicas">
+                                    @error('datos.hrs_academicas')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
+                                </label>
+                                <div class="col-sm-7">
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Presencial">
+                                    <span>Presencial</span>
 
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Virtual" style='margin-left: 20px'>
+                                    <span>Virtual</span>
+                                </div>
+                                <div class="col-sm-7">
+                                    @error('datos.modalidad')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
                                 <div class="col-sm-7">

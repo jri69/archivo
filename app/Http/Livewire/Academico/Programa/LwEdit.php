@@ -25,6 +25,9 @@ class LwEdit extends Component
         'datos.fecha_finalizacion.required' => 'El campo fecha de finalización es requerido.',
         'datos.costo.required' => 'El campo costo es requerido.',
         'datos.tipo.required' => 'El campo tipo es requerido.',
+        'datos.modalidad.required' => 'El campo modalidad es requerido.',
+        'datos.hrs_academicas.required' => 'El campo horas académicas es requerido.',
+        'datos.hrs_academicas.numeric' => 'El campo horas académicas debe ser un número.',
     ];
 
     public function mount($programa)
@@ -39,6 +42,8 @@ class LwEdit extends Component
         $this->datos['costo'] = $this->programa->costo;
         $this->datos['cantidad_modulos'] = $this->programa->cantidad_modulos;
         $this->datos['tipo'] = $this->programa->tipo;
+        $this->datos['modalidad'] = $this->programa->modalidad;
+        $this->datos['hrs_academicas'] = $this->programa->hrs_academicas;
         $this->listaV = ProgramaModulo::where('id_programa', $this->programa->id)->get();
         $this->listaV = $this->listaV->pluck('id')->toArray();
         $this->i = count($this->listaV);
@@ -71,6 +76,8 @@ class LwEdit extends Component
             'datos.fecha_finalizacion' => 'required|date',
             'datos.costo' => 'required|numeric',
             'datos.tipo' => 'required|string',
+            'datos.modalidad' => 'required|string',
+            'datos.hrs_academicas' => 'required|numeric',
         ]);
 
         $this->datos['cantidad_modulos'] = sizeof($this->listaV);

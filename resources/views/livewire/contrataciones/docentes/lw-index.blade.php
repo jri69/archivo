@@ -42,7 +42,7 @@
                                             <td>{{ $docente->honorifico }}</td>
                                             <td>{{ $docente->nombre }}</td>
                                             <td>{{ $docente->apellido }}</td>
-                                            <td>{{ $docente->cedula }}</td>
+                                            <td>{{ $docente->cedula . ' ' . $docente->expedicion }}</td>
                                             <td>{{ $docente->correo }}</td>
                                             <td>{{ $docente->telefono }}</td>
                                             <td class="td-actions">

@@ -41,6 +41,24 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">Modalidad</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $programa->modalidad }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">Horas Academicas</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $programa->hrs_academicas . ' Hrs' }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">Fecha de inicio</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
@@ -79,7 +97,8 @@
                                 <label class="col-sm-2 col-form-label">Estudiantes inscritos</label>
                                 <div class="col-sm-7">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" disabled value="{{ $cant_estudiantes }}">
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $cant_estudiantes }}">
                                     </div>
                                 </div>
                             </div>

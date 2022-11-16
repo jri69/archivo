@@ -75,10 +75,10 @@ class Sol_Contrataciones extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
         $title = 'Ref.: SOLICITUD DE CONTRATACION PARA CONSULTOR E INFORME PRESUPUESTARIO';
         $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
         $programa = Programa::find($id_programa);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $director = '';
         $decano = '';
@@ -150,7 +150,7 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Apertura programática: 14.00.13'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Partida Presupuestaria: 25210'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Fuente de Financiamiento:202-230 (Recurso Propio)'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Plazo del servicio: 60 Horas Académicas.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Plazo del servicio: ' . $programa->hrs_academicas . ' Horas Académicas.'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Forma de Adjudicación: Total a pagar.'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Método de selección y adjudicación: Presupuesto Fijo.'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Lugar del servicio: Escuela de Ingeniería - F.C.E.T.'), 0, 'L', 0);

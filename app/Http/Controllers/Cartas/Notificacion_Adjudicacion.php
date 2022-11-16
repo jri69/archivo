@@ -71,10 +71,10 @@ class Notificacion_Adjudicacion extends Fpdf
         $fecha = date('d/m/Y', strtotime($carta->fecha));
         $fechaLiteral = $this->fechaLiteral($fecha);
         $title = "REF: NOTIFICACION ADJUDICACION";
-        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
         $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
         $programa = Programa::find($id_programa);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
 
