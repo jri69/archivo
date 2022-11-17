@@ -93,5 +93,13 @@ class CartasSeeder extends Seeder
             'institucion' => 'F.C.E.T.',
             'activo' => true,
         ]);
+        Directivo::create([
+            'nombre' => 'Ruben',
+            'apellido' => 'Orosco Gomez',
+            'honorifico' => 'Lic.',
+            'cargo' => 'Jefe ADM. y Financiero',
+            'institucion' => 'F.C.E.T.',
+            'activo' => true,
+        ]);
     }
 }

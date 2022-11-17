@@ -11,15 +11,17 @@ use App\Http\Controllers\Cartas\Informe_Tecnico;
 use App\Http\Controllers\Cartas\Notificacion_Adjudicacion;
 use App\Http\Controllers\Cartas\Comunicacion_Interna;
 use App\Http\Controllers\Cartas\Informe_Conformidad;
+use App\Http\Controllers\Cartas\Planilla_pago;
 use App\Models\Contrato;
 
 class ReporteController extends Controller
 {
     protected $fpdf;
 
-    public function index($request)
+    public function test()
     {
-        return $request;
+        $sc = new Planilla_pago();
+        return $sc->planilla_pago([]);
     }
 
     public function pdf($id, $tipo, $idCarta)
@@ -49,6 +51,9 @@ class ReporteController extends Controller
                 break;
             case 'Condiciones y términos para la contratación':
                 $this->Condiciones_Terminos([$contrato, $idCarta]);
+                break;
+            case 'Planilla de pago':
+                $this->Planilla_pago([$contrato, $idCarta]);
                 break;
             default:
                 return 'No se encontro el tipo de carta';
@@ -102,5 +107,11 @@ class ReporteController extends Controller
     {
         $ic = new Informe_Conformidad();
         return $ic->informe($data);
+    }
+
+    public function Planilla_pago($data)
+    {
+        $pp = new Planilla_pago();
+        return $pp->planilla_pago($data);
     }
 }

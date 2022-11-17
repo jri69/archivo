@@ -64,8 +64,7 @@ class Comunicacion_Interna extends Fpdf
         $fecha = date('d/m/Y', strtotime($carta->fecha));
         $fechaLiteral = $this->fechaLiteral($fecha);
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
-        $programa = Programa::find($id_programa);
+        $programa = Programa::find($modulo->programa_id);
         $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
         $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();

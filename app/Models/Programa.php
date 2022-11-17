@@ -12,7 +12,7 @@ class Programa extends Model
 
     public function modulos()
     {
-        return $this->belongsToMany(Modulo::class, 'programa_modulos', 'id_programa', 'id_modulo');
+        return $this->hasMany(Modulo::class);
     }
 
     public function programa()

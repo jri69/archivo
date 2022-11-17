@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
-use App\Models\ProgramaModulo;
 use Illuminate\Http\Request;
 
 class ModuloController extends Controller
@@ -52,12 +51,12 @@ class ModuloController extends Controller
                 'modalidad.required' => 'La modalidad es requerida',
             ]
         );
-        $modulos = ProgramaModulo::where('id_programa', $request->id_programa)->get();
+        $modulos = Modulo::where('programa_id', $request->id_programa)->get();
         $cantidad = count($modulos) + 1;
         $programa = Programa::findOrFail($request->id_programa);
         $costoXmodulo = $programa->costo / $cantidad;
         foreach ($modulos as $modulo) {
-            $mod = Modulo::findOrFail($modulo->id_modulo);
+            $mod = Modulo::findOrFail($modulo->id);
             $mod->costo = $costoXmodulo;
             $mod->save();
         }
@@ -73,10 +72,7 @@ class ModuloController extends Controller
             'id_programa' => $request->id_programa,
             'docente_id' => $request->docente_id,
             'modalidad' => $request->modalidad,
-        ]);
-        ProgramaModulo::create([
-            'id_programa' => $request->id_programa,
-            'id_modulo' => $modulo->id
+            'programa_id' => $request->id_programa,
         ]);
         return redirect()->route('modulo.index', $modulo);
     }
@@ -84,7 +80,7 @@ class ModuloController extends Controller
     // Interface para editar un módulo
     public function edit(Modulo $modulo)
     {
-        $programa = ProgramaModulo::where('id_modulo', $modulo->id)->first();
+        $programa = Modulo::findOrFail($modulo->programa_id);
         $docentes = Docente::all();
         return view('modulo.edit', compact('modulo', 'programa', 'docentes'));
     }
@@ -124,6 +120,15 @@ class ModuloController extends Controller
     public function destroy($modulo)
     {
         $modulo = Modulo::findOrFail($modulo);
+        $modulos = Modulo::where('programa_id', $modulo->id_programa)->get();
+        $cantidad = count($modulos) - 1;
+        $programa = Programa::findOrFail($modulo->id_programa);
+        $costoXmodulo = $programa->costo / $cantidad;
+        foreach ($modulos as $modu) {
+            $mod = Modulo::findOrFail($modu->id);
+            $mod->costo = $costoXmodulo;
+            $mod->save();
+        }
         $modulo->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');
     }

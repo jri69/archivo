@@ -52,6 +52,7 @@ use App\Http\Controllers\UnidadOrganizacionalController;
 */
 
 Auth::routes();
+Route::get('/test', [CartasReporteController::class, 'test']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -101,6 +102,7 @@ Route::group(['prefix' => 'cargo', 'middleware' => ['can:cargo.index', 'auth']],
     Route::delete('/{cargo}', [CargoController::class, 'destroy'])->name('cargo.delete');
 });
 
+// Perfil
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
@@ -314,8 +316,6 @@ Route::group(['prefix' => 'contratacion/carta', 'middleware' => ['can:contrataci
     Route::get('/edit/{carta}', [CartaController::class, 'carta_edit'])->name('carta.edit');
     Route::put('/update/{carta}', [CartaController::class, 'carta_update'])->name('carta.update');
     Route::delete('/delete/{carta}', [CartaController::class, 'carta_delete'])->name('carta.delete');
-
-
     Route::post('/pdf', [CartasReporteController::class, 'index'])->name('carta.index');
     Route::get('/pdf/{id}/{tipo}/{idCarta}', [CartasReporteController::class, 'pdf'])->name('carta.pdf');
 });

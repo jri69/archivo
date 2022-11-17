@@ -247,6 +247,23 @@ class CartaController extends Controller
                     'directivo_id' => $coordinador->id,
                 ]);
                 break;
+            case 'Planilla de pago':
+                $director = Directivo::where('cargo', 'Director')->where('activo', true)->where('institucion', 'Escuela de Ingeniería - F.C.E.T.')->first();
+                $decano = Directivo::where('cargo', 'Decano')->where('activo', true)->where('institucion', 'F.C.E.T.')->first();
+                $responsable = Directivo::where('cargo', 'Jefe ADM. y Financiero')->where('activo', true)->where('institucion', 'F.C.E.T.')->first();
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $director->id,
+                ]);
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $decano->id,
+                ]);
+                CartaDirectivo::create([
+                    'carta_id' => $carta,
+                    'directivo_id' => $responsable->id,
+                ]);
+                break;
             default:
                 break;
         }

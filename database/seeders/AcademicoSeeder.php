@@ -24,7 +24,7 @@ class AcademicoSeeder extends Seeder
     public function run()
     {
         $tipo = ['Doctorado', 'Maestria', 'Especialidad', 'Diplomado', 'Cursos', 'Sin tipo'];
-        $modalidad = ['Presencial', 'Virtual', 'Semi-presencial', 'Sin modalidad'];
+        $modalidad = ['Presencial', 'Virtual'];
         $start = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
         $end = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
         $programa = Programa::create([
@@ -37,7 +37,7 @@ class AcademicoSeeder extends Seeder
             'cantidad_modulos' => 0,
             'costo' => 30000,
             'tipo' => $tipo[rand(0, 5)],
-            'modalidad' => $modalidad[rand(0, 3)],
+            'modalidad' => $modalidad[rand(0, 1)],
             'hrs_academicas' => rand(60, 80),
         ]);
         ProgramaCalendar::create([
@@ -71,7 +71,7 @@ class AcademicoSeeder extends Seeder
                 'cantidad_modulos' => 0,
                 'costo' => 1000 * $i,
                 'tipo' => $tipo[rand(0, 5)],
-                'modalidad' => $modalidad[rand(0, 3)],
+                'modalidad' => $modalidad[rand(0, 1)],
                 'hrs_academicas' => rand(60, 80),
             ]);
             ProgramaCalendar::create([
@@ -117,7 +117,8 @@ class AcademicoSeeder extends Seeder
             'fecha_inicio' => "2022/08/10",
             'fecha_final' => "2022/09/10",
             'docente_id' => rand(1, 500),
-            'modalidad' => $modalidad[rand(0, 3)],
+            'modalidad' => $modalidad[rand(0, 1)],
+            'programa_id' => $programa->id,
         ]);
 
         $modulo2 = Modulo::create([
@@ -130,17 +131,8 @@ class AcademicoSeeder extends Seeder
             'fecha_inicio' => "2022/09/10",
             'fecha_final' => "2022/10/10",
             'docente_id' => rand(1, 500),
-            'modalidad' => $modalidad[rand(0, 3)],
-        ]);
-
-        ProgramaModulo::create([
-            'id_programa' => $programa->id,
-            'id_modulo' => $modulo1->id,
-        ]);
-
-        ProgramaModulo::create([
-            'id_programa' => $programa->id,
-            'id_modulo' => $modulo2->id,
+            'modalidad' => $modalidad[rand(0, 1)],
+            'programa_id' => $programa->id,
         ]);
 
         for ($i = 0; $i < 500; $i++) {
@@ -154,12 +146,8 @@ class AcademicoSeeder extends Seeder
                 'fecha_inicio' => "2022/08/10",
                 'fecha_final' => "2022/09/10",
                 'docente_id' => rand(1, 500),
-                'modalidad' => $modalidad[rand(0, 3)],
-            ]);
-
-            ProgramaModulo::create([
-                'id_programa' => rand(1, 500),
-                'id_modulo' => $modulo->id,
+                'modalidad' => $modalidad[rand(0, 1)],
+                'programa_id' => rand(1, 500),
             ]);
         }
         for ($i = 0; $i < 500; $i++) {

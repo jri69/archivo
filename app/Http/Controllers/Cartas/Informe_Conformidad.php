@@ -61,8 +61,7 @@ class Informe_Conformidad extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = "REF: INFORME DE CONFORMIDAD DEL MODULO: " . strtoupper($modulo->nombre);
-        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
-        $programa = Programa::find($id_programa);
+        $programa = Programa::find($modulo->programa_id);
         $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $cartas = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
         $fecha_carta_literal = $this->fechaLiteral(date('d/m/Y', strtotime($cartas->fecha)));

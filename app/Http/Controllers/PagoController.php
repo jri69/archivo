@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Modulo;
 use App\Models\Pago;
 use App\Models\Pago_estudiante;
 use App\Models\ProgramaModulo;
@@ -158,9 +159,13 @@ class PagoController extends Controller
 
         $pago_id = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->select("pago_estudiante.id as id")->where("estudiantes.id", $estudiante->id)->get()->first();
 
-        $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo');
+        /*         $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo');
 
-        $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->id)->get();
+        $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->id)->get(); */
+
+        $deuda = Modulo::where('programa_id', $programa->programa_id)->where('fecha_final', '<=', $fecha)->sum('costo');
+        $modulo = Modulo::where('programa_id', $programa->programa_id)->get();
+
         //return $pago_id;
         if ($descuento == []) {
 

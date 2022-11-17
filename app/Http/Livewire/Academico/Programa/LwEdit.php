@@ -10,9 +10,6 @@ use Livewire\Component;
 class LwEdit extends Component
 {
     public $datos = [];
-    public $listModulos = [];
-    public $idModulo = 'null';
-    public $i = 0;
     public $programa;
     public $modulos;
 
@@ -44,25 +41,6 @@ class LwEdit extends Component
         $this->datos['tipo'] = $this->programa->tipo;
         $this->datos['modalidad'] = $this->programa->modalidad;
         $this->datos['hrs_academicas'] = $this->programa->hrs_academicas;
-        $this->listaV = ProgramaModulo::where('id_programa', $this->programa->id)->get();
-        $this->listaV = $this->listaV->pluck('id')->toArray();
-        $this->i = count($this->listaV);
-        $this->modulos = Modulo::where('fecha_final', '>', now())->get();
-    }
-
-    public function add()
-    {
-        if ($this->idModulo != 'null') {
-            $this->i++;
-            $this->listaV[$this->i] = $this->idModulo;
-            $this->idModulo = 'null';
-        }
-    }
-
-    // funcion que elimina un modulo de la lista de modulos cuando el valor es id
-    public function del($id)
-    {
-        $this->listaV = array_diff($this->listaV, [$id]);
     }
 
     public function store()
@@ -79,16 +57,12 @@ class LwEdit extends Component
             'datos.modalidad' => 'required|string',
             'datos.hrs_academicas' => 'required|numeric',
         ]);
-
-        $this->datos['cantidad_modulos'] = sizeof($this->listaV);
         $this->programa->update($this->datos);
-        $this->programa->modulos()->sync($this->listaV);
         return redirect()->route('programa.show', $this->programa);
     }
+
     public function render()
     {
-        $lista = Modulo::whereIn('id',  $this->listaV)->get();
-        $this->modulos = $this->modulos->except($this->listaV);
-        return view('livewire.academico.programa.lw-edit', compact('lista'));
+        return view('livewire.academico.programa.lw-edit');
     }
 }

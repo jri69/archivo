@@ -76,8 +76,7 @@ class Sol_Contrataciones extends Fpdf
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
         $title = 'Ref.: SOLICITUD DE CONTRATACION PARA CONSULTOR E INFORME PRESUPUESTARIO';
-        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
-        $programa = Programa::find($id_programa);
+        $programa = Programa::find($modulo->programa_id);
         $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $director = '';

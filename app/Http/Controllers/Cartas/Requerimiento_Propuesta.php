@@ -74,8 +74,7 @@ class Requerimiento_Propuesta extends Fpdf
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
         $title = 'REF.- REQUERIMIENTO DE PROPUESTA';
-        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
-        $programa = Programa::find($id_programa);
+        $programa = Programa::find($modulo->programa_id);
         $modalidad = $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
