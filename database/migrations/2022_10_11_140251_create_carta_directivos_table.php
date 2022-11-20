@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('carta_directivos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('carta_id')->constrained('cartas')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('directivo_id')->constrained('directivos')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('carta_id')->constrained('cartas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('directivo_id')->constrained('directivos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

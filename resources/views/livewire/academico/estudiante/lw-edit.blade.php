@@ -56,15 +56,24 @@
                                 <div class="form-group">
                                     <select class="form-control" name="expedicion" wire:model.defer='datos.expedicion'>
                                         <option disabled value="">Seleccione la expedición</option>
-                                        <option value="TJ">TJ</option>
-                                        <option value="SC">SC</option>
-                                        <option value="CH">CH</option>
-                                        <option value="LP">LP</option>
-                                        <option value="CB">CB</option>
-                                        <option value="OR">OR</option>
-                                        <option value="PT">PT</option>
-                                        <option value="BE">BE</option>
-                                        <option value="PD">PD</option>
+                                        <option {{ $datos['expedicion'] == 'TJ' ? 'selected' : '' }} value="TJ">
+                                            TJ</option>
+                                        <option {{ $datos['expedicion'] == 'SC' ? 'selected' : '' }} value="SC">SC
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'CH' ? 'selected' : '' }} value="CH">CH
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'LP' ? 'selected' : '' }} value="LP">LP
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'CB' ? 'selected' : '' }} value="CB">CB
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'OR' ? 'selected' : '' }} value="OR">OR
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'PT' ? 'selected' : '' }} value="PT">PT
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'BE' ? 'selected' : '' }} value="BE">BE
+                                        </option>
+                                        <option {{ $datos['expedicion'] == 'PD' ? 'selected' : '' }} value="PD">PD
+                                        </option>
                                     </select>
                                 </div>
                                 @error('datos.expedicion')

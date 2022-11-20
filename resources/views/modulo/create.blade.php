@@ -95,6 +95,24 @@
                                 </div>
                                 <br>
                                 <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="radio" name="modalidad" value="Presencial" checked>
+                                        <span>Presencial</span>
+
+                                        <input type="radio" name="modalidad" value="Virtual" style='margin-left: 20px'>
+                                        <span>Virtual</span>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        @if ($errors->has('modalidad'))
+                                            <span class="error text-danger"
+                                                for="input-modalidad">{{ $errors->first('modalidad') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
                                     <div class="col-sm-7">
                                         <input type="date" class="form-control" name="fecha_inicio">

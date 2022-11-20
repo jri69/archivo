@@ -18,13 +18,16 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('sigla');
             $table->string('estado');
+            $table->string('modalidad');
             $table->string('version', 5);
             $table->string('edicion', 5);
             $table->double('costo');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
-            // foreing key con docente
-            $table->foreignId('docente_id')->constrained('docentes')->onDelete('set null')->onUpdate('cascade')->nullable();
+            $table->unsignedBigInteger('programa_id')->nullable();
+            $table->foreign('programa_id')->references('id')->on('programas');
+            $table->unsignedBigInteger('docente_id')->nullable();
+            $table->foreign('docente_id')->references('id')->on('docentes');
             $table->timestamps();
         });
     }

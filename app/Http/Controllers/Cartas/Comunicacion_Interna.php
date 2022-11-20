@@ -6,8 +6,10 @@ use App\Models\Carta;
 use App\Models\CartaDirectivo;
 use App\Models\Docente;
 use App\Models\Modulo;
+use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
-use NumberFormatter;
+use Luecano\NumeroALetras\NumeroALetras;
 
 class Comunicacion_Interna extends Fpdf
 {
@@ -47,8 +49,8 @@ class Comunicacion_Interna extends Fpdf
 
     private function numeroAliteral($number)
     {
-        $f = new NumberFormatter("es", NumberFormatter::SPELLOUT);
-        return $f->format($number);
+        $formatter = new NumeroALetras();
+        return $formatter->toMoney($number);
     }
 
     public function informe($data)
@@ -61,10 +63,11 @@ class Comunicacion_Interna extends Fpdf
         $carta = Carta::find($idCarta);
         $fecha = date('d/m/Y', strtotime($carta->fecha));
         $fechaLiteral = $this->fechaLiteral($fecha);
-        $gestion = date('Y', strtotime($carta->fecha));
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $modalidad = $modulo->modalidad ? $modulo->modalidad : 'Virtual';
+        $programa = Programa::find($modulo->programa_id);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
+        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
 
         $director = '';
         $asesor = '';
@@ -90,6 +93,8 @@ class Comunicacion_Interna extends Fpdf
 
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
+        // convertir texto a mayuscula
+        $name_docente = mb_strtoupper($name_docente, 'UTF-8');
 
 
         $this->fpdf->AddPage();
@@ -105,7 +110,7 @@ class Comunicacion_Interna extends Fpdf
         $this->Row(array(utf8_decode('A:'), utf8_decode($asesor)), 1, "L", "N");
         $this->Row(array(utf8_decode('VIA:'), utf8_decode($director)), 1, "L", "N");
         $this->Row(array(utf8_decode('DE:'), utf8_decode($responsable)), 1, "L", "N");
-        $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL ' . $name_docente . ', ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "' . $modulo->nombre . '" (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN) ' . $modalidad . '. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS.' . $contrato->honorario . ' (' . $honorarioLiteral . ' CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
+        $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL ' . mb_strtoupper($name_docente) . ', ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "' . mb_strtoupper($modulo->nombre) . '" (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN) ' . mb_strtoupper($modalidad) . '. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS.' . $contrato->honorario . ' (' . $honorarioLiteral . ' CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
 
         $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 9);
@@ -114,7 +119,7 @@ class Comunicacion_Interna extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => 'Según el oficio OF.COORD. ACA. N.º 1269/2022 del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "' . $modulo->nombre . ' (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN)  ' . $modalidad . '. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el 13/08/22.',
+            'first' => 'Según el oficio OF.COORD. ACA. N.º ' . $carta->codigo_admi . ' del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "' . $modulo->nombre . ' (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN)  ' . $modalidad . '. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el ' . $carta->fecha_plazo . '.',
             'second' => 'Proceda a ejecutar las siguientes acciones: En sujeción al D.S. 181 art. 37.- (ASESORIA LEGAL). En cada proceso de contratación, tiene como principales funciones:',
         ];
         $this->fpdf->SetFont('Arial', '', 9);

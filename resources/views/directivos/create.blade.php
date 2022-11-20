@@ -1,10 +1,10 @@
-@extends('layouts.app', ['activePage' => 'docentes', 'titlePage' => 'Docentes'])
+@extends('layouts.app', ['activePage' => 'directivos', 'titlePage' => 'Directivos'])
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row" style="margin-left: 10%">
                 <div class="col-md-11">
-                    <form action="{{ route('docentes.store') }}" method="post" class="form-horizontal"
+                    <form action="{{ route('directivo.store') }}" method="post" class="form-horizontal"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="card">
@@ -15,10 +15,11 @@
                                             <label class="bmd-label-floating">Honorifico</label>
                                             <select name="honorifico" id="_honorifico" class="form-control">
                                                 <option disabled selected>Seleccione el honorifico</option>
-                                                <option value="Lic">Lic</option>
-                                                <option value="Ing">Ing</option>
-                                                <option value="MsC">MsC</option>
-                                                <option value="PhD">PhD</option>
+                                                <option value="Lic.">Lic</option>
+                                                <option value="Ing.">Ing</option>
+                                                <option value="M.Sc.">M.Sc</option>
+                                                <option value="Ph.D.">Ph.D</option>
+                                                <option value="Abog.">Abog</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('honorifico'))
@@ -59,68 +60,48 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Cedula</label>
-                                            <input type="text" class="form-control" name="cedula">
-                                        </div>
-                                        @if ($errors->has('cedula'))
-                                            <span class="error text-danger"
-                                                for="input-cedula">{{ $errors->first('cedula') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <select class="form-control" name="expedicion">
-                                                <option disabled selected value="">Seleccione la expedición</option>
-                                                <option value="TJ">TJ</option>
-                                                <option value="SC">SC</option>
-                                                <option value="CH">CH</option>
-                                                <option value="LP">LP</option>
-                                                <option value="CB">CB</option>
-                                                <option value="OR">OR</option>
-                                                <option value="PT">PT</option>
-                                                <option value="BE">BE</option>
-                                                <option value="PD">PD</option>
+                                            <select class="form-control" name="cargo">
+                                                <option disabled selected value="">Seleccione el cargo</option>
+                                                <option value="Director">Director</option>
+                                                <option value="Coordinador Académico">Coordinador Académico</option>
+                                                <option value="Asesor Legal">Asesor Legal</option>
+                                                <option value="Responsable del proceso de contratación">Responsable del
+                                                    proceso de contratación</option>
+                                                <option value="Decano">Decano</option>
                                             </select>
                                         </div>
-                                        @if ($errors->has('expedicion'))
+                                        @if ($errors->has('cargo'))
                                             <span class="error text-danger"
-                                                for="input-expedicion">{{ $errors->first('expedicion') }}</span>
+                                                for="input-cargo">{{ $errors->first('cargo') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="institucion">
+                                                <option disabled selected value="">Seleccione la institucion</option>
+                                                <option value="Escuela de Ingeniería - F.C.E.T.">Escuela de Ingeniería
+                                                    -F.C.E.T.</option>
+                                                <option value="Escuela de Ingeniería - UAGRM">Escuela de Ingeniería - UAGRM
+                                                </option>
+                                                <option value="F.C.E.T. - UAGRM">F.C.E.T. - UAGRM</option>
+                                                <option value="JAF">JAF</option>
+                                                <option value="F.C.E.T.">F.C.E.T.</option>
+                                            </select>
+                                        </div>
+                                        @if ($errors->has('institucion'))
+                                            <span class="error text-danger"
+                                                for="input-institucion">{{ $errors->first('institucion') }}</span>
                                         @endif
                                     </div>
                                 </div>
 
-                                <br>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Telefono</label>
-                                            <input type="text" class="form-control" name="telefono">
-                                        </div>
-                                        @if ($errors->has('telefono'))
-                                            <span class="error text-danger"
-                                                for="input-telefono">{{ $errors->first('telefono') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Correo</label>
-                                            <input type="text" class="form-control" name="correo">
-                                        </div>
-                                        @if ($errors->has('correo'))
-                                            <span class="error text-danger"
-                                                for="input-correo">{{ $errors->first('correo') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Facturacion</label>
+                                            <label class="bmd-label-floating">Activo</label>
                                             <div class="form-check form-check-radio col-md-2">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="facturacion"
+                                                    <input class="form-check-input" type="radio" name="activo"
                                                         id="exampleRadios1" value="true" checked>
                                                     Si
                                                     <span class="circle">
@@ -130,7 +111,7 @@
                                             </div>
                                             <div class="form-check form-check-radio col-md-2">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="facturacion"
+                                                    <input class="form-check-input" type="radio" name="activo"
                                                         id="exampleRadios2" value="false">
                                                     No
                                                     <span class="circle">
@@ -139,9 +120,9 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        @if ($errors->has('facturacion'))
+                                        @if ($errors->has('activo'))
                                             <span class="error text-danger"
-                                                for="input-facturacion">{{ $errors->first('facturacion') }}</span>
+                                                for="input-activo">{{ $errors->first('activo') }}</span>
                                         @endif
                                     </div>
                                     <div class="col-md-6">
@@ -154,7 +135,7 @@
                                 <button type="submit"class="btn btn-primary">
                                     <b>Guardar Datos</b>
                                 </button>
-                                <a href="{{ route('docentes.index') }}" class="btn btn-primary"><b>Cancelar</b></a>
+                                <a href="{{ route('directivo.index') }}" class="btn btn-primary"><b>Cancelar</b></a>
                             </div>
                         </div>
                     </form>

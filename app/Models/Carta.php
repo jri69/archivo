@@ -12,6 +12,7 @@ class Carta extends Model
         'codigo_admi',
         'fecha',
         'tipo_id',
+        'fecha_plazo',
         'contrato_id',
     ];
 

@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('cartas', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo_admi');
+            $table->string('codigo_admi')->nullable();
             $table->date('fecha');
+            $table->date('fecha_plazo')->nullable();
             $table->unsignedBigInteger('tipo_id');
             $table->foreign('tipo_id')->references('id')->on('tipo_cartas');
             $table->unsignedBigInteger('contrato_id');

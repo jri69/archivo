@@ -18,6 +18,7 @@ class LwCreate extends Component
         $datos['fecha_inicio'] = '';
         $datos['fecha_finalizacion'] = '';
         $datos['costo'] = '';
+        $datos['modalidad'] = 'Presencial';
         // $datos['tipo'] = 'Sin tipo';
     }
 
@@ -33,6 +34,8 @@ class LwCreate extends Component
                 'datos.fecha_finalizacion' => 'required|date',
                 'datos.costo' => 'required|numeric',
                 'datos.tipo' => 'required|string|max:20',
+                'datos.modalidad' => 'required|string|max:20',
+                'datos.hrs_academicas' => 'required|numeric',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -43,6 +46,9 @@ class LwCreate extends Component
                 'datos.fecha_finalizacion.required' => 'El campo fecha de finalizacion es obligatorio',
                 'datos.costo.required' => 'El campo costo es obligatorio',
                 'datos.tipo.required' => 'El campo tipo es obligatorio',
+                'datos.modalidad.required' => 'El campo modalidad es obligatorio',
+                'datos.hrs_academicas.required' => 'El campo horas academicas es obligatorio',
+                'datos.hrs_academicas.numeric' => 'El campo horas academicas debe ser un numero',
             ]
         );
         Programa::create([
@@ -55,6 +61,8 @@ class LwCreate extends Component
             'cantidad_modulos' => 0,
             'costo' => $this->datos['costo'],
             'tipo' => $this->datos['tipo'],
+            'modalidad' => $this->datos['modalidad'],
+            'hrs_academicas' => $this->datos['hrs_academicas'],
         ]);
 
         return redirect()->route('programa.index');

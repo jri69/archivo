@@ -6,8 +6,8 @@ use App\Models\Carta;
 use App\Models\Contrato;
 use App\Models\ContratoCarta;
 use App\Models\Docente;
+use App\Models\Modulo;
 use App\Models\Programa;
-use App\Models\ProgramaModulo;
 use App\Models\TipoCarta;
 use Illuminate\Http\Request;
 
@@ -32,9 +32,8 @@ class ContratacionesController extends Controller
         $contrato = Contrato::findOrFail($id);
         $tipos = TipoCarta::Where('tipo', 'Docente')->get();
         $cartas = Carta::where('contrato_id', $id)->get();
-        $programa_modulo = ProgramaModulo::where('id_modulo', $contrato->modulo_id)->first();
-        $programa = Programa::findOrFail($programa_modulo->id_programa);
-
+        $modulo = Modulo::findOrFail($contrato->modulo_id);
+        $programa = Programa::findOrFail($modulo->programa_id);
         // unir los tipos con las cartas
         $tipos_cartas = [];
         foreach ($tipos as $key => $tipo) {

@@ -108,7 +108,8 @@
             @if (auth()->user()->can('estudiante.index') ||
                 auth()->user()->can('programa.index') ||
                 auth()->user()->can('modulo.index') ||
-                auth()->user()->can('requisito.index'))
+                auth()->user()->can('requisito.index') ||
+                auth()->user()->can('calendario.index'))
                 <li
                     class="nav-item {{ $activePage == 'estudiante' || $activePage == 'programa' || $activePage == 'modulo' || $activePage == 'requisito' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="false">
@@ -119,12 +120,14 @@
                     </a>
                     <div class="collapse" id="Academico">
                         <ul class="nav">
-                            <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('calendario.index') }}">
-                                    <span class="sidebar-mini"> CA </span>
-                                    <span class="sidebar-normal">{{ __('Calendario') }} </span>
-                                </a>
-                            </li>
+                            @can('calendario.index')
+                                <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('calendario.index') }}">
+                                        <span class="sidebar-mini"> CA </span>
+                                        <span class="sidebar-normal">{{ __('Calendario') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
                             @can('estudiante.index')
                                 <li class="nav-item{{ $activePage == 'estudiante' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('estudiante.index') }}">
@@ -240,7 +243,8 @@
             @endif
 
             @if (auth()->user()->can('contrataciones.index') ||
-                auth()->user()->can('docentes.index'))
+                auth()->user()->can('docentes.index') ||
+                auth()->user()->can('directivos.index'))
                 <li
                     class="nav-item {{ $activePage == 'contrataciones' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#recursos" aria-expanded="false">
@@ -264,6 +268,14 @@
                                     <a class="nav-link" href="{{ route('administrativo.index') }}">
                                         <span class="sidebar-mini"> AD </span>
                                         <span class="sidebar-normal">{{ __('Administrativos') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('directivos.index')
+                                <li class="nav-item{{ $activePage == 'directivos' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('directivo.index') }}">
+                                        <span class="sidebar-mini"> DI </span>
+                                        <span class="sidebar-normal">{{ __('Directivos') }} </span>
                                     </a>
                                 </li>
                             @endcan

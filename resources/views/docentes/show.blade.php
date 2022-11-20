@@ -61,7 +61,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Cedula</label>
-                                        <input type="text" class="form-control" value="{{ $docente->cedula }} " disabled>
+                                        <input type="text" class="form-control"
+                                            value="{{ $docente->cedula . ' ' . $docente->expedicion }} " disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
