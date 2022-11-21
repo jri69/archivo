@@ -87,6 +87,10 @@
                                                 <option {{ $directivo->cargo == 'Decano' ? 'selected' : '' }}
                                                     value="Decano">
                                                     Decano</option>
+                                                <option
+                                                    {{ $directivo->cargo == 'Jefe ADM. y Financiero' ? 'selected' : '' }}
+                                                    value="Jefe ADM. y Financiero">
+                                                    Jefe ADM. y Financiero</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('cargo'))

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->date('fecha');
             $table->date('fecha_plazo')->nullable();
             $table->unsignedBigInteger('tipo_id');
-            $table->foreign('tipo_id')->references('id')->on('tipo_cartas');
+            $table->foreign('tipo_id')->references('id')->on('tipo_cartas')->onDelete('cascade');
             $table->unsignedBigInteger('contrato_id');
-            $table->foreign('contrato_id')->references('id')->on('contratos');
+            $table->foreign('contrato_id')->references('id')->on('contratos')->onDelete('cascade');
             $table->timestamps();
         });
     }

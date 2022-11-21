@@ -25,9 +25,9 @@ return new class extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_final');
             $table->unsignedBigInteger('programa_id')->nullable();
-            $table->foreign('programa_id')->references('id')->on('programas');
+            $table->foreign('programa_id')->references('id')->on('programas')->onDelete('cascade');
             $table->unsignedBigInteger('docente_id')->nullable();
-            $table->foreign('docente_id')->references('id')->on('docentes');
+            $table->foreign('docente_id')->references('id')->on('docentes')->onDelete('set null');
             $table->timestamps();
         });
     }

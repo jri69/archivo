@@ -68,6 +68,7 @@
                                                 <option value="Responsable del proceso de contratación">Responsable del
                                                     proceso de contratación</option>
                                                 <option value="Decano">Decano</option>
+                                                <option value="Jefe ADM. y Financiero">Jefe ADM. y Financiero</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('cargo'))

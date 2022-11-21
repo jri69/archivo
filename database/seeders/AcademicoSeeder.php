@@ -107,35 +107,9 @@ class AcademicoSeeder extends Seeder
             ]);
         }
 
-        $modulo1 = Modulo::create([
-            'nombre' => 'Modulo 1',
-            'sigla' => 'MD',
-            'estado' => 'Sin Iniciar',
-            'version' => 1,
-            'edicion' => 1,
-            'costo' => 15000,
-            'fecha_inicio' => "2022/08/10",
-            'fecha_final' => "2022/09/10",
-            'docente_id' => rand(1, 500),
-            'modalidad' => $modalidad[rand(0, 1)],
-            'programa_id' => $programa->id,
-        ]);
-
-        $modulo2 = Modulo::create([
-            'nombre' => 'Modulo 2',
-            'sigla' => 'MP',
-            'estado' => 'Sin Iniciar',
-            'version' => 1,
-            'edicion' => 1,
-            'costo' => 15000,
-            'fecha_inicio' => "2022/09/10",
-            'fecha_final' => "2022/10/10",
-            'docente_id' => rand(1, 500),
-            'modalidad' => $modalidad[rand(0, 1)],
-            'programa_id' => $programa->id,
-        ]);
-
         for ($i = 0; $i < 500; $i++) {
+            $start = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
+            $end = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
             $modulo = Modulo::create([
                 'nombre' => 'Modulo ' . $i + 10,
                 'sigla' => 'PR ' . $i,
@@ -143,11 +117,29 @@ class AcademicoSeeder extends Seeder
                 'version' => $i,
                 'edicion' => $i + 1,
                 'costo' => 150 * $i,
-                'fecha_inicio' => "2022/08/10",
-                'fecha_final' => "2022/09/10",
+                'fecha_inicio' => $start,
+                'fecha_final' => $end,
                 'docente_id' => rand(1, 500),
                 'modalidad' => $modalidad[rand(0, 1)],
                 'programa_id' => rand(1, 500),
+            ]);
+            ProgramaCalendar::create([
+                'title' => $modulo->nombre,
+                'start' => $modulo->fecha_inicio,
+                'end' => $modulo->fecha_inicio,
+                'sigla' => $modulo->sigla . '-' . $modulo->version . '.' . $modulo->edicion,
+                'tipo' => 'Modulo',
+                'tipo_fecha' => 'inicio',
+                'modulo_id' => $modulo->id,
+            ]);
+            ProgramaCalendar::create([
+                'title' => $modulo->nombre,
+                'start' => $modulo->fecha_final,
+                'end' => $modulo->fecha_final,
+                'sigla' => $modulo->sigla . '-' . $modulo->version . '.' . $modulo->edicion,
+                'tipo' => 'Modulo',
+                'tipo_fecha' => 'final',
+                'modulo_id' => $modulo->id,
             ]);
         }
         for ($i = 0; $i < 500; $i++) {

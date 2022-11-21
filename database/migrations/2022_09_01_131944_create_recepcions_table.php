@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('departamento');
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('unidad_organizativa_id');
-            $table->foreign('unidad_organizativa_id')->references('id')->on('unidad_organizacionals');
+            $table->foreign('unidad_organizativa_id')->references('id')->on('unidad_organizacionals')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

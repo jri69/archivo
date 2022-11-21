@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('estado');
             $table->string('tipo');
             $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')->references('id')->on('users');
+            $table->foreign('id_usuario')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger("id_area");
-            $table->foreign('id_area')->references('id')->on('area');
+            $table->foreign('id_area')->references('id')->on('area')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Academico\Programa;
 
 use App\Models\Modulo;
 use App\Models\Programa;
+use App\Models\ProgramaCalendar;
 use App\Models\ProgramaModulo;
 use Livewire\Component;
 
@@ -58,6 +59,22 @@ class LwEdit extends Component
             'datos.hrs_academicas' => 'required|numeric',
         ]);
         $this->programa->update($this->datos);
+        $calendarInicio = ProgramaCalendar::where('programa_id', $this->programa->id)->where('tipo_fecha', 'inicio')->first();
+        $calendarFin = ProgramaCalendar::where('programa_id', $this->programa->id)->where('tipo_fecha', 'final')->first();
+        $calendarInicio->update([
+            'title' => $this->programa->nombre,
+            'start' => $this->programa->fecha_inicio,
+            'end' => $this->programa->fecha_inicio,
+            'sigla' => $this->programa->sigla . ' - ' . $this->programa->version . '.' . $this->programa->edicion,
+            'tipo' => $this->programa->tipo
+        ]);
+        $calendarFin->update([
+            'title' => $this->programa->nombre,
+            'start' => $this->programa->fecha_finalizacion,
+            'end' => $this->programa->fecha_finalizacion,
+            'sigla' => $this->programa->sigla . '-' . $this->programa->version . '.' . $this->programa->edicion,
+            'tipo' => $this->programa->tipo
+        ]);
         return redirect()->route('programa.show', $this->programa);
     }
 
