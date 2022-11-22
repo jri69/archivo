@@ -8,7 +8,7 @@
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-md-12">
                         <div class="card-header card-header-primary text-center">
-                            <h4>OPCIONES DE FILTADO</h4>
+                            <h4>OPCIONES DE FILTRADO</h4>
                         </div>
                     </div>
                 </div>
