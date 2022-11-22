@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Academico\Programa;
 
 use App\Models\Programa;
+use App\Models\ProgramaCalendar;
 use Livewire\Component;
 
 class LwCreate extends Component
@@ -51,7 +52,7 @@ class LwCreate extends Component
                 'datos.hrs_academicas.numeric' => 'El campo horas academicas debe ser un numero',
             ]
         );
-        Programa::create([
+        $programa = Programa::create([
             'nombre' => $this->datos['nombre'],
             'sigla' => $this->datos['sigla'],
             'version' => $this->datos['version'],
@@ -64,7 +65,24 @@ class LwCreate extends Component
             'modalidad' => $this->datos['modalidad'],
             'hrs_academicas' => $this->datos['hrs_academicas'],
         ]);
-
+        ProgramaCalendar::create([
+            'title' => $programa->nombre,
+            'start' => $programa->fecha_inicio,
+            'end' => $programa->fecha_inicio,
+            'sigla' => $programa->sigla . ' - ' . $programa->version . '.' . $programa->edicion,
+            'tipo' => $programa->tipo,
+            'tipo_fecha' => 'inicio',
+            'programa_id' => $programa->id,
+        ]);
+        ProgramaCalendar::create([
+            'title' => $programa->nombre,
+            'start' => $programa->fecha_finalizacion,
+            'end' => $programa->fecha_finalizacion,
+            'sigla' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
+            'tipo' => $programa->tipo,
+            'tipo_fecha' => 'final',
+            'programa_id' => $programa->id,
+        ]);
         return redirect()->route('programa.index');
     }
 

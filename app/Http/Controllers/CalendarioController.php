@@ -50,29 +50,43 @@ class CalendarioController extends Controller
 
     public function inicio()
     {
-        // obtener parametros de la url para filtrar
-        if (request('tipo')) {
-            request('tipo') ? $tipo = request('tipo') : '';
+        $ver = request('ver');
+        if ($ver == 'Modulo') {
             $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')
-                ->where('tipo', $tipo)->get();
+                ->where('tipo', 'Modulo')->get();
             return response()->json($programas);
         } else {
-            $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')->get();
-            return response()->json($programas);
+            // obtener parametros de la url para filtrar
+            if (request('tipo')) {
+                request('tipo') ? $tipo = request('tipo') : '';
+                $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')
+                    ->where('tipo', $tipo)->get();
+                return response()->json($programas);
+            } else {
+                $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')->where('tipo', '!=', 'Modulo')->get();
+                return response()->json($programas);
+            }
         }
     }
 
     public function finalizado()
     {
-        // obtener parametros de la url para filtrar
-        if (request('tipo')) {
-            request('tipo') ? $tipo = request('tipo') : $tipo = '';
+        $ver = request('ver');
+        if ($ver == 'Modulo') {
             $programas = ProgramaCalendar::where('tipo_fecha', 'final')
-                ->where('tipo', $tipo)->get();
+                ->where('tipo', 'Modulo')->get();
             return response()->json($programas);
         } else {
-            $programas = ProgramaCalendar::where('tipo_fecha', 'final')->get();
-            return response()->json($programas);
+            // obtener parametros de la url para filtrar
+            if (request('tipo')) {
+                request('tipo') ? $tipo = request('tipo') : $tipo = '';
+                $programas = ProgramaCalendar::where('tipo_fecha', 'final')
+                    ->where('tipo', $tipo)->get();
+                return response()->json($programas);
+            } else {
+                $programas = ProgramaCalendar::where('tipo_fecha', 'final')->where('tipo', '!=', 'Modulo')->get();
+                return response()->json($programas);
+            }
         }
     }
 }

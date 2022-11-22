@@ -34,6 +34,11 @@ class EstudianteController extends Controller
     public function destroy($modulo)
     {
         $estudiante = Estudiante::findOrFail($modulo);
+        $requisitos = RequisitoEstudiante::where('id_estudiante', $modulo)->get();
+        foreach ($requisitos as $requisito) {
+            Storage::delete($requisito->dir);
+            $requisito->delete();
+        }
         $estudiante->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');
     }

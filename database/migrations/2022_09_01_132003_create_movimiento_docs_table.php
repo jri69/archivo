@@ -21,9 +21,9 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->string('confirmacion')->default('Sin confirmar');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('recepcion_id');
-            $table->foreign('recepcion_id')->references('id')->on('recepcions');
+            $table->foreign('recepcion_id')->references('id')->on('recepcions')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
 use App\Models\Programa;
+use App\Models\ProgramaCalendar;
 
 class ProgramaController extends Controller
 {
@@ -44,6 +45,10 @@ class ProgramaController extends Controller
     // Eliminar un programa
     public function destroy($modulo)
     {
+        $calendar = ProgramaCalendar::where('programa_id', $modulo)->get();
+        foreach ($calendar as  $cale) {
+            $cale->delete();
+        }
         $programa = Programa::findOrFail($modulo);
         $programa->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');

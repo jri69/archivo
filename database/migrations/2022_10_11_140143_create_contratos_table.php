@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('pagado')->default(false);
 
             // foreing key con modulo
-            $table->foreignId('modulo_id')->constrained('modulos')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('modulo_id')->constrained('modulos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

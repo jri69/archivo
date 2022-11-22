@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('experiencia');
             $table->integer('nacionalidad');
             // foreing key con contrato
-            $table->foreignId('contrato_id')->constrained('contratos')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contrato_id')->constrained('contratos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

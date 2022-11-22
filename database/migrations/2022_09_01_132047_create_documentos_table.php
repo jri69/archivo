@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('tipo');
             $table->string('dir');
             $table->unsignedBigInteger('movimiento_doc_id')->nullable();
-            $table->foreign('movimiento_doc_id')->references('id')->on('movimiento_docs');
+            $table->foreign('movimiento_doc_id')->references('id')->on('movimiento_docs')->onDelete('cascade');
             $table->unsignedBigInteger('recepcion_id')->nullable();
-            $table->foreign('recepcion_id')->references('id')->on('recepcions');
+            $table->foreign('recepcion_id')->references('id')->on('recepcions')->onDelete('cascade');
             $table->timestamps();
         });
     }
