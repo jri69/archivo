@@ -15,14 +15,14 @@
                                         <option value="{{$partida->id}}">{{$partida->codigo}} {{$partida->nombre}}</option>
                                     @endforeach
                                 </select>
-                            </div>                        
+                            </div>
                         </div>
-                        <br>                            
+                        <br>
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Codigo:</b> </label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
-                                wire:model="codigo"
+                                wire:model.defer="codigo"
                                 name="codigo"
                                 value="{{ old('codigo') }}" autofocus
                                 >
@@ -31,14 +31,14 @@
                                 {{ $errors->first('codigo') }}
                             </span>
                         @endif
-                            </div>                                
+                            </div>
                         </div>
                         <br>
                         <div class="row">
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b> </label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control"
-                                wire:model="nombre"
+                                wire:model.defer="nombre"
                                 name="nombre"
                                 value="{{ old('nombre') }}" autofocus
                                 >
@@ -47,13 +47,13 @@
                                 {{ $errors->first('nombre') }}
                             </span>
                         @endif
-                            </div>                             
+                            </div>
                             <a wire:click="add()" class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
                                 <i class="material-icons">add</i>
                             </a>
-                        </div>                       
-                        
-                        
+                        </div>
+
+
                     </div>
                     <div class="card-footer ml-auto mr-auto">
                         <a wire:click="store()" class="btn btn-primary text-white">
@@ -87,7 +87,7 @@
                                         <tr>
                                             <td><b>{{ $item['id'] }}</b></td>
                                             <td><b>{{ $item['codigo'] }}</b></td>
-                                            <td><b>{{ $item['nombre'] }}</b></td>                                           
+                                            <td><b>{{ $item['nombre'] }}</b></td>
                                             <td class="td-actions">
                                                 <a wire:click="del({{ $item['id'] }})" rel="tooltip"
                                                     class="btn btn-danger text-white">

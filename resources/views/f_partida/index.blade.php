@@ -5,9 +5,9 @@
         <div class="container-fluid">
             <div class="{{ route('presupuesto.create') }}">
                 <div class="col-12 text-left">
-                    <a href="{{ route('c_partida.create') }}" class="btn btn-outline-primary btn-white">
-                        <b>Agregar 5 partida</b> 
-                    </a> 
+                    <a href="{{ route('f_partida.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar 5 partida</b>
+                    </a>
                     <a href="{{ route('partida.index') }}" style="margin-left:70%" class="btn btn-sm btn-primary">
                         <i class="material-icons">keyboard_backspace</i>
                         atras</a>
@@ -24,9 +24,9 @@
                                 <table class="table">
                                     <thead class="text-primary text-dark">
                                         <th>#</th>
-                                        <th>Codigo</th> 
-                                        <th>Nombre</th> 
-                                        <th>Acciones</th>                                         
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <th>Acciones</th>
                                     </thead>
                                     <tbody>
                                         @foreach ($items as $partida)
@@ -37,7 +37,7 @@
                                                 <td class="td-actions">
                                                     <a href="{{route('c_partida.edit',$partida->id)}}" class="btn btn-primary">
                                                         <span class="material-icons">edit</span>
-    
+
                                                     </a>
                                                 </td>
                                             </tr>

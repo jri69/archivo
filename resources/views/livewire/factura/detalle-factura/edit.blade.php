@@ -2,8 +2,9 @@
     <div class="container-fluid">
         <div class="row" style="margin-left: 10%">
             <div class="col-md-10">
-                <form action="{{route('detalle_factura.store',$id)}}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="{{route('detalle_factura.update',$id)}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="card">
                     <div class="card-body">
                         <br>
@@ -17,8 +18,6 @@
                                 @endforeach
                                 </select>
                             </div>
-                            {{-- <div>prueba: @json($first)</div>
-                            <div>prueba: @json($prueba)</div> --}}
                         </div>
                         <br>
                         <div class="row">
@@ -70,11 +69,11 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="nombre" class="col-sm-3 col-form-label"><b>Cantidad:</b></label>
+                            <label for="cantidad" class="col-sm-3 col-form-label"><b>Cantidad:</b></label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
                                 name="cantidad"
-                                value="{{old('cantidad')}}"
+                                value="{{old('cantidad',$detalle->cantidad)}}"
                                         autofocus
                                         >
                                         @if ($errors->has('cantidad'))
@@ -86,11 +85,11 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="input-detalle" class="col-sm-3 col-form-label"><b>Detalle/Producto:</b></label>
+                            <label for="nombre" class="col-sm-3 col-form-label"><b>Detalle/Producto:</b></label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control"
                                 name="detalle"
-                                value="{{old('detalle')}}"
+                                value="{{old('detalle',$detalle->detalle)}}"
                                         autofocus
                                         >
                                         @if ($errors->has('detalle'))
@@ -106,7 +105,7 @@
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
                                 name="precio_unitario"
-                                value="{{old('precio_unitario')}}"
+                                value="{{old('precio_unitario',$detalle->precio_unitario)}}"
                                         autofocus
                                         >
                                         @if ($errors->has('precio_unitario'))
@@ -118,11 +117,11 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="subtotal" class="col-sm-3 col-form-label"><b>Total:</b></label>
+                            <label for="nombre" class="col-sm-3 col-form-label"><b>Total:</b></label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
                                 name="subtotal"
-                                value="{{old('subtotal')}}"
+                                value="{{old('subtotal',$detalle->subtotal)}}"
                                         autofocus
                                         >
                                         @if ($errors->has('subtotal'))
@@ -138,41 +137,13 @@
                             <button type="submit"class="btn btn-primary">
                                 <b>Guardar Datos</b>
                             </button>
-                            <a href="{{route('detalle_factura.index',$id)}}" class="btn btn-primary"><b>Cancelar</b></a>
+                            <a href="{{route('detalle_factura.index',$detalle->factura_id)}}" class="btn btn-primary"><b>Cancelar</b></a>
                         </div>
                     </div>
 
                 </div>
             </form>
             </div>
-
         </div>
-        {{-- <div class="row" style="margin-left: 10%">
-            <div class="col-md-11">
-                <div class="card">
-                    <div class="card-header card-header-primary">
-                        <h4>Listado de Compras</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>Cantidad</th>
-                                        <th>Detalle</th>
-                                        <th>Precio Unitario</th>
-                                        <th>Sub Total</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
 </div>
-

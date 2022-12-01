@@ -388,8 +388,11 @@ Route::group(['prefix' => 'factura', 'middleware' => ['can:factura.index', 'auth
 //Detalle Factura
 Route::group(['prefix' => 'detalle_factura', 'middleware' => ['can:detalle_factura.index', 'auth']], function () {
     Route::get('/index/{id}', [DetalleFacturaController::class, 'index'])->name('detalle_factura.index');
-    Route::get('/create', [DetalleFacturaController::class, 'create'])->name('detalle_factura.create');
-    Route::get('/edit', [DetalleFacturaController::class, 'edit'])->name('detalle_factura.edit');
+    Route::get('/create/{id}', [DetalleFacturaController::class, 'create'])->name('detalle_factura.create');
+    Route::get('/edit/{id}', [DetalleFacturaController::class, 'edit'])->name('detalle_factura.edit');
+    Route::post('/store/{id}', [DetalleFacturaController::class, 'store'])->name('detalle_factura.store');
+    Route::delete('/destroy/{id}', [DetalleFacturaController::class, 'destroy'])->name('detalle_factura.delete');
+    Route::put('/update/{id}', [DetalleFacturaController::class, 'update'])->name('detalle_factura.update');
 });
 
 // Roles

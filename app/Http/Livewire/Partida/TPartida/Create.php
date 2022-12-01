@@ -16,30 +16,31 @@ class Create extends Component
 
     public function mount()
     {
-        $datos['second_partida_id'] = '';
         $datos['codigo'] = '';
         $datos['nombre'] = '';
     }
 
     public function store()
     {
-        //dd($this->partida_id);
-        //$inicio = reset($this->datos);
-        //dd($inicio['nombre']);
+
+
         $fin = end($this->datos);
         $this->validate([
-            'second_partida_id' => 'required',
+
             'codigo' => 'required',
             'nombre' => 'required'
         ]);
-        //dd($fin['id']);
-        //dd($this->datos[2]['nombre']);
+
         for ($a = 1; $a <= $fin['id']; $a++) {
-            Third_Partida::create([
-                'second_partida_id' => $this->partida_id,
-                'codigo' => $this->datos[$a]['codigo'],
-                'nombre' => $this->datos[$a]['nombre']
-            ]);
+            $prueba = array_key_exists($a, $this->datos);
+            if ($prueba) {
+                Third_Partida::create([
+                    'second_partida_id' => $this->partida_id,
+                    'codigo' => $this->datos[$a]['codigo'],
+                    'nombre' => $this->datos[$a]['nombre']
+                ]);
+            }
+
         }
 
         return redirect()->route('t_partida.index');
@@ -55,7 +56,6 @@ class Create extends Component
     public function add()
     {
         $aux = [];
-
         $this->i++;
         $aux['id'] = $this->i;
         $aux['codigo'] = $this->codigo;

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('primero');
             $table->unsignedBigInteger('segundo');
             $table->unsignedBigInteger('tercero')->nullable();
-            $table->integer('cuarto')->nullable();
-            $table->integer('quinto')->nullable();            
+            $table->string('cuarto')->nullable();
+            $table->string('quinto')->nullable();
             $table->integer('cantidad');
             $table->string('detalle');
             $table->double('precio_unitario');
