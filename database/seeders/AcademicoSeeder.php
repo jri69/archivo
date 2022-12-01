@@ -10,9 +10,11 @@ use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaCalendar;
 use App\Models\ProgramaModulo;
+use App\Models\Prospecto;
 use App\Models\Requisito;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Nette\Utils\Random;
 
 class AcademicoSeeder extends Seeder
 {
@@ -198,5 +200,17 @@ class AcademicoSeeder extends Seeder
             'nombre' => 'Otro',
             'importancia' => 'Bajo',
         ]);
+
+        // marketing
+        for ($i = 0; $i < 100; $i++) {
+            Prospecto::create([
+                'nombre' => 'Prospecto ' . $i + 1,
+                'telefono' => '693514' . $i,
+                'email' => 'correo1@gmail.com',
+                'estado' => 'Prospecto',
+                'interes' =>  'Programa ' . $i + 1,
+                'observaciones' => 'Quiere saber mas informacion sobre el programa ' . $i + 1,
+            ]);
+        }
     }
 }
