@@ -69,12 +69,22 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Correo</label>
-                                            <input type="text" class="form-control" name="correo">
+                                            <select class="form-control" name="expedicion">
+                                                <option disabled selected value="">Seleccione la expedición</option>
+                                                <option value="TJ">TJ</option>
+                                                <option value="SC">SC</option>
+                                                <option value="CH">CH</option>
+                                                <option value="LP">LP</option>
+                                                <option value="CB">CB</option>
+                                                <option value="OR">OR</option>
+                                                <option value="PT">PT</option>
+                                                <option value="BE">BE</option>
+                                                <option value="PD">PD</option>
+                                            </select>
                                         </div>
-                                        @if ($errors->has('correo'))
+                                        @if ($errors->has('expedicion'))
                                             <span class="error text-danger"
-                                                for="input-correo">{{ $errors->first('correo') }}</span>
+                                                for="input-expedicion">{{ $errors->first('expedicion') }}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -89,6 +99,16 @@
                                         @if ($errors->has('telefono'))
                                             <span class="error text-danger"
                                                 for="input-telefono">{{ $errors->first('telefono') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Correo</label>
+                                            <input type="text" class="form-control" name="correo">
+                                        </div>
+                                        @if ($errors->has('correo'))
+                                            <span class="error text-danger"
+                                                for="input-correo">{{ $errors->first('correo') }}</span>
                                         @endif
                                     </div>
                                 </div>

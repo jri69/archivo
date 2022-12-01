@@ -11,11 +11,23 @@ class Carta extends Model
     protected $fillable = [
         'codigo_admi',
         'fecha',
-        'tipo',
+        'tipo_id',
+        'fecha_plazo',
+        'contrato_id',
     ];
 
     public function directivos()
     {
         return $this->belongsToMany(Directivo::class, 'carta_directivos');
+    }
+
+    public function tipo()
+    {
+        return $this->belongsTo(TipoCarta::class, 'tipo_id');
+    }
+
+    public function contrato()
+    {
+        return $this->belongsTo(Contrato::class, 'contrato_id');
     }
 }

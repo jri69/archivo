@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Programa extends Model
 {
     use HasFactory;
-    protected $fillable = ['nombre', 'sigla', 'version', 'edicion', 'tipo', 'fecha_inicio', 'fecha_finalizacion', 'cantidad_modulos', 'costo'];
+    protected $fillable = ['nombre', 'sigla', 'version', 'edicion', 'tipo', 'modalidad', 'hrs_academicas', 'fecha_inicio', 'fecha_finalizacion', 'cantidad_modulos', 'costo'];
 
     public function modulos()
     {
-        return $this->belongsToMany(Modulo::class, 'programa_modulos', 'id_programa', 'id_modulo');
+        return $this->hasMany(Modulo::class);
     }
 
     public function programa()

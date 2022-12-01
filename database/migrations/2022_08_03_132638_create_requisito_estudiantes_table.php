@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('dir');
             $table->string('fecha');
             $table->unsignedBigInteger('id_requisito');
-            $table->foreign('id_requisito')->references('id')->on('requisitos');
+            $table->foreign('id_requisito')->references('id')->on('requisitos')->onDelete('cascade');
             $table->unsignedBigInteger('id_estudiante');
-            $table->foreign('id_estudiante')->references('id')->on('estudiantes');
+            $table->foreign('id_estudiante')->references('id')->on('estudiantes')->onDelete('cascade');
             $table->timestamps();
         });
     }

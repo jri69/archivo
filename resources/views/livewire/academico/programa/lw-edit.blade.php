@@ -23,12 +23,19 @@
                                 <div class="col-sm-7">
                                     <select wire:model.defer="datos.tipo" name="tipo" id="tipo"
                                         class="form-control">
-                                        <option value="Sin tipo">Seleccione el tipo de programa</option>
-                                        <option value="Doctorado"> Doctorado</option>
-                                        <option value="Maestria"> Maestria</option>
-                                        <option value="Diplomado"> Diplomado</option>
-                                        <option value="Especialidad"> Especialidad</option>
-                                        <option value="Cursos"> Cursos</option>
+                                        <option value="Sin tipo" {{ $datos['tipo'] == 'Sin tipo' ? 'selected' : '' }}>
+                                            Seleccione el tipo de programa</option>
+                                        <option value="Doctorado" {{ $datos['tipo'] == 'Doctorado' ? 'selected' : '' }}>
+                                            Doctorado</option>
+                                        <option value="Maestria" {{ $datos['tipo'] == 'Maestria' ? 'selected' : '' }}>
+                                            Maestria</option>
+                                        <option value="Diplomado" {{ $datos['tipo'] == 'Diplomado' ? 'selected' : '' }}>
+                                            Diplomado</option>
+                                        <option value="Especialidad"
+                                            {{ $datos['tipo'] == 'Especialidad' ? 'selected' : '' }}> Especialidad
+                                        </option>
+                                        <option value="Cursos" {{ $datos['tipo'] == 'Cursos' ? 'selected' : '' }}>
+                                            Cursos</option>
                                     </select>
                                 </div>
                             </div>
@@ -66,7 +73,37 @@
                                 </div>
                             </div>
                             <br>
+                            <div class="row">
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Horas Academicas:</b>
+                                </label>
+                                <div class="col-sm-7">
+                                    <input wire:model.defer="datos.hrs_academicas" type="number" class="form-control"
+                                        name="edicion" placeholder="Horas Academicas">
+                                    @error('datos.hrs_academicas')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
+                                </label>
+                                <div class="col-sm-7">
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Presencial">
+                                    <span>Presencial</span>
 
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Virtual" style='margin-left: 20px'>
+                                    <span>Virtual</span>
+                                </div>
+                                <div class="col-sm-7">
+                                    @error('datos.modalidad')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
                                 <div class="col-sm-7">
@@ -100,24 +137,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <br>
-                            <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"><b>Módulos:</b></label>
-                                <div class="col-sm-7">
-                                    <select wire:model.defer="idModulo" name="modulo_id" id="_modulo"
-                                        class="form-control">
-                                        <option value="null" selected>Seleccione el módulo</option>
-                                        @foreach ($modulos as $modulo)
-                                            <option value="{{ $modulo->id }}">{{ $modulo->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <br>
-                                <a wire:click="add()"
-                                    class="btn btn-success btn-fab btn-fab-mini btn-round text-white">
-                                    <i class="material-icons">add</i>
-                                </a>
-                            </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
                             <a wire:click="store()" class="btn btn-primary text-white">
@@ -128,45 +147,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div class="row" style="margin-left: 10%">
-            <div class="col-md-11">
-                <div class="card">
-                    <div class="card-header card-header-primary">
-                        <h4>Listado de Módulos</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>Sigla</th>
-                                        <th>Nombre</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($lista as $key => $mod)
-                                        <tr>
-                                            <td class="text-center">{{ $key + 1 }}</td>
-                                            <td>{{ $mod->sigla }}</td>
-                                            <td>{{ $mod->nombre }} <b> {{ $mod->version }}.{{ $mod->edicion }} </b>
-                                            </td>
-                                            <td class="td-actions">
-                                                <a wire:click="del({{ $mod->id }})" rel="tooltip"
-                                                    class="btn btn-danger text-white">
-                                                    <i class="material-icons">close</i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

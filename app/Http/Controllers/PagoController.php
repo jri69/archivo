@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Modulo;
 use App\Models\Pago;
 use App\Models\Pago_estudiante;
 use App\Models\ProgramaModulo;
@@ -154,25 +155,27 @@ class PagoController extends Controller
         //return $pagos;
         $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiantes.id", $estudiante->id)->select("pago_estudiante.*", "programas.*")->get()->first();
 
-        $pro = DB::table('programas')->where('id', '=', $programa->programa_id)->get()->first();
-
         $descuento = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->join("tipo_descuento", "tipo_descuento.id", "=", "pago_estudiante.tipo_descuento_id")->select("tipo_descuento.*", "pago_estudiante.id as estu")->where("estudiantes.id", $estudiante->id)->get()->first();
 
         $pago_id = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->select("pago_estudiante.id as id")->where("estudiantes.id", $estudiante->id)->get()->first();
 
-        $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo');
+        /*         $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo');
 
-        $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->get();
+        $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->id)->get(); */
+
+        $deuda = Modulo::where('programa_id', $programa->programa_id)->where('fecha_final', '<=', $fecha)->sum('costo');
+        $modulo = Modulo::where('programa_id', $programa->programa_id)->get();
+
         //return $pago_id;
         if ($descuento == []) {
 
-            $costo_t = $pro->costo - $programa->convalidacion;
+            $costo_t = $programa->costo - $programa->convalidacion;
             $cuenta =  $monto + $programa->convalidacion;
             $porcentaje = 0;
         } else {
 
             $porcentaje = ($programa->costo * $descuento->monto) / 100;
-            $costo_t = $pro->costo - $porcentaje - $programa->convalidacion;
+            $costo_t = $programa->costo - $porcentaje - $programa->convalidacion;
             $cuenta = $porcentaje + $monto + $programa->convalidacion;
         }
 
@@ -205,19 +208,19 @@ class PagoController extends Controller
         $fpdf->Cell(188, 10, 'DATOS DEL PROGRAMA', 0, 1, 'C');
         $fpdf->SetFont('Arial', '', 10);
         $fpdf->Cell(80, 15, 'NOMBRE DEL PROGRAMA:', 1, 0);
-        $fpdf->Cell(108, 15, utf8_decode($pro->nombre), 1, 1);
+        $fpdf->Cell(108, 15, utf8_decode($programa->nombre), 1, 1);
         $fpdf->Cell(80, 6, 'VERSION:', 1, 0);
-        $fpdf->Cell(108, 6, $pro->version, 1, 1);
+        $fpdf->Cell(108, 6, $programa->version, 1, 1);
         $fpdf->Cell(80, 6, 'EDICION:', 1, 0);
-        $fpdf->Cell(108, 6, $pro->edicion, 1, 1);
+        $fpdf->Cell(108, 6, $programa->edicion, 1, 1);
         $fpdf->Cell(80, 6, 'FECHA DE INICIO:', 1, 0);
-        $fpdf->Cell(108, 6, \Carbon\Carbon::parse($pro->fecha_inicio)->format('d-m-Y'), 1, 1);
+        $fpdf->Cell(108, 6, \Carbon\Carbon::parse($programa->fecha_inicio)->format('d-m-Y'), 1, 1);
         $fpdf->Cell(80, 6, 'FECHA DE FINALIZACION:', 1, 0);
-        $fpdf->Cell(108, 6, \Carbon\Carbon::parse($pro->fecha_finalizacion)->format('d-m-Y'), 1, 1);
+        $fpdf->Cell(108, 6, \Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y'), 1, 1);
         $fpdf->Cell(80, 6, 'CANTIDAD DE MODULO:', 1, 0);
         $fpdf->Cell(108, 6, $programa->cantidad_modulos, 1, 1);
         $fpdf->Cell(80, 6, 'COSTO TOTAL DEL PROGRAMA:', 1, 0);
-        $fpdf->Cell(108, 6, $pro->costo, 1, 1);
+        $fpdf->Cell(108, 6, $programa->costo, 1, 1);
         $fpdf->Cell(80, 6, 'CONVALIDACION:', 1, 0);
         $fpdf->Cell(108, 6, $programa->convalidacion, 1, 1);
         $fpdf->Cell(80, 6, 'DESCUENTO:', 1, 0);
@@ -225,7 +228,7 @@ class PagoController extends Controller
         $fpdf->Cell(80, 6, 'COSTO TOTAL DEL PROGRAMA:', 1, 0);
         $fpdf->Cell(108, 6, $costo_t, 1, 1);
         $fpdf->SetFont('Arial', 'B', 10);
-        //DATOS ECONOMICOS        
+        //DATOS ECONOMICOS
         $fpdf->Cell(188, 10, 'DATOS ECONOMICOS', 0, 1, 'C');
         $fpdf->SetFont('Arial', '', 8);
         $fpdf->Cell(37, 6, 'MONTO PAGADO', 1, 0);
@@ -236,7 +239,7 @@ class PagoController extends Controller
         $fpdf->Cell(55, 6, $deuda, 1, 0);
         $fpdf->Cell(50, 6, $cuenta, 1, 0);
         $fpdf->Cell(46, 6, $saldo, 1, 1);
-        //DETALLES DE LOS PAGOS   
+        //DETALLES DE LOS PAGOS
         $fpdf->SetFont('Arial', 'B', 10);
         $fpdf->Cell(188, 10, 'DETALLES DE LOS PAGOS', 0, 1, 'C');
         $fpdf->SetFont('Arial', '', 8);

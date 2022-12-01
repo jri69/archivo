@@ -23,7 +23,9 @@ return new class extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_finalizacion');
             $table->integer('costo');
+            $table->integer('hrs_academicas');
             $table->string('cantidad_modulos');
+            $table->string('modalidad');
             $table->timestamps();
         });
     }

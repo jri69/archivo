@@ -74,17 +74,34 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Correo</label>
-                                            <input type="text" class="form-control" name="correo"
-                                                value='{{ $docente->correo }}'>
+                                            <select class="form-control" name="expedicion">
+                                                <option disabled value="">Seleccione la expedición</option>
+                                                <option {{ $docente->expedicion == 'TJ' ? 'selected' : '' }} value="TJ">
+                                                    TJ</option>
+                                                <option {{ $docente->expedicion == 'SC' ? 'selected' : '' }}
+                                                    value="SC">SC</option>
+                                                <option {{ $docente->expedicion == 'CH' ? 'selected' : '' }}
+                                                    value="CH">CH</option>
+                                                <option {{ $docente->expedicion == 'LP' ? 'selected' : '' }}
+                                                    value="LP">LP</option>
+                                                <option {{ $docente->expedicion == 'CB' ? 'selected' : '' }}
+                                                    value="CB">CB</option>
+                                                <option {{ $docente->expedicion == 'OR' ? 'selected' : '' }}
+                                                    value="OR">OR</option>
+                                                <option {{ $docente->expedicion == 'PT' ? 'selected' : '' }}
+                                                    value="PT">PT</option>
+                                                <option {{ $docente->expedicion == 'BE' ? 'selected' : '' }}
+                                                    value="BE">BE</option>
+                                                <option {{ $docente->expedicion == 'PD' ? 'selected' : '' }}
+                                                    value="PD">PD</option>
+                                            </select>
                                         </div>
-                                        @if ($errors->has('correo'))
+                                        @if ($errors->has('expedicion'))
                                             <span class="error text-danger"
-                                                for="input-correo">{{ $errors->first('correo') }}</span>
+                                                for="input-expedicion">{{ $errors->first('expedicion') }}</span>
                                         @endif
                                     </div>
                                 </div>
-
                                 <br>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -96,6 +113,17 @@
                                         @if ($errors->has('telefono'))
                                             <span class="error text-danger"
                                                 for="input-telefono">{{ $errors->first('telefono') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Correo</label>
+                                            <input type="text" class="form-control" name="correo"
+                                                value='{{ $docente->correo }}'>
+                                        </div>
+                                        @if ($errors->has('correo'))
+                                            <span class="error text-danger"
+                                                for="input-correo">{{ $errors->first('correo') }}</span>
                                         @endif
                                     </div>
                                 </div>

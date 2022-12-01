@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('formacion_continua');
             $table->integer('propuesta_tecnica');
             // foreing key con contrato
-            $table->foreignId('contrato_id')->constrained('contratos')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contrato_id')->constrained('contratos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

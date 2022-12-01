@@ -5,18 +5,22 @@ use App\Http\Controllers\AdministrativoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\CartaController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
 use App\Http\Controllers\ContratacionController;
 use App\Http\Controllers\ContratacionesController;
 use App\Http\Controllers\DetalleFacturaController;
+use App\Http\Controllers\DirectivoController;
 use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FifthPartidaController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\Pago_EstudianteController;
@@ -49,10 +53,24 @@ use App\Http\Controllers\UnidadOrganizacionalController;
 */
 
 Auth::routes();
+Route::get('/test', [CartasReporteController::class, 'test']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
+});
+
+//Usuario
+Route::group(['prefix' => 'calendario', 'middleware' => ['can:calendario.index', 'auth']], function () {
+    Route::get('/', [CalendarioController::class, 'index'])->name('calendario.index');
+    Route::get('/doctorados', [CalendarioController::class, 'doctorados'])->name('calendario.doctorado');
+    Route::get('/maestrias', [CalendarioController::class, 'maestrias'])->name('calendario.maestria');
+    Route::get('/diplomados', [CalendarioController::class, 'diplomados'])->name('calendario.diplomado');
+    Route::get('/cursos', [CalendarioController::class, 'cursos'])->name('calendario.curso');
+    Route::get('/especialidades', [CalendarioController::class, 'especialidades'])->name('calendario.especialidades');
+    Route::get('/otros', [CalendarioController::class, 'otros'])->name('calendario.otros');
+    Route::get('/inicio', [CalendarioController::class, 'inicio'])->name('calendario.inicio');
+    Route::get('/finalizado', [CalendarioController::class, 'finalizado'])->name('calendario.finalizado');
 });
 
 //Usuario
@@ -85,6 +103,7 @@ Route::group(['prefix' => 'cargo', 'middleware' => ['can:cargo.index', 'auth']],
     Route::delete('/{cargo}', [CargoController::class, 'destroy'])->name('cargo.delete');
 });
 
+// Perfil
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
@@ -199,8 +218,6 @@ Route::group(['prefix' => 'activo_fijo', 'middleware' => ['can:activo.index', 'a
     Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
 });
 
-// Recursos humanos
-Route::get('/pdf', [CartasReporteController::class, 'pdf'])->name('reporte.pdf');
 
 // Unidad organizacional
 Route::group(['prefix' => 'unidad_organizacional', 'middleware' => ['can:unidad.index', 'auth']], function () {
@@ -245,6 +262,7 @@ Route::group(['prefix' => 'servicio', 'middleware' => ['can:servicio.index', 'au
     Route::post('/store', [ServicioController::class, 'store'])->name('servicio.store');
     Route::put('/update/{servicio}', [ServicioController::class, 'update'])->name('servicio.update');
 });
+
 //Pago de Servicios
 Route::group(['prefix' => 'pago_servicio', 'middleware' => ['can:pago_servicio.index', 'auth']], function () {
     Route::get('/index', [Pago_ServicioController::class, 'index'])->name('pago_servicio.index');
@@ -290,6 +308,27 @@ Route::group(['prefix' => 'contrataciones', 'middleware' => ['can:contrataciones
     Route::get('/show/{contrataciones}', [ContratacionesController::class, 'show'])->name('contrataciones.show');
     Route::put('/update/{contrataciones}', [ContratacionesController::class, 'update'])->name('contrataciones.update');
     Route::delete('/delete/{contrataciones}', [ContratacionesController::class, 'destroy'])->name('contrataciones.delete');
+});
+
+// Cartas de contrataciones
+Route::group(['prefix' => 'contratacion/carta', 'middleware' => ['can:contratacion.index', 'auth']], function () {
+    Route::get('/create/{idContrato}/{tipoCarta}', [CartaController::class, 'carta_create'])->name('carta.create');
+    Route::post('/store', [CartaController::class, 'carta_store'])->name('carta.store');
+    Route::get('/edit/{carta}', [CartaController::class, 'carta_edit'])->name('carta.edit');
+    Route::put('/update/{carta}', [CartaController::class, 'carta_update'])->name('carta.update');
+    Route::delete('/delete/{carta}', [CartaController::class, 'carta_delete'])->name('carta.delete');
+    Route::post('/pdf', [CartasReporteController::class, 'index'])->name('carta.index');
+    Route::get('/pdf/{id}/{tipo}/{idCarta}', [CartasReporteController::class, 'pdf'])->name('carta.pdf');
+});
+
+// Directivos
+Route::group(['prefix' => 'directivos', 'middleware' => ['can:directivos.index', 'auth']], function () {
+    Route::get('/', [DirectivoController::class, 'index'])->name('directivo.index');
+    Route::get('/create', [DirectivoController::class, 'create'])->name('directivo.create');
+    Route::get('/edit/{directivo}', [DirectivoController::class, 'edit'])->name('directivo.edit');
+    Route::post('/store', [DirectivoController::class, 'store'])->name('directivo.store');
+    Route::put('/update/{directivo}', [DirectivoController::class, 'update'])->name('directivo.update');
+    Route::delete('/delete/{directivo}', [DirectivoController::class, 'destroy'])->name('directivo.delete');
 });
 
 // Pagos sueldos
@@ -384,4 +423,15 @@ Route::group(['prefix' => 'administrativos', 'middleware' => ['can:administrativ
     Route::get('/show/{administrativo}', [AdministrativoController::class, 'show'])->name('administrativo.show');
     Route::put('/update/{administrativo}', [AdministrativoController::class, 'update'])->name('administrativo.update');
     Route::delete('/delete/{administrativo}', [AdministrativoController::class, 'destroy'])->name('administrativo.delete');
+});
+
+// Marketing
+Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
+    Route::get('/', [MarketingController::class, 'index'])->name('marketing.index');
+    Route::get('/create', [MarketingController::class, 'create'])->name('marketing.create');
+    Route::post('/store', [MarketingController::class, 'store'])->name('marketing.store');
+    Route::get('/edit/{marketing}', [MarketingController::class, 'edit'])->name('marketing.edit');
+    Route::get('/show/{marketing}', [MarketingController::class, 'show'])->name('marketing.show');
+    Route::put('/update/{marketing}', [MarketingController::class, 'update'])->name('marketing.update');
+    Route::delete('/delete/{marketing}', [MarketingController::class, 'destroy'])->name('marketing.delete');
 });

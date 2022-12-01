@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('correo')->unique()->nullable();
             $table->string('cedula')->nullable();
+            $table->string('expedicion', 2)->nullable();
             $table->string('telefono')->nullable();
             $table->boolean('facturacion')->default(false);
             $table->timestamps();

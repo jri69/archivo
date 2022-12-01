@@ -16,13 +16,13 @@ class Create extends Component
 
     public function mount()
     {
-
         $datos['codigo'] = '';
         $datos['nombre'] = '';
     }
 
     public function store()
     {
+
 
         $fin = end($this->datos);
         $this->validate([
@@ -40,6 +40,7 @@ class Create extends Component
                     'nombre' => $this->datos[$a]['nombre']
                 ]);
             }
+
         }
 
         return redirect()->route('t_partida.index');

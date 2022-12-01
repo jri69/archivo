@@ -38,10 +38,14 @@
                                     @foreach ($modulos as $modulo)
                                         <tr>
                                             <td>{{ $modulo->id }} </td>
-                                            <td>{{ $modulo->programa()->sigla . ' ' . $modulo->programa()->version . '.' . $modulo->programa()->edicion }}
+                                            <td>{{ $modulo->programa->sigla . ' ' . $modulo->programa->version . '.' . $modulo->programa->edicion }}
                                             </td>
                                             <td>{{ $modulo->nombre }}
                                                 <span>{{ $modulo->version . '.' . $modulo->edicion }}</span>
+                                                <br>
+                                                <small class="">
+                                                    {{ $modulo->modalidad }}
+                                                </small>
                                             </td>
                                             <td>{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}
                                             </td>
