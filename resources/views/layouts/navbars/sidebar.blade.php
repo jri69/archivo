@@ -19,7 +19,20 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
-
+            <li class="nav-item{{ $activePage == 'marketing' ? ' active' : '' }}">
+                <a class="nav-link" href="{{ route('marketing.index') }}">
+                    <i class="material-icons">addchart</i>
+                    <p>{{ __('Marketing') }}</p>
+                </a>
+            </li>
+            @can('calendario.index')
+                <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
+                    <a class="nav-link" href="{{ route('calendario.index') }}">
+                        <i class="material-icons">calendar_month</i>
+                        <p>{{ __('Calendario') }}</p>
+                    </a>
+                </li>
+            @endcan
             @if (auth()->user()->can('usuario.index') ||
                 auth()->user()->can('cargo.index') ||
                 auth()->user()->can('area.index') ||
@@ -108,8 +121,7 @@
             @if (auth()->user()->can('estudiante.index') ||
                 auth()->user()->can('programa.index') ||
                 auth()->user()->can('modulo.index') ||
-                auth()->user()->can('requisito.index') ||
-                auth()->user()->can('calendario.index'))
+                auth()->user()->can('requisito.index'))
                 <li
                     class="nav-item {{ $activePage == 'estudiante' || $activePage == 'programa' || $activePage == 'modulo' || $activePage == 'requisito' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="false">
@@ -120,14 +132,7 @@
                     </a>
                     <div class="collapse" id="Academico">
                         <ul class="nav">
-                            @can('calendario.index')
-                                <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('calendario.index') }}">
-                                        <span class="sidebar-mini"> CA </span>
-                                        <span class="sidebar-normal">{{ __('Calendario') }} </span>
-                                    </a>
-                                </li>
-                            @endcan
+
                             @can('estudiante.index')
                                 <li class="nav-item{{ $activePage == 'estudiante' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('estudiante.index') }}">

@@ -20,6 +20,7 @@ use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FifthPartidaController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\Pago_EstudianteController;
@@ -419,4 +420,15 @@ Route::group(['prefix' => 'administrativos', 'middleware' => ['can:administrativ
     Route::get('/show/{administrativo}', [AdministrativoController::class, 'show'])->name('administrativo.show');
     Route::put('/update/{administrativo}', [AdministrativoController::class, 'update'])->name('administrativo.update');
     Route::delete('/delete/{administrativo}', [AdministrativoController::class, 'destroy'])->name('administrativo.delete');
+});
+
+// Marketing
+Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
+    Route::get('/', [MarketingController::class, 'index'])->name('marketing.index');
+    Route::get('/create', [MarketingController::class, 'create'])->name('marketing.create');
+    Route::post('/store', [MarketingController::class, 'store'])->name('marketing.store');
+    Route::get('/edit/{marketing}', [MarketingController::class, 'edit'])->name('marketing.edit');
+    Route::get('/show/{marketing}', [MarketingController::class, 'show'])->name('marketing.show');
+    Route::put('/update/{marketing}', [MarketingController::class, 'update'])->name('marketing.update');
+    Route::delete('/delete/{marketing}', [MarketingController::class, 'destroy'])->name('marketing.delete');
 });
