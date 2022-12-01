@@ -223,6 +223,14 @@
                         </p>
                     </a>
                     <div class="collapse" id="Tics">
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'solicitudes' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('solicitudes.index') }}">
+                                    <span class="sidebar-mini"> SC </span>
+                                    <span class="sidebar-normal">{{ __('Solicitudes') }} </span>
+                                </a>
+                            </li>
+                        </ul>
                         @can('inventario.index')
                             <ul class="nav">
                                 <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
@@ -233,6 +241,14 @@
                                 </li>
                             </ul>
                         @endcan
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'tic' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('tic.index') }}">
+                                    <span class="sidebar-mini"> TC </span>
+                                    <span class="sidebar-normal">{{ __('TIC') }} </span>
+                                </a>
+                            </li>
+                        </ul>
                         @can('activo.index')
                             <ul class="nav">
                                 <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">

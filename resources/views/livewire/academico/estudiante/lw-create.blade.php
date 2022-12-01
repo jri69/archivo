@@ -107,7 +107,7 @@
                                         <option disabled value="">Seleccione el programa</option>
                                         @foreach ($programas as $programa)
                                             <option value="{{ $programa->id }}">
-                                                {{ $programa->nombre }}
+                                                {{ $programa->nombre . ' - ' . $programa->version . '.' . $programa->edicion }}
                                             </option>
                                         @endforeach
                                     </select>
