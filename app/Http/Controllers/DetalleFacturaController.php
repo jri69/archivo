@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fifth_Partida;
-use App\Models\Partida;
-use App\Models\Quarter_Partida;
-use App\Models\SubPartida;
-use App\Models\Third_Partida;
+use App\Models\Detalle_Factura;
 use Illuminate\Http\Request;
 
 class DetalleFacturaController extends Controller
@@ -18,7 +14,10 @@ class DetalleFacturaController extends Controller
      */
     public function index($id)
     {
-        return view('detalle_factura.index', compact('id'));
+
+        $factura = Detalle_Factura::where('factura_id', '=', $id)->get();
+        //return $factura;
+        return view('detalle_factura.index', compact('factura', 'id'));
     }
 
     /**
@@ -28,12 +27,8 @@ class DetalleFacturaController extends Controller
      */
     public function create($id)
     {
-        $primero = Partida::all();
-        $segundo = SubPartida::all();
-        $tercero = Third_Partida::all();
-        $cuarto = Quarter_Partida::all();
-        $quinto = Fifth_Partida::all();
-        return view('detalle_factura.create', compact('id', 'primero', 'segundo', 'tercero', 'cuarto', 'quinto'));
+
+        return view('detalle_factura.create', compact('id'));
     }
 
     /**
@@ -42,9 +37,31 @@ class DetalleFacturaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+
+        $request->validate([
+            'primero' => 'required',
+            'segundo' => 'required',
+            'cantidad' => 'required',
+            'detalle' => 'required',
+            'precio_unitario' => 'required',
+            'subtotal' => 'required'
+        ]);
+
+        Detalle_Factura::create([
+            'factura_id' => $id,
+            'primero' => $request->primero,
+            'segundo' => $request->segundo,
+            'tercero' => $request->tercero,
+            'cuarto' => $request->cuarto,
+            'quinto' => $request->quinto,
+            'cantidad' => $request->cantidad,
+            'detalle' => $request->detalle,
+            'precio_unitario' => $request->precio_unitario,
+            'subtotal' => $request->subtotal
+        ]);
+        return redirect()->route('detalle_factura.index', compact('id'));
     }
 
     /**
@@ -66,7 +83,8 @@ class DetalleFacturaController extends Controller
      */
     public function edit($id)
     {
-        return view('detalle_factura.edit');
+        $detalle = Detalle_Factura::find($id);
+        return view('detalle_factura.edit', compact('id', 'detalle'));
     }
 
     /**
@@ -78,7 +96,29 @@ class DetalleFacturaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $detalle_factura = Detalle_Factura::find($id);
+        //return $detalle_factura;
+        $request->validate([
+            'primero' => 'required',
+            'segundo' => 'required',
+            'cantidad' => 'required',
+            'detalle' => 'required',
+            'precio_unitario' => 'required',
+            'subtotal' => 'required'
+        ]);
+
+        $detalle_factura->primero = $request->primero;
+        $detalle_factura->segundo = $request->segundo;
+        $detalle_factura->tercero = $request->tercero;
+        $detalle_factura->cuarto = $request->cuarto;
+        $detalle_factura->quinto = $request->quinto;
+        $detalle_factura->cantidad = $request->cantidad;
+        $detalle_factura->detalle = $request->detalle;
+        $detalle_factura->precio_unitario = $request->precio_unitario;
+        $detalle_factura->subtotal = $request->subtotal;
+        $detalle_factura->update();
+        $id = $detalle_factura->factura_id;
+        return redirect()->route('detalle_factura.index', compact('id'));
     }
 
     /**
@@ -89,6 +129,8 @@ class DetalleFacturaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $detalle_factura = Detalle_Factura::find($id);
+        $detalle_factura->delete();
+        return redirect()->route('detalle_factura.index', $id);
     }
 }

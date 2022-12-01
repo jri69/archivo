@@ -9,7 +9,7 @@ use App\Models\Quarter_Partida;
 use App\Models\SubPartida;
 use App\Models\Third_Partida;
 
-class Create extends Component
+class Edit extends Component
 {
     public $first = 1;
     public $second;
@@ -21,11 +21,11 @@ class Create extends Component
     public $listaCuarto = [];
     public $listaQuinto = [];
     public $id_factura;
+    public $detalle;
     public function segundo()
     {
         $this->listaSegundo = SubPartida::select('id', 'nombre', 'codigo')->where('partida_id', '=', $this->first)->get();
     }
-
     public function tercero()
     {
         $this->listaTercero = Third_Partida::where('second_partida_id', '=', $this->second)->get();
@@ -42,6 +42,7 @@ class Create extends Component
     public function render()
     {
         $id = $this->id_factura;
+        $detalle = $this->detalle;
         $primero = Partida::all();
         if ($this->listaSegundo == null) {
             $segundo = SubPartida::all();
@@ -63,6 +64,6 @@ class Create extends Component
         } else {
             $quinto = $this->listaQuinto;
         }
-        return view('livewire.factura.detalle-factura.create', compact('primero', 'segundo', 'tercero', 'cuarto', 'quinto', 'id'));
+        return view('livewire.factura.detalle-factura.edit', compact('primero', 'segundo', 'tercero', 'cuarto', 'quinto', 'id', 'detalle'));
     }
 }
