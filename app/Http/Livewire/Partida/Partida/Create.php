@@ -22,31 +22,31 @@ class Create extends Component
     }
     
     public function store(){
-        //dd($this->partida_id);
-        //$inicio = reset($this->datos);
-        //dd($inicio['nombre']);
+        
         $fin = end($this->datos);
         $this->validate([
             'partida_id'=>'required',
             'codigo'=>'required',
             'nombre'=>'required'            
         ]);
-        //dd($fin['id']);
-       //dd($this->datos[2]['nombre']);
        for ($a=1; $a <= $fin['id'] ; $a++) {
-            SubPartida::create([
+        $prueba = array_key_exists($a,$this->datos);
+        if($prueba){
+              SubPartida::create([
                 'partida_id'=> $this->partida_id,
                 'codigo'=> $this->datos[$a]['codigo'],
                 'nombre'=> $this->datos[$a]['nombre']
-            ]);
-       }
-       
+            ]); 
+         }
+         
+        }
+        
         return redirect()->route('subpartida.index');
     }
 
     public function del($id){
         
-        $remove = $this->datos[$id];        
+        $remove = $this->datos[$id];
         $this->datos = array_diff_key($this->datos, array_flip($remove));
         
     }

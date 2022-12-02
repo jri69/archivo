@@ -24,7 +24,7 @@
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Codigo:</b> </label>
                             <div class="col-sm-7">
                                 <input type="number" class="form-control"
-                                wire:model="codigo"
+                                wire:model.defer="codigo"
                                 name="codigo"
                                 value="{{ old('codigo') }}" autofocus
                                 >
@@ -40,7 +40,7 @@
                             <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b> </label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control"
-                                wire:model="nombre"
+                                wire:model.defer="nombre"
                                 name="nombre"
                                 value="{{ old('nombre') }}" autofocus
                                 >

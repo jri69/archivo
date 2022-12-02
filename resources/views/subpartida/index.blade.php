@@ -5,10 +5,10 @@
         <div class="container-fluid">
             <div class="{{ route('presupuesto.create') }}">
                 <div class="col-12 text-left">
-                    <a href="{{ route('subpartida.create') }}" class="btn btn-outline-primary btn-white">
+                    <a href="{{ route('subpartida.create') }}" class="btn btn-sm btn-primary">
                         <b>Agregar 2da partida</b> 
                     </a> 
-                    <a href="{{ route('partida.index') }}" style="margin-left:70%" class="btn btn-sm btn-primary">
+                    <a href="{{ route('partida.index') }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">keyboard_backspace</i>
                         atras</a>
                 </div>
