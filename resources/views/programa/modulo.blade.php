@@ -12,7 +12,7 @@
                     </a>
                     <a href="{{ route('programa.inscritos', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">update</i>
-                        <span class="sidebar-normal">Actualizar inscritos</span>
+                        <span class="sidebar-normal">Inscribir</span>
                     </a>
                     @if ($modulo->estado != 'Iniciado' && $modulo->estado != 'Finalizado')
                         <a href="{{ route('programa.init', [$programa->id, $modulo->id]) }}" class="btn btn-sm btn-primary">
@@ -96,7 +96,14 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">Inscritos</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" disabled value="{{ $inscritos }}">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

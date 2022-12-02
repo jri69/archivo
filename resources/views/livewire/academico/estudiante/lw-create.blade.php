@@ -102,8 +102,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <select class="form-control" name="id_programa"
-                                        wire:model.defer='datos.id_programa'>
+                                    <select class="form-control" name="id_programa" wire:model='datos.id_programa'>
                                         <option disabled value="">Seleccione el programa</option>
                                         @foreach ($programas as $programa)
                                             <option value="{{ $programa->id }}">

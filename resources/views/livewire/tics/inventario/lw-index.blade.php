@@ -9,7 +9,10 @@
                     </span>
                 </div>
             </div>
-            <div class="col text-right">
+            <div class="col text-right flex-d">
+                <a href="{{ route('solicitudes.create') }}" class="btn btn-outline-primary btn-white">
+                    <b>Nueva Solicitud</b>
+                </a>
                 <a href="{{ route('inventario.create') }}" class="btn btn-outline-primary btn-white">
                     <b>Agregar Producto</b>
                 </a>
