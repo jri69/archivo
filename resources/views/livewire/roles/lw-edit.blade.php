@@ -23,13 +23,42 @@
                                     <label class="bmd-label-floating">Permisos</label>
                                 </div>
                                 <div class="">
-                                    @foreach ($permissions as $key => $permission)
+                                    <label class="bmd-label"> <b>Permisos Administrativos</b></label><br>
+                                    @foreach ($administrativos as $key => $permission)
+                                        <label>
+                                            <input wire:model.defer='permisosV.{{ $permission->id }}' type="checkbox"
+                                                name="" id="" value="{{ $permission->id }}"
+                                                class="checkbox">
+                                            {{ $permission->description }} &nbsp;
+                                        </label>
+                                    @endforeach
+                                    <br> <br>
+                                    <label class="bmd-label"><b>Permisos Academicos</b></label><br>
+                                    @foreach ($academico as $key => $permission)
+                                        <label>
+                                            <input wire:model.defer='permisosV.{{ $permission->id }}' type="checkbox"
+                                                name="" id="" value="{{ $permission->id }}"
+                                                class="checkbox">
+                                            {{ $permission->description }} &nbsp;
+                                        </label>
+                                    @endforeach
+                                    <br> <br>
+                                    <label class="bmd-label"><b>Permisos Contables</b></label><br>
+                                    @foreach ($contables as $key => $permission)
+                                        <label>
+                                            <input wire:model.defer='permisosV.{{ $permission->id }}' type="checkbox"
+                                                name="" id="" value="{{ $permission->id }}"
+                                                class="checkbox">
+                                            {{ $permission->description }} &nbsp;
+                                        </label>
+                                    @endforeach
+                                    {{--                                     @foreach ($permissions as $key => $permission)
                                         <label>
                                             <input wire:model.defer='permisosV.{{ $permission->id }}' type="checkbox"
                                                 value="{{ $permission->id }}" class="checkbox">
                                             {{ $permission->description }} &nbsp;
                                         </label>
-                                    @endforeach
+                                    @endforeach --}}
                                 </div>
                             </div>
                         </div>

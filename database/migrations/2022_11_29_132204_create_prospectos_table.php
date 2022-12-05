@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
             $table->string('interes');
+            $table->string('grado_interes')->nullable();
             $table->text('observaciones');
             $table->string('estado')->nullable();
             $table->string('carrera')->nullable();

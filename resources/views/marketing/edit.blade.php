@@ -79,7 +79,23 @@
                                 </div>
                                 <div class="row">
                                     <div class="col" style="padding: 0px 0px">
-                                        <label for="nombre" class="col-sm-2 col-form-label"> <b> Estado:</b> </label>
+                                        <label for="nombre" class="col-sm-2 col-form-label"> Grado de interes:
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="radio" name="grado_interes" value="Alto"
+                                                {{ $prospecto->grado_interes == 'Alto' ? 'checked' : '' }}>
+                                            <span>Alto</span>
+
+                                            <input type="radio" name="grado_interes" value="Medio"
+                                                style='margin-left: 20px'
+                                                {{ $prospecto->grado_interes == 'Medio' ? 'checked' : '' }}>
+                                            <span>Medio</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="padding: 0px 0px">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> Estado:</label>
                                         <div class="col-sm-7">
                                             <input type="radio" name="estado" value="Prospecto"
                                                 {{ $prospecto->estado == 'Prospecto' ? 'checked' : '' }}>

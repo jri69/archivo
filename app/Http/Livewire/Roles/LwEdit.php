@@ -13,16 +13,35 @@ class LwEdit extends Component
     public $permisos;
     public $permisosV = [];
     public $permissions;
+    public $administrativos = [];
+    public $contables = [];
+    public $academico = [];
 
     public function mount($id)
     {
         $this->rol = Role::find($id);
         $this->name = $this->rol->name;
-        $this->permisos = $this->rol->getAllPermissions()->pluck('id')->toArray();
+        $this->permisos = $this->rol->getAllPermissions();
         foreach ($this->permisos as $permiso) {
-            $this->permisosV[$permiso] = $permiso;
+            switch ($permiso->type) {
+                case 'Administrativo':
+                    array_push($this->administrativos, $permiso);
+                    $this->permisosV[$permiso->id] = $permiso->id;
+                    break;
+                case 'Contabilidad':
+                    array_push($this->contables, $permiso);
+                    $this->permisosV[$permiso->id] = $permiso->id;
+                    break;
+                case 'Académico':
+                    array_push($this->academico, $permiso);
+                    $this->permisosV[$permiso->id] = $permiso->id;
+                    break;
+                default:
+                    break;
+            }
+            // $this->permisosV[$permiso] = $permiso;
         }
-        $this->permissions = Permission::orderBy('name')->get();
+        // $this->permissions = Permission::orderBy('name')->get();
     }
 
     public function add()

@@ -25,9 +25,11 @@ class MarketingController extends Controller
         $request->validate([
             'nombre' => 'required|string',
             'interes' => 'required|string',
+            'grado_interes' => 'required|string',
         ], [
             'nombre.required' => 'El nombre es requerido',
             'interes.required' => 'El interes es requerido',
+            'grado_interes.required' => 'El grado de interes es requerido',
         ]);
         $request->merge(['estado' => 'Prospecto']);
         Prospecto::create($request->all());
@@ -47,9 +49,11 @@ class MarketingController extends Controller
         $request->validate([
             'nombre' => 'required|string',
             'interes' => 'required|string',
+            'grado_interes' => 'required|string',
         ], [
             'nombre.required' => 'El nombre es requerido',
             'interes.required' => 'El interes es requerido',
+            'grado_interes.required' => 'El grado de interes es requerido',
         ]);
         $propsecto = Prospecto::findOrFail($id);
         $propsecto->update($request->all());

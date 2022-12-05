@@ -11,7 +11,7 @@
             </div>
             <div class="col text-right">
                 <a href="{{ route('marketing.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Propecto</b>
+                    <b>Agregar Prospecto</b>
                 </a>
             </div>
         </div>
@@ -25,7 +25,6 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary text-dark">
-                                    <th>#</th>
                                     <th>Nombre</th>
                                     <th>Contacto</th>
                                     <th>Estado</th>
@@ -37,7 +36,6 @@
                                 <tbody>
                                     @foreach ($prospectos as $prospecto)
                                         <tr>
-                                            <td>{{ $prospecto->id }} </td>
                                             <td>{{ $prospecto->nombre }}
                                                 <br>
                                                 <small class="">
@@ -51,8 +49,13 @@
                                                 </small>
                                             </td>
                                             <td>{{ $prospecto->estado }} </td>
-                                            <td>{{ $prospecto->interes }} </td>
-                                            <td>{{ $prospecto->observaciones }} </td>
+                                            <td>{{ $prospecto->grado_interes }} </td>
+                                            <td>{{ $prospecto->interes }}
+                                                <br>
+                                                <small class="">
+                                                    {{ 'Obs: ' . $prospecto->observaciones }}
+                                                </small>
+                                            </td>
                                             <td>{{ date('d-m-Y', strtotime($prospecto->created_at)) }}</td>
                                             <td class="td-actions">
                                                 @if ($prospecto->telefono)

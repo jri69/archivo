@@ -11,10 +11,16 @@ class LwCreate extends Component
     public $name;
     public $permisos = [];
     public $permissions;
+    public $academicos = [];
+    public $administrativos = [];
+    public $contables = [];
+    public $financieros = [];
 
     public function mount()
     {
-        $this->permissions = Permission::orderBy('name')->get();
+        $this->academicos = Permission::where('type',  'Académico')->orderBy('name')->get();
+        $this->administrativos = Permission::where('type',  'Administrativo')->orderBy('name')->get();
+        $this->contables = Permission::where('type',  'Contabilidad')->orderBy('name')->get();
     }
 
     public function save()

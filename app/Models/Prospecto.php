@@ -11,6 +11,7 @@ class Prospecto extends Model
     protected $fillable = [
         'nombre',
         'telefono',
+        'grado_interes',
         'email',
         'interes',
         'observaciones',
