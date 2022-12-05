@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventario;
+use App\Models\Tic;
 use Illuminate\Http\Request;
 
-class InventarioController extends Controller
+class TicController extends Controller
 {
     // Ver el inventario
     public function index()
     {
-        return view('inventario.index');
+        return view('tic.index');
     }
 
     // Interface para crear un inventario
     public function create()
     {
-        return view('inventario.create');
+        return view('tic.create');
     }
 
     // Guardar un inventario
@@ -49,17 +49,17 @@ class InventarioController extends Controller
                 'cantidad.numeric' => 'El campo cantidad debe ser de tipo numerico',
             ]
         );
-        $producto = Inventario::create($request->all());
-        return redirect()->route('inventario.index', $producto);
+        $producto = Tic::create($request->all());
+        return redirect()->route('tic.index', $producto);
     }
 
-    // Interface de edición de un inventario
-    public function edit(Inventario $inventario)
+    // Interface de edición de un tic
+    public function edit(Tic $tic)
     {
-        return view('inventario.edit', compact('inventario'));
+        return view('tic.edit', compact('tic'));
     }
 
-    // Actualizar un inventario
+    // Actualizar un tic
     public function update(Request $request, $id)
     {
         $request->validate(
@@ -90,16 +90,16 @@ class InventarioController extends Controller
                 'cantidad.numeric' => 'El campo cantidad debe ser de tipo numerico',
             ]
         );
-        $producto = Inventario::findOrFail($id);
+        $producto = Tic::findOrFail($id);
         $producto->update($request->all());
-        return redirect()->route('inventario.index');
+        return redirect()->route('tic.index');
     }
 
-    // Eliminar un inventario
+    // Eliminar un tic
     public function destroy($requisito)
     {
-        $requisito = Inventario::findOrFail($requisito);
+        $requisito = Tic::findOrFail($requisito);
         $requisito->delete();
-        return redirect()->route('inventario.index');
+        return redirect()->route('tic.index');
     }
 }

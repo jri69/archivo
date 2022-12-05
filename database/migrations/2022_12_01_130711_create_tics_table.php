@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('prospectos', function (Blueprint $table) {
+        Schema::create('tics', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('telefono')->nullable();
-            $table->string('email')->nullable();
-            $table->string('interes');
-            $table->string('grado_interes')->nullable();
-            $table->text('observaciones');
-            $table->string('estado')->nullable();
-            $table->string('carrera')->nullable();
+            $table->string('estado');
+            $table->string('tipo');
+            $table->string('modelo');
+            $table->integer('cantidad')->nullable();
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prospectos');
+        Schema::dropIfExists('tics');
     }
 };

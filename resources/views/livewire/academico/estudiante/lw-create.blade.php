@@ -102,17 +102,31 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <select class="form-control" name="id_programa"
-                                        wire:model.defer='datos.id_programa'>
+                                    <select class="form-control" name="id_programa" wire:model='datos.id_programa'>
                                         <option disabled value="">Seleccione el programa</option>
                                         @foreach ($programas as $programa)
                                             <option value="{{ $programa->id }}">
-                                                {{ $programa->nombre }}
+                                                {{ $programa->nombre . ' - ' . $programa->version . '.' . $programa->edicion }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 @error('datos.id_programa')
+                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="id_modulo" wire:model='datos.id_modulo'>
+                                        <option disabled value="">Seleccione el modulo</option>
+                                        @foreach ($listModulos as $modulo)
+                                            <option value="{{ $modulo->id }}">
+                                                {{ $modulo->nombre . ' - ' . $modulo->version . '.' . $modulo->edicion }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('datos.id_modulo')
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                 @enderror
                             </div>

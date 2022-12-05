@@ -3,7 +3,10 @@
 namespace App\Http\Livewire\Academico\Estudiante;
 
 use App\Models\Estudiante;
+use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
+use App\Models\Modulo;
+use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\Requisito;
 use App\Models\RequisitoEstudiante;
@@ -18,6 +21,7 @@ class LwCreate extends Component
     public $documentos = [];
     public $programas;
     public $requisitos;
+    public $listModulos = [];
 
     public function mount()
     {
@@ -29,6 +33,7 @@ class LwCreate extends Component
         $this->datos['expedicion'] = '';
         $this->datos['estado'] = '';
         $this->datos['id_programa'] = '';
+        $this->datos['id_modulo'] = '';
         // pedir todos los programas que aun estan en fechas de finalizacion disponible
         $date = date('Y-m-d');
         $this->programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
@@ -47,6 +52,7 @@ class LwCreate extends Component
                 'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.id_programa' => 'required|numeric',
+                'datos.id_modulo' => 'required|numeric',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -66,6 +72,7 @@ class LwCreate extends Component
                 'datos.universidad.required' => 'El campo universidad es obligatorio',
                 'datos.universidad.regex' => 'El campo universidad solo puede contener letras',
                 'datos.id_programa.required' => 'El campo programa es obligatorio',
+                'datos.id_modulo.required' => 'El campo modulo es obligatorio',
             ]
         );
         $estudiante = Estudiante::create([
@@ -82,6 +89,17 @@ class LwCreate extends Component
             EstudiantePrograma::create([
                 'id_estudiante' => $estudiante->id,
                 'id_programa' => $this->datos['id_programa'],
+            ]);
+            EstudianteModulo::create([
+                'id_estudiante' => $estudiante->id,
+                'id_modulo' => $this->datos['id_modulo'],
+            ]);
+            NotasPrograma::create([
+                'id_estudiante' => $estudiante->id,
+                'id_programa' => $this->datos['id_programa'],
+                'id_modulo' => $this->datos['id_modulo'],
+                'nota' => 0,
+                'observaciones' => '',
             ]);
         }
         if ($this->documentos) {
@@ -106,6 +124,11 @@ class LwCreate extends Component
 
     public function render()
     {
+        if ($this->datos['id_programa'] != '') {
+            $this->listModulos = Modulo::where('programa_id', $this->datos['id_programa'])->get();
+        } else {
+            $this->listModulos = [];
+        }
         return view('livewire.academico.estudiante.lw-create');
     }
 }

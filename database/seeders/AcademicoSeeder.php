@@ -209,6 +209,7 @@ class AcademicoSeeder extends Seeder
                 'email' => 'correo1@gmail.com',
                 'estado' => 'Prospecto',
                 'interes' =>  'Programa ' . $i + 1,
+                'grado_interes' => 'Alto',
                 'observaciones' => 'Quiere saber mas informacion sobre el programa ' . $i + 1,
             ]);
         }

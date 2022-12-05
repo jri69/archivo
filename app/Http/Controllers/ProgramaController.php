@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
@@ -62,31 +63,15 @@ class ProgramaController extends Controller
         $estudiante_programa = NotasPrograma::where('id_modulo', $modulo->id)
             ->where('id_programa', $programa->id)
             ->get();
-        return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
+        $inscritos = EstudianteModulo::where('id_modulo', $modulo->id)->get();
+        $inscritos = count($inscritos);
+        return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa', 'inscritos'));
     }
 
-    // Actualizar los estudiantes inscritos en el programa
+    // Actualizar los estudiantes inscritos en el modulo de programa
     public function actInscritos($programa, $modulo)
     {
-        $programa = Programa::findOrFail($programa);
-        $modulo = Modulo::findOrFail($modulo);
-        $estudiante_programa = EstudiantePrograma::where('id_programa', $programa->id)->get();
-        //sincronizar estudiantes inscritos en notas con estudiantes inscritos en programa
-        foreach ($estudiante_programa as $estudiante) {
-            $nota = NotasPrograma::where('id_modulo', $modulo->id)
-                ->where('id_programa', $programa->id)
-                ->where('id_estudiante', $estudiante->id_estudiante)->first();
-            if ($nota == null) {
-                NotasPrograma::create([
-                    'nota' => 0,
-                    'observaciones' => '',
-                    'id_estudiante' => $estudiante->id_estudiante,
-                    'id_programa' => $programa->id,
-                    'id_modulo' => $modulo->id
-                ]);
-            }
-        }
-        return redirect()->route('programa.modulo', [$programa->id, $modulo->id]);
+        return view('programa.inscribir', compact('modulo', 'programa'));
     }
 
     // Actualizar las notas de los estudiantes

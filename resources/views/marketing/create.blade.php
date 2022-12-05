@@ -73,6 +73,21 @@
                                 </div>
                                 <br>
                                 <div class="row">
+                                    <div class="col" style="padding: 0px 0px">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> Grado de interes:
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="radio" name="grado_interes" value="Alto" checked>
+                                            <span>Alto</span>
+
+                                            <input type="radio" name="grado_interes" value="Medio"
+                                                style='margin-left: 20px'>
+                                            <span>Medio</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Observaciones</label>

@@ -34,9 +34,11 @@ use App\Http\Controllers\RecepcionController;
 use App\Http\Controllers\RequisitosController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\SubPartidaController;
 use App\Http\Controllers\SueldosController;
 use App\Http\Controllers\ThirdPartidaController;
+use App\Http\Controllers\TicController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\UnidadOrganizacionalController;
@@ -188,18 +190,17 @@ Route::group(['prefix' => 'pago', 'middleware' => ['can:pago.index', 'auth']], f
 Route::group(['prefix' => 'programa', 'middleware' => ['can:programa.index', 'auth']], function () {
     Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
     Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
+    Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
+    Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
+    Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
     Route::get('/show/modulo/init/{programa}/{modulo}', [ProgramaController::class, 'init'])->name('programa.init');
-    Route::get('/show/modulo/{programa}/{modulo}', [ProgramaController::class, 'modulo'])->name('programa.modulo');
     Route::get('/show/modulo/notas/{programa}/{modulo}', [ProgramaController::class, 'notas'])->name('programa.notas');
     Route::get('/show/modulo/inscritos/{programa}/{modulo}', [ProgramaController::class, 'actInscritos'])->name('programa.inscritos');
-
-    Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
-    Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
-    Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
+    Route::get('/show/modulo/{programa}/{modulo}', [ProgramaController::class, 'modulo'])->name('programa.modulo');
 });
 
 // TIC'S
-Route::group(['prefix' => 'tics', 'middleware' => ['can:inventario.index', 'auth']], function () {
+Route::group(['prefix' => 'inventario', 'middleware' => ['can:inventario.index', 'auth']], function () {
     Route::get('/index', [InventarioController::class, 'index'])->name('inventario.index');
     Route::get('/create', [InventarioController::class, 'create'])->name('inventario.create');
     Route::post('/store', [InventarioController::class, 'store'])->name('inventario.store');
@@ -434,4 +435,26 @@ Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
     Route::get('/show/{marketing}', [MarketingController::class, 'show'])->name('marketing.show');
     Route::put('/update/{marketing}', [MarketingController::class, 'update'])->name('marketing.update');
     Route::delete('/delete/{marketing}', [MarketingController::class, 'destroy'])->name('marketing.delete');
+});
+
+// Tic
+Route::group(['prefix' => 'tic', 'middleware' => ['auth']], function () {
+    Route::get('/', [TicController::class, 'index'])->name('tic.index');
+    Route::get('/create', [TicController::class, 'create'])->name('tic.create');
+    Route::post('/store', [TicController::class, 'store'])->name('tic.store');
+    Route::get('/edit/{tic}', [TicController::class, 'edit'])->name('tic.edit');
+    Route::get('/show/{tic}', [TicController::class, 'show'])->name('tic.show');
+    Route::put('/update/{tic}', [TicController::class, 'update'])->name('tic.update');
+    Route::delete('/delete/{tic}', [TicController::class, 'destroy'])->name('tic.delete');
+});
+
+// Solicitudes
+Route::group(['prefix' => 'solicitudes', 'middleware' => ['auth']], function () {
+    Route::get('/', [SolicitudController::class, 'index'])->name('solicitudes.index');
+    Route::get('/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
+    Route::post('/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
+    Route::get('/edit/{solicitudes}', [SolicitudController::class, 'edit'])->name('solicitudes.edit');
+    Route::get('/show/{solicitudes}', [SolicitudController::class, 'show'])->name('solicitudes.show');
+    Route::put('/update/{solicitudes}', [SolicitudController::class, 'update'])->name('solicitudes.update');
+    Route::delete('/delete/{solicitudes}', [SolicitudController::class, 'destroy'])->name('solicitudes.delete');
 });

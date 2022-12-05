@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventario;
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
 
-class InventarioController extends Controller
+class SolicitudController extends Controller
 {
-    // Ver el inventario
+    // Ver las Solicitudes
     public function index()
     {
-        return view('inventario.index');
+        return view('solicitud.index');
     }
 
-    // Interface para crear un inventario
+    // Interface para crear una Solicitud
     public function create()
     {
-        return view('inventario.create');
+        return view('solicitud.create');
     }
 
-    // Guardar un inventario
+    // Guardar una Solicitud
     public function store(Request $request)
     {
         $request->validate(
@@ -49,17 +49,17 @@ class InventarioController extends Controller
                 'cantidad.numeric' => 'El campo cantidad debe ser de tipo numerico',
             ]
         );
-        $producto = Inventario::create($request->all());
-        return redirect()->route('inventario.index', $producto);
+        $producto = Solicitud::create($request->all());
+        return redirect()->route('Solicitud.index', $producto);
     }
 
-    // Interface de edición de un inventario
-    public function edit(Inventario $inventario)
+    // Interface de edición de una Solicitud
+    public function edit(Solicitud $Solicitud)
     {
-        return view('inventario.edit', compact('inventario'));
+        return view('solicitud.edit', compact('Solicitud'));
     }
 
-    // Actualizar un inventario
+    // Actualizar un Solicitud
     public function update(Request $request, $id)
     {
         $request->validate(
@@ -90,16 +90,16 @@ class InventarioController extends Controller
                 'cantidad.numeric' => 'El campo cantidad debe ser de tipo numerico',
             ]
         );
-        $producto = Inventario::findOrFail($id);
+        $producto = Solicitud::findOrFail($id);
         $producto->update($request->all());
-        return redirect()->route('inventario.index');
+        return redirect()->route('solicitud.index');
     }
 
-    // Eliminar un inventario
+    // Eliminar un Solicitud
     public function destroy($requisito)
     {
-        $requisito = Inventario::findOrFail($requisito);
+        $requisito = Solicitud::findOrFail($requisito);
         $requisito->delete();
-        return redirect()->route('inventario.index');
+        return redirect()->route('solicitud.index');
     }
 }

@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Prospecto extends Model
+class Tic extends Model
 {
     use HasFactory;
     protected $fillable = [
         'nombre',
-        'telefono',
-        'grado_interes',
-        'email',
-        'interes',
-        'observaciones',
         'estado',
-        'carrera'
+        'observaciones',
+        'tipo',
+        'modelo',
+        'cantidad',
     ];
 }

@@ -9,12 +9,9 @@
                     </span>
                 </div>
             </div>
-            <div class="col text-right flex-d">
-                <a href="{{ route('solicitudes.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Nueva Solicitud</b>
-                </a>
-                <a href="{{ route('inventario.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Producto</b>
+            <div class="col text-right">
+                <a href="{{ route('tic.create') }}" class="btn btn-outline-primary btn-white">
+                    <b>Agregar Equipo</b>
                 </a>
             </div>
         </div>
@@ -23,7 +20,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Listado de productos</h4>
+                        <h4>Listado de equipos</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -49,13 +46,13 @@
                                             <td>{{ $producto->estado }}</td>
                                             <td>{{ $producto->observaciones }}</td>
                                             <td class="td-actions">
-                                                <a href="{{ route('inventario.edit', $producto->id) }}"
+                                                <a href="{{ route('tic.edit', $producto->id) }}"
                                                     class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
 
                                                 </a>
-                                                <form action="{{ route('inventario.delete', $producto->id) }}"
-                                                    method="POST" style="display: inline-block;"
+                                                <form action="{{ route('tic.delete', $producto->id) }}" method="POST"
+                                                    style="display: inline-block;"
                                                     onsubmit="return confirm('¿Está seguro?')">
                                                     @csrf
                                                     @method('DELETE')
