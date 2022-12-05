@@ -115,6 +115,21 @@
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="id_modulo" wire:model='datos.id_modulo'>
+                                        <option disabled value="">Seleccione el modulo</option>
+                                        @foreach ($listModulos as $modulo)
+                                            <option value="{{ $modulo->id }}">
+                                                {{ $modulo->nombre . ' - ' . $modulo->version . '.' . $modulo->edicion }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('datos.id_modulo')
+                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
                         <br>
 
