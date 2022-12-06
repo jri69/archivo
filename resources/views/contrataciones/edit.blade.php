@@ -62,6 +62,30 @@
                                             <span class="error text-danger" for="input-honorario">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">Nro. de preventiva</label>
+                                            <input type="text" class="form-control" name="nro_preventiva"
+                                                placeholder="Nro. de preventiva" value="{{ $contrato->nro_preventiva }}">
+                                        </div>
+                                        @error('nro_preventiva')
+                                            <span class="error text-danger"
+                                                for="input-nro_preventiva">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2"> <b> Pagado:</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="radio" name="pagado" value="true"
+                                            {{ $contrato->pagado ? 'checked' : '' }}>
+                                        <span>Si</span>
+                                        <input type="radio" name="pagado" value="false" style="margin-left: 15px"
+                                            {{ !$contrato->pagado ? 'checked' : '' }}>
+                                        <span>No</span>
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="row">

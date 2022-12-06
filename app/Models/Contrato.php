@@ -14,6 +14,7 @@ class Contrato extends Model
         'fecha_final',
         'horarios',
         'pagado',
+        'nro_preventiva',
         'honorario'
     ];
 

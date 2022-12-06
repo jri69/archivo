@@ -55,7 +55,19 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="nombre" class="col-sm-2 col-form-label"> <b> Pago:</b> </label>
+                            <label for="nombre" class="col-sm-2 col-form-label"> <b> Nro de preventiva:</b>
+                            </label>
+                            <div class="col-sm-7">
+                                <input type="number" class="form-control" name="nro_preventiva"
+                                    placeholder="Numero de preventiva" wire:model.defer="datos.nro_preventiva">
+                                @error('datos.nro_preventiva')
+                                    <span class="error text-danger" for="input-nro_preventiva">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label for="nombre" class="col-sm-2 col-form-label"> <b> Horario:</b> </label>
                             <div class="col-sm-7">
                                 <textarea class="form-control" name="horarios" rows="3" wire:model.defer='datos.horarios' placeholder="Horario"></textarea>
 

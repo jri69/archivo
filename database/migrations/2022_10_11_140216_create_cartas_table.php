@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('cartas', function (Blueprint $table) {
             $table->id();
             $table->string('codigo_admi')->nullable();
+            $table->string('contrato_admi')->nullable();
             $table->date('fecha');
             $table->date('fecha_plazo')->nullable();
-            $table->unsignedBigInteger('tipo_id');
+            $table->unsignedBigInteger('tipo_id')->nullable();
             $table->foreign('tipo_id')->references('id')->on('tipo_cartas')->onDelete('cascade');
-            $table->unsignedBigInteger('contrato_id');
+            $table->unsignedBigInteger('contrato_id')->nullable();
             $table->foreign('contrato_id')->references('id')->on('contratos')->onDelete('cascade');
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('fecha_final');
             $table->text('horarios')->nullable();
             $table->boolean('pagado')->default(false);
-
+            $table->string('nro_preventiva')->nullable();
             // foreing key con modulo
             $table->foreignId('modulo_id')->constrained('modulos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

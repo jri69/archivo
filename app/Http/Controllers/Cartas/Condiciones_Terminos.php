@@ -76,8 +76,8 @@ class Condiciones_Terminos extends Fpdf
             }
         }
         $docente_nombre = $docente->nombre . ' ' . $docente->apellido;
-        $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
-        $programa = Programa::find($id_programa);
+        // $id_programa = ProgramaModulo::where('id_modulo', $modulo->id)->first()->id_programa;
+        $programa = Programa::find($modulo->programa_id);
         $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
         $name_programa =  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
 

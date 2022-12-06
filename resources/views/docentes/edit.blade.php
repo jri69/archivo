@@ -16,11 +16,16 @@
                                             <label class="bmd-label-floating">Honorifico</label>
                                             <select name="honorifico" id="_honorifico" class="form-control"
                                                 value='{{ $docente->honorifico }}'>
-                                                <option disabled selected>Seleccione el honorifico</option>
-                                                <option value="Lic">Lic</option>
-                                                <option value="Ing">Ing</option>
-                                                <option value="MsC">MsC</option>
-                                                <option value="PhD">PhD</option>
+                                                <option disabled>Seleccione el honorifico</option>
+                                                <option value="Lic"
+                                                    {{ $docente->honorifico == 'Lic' ? 'selected' : '' }}>
+                                                    Lic</option>
+                                                <option value="Ing"
+                                                    {{ $docente->honorifico == 'Ing' ? 'selected' : '' }}>Ing</option>
+                                                <option value="MsC"
+                                                    {{ $docente->honorifico == 'MsC' ? 'selected' : '' }}>MsC</option>
+                                                <option value="PhD"
+                                                    {{ $docente->honorifico == 'PhD' ? 'selected' : '' }}>PhD</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('honorifico'))
@@ -76,7 +81,8 @@
                                         <div class="form-group">
                                             <select class="form-control" name="expedicion">
                                                 <option disabled value="">Seleccione la expedición</option>
-                                                <option {{ $docente->expedicion == 'TJ' ? 'selected' : '' }} value="TJ">
+                                                <option {{ $docente->expedicion == 'TJ' ? 'selected' : '' }}
+                                                    value="TJ">
                                                     TJ</option>
                                                 <option {{ $docente->expedicion == 'SC' ? 'selected' : '' }}
                                                     value="SC">SC</option>
@@ -128,44 +134,24 @@
                                     </div>
                                 </div>
                                 <br>
-
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Facturacion</label>
-                                            <div class="form-check form-check-radio col-md-2">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="facturacion"
-                                                        id="exampleRadios1" value="true"
-                                                        {{ $docente->facturacion ? 'checked' : '' }}>
-                                                    Si
-                                                    <span class="circle">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-radio col-md-2">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="facturacion"
-                                                        id="exampleRadios2" value="false"
-                                                        {{ !$docente->facturacion ? 'checked' : '' }}>
-                                                    No
-                                                    <span class="circle">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        @if ($errors->has('facturacion'))
-                                            <span class="error text-danger"
-                                                for="input-facturacion">{{ $errors->first('facturacion') }}</span>
-                                        @endif
+                                    <label for="nombre" class="col-sm-2"> <b> Facturacion</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="radio" name="facturacion" value="true"
+                                            {{ $docente->facturacion ? 'checked' : '' }}>
+                                        <span>Si</span>
+                                        <input type="radio" name="facturacion" value="false" style="margin-left: 15px"
+                                            {{ !$docente->facturacion ? 'checked' : '' }}>
+                                        <span>No</span>
                                     </div>
-                                    <div class="col-md-6">
-
-                                    </div>
+                                    @if ($errors->has('facturacion'))
+                                        <span class="error text-danger"
+                                            for="input-facturacion">{{ $errors->first('facturacion') }}</span>
+                                    @endif
                                 </div>
                                 <br>
+
                             </div>
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">
