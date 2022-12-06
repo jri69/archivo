@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('interes');
             $table->string('grado_interes')->nullable();
-            $table->text('observaciones');
+            $table->text('observaciones')->nullable();
             $table->string('estado')->nullable();
             $table->string('carrera')->nullable();
             $table->timestamps();
