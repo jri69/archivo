@@ -57,22 +57,7 @@ class EstudianteController extends Controller
     public function newprogram($estudiante)
     {
         $estudiante = Estudiante::findOrFail($estudiante);
-        $programaEstudiante = EstudiantePrograma::where('id_estudiante', $estudiante->id)->get();
-        $idProgramas = $programaEstudiante->pluck('id_programa')->toArray();
-        $programas = Programa::whereNotIn('id', $idProgramas)
-            ->where('fecha_finalizacion', '>=', now())
-            ->get();
-        return view('estudiante.newprogram', compact('estudiante', 'programas'));
-    }
-
-    // Guardar el nuevo programa del estudiante
-    public function storenewprogram(Request $request, $estudiante)
-    {
-        EstudiantePrograma::create([
-            'id_estudiante' => $estudiante,
-            'id_programa' => $request->id_programa,
-        ]);
-        return redirect()->route('estudiante.show', $estudiante);
+        return view('estudiante.newprogram', compact('estudiante'));
     }
 
     // Ver las notas de los módulos de un programa

@@ -62,11 +62,15 @@ class ContratacionesController extends Controller
             'fecha_final' => 'required',
             'honorario' => 'required',
             'horarios' => 'required',
+            'nro_preventiva' => 'required',
+            'pagado' => 'required'
         ], [
             'fecha_inicio.required' => 'La fecha de inicio es requerida',
             'fecha_fin.required' => 'La fecha de fin es requerida',
             'honorarios.required' => 'Los honorarios son requeridos',
             'horarios.required' => 'Los horarios son requeridos',
+            'nro_preventiva.required' => 'El número de preventiva es requerido',
+            'pagado.required' => 'El campo pagado es requerido'
         ]);
         $contrato = Contrato::findOrFail($id);
         $contrato->update($request->all());

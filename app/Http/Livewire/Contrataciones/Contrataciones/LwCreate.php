@@ -42,6 +42,7 @@ class LwCreate extends Component
             'datos.fecha_final' => 'required|date',
             'datos.horarios' => 'required|string',
             'datos.honorario' => 'required|string',
+            'datos.nro_preventiva' => 'required|string',
         ], [
             'datos.modulo_id.required' => 'El campo módulo es obligatorio',
             'datos.modulo_id.numeric' => 'El campo módulo debe ser un número',
@@ -53,6 +54,7 @@ class LwCreate extends Component
             'datos.horarios.string' => 'El campo horarios debe ser un texto',
             'datos.honorario.required' => 'El campo honorario es obligatorio',
             'datos.honorario.string' => 'El campo honorario debe ser un texto',
+            'datos.nro_preventiva.required' => 'El campo número de preventiva es obligatorio',
         ]);
         $this->datos['pagado'] = false;
         Contrato::create($this->datos);

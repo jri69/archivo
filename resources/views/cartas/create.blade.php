@@ -24,6 +24,22 @@
                                     </div>
                                     <br>
                                 @endif
+                                @if ($contrato_admi)
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label">
+                                            <b>Contrato administrativo*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="contrato_admi"
+                                                placeholder="Contrato administrativo">
+                                            @if ($errors->has('contrato_admi'))
+                                                <span class="error text-danger"
+                                                    for="input-contrato_admi">{{ $errors->first('contrato_admi') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                @endif
                                 <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha*</b>
                                     </label>
@@ -187,9 +203,10 @@
                                                                         * Mayor o igual a 3 años (10 puntos)
                                                                     </td>
                                                                     <td>
-                                                                        <input type="number" name="experiencia_especifica"
-                                                                            min="0" max="23" required
-                                                                            class="form-control" placeholder="0">
+                                                                        <input type="number"
+                                                                            name="experiencia_especifica" min="0"
+                                                                            max="23" required class="form-control"
+                                                                            placeholder="0">
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

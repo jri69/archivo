@@ -149,9 +149,10 @@ class AcademicoSeeder extends Seeder
                 'fecha_inicio' => now(),
                 'fecha_final' => '2022/12/10',
                 'horarios' => 'Lunes 8:00-10:00, Martes 8:00-10:00, Miercoles 8:00-10:00',
-                'pagado' => $i % 2 == 0 ? true : false,
+                'pagado' => 'true',
                 'honorario' => rand(5000, 10000),
                 'modulo_id' => rand(1, 500),
+                'nro_preventiva' => 1086,
             ]);
         }
         $estudiante = Estudiante::create([
