@@ -9,6 +9,24 @@
                     </span>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group label-floating has-success">
+                    <input type="month" class="form-control" wire:model='date'>
+                </div>
+            </div>
+            <div class="col" style="margin-left: 20px">
+                <div class="form-group label-floating has-success" style="padding-top: 10px">
+                    <label for="" style="margin-right: 10px">Interes: </label>
+                    <input type="radio" name="grado_interes" value="Alto" checked wire:model='grado'>
+                    <span>Alto</span>
+                    <input type="radio" name="grado_interes" value="Medio" style='margin-left: 10px'
+                        wire:model='grado'>
+                    <span>Medio</span>
+                    <input type="radio" name="grado_interes" value="" style='margin-left: 10px'
+                        wire:model='grado'>
+                    <span>Todo</span>
+                </div>
+            </div>
             <div class="col text-right">
                 <a href="{{ route('marketing.create') }}" class="btn btn-outline-primary btn-white">
                     <b>Agregar Prospecto</b>
@@ -56,7 +74,8 @@
                                                     {{ 'Obs: ' . $prospecto->observaciones }}
                                                 </small>
                                             </td>
-                                            <td>{{ date('d-m-Y', strtotime($prospecto->created_at)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($prospecto->created_at)) }}
+                                            </td>
                                             <td class="td-actions">
                                                 @if ($prospecto->telefono)
                                                     <a aria-label="Chat on WhatsApp"
