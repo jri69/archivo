@@ -9,10 +9,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col text-right">
-                <a href="{{ route('solicitudes.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Solicitud</b>
-                </a>
+            <div class="col">
             </div>
         </div>
 
@@ -28,9 +25,8 @@
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
                                     <th>Solicitante</th>
-                                    <th>Equipo</th>
-                                    <th>Cantidad</th>
                                     <th>Estado</th>
+                                    <th>Fecha</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
@@ -38,14 +34,12 @@
                                         <tr>
                                             <td>{{ $solicitud->id }} </td>
                                             <td>{{ $solicitud->name }}</td>
-                                            <td>{{ $solicitud->nombre }}</td>
-                                            <td>{{ $solicitud->cantidad }}</td>
                                             <td>{{ $solicitud->estado }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($solicitud->created_at)) }}</td>
                                             <td class="td-actions">
                                                 <a href="{{ route('solicitudes.show', $solicitud->id) }}"
                                                     class="btn btn-primary">
-                                                    <span class="material-icons">show</span>
-
+                                                    <span class="material-icons">visibility</span>
                                                 </a>
                                                 <form action="{{ route('solicitudes.delete', $solicitud->id) }}"
                                                     method="POST" style="display: inline-block;"

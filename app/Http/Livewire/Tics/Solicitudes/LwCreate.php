@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Tics\Solicitudes;
 
 use App\Models\Inventario;
 use App\Models\Solicitud;
+use App\Models\SolicitudInv;
 use Livewire\Component;
 
 class LwCreate extends Component
@@ -30,20 +31,29 @@ class LwCreate extends Component
                 return;
             }
         }
+        $solicitud = Solicitud::create([
+            'user_id' => auth()->user()->id,
+            'estado' => 'Pendiente',
+        ]);
         foreach ($this->solicitud as $key => $cantidad) {
-            Solicitud::create([
-                'tic_id' => $key,
-                'user_id' => auth()->user()->id,
-                'estado' => 'Pendiente',
+            SolicitudInv::create([
+                'inventario_id' => $key,
+                'solicitud_id' => $solicitud->id,
                 'cantidad' => $cantidad,
             ]);
+            $equipo = Inventario::find($key);
+            $equipo->cantidad -= $cantidad;
+            $equipo->save();
         }
-        return redirect()->route('programa.modulo', [$this->programa, $this->modulo]);
+        return redirect()->route('inventario.index');
     }
 
     public function render()
     {
-        $equipos = Inventario::where('nombre', 'like', '%' . $this->attribute . '%')->orderBy($this->sort, $this->direction)->paginate(10);
+        $equipos = Inventario::where('nombre', 'ILIKE', '%' . $this->attribute . '%')
+            ->where('cantidad', '>', 0)
+            ->orderBy($this->sort, $this->direction)
+            ->paginate(10);
         return view('livewire.tics.solicitudes.lw-create', compact('equipos'));
     }
 }

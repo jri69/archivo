@@ -453,8 +453,7 @@ Route::group(['prefix' => 'solicitudes', 'middleware' => ['auth']], function () 
     Route::get('/', [SolicitudController::class, 'index'])->name('solicitudes.index');
     Route::get('/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
     Route::post('/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
-    Route::get('/edit/{solicitudes}', [SolicitudController::class, 'edit'])->name('solicitudes.edit');
+    Route::get('/confirmar/{id}', [SolicitudController::class, 'confirmar'])->name('solicitudes.confirmar');
     Route::get('/show/{solicitudes}', [SolicitudController::class, 'show'])->name('solicitudes.show');
-    Route::put('/update/{solicitudes}', [SolicitudController::class, 'update'])->name('solicitudes.update');
     Route::delete('/delete/{solicitudes}', [SolicitudController::class, 'destroy'])->name('solicitudes.delete');
 });

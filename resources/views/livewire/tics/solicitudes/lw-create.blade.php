@@ -40,7 +40,7 @@
                                     <th>Equipo</th>
                                     <th>Modelo</th>
                                     <th>Tipo</th>
-                                    <th>Cantidad</th>
+                                    <th>Stock</th>
                                     <th>Solicito</th>
                                 </thead>
                                 <tbody>
@@ -54,7 +54,7 @@
                                             <td>
                                                 <input type="number" min="0" max="{{ $equipo->cantidad }}"
                                                     wire:model.defer="solicitud.{{ $equipo->id }}"
-                                                    class="form-control">
+                                                    class="form-control" placeholder="Cantidad">
                                                 <!--mostrar errores de validacion-->
                                                 @if ($errorValidation && $idError == $equipo->id)
                                                     <div class="error text-danger">
