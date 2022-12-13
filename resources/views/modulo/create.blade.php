@@ -62,6 +62,18 @@
                                 </div>
                                 <br>
                                 <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Hrs Academicas:</b> </label>
+                                    <div class="col-sm-7">
+                                        <input type="number" class="form-control" name="hrs_academicas"
+                                            placeholder="Horas Academicas">
+                                        @if ($errors->has('hrs_academicas'))
+                                            <span class="error text-danger"
+                                                for="input-hrs_academicas">{{ $errors->first('hrs_academicas') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Sigla:</b> </label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="sigla" placeholder="Sigla">

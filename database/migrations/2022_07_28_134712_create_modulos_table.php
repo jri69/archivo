@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('version', 5);
             $table->string('edicion', 5);
             $table->double('costo');
+            $table->integer('hrs_academicas');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
             $table->unsignedBigInteger('programa_id')->nullable();
