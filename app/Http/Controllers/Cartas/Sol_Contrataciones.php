@@ -149,7 +149,7 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Apertura programática: 14.00.13'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Partida Presupuestaria: 25210'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Fuente de Financiamiento:202-230 (Recurso Propio)'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Plazo del servicio: ' . $programa->hrs_academicas . ' Horas Académicas.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Plazo del servicio: ' . $modulo->hrs_academicas . ' Horas Académicas.'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Forma de Adjudicación: Total a pagar.'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Método de selección y adjudicación: Presupuesto Fijo.'), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space - 1, utf8_decode('Lugar del servicio: Escuela de Ingeniería - F.C.E.T.'), 0, 'L', 0);

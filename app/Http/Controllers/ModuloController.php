@@ -39,6 +39,7 @@ class ModuloController extends Controller
                 'id_programa' => 'required|numeric',
                 'docente_id' => 'required|numeric',
                 'modalidad' => 'required|string',
+                'hrs_academicas' => 'required|numeric',
             ],
             [
                 'nombre.required' => 'El nombre es requerido',
@@ -50,6 +51,7 @@ class ModuloController extends Controller
                 'id_programa.required' => 'El programa es requerido',
                 'docente_id.required' => 'El docente es requerido',
                 'modalidad.required' => 'La modalidad es requerida',
+                'hrs_academicas.required' => 'Las horas académicas son requeridas',
             ]
         );
         $modulos = Modulo::where('programa_id', $request->id_programa)->get();
@@ -74,6 +76,7 @@ class ModuloController extends Controller
             'docente_id' => $request->docente_id,
             'modalidad' => $request->modalidad,
             'programa_id' => $request->id_programa,
+            'hrs_academicas' => $request->hrs_academicas,
         ]);
         ProgramaCalendar::create([
             'title' => $modulo->nombre . ' - ' . $programa->sigla,
@@ -116,6 +119,7 @@ class ModuloController extends Controller
                 'fecha_inicio' => 'required|date',
                 'fecha_final' => 'required|date',
                 'modalidad' => 'required|string',
+                'hrs_academicas' => 'required|numeric',
             ],
             [
                 'nombre.required' => 'El nombre es requerido',
@@ -124,9 +128,8 @@ class ModuloController extends Controller
                 'edicion.required' => 'La edición es requerida',
                 'fecha_inicio.required' => 'La fecha de inicio es requerida',
                 'fecha_final.required' => 'La fecha final es requerida',
-                'id_programa.required' => 'El programa es requerido',
-                'docente_id.required' => 'El docente es requerido',
                 'modalidad.required' => 'La modalidad es requerida',
+                'hrs_academicas.required' => 'Las horas académicas son requeridas',
             ]
         );
         $modulo = Modulo::findOrFail($id);
