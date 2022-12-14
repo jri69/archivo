@@ -15,7 +15,9 @@ class Contrato extends Model
         'horarios',
         'pagado',
         'nro_preventiva',
-        'honorario'
+        'honorario',
+        'comprobante',
+        'dir_comprobante',
     ];
 
     public function modulo()
