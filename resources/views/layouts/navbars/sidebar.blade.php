@@ -19,12 +19,14 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
-            <li class="nav-item{{ $activePage == 'marketing' ? ' active' : '' }}">
-                <a class="nav-link" href="{{ route('marketing.index') }}">
-                    <i class="material-icons">addchart</i>
-                    <p>{{ __('Marketing') }}</p>
-                </a>
-            </li>
+            @can('marketing.index')
+                <li class="nav-item{{ $activePage == 'marketing' ? ' active' : '' }}">
+                    <a class="nav-link" href="{{ route('marketing.index') }}">
+                        <i class="material-icons">addchart</i>
+                        <p>{{ __('Marketing') }}</p>
+                    </a>
+                </li>
+            @endcan
             @can('calendario.index')
                 <li class="nav-item{{ $activePage == 'calendar' ? ' active' : '' }}">
                     <a class="nav-link" href="{{ route('calendario.index') }}">
@@ -213,7 +215,9 @@
             @endif
 
             @if (auth()->user()->can('inventario.index') ||
-                auth()->user()->can('activo.index'))
+                auth()->user()->can('activo.index') ||
+                auth()->user()->can('solictud.index') ||
+                auth()->user()->can('tic.index'))
                 <li
                     class="nav-item {{ $activePage == 'inventario' || $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Tics" aria-expanded="false">
@@ -223,14 +227,16 @@
                         </p>
                     </a>
                     <div class="collapse" id="Tics">
-                        <ul class="nav">
-                            <li class="nav-item{{ $activePage == 'solicitudes' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('solicitudes.index') }}">
-                                    <span class="sidebar-mini"> SC </span>
-                                    <span class="sidebar-normal">{{ __('Solicitudes') }} </span>
-                                </a>
-                            </li>
-                        </ul>
+                        @can('solicitudes.index')
+                            <ul class="nav">
+                                <li class="nav-item{{ $activePage == 'solicitudes' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('solicitudes.index') }}">
+                                        <span class="sidebar-mini"> SC </span>
+                                        <span class="sidebar-normal">{{ __('Solicitudes') }} </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
                         @can('inventario.index')
                             <ul class="nav">
                                 <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
@@ -241,14 +247,16 @@
                                 </li>
                             </ul>
                         @endcan
-                        <ul class="nav">
-                            <li class="nav-item{{ $activePage == 'tic' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('tic.index') }}">
-                                    <span class="sidebar-mini"> TC </span>
-                                    <span class="sidebar-normal">{{ __('TIC') }} </span>
-                                </a>
-                            </li>
-                        </ul>
+                        @can('tic.index')
+                            <ul class="nav">
+                                <li class="nav-item{{ $activePage == 'tic' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('tic.index') }}">
+                                        <span class="sidebar-mini"> TC </span>
+                                        <span class="sidebar-normal">{{ __('TIC') }} </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endcan
                         @can('activo.index')
                             <ul class="nav">
                                 <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">

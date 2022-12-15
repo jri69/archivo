@@ -36,7 +36,8 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::findOrFail($modulo);
         $requisitos = RequisitoEstudiante::where('id_estudiante', $modulo)->get();
         foreach ($requisitos as $requisito) {
-            Storage::delete($requisito->dir);
+            $dir = substr($requisito->dir, 8);
+            Storage::disk('public')->delete($dir);
             $requisito->delete();
         }
         $estudiante->delete();
@@ -74,7 +75,9 @@ class EstudianteController extends Controller
     public function deleteFile($id)
     {
         $archivo = RequisitoEstudiante::findOrFail($id);
-        Storage::delete($archivo->dir);
+        $dir = substr($archivo->dir, 8);
+        Storage::disk('public')->delete($dir);
+        // Storage::delete($archivo->dir);
         $archivo->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');
     }

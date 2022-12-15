@@ -199,9 +199,31 @@ Route::group(['prefix' => 'programa', 'middleware' => ['can:programa.index', 'au
     Route::get('/show/modulo/{programa}/{modulo}', [ProgramaController::class, 'modulo'])->name('programa.modulo');
 });
 
-// TIC'S
+// Tic
+Route::group(['prefix' => 'tic', 'middleware' => ['can:tic.index', 'auth']], function () {
+    Route::get('/', [TicController::class, 'index'])->name('tic.index');
+    Route::get('/create', [TicController::class, 'create'])->name('tic.create');
+    Route::post('/store', [TicController::class, 'store'])->name('tic.store');
+    Route::get('/edit/{tic}', [TicController::class, 'edit'])->name('tic.edit');
+    Route::get('/show/{tic}', [TicController::class, 'show'])->name('tic.show');
+    Route::put('/update/{tic}', [TicController::class, 'update'])->name('tic.update');
+    Route::delete('/delete/{tic}', [TicController::class, 'destroy'])->name('tic.delete');
+});
+
+// Solicitudes
+Route::group(['prefix' => 'solicitudes', 'middleware' => ['auth']], function () {
+    Route::get('/', [SolicitudController::class, 'index'])->name('solicitudes.index')->can('solicitudes.index');
+    Route::get('/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
+    Route::post('/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
+    Route::get('/confirmar/{id}', [SolicitudController::class, 'confirmar'])->name('solicitudes.confirmar');
+    Route::get('/show/{solicitudes}', [SolicitudController::class, 'show'])->name('solicitudes.show')->can('solicitudes.show');
+    Route::delete('/delete/{solicitudes}', [SolicitudController::class, 'destroy'])->name('solicitudes.delete');
+});
+
+Route::get('inventario/index', [InventarioController::class, 'index'])->name('inventario.index')->middleware('auth');
+
+// Inventario
 Route::group(['prefix' => 'inventario', 'middleware' => ['can:inventario.index', 'auth']], function () {
-    Route::get('/index', [InventarioController::class, 'index'])->name('inventario.index');
     Route::get('/create', [InventarioController::class, 'create'])->name('inventario.create');
     Route::post('/store', [InventarioController::class, 'store'])->name('inventario.store');
     Route::get('/edit/{inventario}', [InventarioController::class, 'edit'])->name('inventario.edit');
@@ -435,25 +457,4 @@ Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
     Route::get('/show/{marketing}', [MarketingController::class, 'show'])->name('marketing.show');
     Route::put('/update/{marketing}', [MarketingController::class, 'update'])->name('marketing.update');
     Route::delete('/delete/{marketing}', [MarketingController::class, 'destroy'])->name('marketing.delete');
-});
-
-// Tic
-Route::group(['prefix' => 'tic', 'middleware' => ['auth']], function () {
-    Route::get('/', [TicController::class, 'index'])->name('tic.index');
-    Route::get('/create', [TicController::class, 'create'])->name('tic.create');
-    Route::post('/store', [TicController::class, 'store'])->name('tic.store');
-    Route::get('/edit/{tic}', [TicController::class, 'edit'])->name('tic.edit');
-    Route::get('/show/{tic}', [TicController::class, 'show'])->name('tic.show');
-    Route::put('/update/{tic}', [TicController::class, 'update'])->name('tic.update');
-    Route::delete('/delete/{tic}', [TicController::class, 'destroy'])->name('tic.delete');
-});
-
-// Solicitudes
-Route::group(['prefix' => 'solicitudes', 'middleware' => ['auth']], function () {
-    Route::get('/', [SolicitudController::class, 'index'])->name('solicitudes.index');
-    Route::get('/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
-    Route::post('/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
-    Route::get('/confirmar/{id}', [SolicitudController::class, 'confirmar'])->name('solicitudes.confirmar');
-    Route::get('/show/{solicitudes}', [SolicitudController::class, 'show'])->name('solicitudes.show');
-    Route::delete('/delete/{solicitudes}', [SolicitudController::class, 'destroy'])->name('solicitudes.delete');
 });

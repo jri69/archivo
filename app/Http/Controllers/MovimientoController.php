@@ -8,6 +8,7 @@ use App\Models\Recepcion;
 use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MovimientoController extends Controller
 {
@@ -48,6 +49,12 @@ class MovimientoController extends Controller
     public function destroy($id)
     {
         $movimiento = MovimientoDoc::findOrFail($id);
+        $documento = Documento::where('movimiento_doc_id', $movimiento->id)->first();
+        if ($documento) {
+            $dir = substr($documento->dir, 8);
+            Storage::disk('public')->delete($dir);
+            $documento->delete();
+        }
         $movimiento->delete();
         return redirect()->route('recepcion.show', $movimiento->recepcion_id);
     }

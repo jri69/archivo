@@ -79,7 +79,9 @@ class ContratacionesController extends Controller
             $archivo = $request->file('archivo');
             $nombre = $archivo->getClientOriginalName();
             if ($nombre != $contrato->comprobante) {
-                Storage::disk('public')->delete($contrato->dir_comprobante, $contrato->comprobante);
+                // eliminar storage/ de la cadena
+                $dir = substr($contrato->dir_comprobante, 8);
+                Storage::disk('public')->delete($dir, $contrato->comprobante);
                 $dir = 'storage/' . Storage::disk('public')->put('contrataciones_comprobantes', $archivo);
                 $contrato->dir_comprobante = $dir;
                 $contrato->comprobante = $nombre;
