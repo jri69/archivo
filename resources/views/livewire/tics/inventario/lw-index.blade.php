@@ -13,9 +13,11 @@
                 <a href="{{ route('solicitudes.create') }}" class="btn btn-outline-primary btn-white">
                     <b>Nueva Solicitud</b>
                 </a>
-                <a href="{{ route('inventario.create') }}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Producto</b>
-                </a>
+                @can('inventario.index')
+                    <a href="{{ route('inventario.create') }}" class="btn btn-outline-primary btn-white">
+                        <b>Agregar Producto</b>
+                    </a>
+                @endcan
             </div>
         </div>
 
@@ -36,7 +38,9 @@
                                     <th>Cantidad</th>
                                     <th>Estado</th>
                                     <th>Observaciones</th>
-                                    <th>Acciones</th>
+                                    @can('inventario.index')
+                                        <th>Acciones</th>
+                                    @endcan
                                 </thead>
                                 <tbody>
                                     @foreach ($productos as $producto)
@@ -48,22 +52,24 @@
                                             <td>{{ $producto->cantidad }}</td>
                                             <td>{{ $producto->estado }}</td>
                                             <td>{{ $producto->observaciones }}</td>
-                                            <td class="td-actions">
-                                                <a href="{{ route('inventario.edit', $producto->id) }}"
-                                                    class="btn btn-primary">
-                                                    <span class="material-icons">edit</span>
+                                            @can('inventario.index')
+                                                <td class="td-actions">
+                                                    <a href="{{ route('inventario.edit', $producto->id) }}"
+                                                        class="btn btn-primary">
+                                                        <span class="material-icons">edit</span>
 
-                                                </a>
-                                                <form action="{{ route('inventario.delete', $producto->id) }}"
-                                                    method="POST" style="display: inline-block;"
-                                                    onsubmit="return confirm('¿Está seguro?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger" type="submit">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                                    </a>
+                                                    <form action="{{ route('inventario.delete', $producto->id) }}"
+                                                        method="POST" style="display: inline-block;"
+                                                        onsubmit="return confirm('¿Está seguro?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger" type="submit">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            @endcan
                                         </tr>
                                     @endforeach
                                 </tbody>

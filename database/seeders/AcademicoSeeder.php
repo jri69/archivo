@@ -125,6 +125,7 @@ class AcademicoSeeder extends Seeder
                 'modalidad' => $modalidad[rand(0, 1)],
                 'programa_id' => rand(1, 500),
                 'hrs_academicas' => rand(60, 80),
+                'cal_docente' => rand(1, 10),
             ]);
             ProgramaCalendar::create([
                 'title' => $modulo->nombre,

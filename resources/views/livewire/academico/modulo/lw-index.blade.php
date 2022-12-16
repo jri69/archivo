@@ -29,6 +29,7 @@
                                     <th>Programa</th>
                                     <th>Modulo</th>
                                     <th>Docente</th>
+                                    <th>Calificacion</th>
                                     <th>Fecha inicio</th>
                                     <th>Fecha final</th>
                                     <th>Acciones</th>
@@ -48,6 +49,7 @@
                                             </td>
                                             <td>{{ $modulo->docente->honorifico . ' ' . $modulo->docente->nombre . ' ' . $modulo->docente->apellido }}
                                             </td>
+                                            <td>{{ $modulo->cal_docente ? $modulo->cal_docente : '-' }}</td>
                                             <td>{{ date('d-m-Y', strtotime($modulo->fecha_inicio)) }}</td>
                                             <td>{{ date('d-m-Y', strtotime($modulo->fecha_final)) }}</td>
 

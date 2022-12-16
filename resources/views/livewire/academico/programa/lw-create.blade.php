@@ -110,6 +110,10 @@
                                     <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
                                         value="Virtual" style='margin-left: 20px'>
                                     <span>Virtual</span>
+
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Semi-Presencial" style='margin-left: 20px'>
+                                    <span>Semi-Presencial</span>
                                 </div>
                                 <div class="col-sm-7">
                                     @error('datos.modalidad')

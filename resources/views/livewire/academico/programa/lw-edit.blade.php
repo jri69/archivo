@@ -90,12 +90,18 @@
                                 </label>
                                 <div class="col-sm-7">
                                     <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
-                                        value="Presencial">
+                                        {{ $datos['modalidad'] == 'Presencial' ? 'checked' : '' }} value="Presencial">
                                     <span>Presencial</span>
 
                                     <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
-                                        value="Virtual" style='margin-left: 20px'>
+                                        value="Virtual" style='margin-left: 20px'
+                                        {{ $datos['modalidad'] == 'Virtual' ? 'checked' : '' }}>
                                     <span>Virtual</span>
+
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
+                                        value="Semi-Presencial" style='margin-left: 20px'
+                                        {{ $datos['modalidad'] == 'Semi-Presencial' ? 'checked' : '' }}>
+                                    <span>Semi-Presencial</span>
                                 </div>
                                 <div class="col-sm-7">
                                     @error('datos.modalidad')
@@ -105,7 +111,8 @@
                             </div>
                             <br>
                             <div class="row">
-                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
+                                <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b>
+                                </label>
                                 <div class="col-sm-7">
                                     <input wire:model.defer="datos.fecha_inicio" type="date" class="form-control"
                                         name="fecha_inicio">

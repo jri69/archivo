@@ -110,7 +110,7 @@ class Condiciones_Terminos extends Fpdf
             'programa' => $programa->tipo . ' en ' . $name_programa,
             'modulo' => $modulo->nombre,
             'honorario' => $contrato->honorario . " Bs (Total Ganado).",
-            'horas' => $programa->hrs_academicas . " Hrs",
+            'horas' => $modulo->hrs_academicas . " Hrs",
             'fecha_modulo' => $fechaIni . " al " . $fechaFin,
             'horario' => $contrato->horarios
         ]);

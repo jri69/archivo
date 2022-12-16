@@ -128,6 +128,12 @@ class RecepcionController extends Controller
     public function destroy($id)
     {
         $recepcion = Recepcion::findOrFail($id);
+        $documentos = Documento::where('recepcion_id', $id)->get();
+        foreach ($documentos as $documento) {
+            $dir = substr($documento->dir, 8);
+            Storage::disk('public')->delete($dir);
+            $documento->delete();
+        }
         $recepcion->delete();
         return redirect()->route('recepcion.index');
     }

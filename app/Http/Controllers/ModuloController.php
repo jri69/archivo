@@ -120,6 +120,7 @@ class ModuloController extends Controller
                 'fecha_final' => 'required|date',
                 'modalidad' => 'required|string',
                 'hrs_academicas' => 'required|numeric',
+                'cal_docente' => 'numeric',
             ],
             [
                 'nombre.required' => 'El nombre es requerido',
@@ -130,6 +131,7 @@ class ModuloController extends Controller
                 'fecha_final.required' => 'La fecha final es requerida',
                 'modalidad.required' => 'La modalidad es requerida',
                 'hrs_academicas.required' => 'Las horas académicas son requeridas',
+                'cal_docente.numeric' => 'La calificación debe ser un número',
             ]
         );
         $modulo = Modulo::findOrFail($id);

@@ -10,6 +10,7 @@ use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\TipoCarta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContratacionesController extends Controller
 {
@@ -74,6 +75,19 @@ class ContratacionesController extends Controller
         ]);
         $contrato = Contrato::findOrFail($id);
         $contrato->update($request->all());
+        if ($request->hasFile('archivo')) {
+            $archivo = $request->file('archivo');
+            $nombre = $archivo->getClientOriginalName();
+            if ($nombre != $contrato->comprobante) {
+                // eliminar storage/ de la cadena
+                $dir = substr($contrato->dir_comprobante, 8);
+                Storage::disk('public')->delete($dir, $contrato->comprobante);
+                $dir = 'storage/' . Storage::disk('public')->put('contrataciones_comprobantes', $archivo);
+                $contrato->dir_comprobante = $dir;
+                $contrato->comprobante = $nombre;
+                $contrato->save();
+            }
+        }
         return redirect()->route('contrataciones.show', $id);
     }
 

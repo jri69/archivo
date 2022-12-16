@@ -12,6 +12,12 @@
                         <i class="material-icons">edit</i>
                         <span class="sidebar-normal">Actualizar datos</span>
                     </a>
+                    @if ($contrato->dir_comprobante)
+                        <a href="{{ asset($contrato->dir_comprobante) }}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="material-icons">download</i>
+                            <span class="sidebar-normal">Comprobante de pago</span>
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -84,6 +90,7 @@
                                 </div>
                             </div>
                             <br>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     {{-- text area --}}
@@ -93,6 +100,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

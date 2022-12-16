@@ -26,10 +26,8 @@ class LwIndex extends Component
 
     public function render()
     {
-        $solicitudes = Solicitud::join('tics', 'solicituds.tic_id', '=', 'tics.id')
-            ->join('users', 'solicituds.user_id', '=', 'users.id')
-            ->select('solicituds.*', 'tics.nombre', 'users.name')
-            ->orWhere('tics.nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+        $solicitudes = Solicitud::join('users', 'solicituds.user_id', '=', 'users.id')
+            ->select('solicituds.*',  'users.name')
             ->orWhere('users.name', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);

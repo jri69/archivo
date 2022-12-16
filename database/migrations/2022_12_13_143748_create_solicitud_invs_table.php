@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('solicituds', function (Blueprint $table) {
+        Schema::create('solicitud_invs', function (Blueprint $table) {
             $table->id();
-            $table->string('estado');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('cantidad');
+            $table->unsignedBigInteger('inventario_id');
+            $table->foreign('inventario_id')->references('id')->on('inventarios');
+            $table->unsignedBigInteger('solicitud_id');
+            $table->foreign('solicitud_id')->references('id')->on('solicituds');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solicituds');
+        Schema::dropIfExists('solicitud_invs');
     }
 };

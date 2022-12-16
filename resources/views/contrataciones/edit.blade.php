@@ -89,6 +89,13 @@
                                 </div>
                                 <br>
                                 <div class="row">
+                                    <label class="col-sm-2"><b>Comprobante de pago</b></label>
+                                    <div class="col-md-6">
+                                        <input type="file" class="form-control" name="archivo">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Horario:</b> </label>
                                     <div class="col-sm-7">
                                         <textarea class="form-control" name="horarios" rows="3" placeholder="Horario">{{ $contrato->horarios }}</textarea>
@@ -97,7 +104,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="card-footer ml-auto mr-auto">
