@@ -115,6 +115,10 @@
 
                                         <input type="radio" name="modalidad" value="Virtual" style='margin-left: 20px'>
                                         <span>Virtual</span>
+
+                                        <input type="radio" name="modalidad" value="Semi-Presencial"
+                                            style='margin-left: 20px'>
+                                        <span>Semi-Presencial</span>
                                     </div>
                                     <div class="col-sm-7">
                                         @if ($errors->has('modalidad'))

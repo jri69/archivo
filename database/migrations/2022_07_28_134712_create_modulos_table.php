@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('modalidad');
             $table->string('version', 5);
             $table->string('edicion', 5);
+            $table->integer('cal_docente')->nullable();
             $table->double('costo');
             $table->integer('hrs_academicas');
             $table->date('fecha_inicio');

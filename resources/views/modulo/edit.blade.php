@@ -82,26 +82,6 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
-                                    </label>
-                                    <div class="col-sm-7">
-                                        <input type="radio" name="modalidad" value="Presencial"
-                                            {{ $modulo->modalidad == 'Presencial' ? 'checked' : '' }}>
-                                        <span>Presencial</span>
-
-                                        <input type="radio" name="modalidad" value="Virtual" style='margin-left: 20px'
-                                            {{ $modulo->modalidad == 'Virtual' ? 'checked' : '' }}>
-                                        <span>Virtual</span>
-                                    </div>
-                                    <div class="col-sm-7">
-                                        @if ($errors->has('modalidad'))
-                                            <span class="error text-danger"
-                                                for="input-modalidad">{{ $errors->first('modalidad') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Edición:</b> </label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="edicion" placeholder="Edición"
@@ -115,7 +95,49 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Calificación docente:</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="cal_docente"
+                                            placeholder="Calificación docente"
+                                            value="{{ old('edicion', $modulo->cal_docente) }}">
+                                        @if ($errors->has('cal_docente'))
+                                            <span class="error text-danger"
+                                                for="input-cal_docente">{{ $errors->first('cal_docente') }}</span>
+                                        @endif
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="radio" name="modalidad" value="Presencial"
+                                            {{ $modulo->modalidad == 'Presencial' ? 'checked' : '' }}>
+                                        <span>Presencial</span>
+
+                                        <input type="radio" name="modalidad" value="Virtual" style='margin-left: 20px'
+                                            {{ $modulo->modalidad == 'Virtual' ? 'checked' : '' }}>
+                                        <span>Virtual</span>
+
+                                        <input type="radio" name="modalidad" value="Semi-Presencial"
+                                            style='margin-left: 20px'
+                                            {{ $modulo->modalidad == 'Semi-Presencial' ? 'checked' : '' }}>
+                                        <span>Semi-Presencial</span>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        @if ($errors->has('modalidad'))
+                                            <span class="error text-danger"
+                                                for="input-modalidad">{{ $errors->first('modalidad') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b>
+                                    </label>
                                     <div class="col-sm-7">
                                         <input type="date" class="form-control" name="fecha_inicio"
                                             value="{{ $modulo->fecha_inicio }}">

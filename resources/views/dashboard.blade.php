@@ -92,44 +92,26 @@
 
         {{-- tabla con programas --}}
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4>Ultimos Programas</h4>
+                        <h4>Docentes mejor calificados</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table">
-                                <thead class="text-primary text-dark">
+                                <thead class="text-primary">
                                     <th>#</th>
-                                    <th>Sigla</th>
-                                    <th>Programa</th>
-                                    <th>Tipo</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Fecha final</th>
-                                    @can('programa.index')
-                                        <th>Acciones</th>
-                                    @endcan
+                                    <th>Nombre</th>
+                                    <th>Calificacion</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($programas as $programa)
+                                    @foreach ($cal_docente as $docente)
                                         <tr>
-                                            <td>{{ $programa->id }} </td>
-                                            <td>{{ $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion }}
+                                            <td>{{ $docente->id }}</td>
+                                            <td>{{ $docente->honorifico . ' ' . $docente->nombre . ' ' . $docente->apellido }}
                                             </td>
-                                            <td>{{ $programa->nombre }} </td>
-                                            <td>{{ $programa->tipo }} </td>
-                                            <td>{{ date('d-m-Y', strtotime($programa->fecha_inicio)) }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($programa->fecha_finalizacion)) }}</td>
-                                            @can('programa.index')
-                                                <td class="td-actions">
-                                                    <a href="{{ route('programa.show', $programa->id) }}"
-                                                        class="btn btn-primary">
-                                                        <span class="material-icons">visibility</span>
-                                                    </a>
-                                                    <a href=""></a>
-                                                </td>
-                                            @endcan
+                                            <td>{{ substr($docente->promedio, 0, 5) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -137,6 +119,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
+                <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+
+                <!-- <script type="module" src="dimensions.js"></script> -->
             </div>
         </div>
 
@@ -150,4 +138,5 @@
             md.initDashboardPageCharts();
         });
     </script>
+    <script type="module" src="acquisitions.js"></script>
 @endpush
