@@ -127,6 +127,9 @@
                                             Cédula
                                         </th>
                                         <th>
+                                            Estado
+                                        </th>
+                                        <th>
                                             Observación
                                         </th>
                                         <th>
@@ -141,6 +144,13 @@
                                                 </td>
                                                 <td>
                                                     {{ $estu_progm->estudiante->cedula }}
+                                                </td>
+                                                <td>
+                                                    @if ($estu_progm->estudiante->estado == 'Activo')
+                                                        <span class="badge badge-success">Activo</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Inactivo</span>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     {{ $estu_progm->observaciones }}

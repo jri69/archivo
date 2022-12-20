@@ -24,7 +24,6 @@ class LwEdit extends Component
         $this->datos['telefono'] = $this->estudiante->telefono;
         $this->datos['email'] = $this->estudiante->email;
         $this->datos['expedicion'] = $this->estudiante->expedicion;
-        $this->datos['estado'] = $this->estudiante->estado;
         $this->datos['carrera'] = $this->estudiante->carrera;
         $this->datos['universidad'] = $this->estudiante->universidad;
     }
@@ -63,7 +62,6 @@ class LwEdit extends Component
         $this->estudiante->update([
             'nombre' => $this->datos['nombre'],
             'email' => $this->datos['email'],
-            'estado' => $this->datos['estado'],
             'telefono' => $this->datos['telefono'],
             'cedula' => $this->datos['cedula'],
             'expedicion' => $this->datos['expedicion'],

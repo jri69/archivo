@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('hrs_academicas');
             $table->string('cantidad_modulos');
             $table->string('modalidad');
+            $table->string('has_grafica')->default('No')->nullable();
             $table->timestamps();
         });
     }

@@ -140,6 +140,7 @@ Route::group(['prefix' => 'estudiante', 'middleware' => ['can:estudiante.index',
     Route::get('/show/notas/{estudiante}/{programa}', [EstudianteController::class, 'showNotas'])->name('estudiante.showNotas');
     Route::get('/inscribirse/{estudiante}', [EstudianteController::class, 'newprogram'])->name('estudiante.newprogram');
     Route::get('/show/{estudiante}', [EstudianteController::class, 'show'])->name('estudiante.show');
+    Route::get('/estado/{estudiante}', [EstudianteController::class, 'estado'])->name('estudiante.estado');
     Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
     Route::put('/update/{estudiante}', [EstudianteController::class, 'update'])->name('estudiante.update');
     Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
@@ -192,6 +193,7 @@ Route::group(['prefix' => 'programa', 'middleware' => ['can:programa.index', 'au
     Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
     Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
     Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
+    Route::get('/grafica/{programa}', [ProgramaController::class, 'grafica'])->name('programa.grafica');
     Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
     Route::get('/show/modulo/init/{programa}/{modulo}', [ProgramaController::class, 'init'])->name('programa.init');
     Route::get('/show/modulo/notas/{programa}/{modulo}', [ProgramaController::class, 'notas'])->name('programa.notas');

@@ -63,7 +63,7 @@ class ProgramaController extends Controller
         $estudiante_programa = NotasPrograma::where('id_modulo', $modulo->id)
             ->where('id_programa', $programa->id)
             ->get();
-        $inscritos = EstudianteModulo::where('id_modulo', $modulo->id)->get();
+        $inscritos = NotasPrograma::where('id_modulo', $modulo->id)->get();
         $inscritos = count($inscritos);
         return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa', 'inscritos'));
     }
@@ -95,5 +95,18 @@ class ProgramaController extends Controller
             ->where('id_programa', $programa->id)
             ->get();
         return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
+    }
+
+    //
+    public function grafica($id)
+    {
+        $cant_grafica = Programa::where('has_grafica', 'Si')->count();
+        $programa = Programa::findOrFail($id);
+        if ($cant_grafica > 6 && $programa->has_grafica == 'No') {
+            return back()->with('mensaje', 'Cantidad maxima de graficas alcanzada');
+        }
+        $programa->has_grafica == 'Si' ? $programa->has_grafica = 'No' : $programa->has_grafica = 'Si';
+        $programa->save();
+        return back()->with('mensaje', 'Grafica habilitada');
     }
 }

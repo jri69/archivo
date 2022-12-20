@@ -32,6 +32,7 @@
                                     <th>Costo</th>
                                     <th>Inicio</th>
                                     <th>Finalización</th>
+                                    <th>Grafica</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
@@ -52,6 +53,13 @@
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($programa->fecha_finalizacion)->format('d-m-Y') }}
                                             </td>
+                                            <th>
+                                                @if ($programa->has_grafica == 'Si')
+                                                    <span class="badge badge-success">Activo</span>
+                                                @else
+                                                    <span class="badge badge-danger">Inactivo</span>
+                                                @endif
+                                            </th>
                                             <td class="td-actions">
                                                 <a href="{{ route('programa.show', $programa->id) }}"
                                                     class="btn btn-success">

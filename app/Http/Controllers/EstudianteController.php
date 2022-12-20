@@ -81,4 +81,15 @@ class EstudianteController extends Controller
         $archivo->delete();
         return back()->with('mensaje', 'Eliminado Correctamente');
     }
+
+    // Cambiar el estado de un estudiante
+    public function estado($id)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        $estudiante->estado == 'Inactivo' ? $estudiante->estado = 'Activo' :
+            $estudiante->estado = 'Inactivo';
+        $estudiante->fecha_inactividad = date('Y-m-d');
+        $estudiante->save();
+        return back()->with('mensaje', 'Estado cambiado correctamente');
+    }
 }
