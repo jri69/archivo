@@ -13,6 +13,20 @@
                         <i class="material-icons">edit</i>
                         <span class="sidebar-normal">Actualizar datos</span>
                     </a>
+                    <a href="{{ route('programa.grafica', $programa->id) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">
+                            {{ $programa->has_grafica == 'Si' ? 'block' : 'check' }}
+                        </i>
+                        <span class="sidebar-normal">
+                            {{ $programa->has_grafica == 'Si' ? 'Desactivar Grafica' : 'Activar Grafica' }}
+                        </span>
+                    </a>
+                    {{-- mensaje de error message --}}
+                    @if (session('mensaje'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('mensaje') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row">

@@ -121,22 +121,60 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
-                <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
-
-                <!-- <script type="module" src="dimensions.js"></script> -->
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4>Indice de deserción</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div style="width: 480px;"><canvas id="acquisitions"></canvas></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 @endsection
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-            // Javascript method's body can be found in assets/js/demos.js
-            md.initDashboardPageCharts();
-        });
+    {{-- <script type="module" src="{{ asset('js/grafica.js') }}" defer></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- usar variables php en js --}}
+    <script type="text/javascript">
+        var labels = @json($nombres);
+        var users = @json($cantidad);
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Indice de deserción',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: users,
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+
+            }
+        };
+
+        const myChart = new Chart(
+            document.getElementById('acquisitions'),
+            config
+        );
     </script>
-    <script type="module" src="acquisitions.js"></script>
 @endpush

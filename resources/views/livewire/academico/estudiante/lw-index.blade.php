@@ -28,9 +28,10 @@
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
                                     <th>Nombre</th>
+                                    <th>Cedula</th>
+                                    <th>Estado</th>
                                     <th>Correo</th>
                                     <th>Telefono</th>
-                                    <th>Cedula</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
@@ -38,9 +39,16 @@
                                         <tr>
                                             <td>{{ $estudiante->id }} </td>
                                             <td>{{ $estudiante->nombre }}</td>
+                                            <td>{{ $estudiante->cedula }}</td>
+                                            <td>
+                                                @if ($estudiante->estado == 'Activo')
+                                                    <span class="badge badge-success">Activo</span>
+                                                @else
+                                                    <span class="badge badge-danger">Inactivo</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $estudiante->email }}</td>
                                             <td>{{ $estudiante->telefono }}</td>
-                                            <td>{{ $estudiante->cedula }}</td>
                                             <td class="td-actions">
                                                 <a href="{{ route('estudiante.show', $estudiante->id) }}"
                                                     class="btn btn-success">

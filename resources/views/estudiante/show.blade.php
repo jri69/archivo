@@ -17,6 +17,14 @@
                         <i class="material-icons">add</i>
                         <span class="sidebar-normal">Inscribir</span>
                     </a>
+                    <a href="{{ route('estudiante.estado', $estudiante->id) }}" class="btn btn-sm btn-primary">
+                        <i class="material-icons">
+                            {{ $estudiante->estado == 'Activo' ? 'block' : 'check' }}
+                        </i>
+                        <span class="sidebar-normal">
+                            {{ $estudiante->estado == 'Activo' ? 'Abandono' : 'Regreso' }}
+                        </span>
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -72,6 +80,26 @@
                                     </div>
                                 </div>
                             </div>
+                            @if ($estudiante->estado == 'Inactivo')
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Estado</label>
+                                            <input type="text" class="form-control" value="{{ $estudiante->estado }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Fecha Abandono</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ date('d-m-Y', strtotime($estudiante->fecha_inactividad)) }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                             <br>
                             <div class="row">
                                 <div class="col-md-12">

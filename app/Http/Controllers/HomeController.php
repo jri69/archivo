@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\EstudianteModulo;
 use App\Models\Modulo;
+use App\Models\NotasPrograma;
 use App\Models\Programa;
 use Illuminate\Support\Facades\DB;
+
+use function PHPSTORM_META\map;
 
 class HomeController extends Controller
 {
@@ -38,6 +42,42 @@ class HomeController extends Controller
             ->orderBy('promedio', 'desc')
             ->take(5)
             ->get();
-        return view('dashboard', compact('estudiantes', 'programas_finalizado', 'programas_cursos', 'modulos', 'cal_docente'));
+
+        // Grafica
+        $programas = Programa::where('has_grafica', '=', 'Si')->get();
+        // dd($programas);
+        $cantidad = [];
+        $nombres = [];
+        foreach ($programas as $programa) {
+            $modulosP = Modulo::where('programa_id', $programa->id)->get();
+            $first = 0;
+            $last = 0;
+            // obtener el primer modulo
+            $first_modulo = $modulosP->first();
+            // dd($first_modulo);
+            $estudiantesM = NotasPrograma::join('estudiantes', 'estudiantes.id', 'notas_programas.id_estudiante')
+                ->select('estudiantes.*', 'notas_programas.*')
+                ->where('estudiantes.estado', 'Activo')
+                ->where('id_modulo', $first_modulo->id)->get();
+            $first = $estudiantesM->count();
+            // dd($first);
+            // obtener el ultimo modulo
+            $ultimo_modulo = $modulosP->last();
+            // dd($ultimo_modulo);
+            $estudiantesM = NotasPrograma::join('estudiantes', 'estudiantes.id', 'notas_programas.id_estudiante')
+                ->select('estudiantes.*', 'notas_programas.*')
+                ->where('estudiantes.estado', 'Activo')
+                ->where('id_modulo', $ultimo_modulo->id)->get();
+            $last = $estudiantesM->count();
+            // dd($last);
+
+            $retirados = $first - $last;
+            // dd($retirados);
+            $indice = $retirados * 100 / $first;
+            $cantidad[] = $indice;
+            $nombres[] = $programa->nombre;
+        }
+        // dd($nombres, $cantidad);
+        return view('dashboard', compact('estudiantes', 'programas_finalizado', 'programas_cursos', 'modulos', 'cal_docente', 'nombres', 'cantidad'));
     }
 }

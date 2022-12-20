@@ -31,8 +31,7 @@ class LwCreate extends Component
         $this->datos['telefono'] = '';
         $this->datos['email'] = '';
         $this->datos['expedicion'] = '';
-        $this->datos['estado'] = '';
-        $this->datos['id_programa'] = '';
+        $this->datos['estado'] = 'Activo';
         $this->datos['id_modulo'] = '';
         // pedir todos los programas que aun estan en fechas de finalizacion disponible
         $date = date('Y-m-d');

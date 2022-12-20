@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('carrera');
             $table->string('universidad');
             $table->string('estado');
+            $table->date('fecha_inactividad')->nullable();
             $table->timestamps();
         });
     }
