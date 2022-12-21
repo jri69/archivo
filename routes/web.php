@@ -328,10 +328,10 @@ Route::group(['prefix' => 'presupuesto', 'middleware' => ['can:presupuesto.index
 Route::group(['prefix' => 'contrataciones', 'middleware' => ['can:contrataciones.index', 'auth']], function () {
     // Route::get('/', [ContratacionesController::class, 'index'])->name('contrataciones.index');
     Route::get('/create/{contrataciones}', [ContratacionesController::class, 'create'])->name('contrataciones.create');
-    Route::post('/store', [ContratacionesController::class, 'store'])->name('contrataciones.store');
     Route::get('/edit/{contrataciones}', [ContratacionesController::class, 'edit'])->name('contrataciones.edit');
     Route::get('/show/{contrataciones}', [ContratacionesController::class, 'show'])->name('contrataciones.show');
     Route::put('/update/{contrataciones}', [ContratacionesController::class, 'update'])->name('contrataciones.update');
+    Route::post('/store', [ContratacionesController::class, 'store'])->name('contrataciones.store');
     Route::delete('/delete/{contrataciones}', [ContratacionesController::class, 'destroy'])->name('contrataciones.delete');
 });
 

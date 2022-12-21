@@ -45,7 +45,7 @@ class LwCreate extends Component
         $this->validate(
             [
                 'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
-                'datos.email' => 'required|email|max:200|unique:estudiantes,email',
+                'datos.email' => 'email|max:200|unique:estudiantes,email',
                 'datos.telefono' => 'required|numeric',
                 'datos.cedula' => 'required|numeric|unique:estudiantes,cedula',
                 'datos.expedicion' => 'required|alpha|size:2',
@@ -57,7 +57,6 @@ class LwCreate extends Component
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
                 'datos.nombre.regex' => 'El campo nombre solo puede contener letras',
-                'datos.email.required' => 'El campo correo es obligatorio',
                 'datos.email.email' => 'El campo correo debe ser un correo valido',
                 'datos.email.unique' => 'El campo correo ya esta registrado',
                 'datos.telefono.required' => 'El campo telefono es obligatorio',
