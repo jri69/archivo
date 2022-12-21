@@ -8,6 +8,7 @@ use App\Models\Estudiante;
 use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
+use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\ProgramaCalendar;
 use App\Models\ProgramaModulo;
@@ -194,6 +195,12 @@ class AcademicoSeeder extends Seeder
             EstudianteModulo::create([
                 'id_modulo' => rand(1, 50),
                 'id_estudiante' => $estudiante->id,
+            ]);
+            NotasPrograma::create([
+                'id_programa' => rand(1, 50),
+                'id_estudiante' => $estudiante->id,
+                'nota' => rand(1, 10),
+                'observacion' => 'Observacion ' . $i + 1,
             ]);
         };
         Requisito::create([

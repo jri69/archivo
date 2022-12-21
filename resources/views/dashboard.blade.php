@@ -11,7 +11,7 @@
                             <i class="material-icons">groups</i>
                         </div>
                         <p class="card-category">
-                            <strong class="h6 card-title">Estudiantes Registrados</strong>
+                            <strong class="h6 card-title">Estudiantes Activos</strong>
                         </p>
                         <h3 class="card-title">{{ $estudiantes }} </h3>
                     </div>

@@ -94,7 +94,8 @@ class ProgramaController extends Controller
         $estudiante_programa = NotasPrograma::where('id_modulo', $modulo->id)
             ->where('id_programa', $programa->id)
             ->get();
-        return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa'));
+        $inscritos = NotasPrograma::where('id_modulo', $modulo->id)->get()->count();
+        return view('programa.modulo', compact('programa', 'modulo', 'estudiante_programa', 'inscritos'));
     }
 
     //

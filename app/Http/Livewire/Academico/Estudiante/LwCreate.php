@@ -34,7 +34,6 @@ class LwCreate extends Component
         $this->datos['estado'] = 'Activo';
         $this->datos['id_modulo'] = '';
         $this->datos['id_programa'] = '';
-
         // pedir todos los programas que aun estan en fechas de finalizacion disponible
         $date = date('Y-m-d');
         $this->programas = Programa::where('fecha_finalizacion', '>=', $date)->get();

@@ -75,6 +75,17 @@ class LwInscribir extends Component
         }
     }
 
+    public function all()
+    {
+        $estudianteP = EstudiantePrograma::where('id_programa', $this->programa->id)->get();
+        $estudiantes = Estudiante::whereIn('id', $estudianteP->pluck('id_estudiante'))->orderBy($this->sort, $this->direction)->get();
+        foreach ($estudiantes as $estudiante) {
+            if (!in_array($estudiante->id, $this->listEstudents)) {
+                array_push($this->listEstudents, $estudiante->id);
+            }
+        }
+    }
+
     public function render()
     {
         $estudianteP = EstudiantePrograma::where('id_programa', $this->programa->id)->get();

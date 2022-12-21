@@ -10,7 +10,10 @@
                     <i class="material-icons">save</i>
                     <span class="sidebar-normal">Guardar</span>
                 </a>
-
+                <a wire:click='all' class="btn btn-sm btn-primary text-white">
+                    <i class="material-icons">done_all</i>
+                    <span class="sidebar-normal">Seleccionar todos</span>
+                </a>
             </div>
         </div>
 
