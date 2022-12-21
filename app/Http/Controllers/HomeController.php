@@ -7,6 +7,7 @@ use App\Models\EstudianteModulo;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
 use App\Models\Programa;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 use function PHPSTORM_META\map;
@@ -30,11 +31,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $estudiantes = Estudiante::all()->count();
-        $programas_finalizado = Programa::where('fecha_finalizacion', '>=', now())->get()->count();
-        $programas_cursos = Programa::where('fecha_finalizacion', '<=', now())->get()->count();
-        $modulos = Modulo::where('fecha_final', '<=', now())->get()->count();
-        // agrupar por cal_docente los mejores promedios de docentes en los modulos los 10 primeros
+        $now = now();
+        // dd($now);
+        $now = $now->format('Y-m-d');
+        $estudiantes = Estudiante::where('estado', 'Activo')->get()->count();
+        $programas_finalizado = Programa::where('fecha_finalizacion', '<', $now)->get()->count();
+        $programas_cursos = Programa::where('fecha_finalizacion', '>=', $now)->get()->count();
+        $modulos = Modulo::where('fecha_final', '>=', $now)->get()->count();
+
+        // agrupar por cal_docente los mejores promedios de docentes en los modulos los 5 primeros
         $cal_docente = DB::table('modulos')
             ->join('docentes', 'modulos.docente_id', 'docentes.id')
             ->select('docentes.honorifico', 'docentes.nombre', 'docentes.apellido', 'docentes.id', DB::raw('avg(cal_docente) as promedio'))
@@ -75,7 +80,7 @@ class HomeController extends Controller
             // dd($retirados);
             $indice = $retirados * 100 / $first;
             $cantidad[] = $indice;
-            $nombres[] = $programa->nombre;
+            $nombres[] = $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion;
         }
         // dd($nombres, $cantidad);
         return view('dashboard', compact('estudiantes', 'programas_finalizado', 'programas_cursos', 'modulos', 'cal_docente', 'nombres', 'cantidad'));
