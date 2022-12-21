@@ -12,7 +12,7 @@ class LwIndex extends Component
     public $pagination = 20;
     public $attribute = '';
     public $sort = 'id';
-    public $direction = 'desc';
+    public $direction = 'asc';
     protected $paginationTheme = 'bootstrap';
 
     //Metodo de reinicio de buscador
