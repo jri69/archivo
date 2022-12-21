@@ -32,7 +32,7 @@
                             <i class="material-icons">auto_awesome_motion</i>
                         </div>
                         <p class="card-category">
-                            <strong class="h6 card-title">Programas <br> en curso</strong>
+                            <strong class="h6 card-title">Programas en curso</strong>
                         </p>
                         <h3 class="card-title">{{ $programas_cursos }} </h3>
                     </div>
@@ -74,7 +74,7 @@
                             <i class="material-icons">article</i>
                         </div>
                         <p class="card-category">
-                            <strong class="h6 card-title">Modulos <br> en curso</strong>
+                            <strong class="h6 card-title">Modulos en curso</strong>
                         </p>
                         <h3 class="card-title">{{ $modulos }} </h3>
                     </div>
