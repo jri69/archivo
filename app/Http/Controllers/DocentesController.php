@@ -54,6 +54,7 @@ class DocentesController extends Controller
         $docente = Docente::findOrFail($id);
         $contratos = Contrato::join('modulos', 'modulos.id', '=', 'contratos.modulo_id')
             ->join('docentes', 'docentes.id', '=', 'modulos.docente_id')
+            ->select("contratos.*")
             ->where('docente_id', $id)->get();
         return view('docentes.show', compact('docente', 'contratos'));
     }
