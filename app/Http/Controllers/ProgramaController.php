@@ -33,7 +33,7 @@ class ProgramaController extends Controller
     public function show($programa)
     {
         $programa = Programa::findOrFail($programa);
-        $modulos = Modulo::where('programa_id', $programa->id)->orderBy('created_at', 'desc')->get();
+        $modulos = Modulo::where('programa_id', $programa->id)->orderBy('created_at', 'asc')->get();
         $cant_estudiantes = EstudiantePrograma::where('id_programa', $programa->id)->count();
         $cant_modulos = Modulo::where('programa_id', $programa->id)->count();
         if ($cant_modulos != $programa->cantidad_modulos) {
