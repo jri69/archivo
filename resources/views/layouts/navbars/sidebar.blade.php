@@ -35,6 +35,14 @@
                     </a>
                 </li>
             @endcan
+            @can('eventos.index')
+                <li class="nav-item{{ $activePage == 'evento' ? ' active' : '' }}">
+                    <a class="nav-link" href="{{ route('eventos.index') }}">
+                        <i class="material-icons">event</i>
+                        <p>{{ __('Eventos') }}</p>
+                    </a>
+                </li>
+            @endcan
             @if (auth()->user()->can('usuario.index') ||
                 auth()->user()->can('cargo.index') ||
                 auth()->user()->can('area.index') ||
