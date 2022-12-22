@@ -207,8 +207,8 @@ class PagoController extends Controller
         $fpdf->SetFont('Arial', 'B', 10);
         $fpdf->Cell(188, 10, 'DATOS DEL PROGRAMA', 0, 1, 'C');
         $fpdf->SetFont('Arial', '', 10);
-        $fpdf->Cell(80, 15, 'NOMBRE DEL PROGRAMA:', 1, 0);
-        $fpdf->Cell(108, 15, utf8_decode($programa->nombre), 1, 1);
+        $fpdf->Cell(80, 6, 'NOMBRE DEL PROGRAMA:', 1, 0);
+        $fpdf->MultiCell(108, 6, utf8_decode($programa->nombre), 1, 1);
         $fpdf->Cell(80, 6, 'VERSION:', 1, 0);
         $fpdf->Cell(108, 6, $programa->version, 1, 1);
         $fpdf->Cell(80, 6, 'EDICION:', 1, 0);
@@ -245,8 +245,8 @@ class PagoController extends Controller
         $fpdf->SetFont('Arial', '', 8);
         $i = 1;
         $fpdf->Cell(10, 6, 'Nro.', 1, 0);
-        $fpdf->Cell(38, 6, 'METODO DE PAGO.', 1, 0);
-        $fpdf->Cell(50, 6, 'COMPROBANTE.', 1, 0);
+        $fpdf->Cell(44, 6, 'METODO DE PAGO.', 1, 0);
+        $fpdf->Cell(44, 6, 'COMPROBANTE.', 1, 0);
         $fpdf->Cell(45, 6, 'FECHA DE PAGO.', 1, 0);
         $fpdf->Cell(45, 6, 'MONTO PAGADO.', 1, 1);
 
@@ -256,8 +256,8 @@ class PagoController extends Controller
         foreach ($pagos as $pago) {
 
             $fpdf->Cell(10, 6, $i, 1, 0);
-            $fpdf->Cell(38, 6, $pago->nombre, 1, 0);
-            $fpdf->Cell(50, 6, $pago->comprobante, 1, 0);
+            $fpdf->Cell(44, 6, utf8_decode($pago->nombre), 1, 0);
+            $fpdf->Cell(44, 6, $pago->comprobante, 1, 0);
             $fpdf->Cell(45, 6, \Carbon\Carbon::parse($pago->fecha)->format('d-m-Y'), 1, 0);
             $fpdf->Cell(45, 6, $pago->monto, 1, 1);
             $pagado = $pagado + $pago->monto;

@@ -444,9 +444,9 @@ Route::group(['prefix' => 'administrativos', 'middleware' => ['can:administrativ
     Route::get('/', [AdministrativoController::class, 'index'])->name('administrativo.index');
     Route::get('/create', [AdministrativoController::class, 'create'])->name('administrativo.create');
     Route::post('/store', [AdministrativoController::class, 'store'])->name('administrativo.store');
-    Route::get('/edit/{administrativo}', [AdministrativoController::class, 'edit'])->name('administrativo.edit');
+    Route::get('/edit/{id}', [AdministrativoController::class, 'edit'])->name('administrativo.edit');
     Route::get('/show/{administrativo}', [AdministrativoController::class, 'show'])->name('administrativo.show');
-    Route::put('/update/{administrativo}', [AdministrativoController::class, 'update'])->name('administrativo.update');
+    Route::put('/update/{id}', [AdministrativoController::class, 'update'])->name('administrativo.update');
     Route::delete('/delete/{administrativo}', [AdministrativoController::class, 'destroy'])->name('administrativo.delete');
 });
 
