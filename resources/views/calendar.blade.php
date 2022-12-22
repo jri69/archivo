@@ -18,6 +18,12 @@
                             <div class="row">
                                 <div class="col-sm">
                                     <label class="form-check" style="width: 100px">
+                                        <input class="" type="radio" name="tipo" id="evento" value="Evento">
+                                        <span class="">Ver Eventos</span>
+                                    </label>
+                                </div>
+                                <div class="col-sm">
+                                    <label class="form-check" style="width: 100px">
                                         <input class="" type="radio" name="tipo" id="modulo" value="Modulo">
                                         <span class="">Ver Modulos</span>
                                     </label>
@@ -32,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-sm-2">
                     </div>
                     <div class="col-sm" style="margin-bottom: 10px">
                         <div class="container" id="filtrar_programa">
@@ -156,6 +162,7 @@
 
         });
         calendar.render();
+
         // recargar el calendario cuando cambie el valor del select de la vista tipo_programa
         document.getElementById('tipo_programa').addEventListener('change', function() {
             tipo_programa = document.getElementById('tipo_programa').value;
@@ -344,6 +351,85 @@
                             extraParams: {
                                 tipo: tipo_programa,
                                 ver: 'Programa'
+                            },
+                            failure: function() {
+                                alert('there was an error while fetching events!');
+                            }
+                        }
+                    ],
+                    // al hacer click en un evento mostrar un modal con la información del evento
+                    eventClick: function(info) {
+                        // obtener la url de la pagina y solo quedarme sin los ultimos 5 caracteres
+                        var url = window.location.href;
+                        url = url.substring(0, url.length - 10) + 'programa/show/' + info.event
+                            .extendedProps
+                            .programa_id;
+                        // dar formato a la fecha DD-MM-YYYY
+                        var fecha = new Date(info.event.start);
+                        var dd = String(fecha.getDate()).padStart(2, '0');
+                        var mm = String(fecha.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = fecha.getFullYear();
+                        fecha = dd + '-' + mm + '-' + yyyy;
+                        // html para mostrar la fecha del evento la sigla y el tipo de evento
+                        var html = '<div class="row"><div class="col-12 text-left"><h5>' + 'Sigla: ' +
+                            info
+                            .event
+                            .extendedProps.sigla +
+                            '</h5></div></div><div class="row"><div class="col-12 text-left"><h6>' +
+                            'Tipo: ' + info
+                            .event.extendedProps.tipo +
+                            '</h6></div></div><div class="row"><div class="col-12 text-left"><h6>' +
+                            'Fecha ' + info
+                            .event.extendedProps.tipo_fecha + ' : ' + fecha +
+                            '</h6></div></div>';
+                        $('#modalTitle').html(info.event.title);
+                        $('#modalBody').html(html);
+                        $('#eventUrl').attr('href', url);
+                        $('#fullCalModal').modal();
+                    },
+
+                });
+                calendar.render();
+            }
+        });
+
+        document.getElementById('eventos').addEventListener('change', function() {
+            value = document.getElementById('eventos').value;
+            console.log(value);
+            if (value == 'Modulo') {
+                document.getElementById('filtrar_programa').hidden = true;
+            } else {
+                document.getElementById('filtrar_programa').hidden = false;
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    themeSystem: 'bootstrap',
+                    initialView: 'dayGridMonth',
+                    locale: 'es',
+                    aspectRatio: 1.5,
+                    displayEventTime: false,
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,listWeek'
+                    },
+                    eventSources: [{
+                            url: "{{ env('APP_URL') }} " + '/calendario/eventosIni',
+                            color: '#0000FF',
+                            textColor: 'white',
+                            extraParams: {
+                                tipo: tipo_programa,
+                                ver: 'Eventos'
+                            },
+                            failure: function() {
+                                alert('there was an error while fetching events!');
+                            },
+                        },
+                        {
+                            url: "{{ env('APP_URL') }} " + '/calendario/eventosFin',
+                            color: '#8B0000',
+                            textColor: 'white',
+                            extraParams: {
+                                tipo: tipo_programa,
+                                ver: 'Eventos'
                             },
                             failure: function() {
                                 alert('there was an error while fetching events!');

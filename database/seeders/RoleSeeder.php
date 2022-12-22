@@ -43,6 +43,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'requisito.index', 'description' => 'Gestionar requisitos', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'estudiante.index', 'description' => 'Gestionar estudiantes', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'programa.index', 'description' => 'Gestionar programas', 'type' => 'Académico'])->syncRoles($admin);
+        Permission::create(['name' => 'eventos.index', 'description' => 'Gestionar eventos', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'calendario.index', 'description' => 'Ver calendario de programas', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'unidad.index', 'description' => 'Gestionar unidad organizacional', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'docentes.index', 'description' => 'Gestionar docentes', 'type' => 'Académico'])->syncRoles($admin);

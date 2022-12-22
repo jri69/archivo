@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('tipo_fecha')->nullable();
             $table->unsignedBigInteger('programa_id')->nullable();
             $table->unsignedBigInteger('modulo_id')->nullable();
+            $table->unsignedBigInteger('evento_id')->nullable();
             $table->timestamps();
         });
     }

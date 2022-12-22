@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evento;
 use App\Models\ProgramaCalendar;
 use Illuminate\Http\Request;
 
@@ -88,5 +89,18 @@ class CalendarioController extends Controller
                 return response()->json($programas);
             }
         }
+    }
+
+    public function eventosIni()
+    {
+        $eventos = Evento::all();
+        return response()->json($eventos);
+    }
+
+
+    public function eventosFin()
+    {
+        $eventos = Evento::all();
+        return response()->json($eventos);
     }
 }

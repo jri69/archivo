@@ -17,6 +17,7 @@ use App\Http\Controllers\DirectivoController;
 use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\EventoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FifthPartidaController;
 use App\Http\Controllers\InventarioController;
@@ -73,6 +74,8 @@ Route::group(['prefix' => 'calendario', 'middleware' => ['can:calendario.index',
     Route::get('/otros', [CalendarioController::class, 'otros'])->name('calendario.otros');
     Route::get('/inicio', [CalendarioController::class, 'inicio'])->name('calendario.inicio');
     Route::get('/finalizado', [CalendarioController::class, 'finalizado'])->name('calendario.finalizado');
+    Route::get('/eventosIni', [CalendarioController::class, 'eventosIni'])->name('calendario.eventosIni');
+    Route::get('/eventosFin', [CalendarioController::class, 'eventosFin'])->name('calendario.eventosFin');
 });
 
 //Usuario
@@ -242,7 +245,6 @@ Route::group(['prefix' => 'activo_fijo', 'middleware' => ['can:activo.index', 'a
     Route::put('/update/{activo}', [ActivoFijoController::class, 'update'])->name('activo.update');
     Route::delete('/delete/{activo}', [ActivoFijoController::class, 'destroy'])->name('activo.delete');
 });
-
 
 // Unidad organizacional
 Route::group(['prefix' => 'unidad_organizacional', 'middleware' => ['can:unidad.index', 'auth']], function () {
@@ -459,4 +461,15 @@ Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
     Route::get('/show/{marketing}', [MarketingController::class, 'show'])->name('marketing.show');
     Route::put('/update/{marketing}', [MarketingController::class, 'update'])->name('marketing.update');
     Route::delete('/delete/{marketing}', [MarketingController::class, 'destroy'])->name('marketing.delete');
+});
+
+// Eventos
+Route::group(['prefix' => 'eventos', 'middleware' => ['auth']], function () {
+    Route::get('/', [EventoController::class, 'index'])->name('eventos.index');
+    Route::get('/create', [EventoController::class, 'create'])->name('eventos.create');
+    Route::post('/store', [EventoController::class, 'store'])->name('eventos.store');
+    Route::get('/edit/{eventos}', [EventoController::class, 'edit'])->name('eventos.edit');
+    Route::get('/show/{eventos}', [EventoController::class, 'show'])->name('eventos.show');
+    Route::put('/update/{eventos}', [EventoController::class, 'update'])->name('eventos.update');
+    Route::delete('/delete/{eventos}', [EventoController::class, 'destroy'])->name('eventos.delete');
 });
