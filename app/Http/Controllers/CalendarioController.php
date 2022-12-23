@@ -56,7 +56,7 @@ class CalendarioController extends Controller
             $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')
                 ->where('tipo', 'Modulo')->get();
             return response()->json($programas);
-        } else {
+        } else if ($ver == 'Programa') {
             // obtener parametros de la url para filtrar
             if (request('tipo')) {
                 request('tipo') ? $tipo = request('tipo') : '';
@@ -64,7 +64,7 @@ class CalendarioController extends Controller
                     ->where('tipo', $tipo)->get();
                 return response()->json($programas);
             } else {
-                $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')->where('tipo', '!=', 'Modulo')->get();
+                $programas = ProgramaCalendar::where('tipo_fecha', 'inicio')->where('tipo', '!=', 'Modulo')->where('tipo', '!=', 'Evento')->get();
                 return response()->json($programas);
             }
         }
@@ -77,7 +77,7 @@ class CalendarioController extends Controller
             $programas = ProgramaCalendar::where('tipo_fecha', 'final')
                 ->where('tipo', 'Modulo')->get();
             return response()->json($programas);
-        } else {
+        } else if ($ver == 'Programa') {
             // obtener parametros de la url para filtrar
             if (request('tipo')) {
                 request('tipo') ? $tipo = request('tipo') : $tipo = '';
@@ -85,22 +85,15 @@ class CalendarioController extends Controller
                     ->where('tipo', $tipo)->get();
                 return response()->json($programas);
             } else {
-                $programas = ProgramaCalendar::where('tipo_fecha', 'final')->where('tipo', '!=', 'Modulo')->get();
+                $programas = ProgramaCalendar::where('tipo_fecha', 'final')->where('tipo', '!=', 'Modulo')->where('tipo', '!=', 'Evento')->get();
                 return response()->json($programas);
             }
         }
     }
 
-    public function eventosIni()
+    public function eventos()
     {
-        $eventos = Evento::all();
-        return response()->json($eventos);
-    }
-
-
-    public function eventosFin()
-    {
-        $eventos = Evento::all();
+        $eventos = ProgramaCalendar::where('tipo', 'Evento')->get();
         return response()->json($eventos);
     }
 }

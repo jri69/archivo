@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Marketing;
+namespace App\Http\Livewire\Eventos;
 
-use App\Models\Prospecto;
-use Livewire\Component;
+use App\Models\Evento;
 use Livewire\WithPagination;
+use Livewire\Component;
+use Psy\Readline\Hoa\EventSource;
 
 class LwIndex extends Component
 {
@@ -17,25 +18,18 @@ class LwIndex extends Component
     public $grado;
     protected $paginationTheme = 'bootstrap';
 
-    public function mount()
-    {
-        $this->date = '';
-        $this->grado = '';
-    }
-
     //Metodo de reinicio de buscador
     public function updatingAttribute()
     {
         $this->resetPage();
     }
-
     public function render()
     {
-        $prospectos = Prospecto::where('grado_interes', 'ILIKE', '%' . strtolower($this->grado) . '%')
-            ->where('created_at', 'ILIKE', '%' .  strtolower($this->date) . '%')
-            ->where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+        $eventos = Evento::where('titulo', 'ILIKE', '%' . strtolower($this->grado) . '%')
+            ->where('lugar', 'ILIKE', '%' .  strtolower($this->date) . '%')
+            ->where('encargado', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
-        return view('livewire.marketing.lw-index', compact('prospectos'));
+        return view('livewire.eventos.lw-index', compact('eventos'));
     }
 }
