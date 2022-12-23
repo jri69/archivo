@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use App\Models\EstudianteModulo;
+use App\Models\Evento;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
 use App\Models\Programa;
@@ -38,7 +39,9 @@ class HomeController extends Controller
         $programas_finalizado = Programa::where('fecha_finalizacion', '<', $now)->get()->count();
         $programas_cursos = Programa::where('fecha_finalizacion', '>=', $now)->get()->count();
         $modulos = Modulo::where('fecha_final', '>=', $now)->get()->count();
-
+        // fecha de hoy mas 5 dias
+        $fecha = now()->addDays(7);
+        $eventos = Evento::where('fecha', '>=', $now)->where('fecha', '<=', $fecha)->where('hora', '>=', now()->format('H:m:s'))->limit(4)->get();
         // agrupar por cal_docente los mejores promedios de docentes en los modulos los 5 primeros
         $cal_docente = DB::table('modulos')
             ->join('docentes', 'modulos.docente_id', 'docentes.id')
@@ -83,6 +86,6 @@ class HomeController extends Controller
             $nombres[] = $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion;
         }
         // dd($nombres, $cantidad);
-        return view('dashboard', compact('estudiantes', 'programas_finalizado', 'programas_cursos', 'modulos', 'cal_docente', 'nombres', 'cantidad'));
+        return view('dashboard', compact('estudiantes', 'eventos', 'programas_finalizado', 'programas_cursos', 'modulos', 'cal_docente', 'nombres', 'cantidad'));
     }
 }

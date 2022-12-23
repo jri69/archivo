@@ -90,6 +90,8 @@ class EventoController extends Controller
     public function destroy($id)
     {
         $evento = Evento::findOrFail($id);
+        $calendario = ProgramaCalendar::where('evento_id', $evento->id)->first();
+        $calendario->delete();
         $evento->delete();
         return redirect()->route('eventos.index');
     }

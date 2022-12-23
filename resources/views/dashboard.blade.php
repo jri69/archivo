@@ -4,6 +4,40 @@
     <div class="content">
         {{-- tarjetas de 4 columnas y 4 filas  --}}
         <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4>Proximos eventos</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary">
+                                    <th>Titulo</th>
+                                    <th>Lugar</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($eventos as $evento)
+                                        <tr>
+                                            <td>{{ $evento->titulo }}</td>
+                                            <td>{{ $evento->lugar }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($evento->fecha)) }}</td>
+                                            <td>{{ $evento->hora }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @if (count($eventos) == 0)
+                                        <tr>
+                                            <td colspan="3">No hay eventos para hoy</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
@@ -24,8 +58,29 @@
                         </div>
                     @endcan
                 </div>
+                <div class="card card-stats">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">article</i>
+                        </div>
+                        <p class="card-category">
+                            <strong class="h6 card-title">Modulos en curso</strong>
+                        </p>
+                        <h3 class="card-title">{{ $modulos }} </h3>
+                    </div>
+                    @can('modulo.index')
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons text-danger">visibility</i>
+                                <a href="{{ route('modulo.index') }}">Ver modulos</a>
+                            </div>
+                        </div>
+                    @endcan
+                </div>
+
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
+
                 <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
                         <div class="card-icon">
@@ -45,8 +100,6 @@
                         </div>
                     @endcan
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
                         <div class="card-icon">
@@ -62,27 +115,6 @@
                             <div class="stats">
                                 <i class="material-icons text-danger">visibility</i>
                                 <a href="{{ route('programa.index') }}">Ver programas</a>
-                            </div>
-                        </div>
-                    @endcan
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-primary card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">article</i>
-                        </div>
-                        <p class="card-category">
-                            <strong class="h6 card-title">Modulos en curso</strong>
-                        </p>
-                        <h3 class="card-title">{{ $modulos }} </h3>
-                    </div>
-                    @can('modulo.index')
-                        <div class="card-footer">
-                            <div class="stats">
-                                <i class="material-icons text-danger">visibility</i>
-                                <a href="{{ route('modulo.index') }}">Ver modulos</a>
                             </div>
                         </div>
                     @endcan
