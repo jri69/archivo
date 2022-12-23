@@ -34,6 +34,9 @@ class LwIndex extends Component
         $prospectos = Prospecto::where('grado_interes', 'ILIKE', '%' . strtolower($this->grado) . '%')
             ->where('created_at', 'ILIKE', '%' .  strtolower($this->date) . '%')
             ->where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            // ->orWhere('telefono', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            // ->where('email', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            // ->orWhere('estado', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
         return view('livewire.marketing.lw-index', compact('prospectos'));

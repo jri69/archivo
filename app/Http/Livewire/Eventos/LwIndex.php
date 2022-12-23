@@ -14,8 +14,6 @@ class LwIndex extends Component
     public $attribute = '';
     public $sort = 'id';
     public $direction = 'desc';
-    public $date;
-    public $grado;
     protected $paginationTheme = 'bootstrap';
 
     //Metodo de reinicio de buscador
@@ -23,11 +21,12 @@ class LwIndex extends Component
     {
         $this->resetPage();
     }
+
     public function render()
     {
-        $eventos = Evento::where('titulo', 'ILIKE', '%' . strtolower($this->grado) . '%')
-            ->where('lugar', 'ILIKE', '%' .  strtolower($this->date) . '%')
-            ->where('encargado', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+        $eventos = Evento::where('titulo', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('lugar', 'ILIKE', '%' .  strtolower($this->attribute) . '%')
+            ->orWhere('encargado', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
         return view('livewire.eventos.lw-index', compact('eventos'));
