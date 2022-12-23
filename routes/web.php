@@ -74,8 +74,7 @@ Route::group(['prefix' => 'calendario', 'middleware' => ['can:calendario.index',
     Route::get('/otros', [CalendarioController::class, 'otros'])->name('calendario.otros');
     Route::get('/inicio', [CalendarioController::class, 'inicio'])->name('calendario.inicio');
     Route::get('/finalizado', [CalendarioController::class, 'finalizado'])->name('calendario.finalizado');
-    Route::get('/eventosIni', [CalendarioController::class, 'eventosIni'])->name('calendario.eventosIni');
-    Route::get('/eventosFin', [CalendarioController::class, 'eventosFin'])->name('calendario.eventosFin');
+    Route::get('/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos');
 });
 
 //Usuario
