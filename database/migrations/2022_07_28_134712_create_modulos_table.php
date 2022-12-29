@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('modulos', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo');
             $table->string('nombre');
             $table->string('sigla');
             $table->string('estado');
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->integer('hrs_academicas');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
+            $table->text('contenido')->nullable();
             $table->unsignedBigInteger('programa_id')->nullable();
             $table->foreign('programa_id')->references('id')->on('programas')->onDelete('cascade');
             $table->unsignedBigInteger('docente_id')->nullable();

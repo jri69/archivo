@@ -25,7 +25,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary text-dark">
-                                    <th>#</th>
+                                    <th>Codigo</th>
                                     <th>Programa</th>
                                     <th>Modulo</th>
                                     <th>Docente</th>
@@ -37,7 +37,7 @@
                                 <tbody>
                                     @foreach ($modulos as $modulo)
                                         <tr>
-                                            <td>{{ $modulo->id }} </td>
+                                            <td>{{ $modulo->codigo }} </td>
                                             <td>{{ $modulo->programa->sigla . ' ' . $modulo->programa->version . '.' . $modulo->programa->edicion }}
                                             </td>
                                             <td>{{ $modulo->nombre }}

@@ -5,7 +5,19 @@
                 <form class="form-horizontal" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
-
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Codigo</label>
+                                        <input wire:model.defer="datos.codigo" type="text" class="form-control"
+                                            name="codigo">
+                                        @error('datos.codigo')
+                                            <span class="error text-danger" for="input-codigo">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
                             <div class="row">
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre:</b>
                                 </label>

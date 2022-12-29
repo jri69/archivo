@@ -12,97 +12,115 @@
                             <div class="card-body">
 
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Programa:</b> </label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="id_programa">
-                                            <option disabled selected>Seleccione el programa</option>
-                                            @foreach ($programas as $programa)
-                                                <option value="{{ $programa->id }}">
-                                                    {{ $programa->nombre }} -
-                                                    {{ $programa->version . '.' . $programa->edicion }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('id_programa'))
-                                            <span class="error text-danger"
-                                                for="input-id_programa">{{ $errors->first('id_programa') }}</span>
-                                        @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="programa_id">
+                                                <option disabled selected>Seleccione el programa</option>
+                                                @foreach ($programas as $programa)
+                                                    <option value="{{ $programa->id }}">
+                                                        {{ $programa->nombre }} -
+                                                        {{ $programa->version . '.' . $programa->edicion }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has('programa_id'))
+                                                <span class="error text-danger"
+                                                    for="input-programa_id">{{ $errors->first('programa_id') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="docente_id">
+                                                <option disabled selected>Seleccione el docente</option>
+                                                @foreach ($docentes as $docente)
+                                                    <option value="{{ $docente->id }}">
+                                                        {{ $docente->honorifico }} {{ $docente->nombre }}
+                                                        {{ $docente->apellido }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has('docente_id'))
+                                                <span class="error text-danger"
+                                                    for="input-docente_id">{{ $errors->first('docente_id') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Docente:</b> </label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="docente_id">
-                                            <option disabled selected>Seleccione el docente</option>
-                                            @foreach ($docentes as $docente)
-                                                <option value="{{ $docente->id }}">
-                                                    {{ $docente->honorifico }} {{ $docente->nombre }}
-                                                    {{ $docente->apellido }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('docente_id'))
-                                            <span class="error text-danger"
-                                                for="input-docente_id">{{ $errors->first('docente_id') }}</span>
-                                        @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Codigo del modulo</label>
+                                            <input type="text" class="form-control" name="codigo"
+                                                value="{{ old('codigo') }}">
+                                            @if ($errors->has('codigo'))
+                                                <span class="error text-danger"
+                                                    for="input-codigo">{{ $errors->first('codigo') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Nombre del modulo</label>
+                                            <input type="text" class="form-control" name="nombre"
+                                                value="{{ old('nombre') }}">
+                                            @if ($errors->has('nombre'))
+                                                <span class="error text-danger"
+                                                    for="input-nombre">{{ $errors->first('nombre') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Sigla</label>
+                                            <input type="text" class="form-control" name="sigla"
+                                                value="{{ old('sigla') }}">
+                                            @if ($errors->has('sigla'))
+                                                <span class="error text-danger"
+                                                    for="input-sigla">{{ $errors->first('sigla') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Hrs Academicas</label>
+                                            <input type="number" class="form-control" name="hrs_academicas"
+                                                value="{{ old('hrs_academicas') }}">
+                                            @if ($errors->has('hrs_academicas'))
+                                                <span class="error text-danger"
+                                                    for="input-hrs_academicas">{{ $errors->first('hrs_academicas') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Nombre del Módulo:</b>
-                                    </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre">
-                                        @if ($errors->has('nombre'))
-                                            <span class="error text-danger"
-                                                for="input-nombre">{{ $errors->first('nombre') }}</span>
-                                        @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Versión</label>
+                                            <input type="text" class="form-control" name="version"
+                                                value="{{ old('version') }}">
+                                            @if ($errors->has('version'))
+                                                <span class="error text-danger"
+                                                    for="input-version">{{ $errors->first('version') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Hrs Academicas:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="number" class="form-control" name="hrs_academicas"
-                                            placeholder="Horas Academicas">
-                                        @if ($errors->has('hrs_academicas'))
-                                            <span class="error text-danger"
-                                                for="input-hrs_academicas">{{ $errors->first('hrs_academicas') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Sigla:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="sigla" placeholder="Sigla">
-                                        @if ($errors->has('sigla'))
-                                            <span class="error text-danger"
-                                                for="input-sigla">{{ $errors->first('sigla') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Versión:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="version" placeholder="Versión">
-                                        @if ($errors->has('version'))
-                                            <span class="error text-danger"
-                                                for="input-version">{{ $errors->first('version') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Edición:</b> </label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" name="edicion" placeholder="Edición">
-                                        @if ($errors->has('edicion'))
-                                            <span class="error text-danger"
-                                                for="input-edicion">{{ $errors->first('edicion') }}</span>
-                                        @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Edición</label>
+                                            <input type="text" class="form-control" name="edicion"
+                                                value="{{ old('edicion') }}">
+                                            @if ($errors->has('edicion'))
+                                                <span class="error text-danger"
+                                                    for="input-edicion">{{ $errors->first('edicion') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <br>
@@ -129,7 +147,8 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b> </label>
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de inicio:</b>
+                                    </label>
                                     <div class="col-sm-7">
                                         <input type="date" class="form-control" name="fecha_inicio">
                                         @if ($errors->has('fecha_inicio'))
@@ -154,6 +173,17 @@
                                     <input type="text" class="form-control" name="estado" value="Sin iniciar">
                                 </div>
                                 <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Contenido:</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control" name="contenido" rows="5" value="{{ old('contenido') }}"></textarea>
+                                        @if ($errors->has('contenido'))
+                                            <span class="error text danger"
+                                                for="input-contenido">{{ $errors->first('contenido') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">

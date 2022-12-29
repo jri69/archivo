@@ -74,8 +74,36 @@
                             </div>
                         </div>
                         <br>
-
                         <div class="row">
+                            <label for="nombre" class="col-sm-7">
+                                Nacionalidad:
+                            </label>
+                            <div class="col-sm-7">
+                                <input wire:model.defer="datos.nacionalidad" type="radio" name="nacionalidad"
+                                    value="Boliviano" checked>
+                                <span>Boliviano</span>
+                                <input wire:model.defer="datos.nacionalidad" type="radio" name="nacionalidad"
+                                    value="Extranjero" style='margin-left: 20px'>
+                                <span>Extranjero</span>
+                            </div>
+                            <div class="col-sm-7">
+                                @error('datos.nacionalidad')
+                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Registro</label>
+                                    <input type="text" class="form-control" name="numero_registro"
+                                        wire:model.defer='datos.numero_registro'>
+                                </div>
+                                @error('datos.numero_registro')
+                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                @enderror
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Carrera</label>
@@ -86,7 +114,10 @@
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Universidad</label>
                                     <input type="text" class="form-control" name="universidad"
@@ -98,7 +129,6 @@
                             </div>
                         </div>
                         <br>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

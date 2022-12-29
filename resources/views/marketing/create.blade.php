@@ -14,7 +14,8 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Nombre del prospecto</label>
-                                            <input type="text" class="form-control" name="nombre" required>
+                                            <input type="text" class="form-control" name="nombre" required
+                                                value="{{ old('nombre') }}">
                                         </div>
                                         @if ($errors->has('nombre'))
                                             <span class="error text-danger"
@@ -28,7 +29,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nombre" class="bmd-label-floating">Correo</label>
-                                            <input type="text" class="form-control" name="email">
+                                            <input type="text" class="form-control" name="email"
+                                                value="{{ old('email') }}">
                                         </div>
                                         @if ($errors->has('email'))
                                             <span class="error text-danger"
@@ -38,7 +40,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nombre" class="bmd-label-floating">Telefono</label>
-                                            <input type="text" class="form-control" name="telefono">
+                                            <input type="text" class="form-control" name="telefono"
+                                                value="{{ old('telefono') }}">
                                         </div>
                                         @if ($errors->has('telefono'))
                                             <span class="error text-danger"
@@ -52,7 +55,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Interes</label>
-                                            <input type="text" class="form-control" name="interes" required>
+                                            <input type="text" class="form-control" name="interes" required
+                                                value="{{ old('interes') }}">
                                         </div>
                                         @if ($errors->has('interes'))
                                             <span class="error text-danger"
@@ -63,7 +67,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Carrera</label>
-                                            <input type="text" class="form-control" name="carrera">
+                                            <input type="text" class="form-control" name="carrera"
+                                                value="{{ old('carrera') }}">
                                         </div>
                                         @if ($errors->has('carrera'))
                                             <span class="error text-danger"
@@ -91,7 +96,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Observaciones</label>
-                                            <textarea class="form-control" name="observaciones" rows="5"></textarea>
+                                            <textarea class="form-control" name="observaciones" rows="5" value="{{ old('observaciones') }}"></textarea>
                                         </div>
                                     </div>
                                 </div>

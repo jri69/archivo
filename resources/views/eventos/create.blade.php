@@ -14,7 +14,8 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Titulo del evento</label>
-                                            <input type="text" class="form-control" name="titulo" required>
+                                            <input type="text" class="form-control" name="titulo" required
+                                                value="{{ old('titulo') }}">
                                         </div>
                                         @if ($errors->has('titulo'))
                                             <span class="error text-danger"
@@ -27,7 +28,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nombre" class="bmd-label-floating">Encargado</label>
-                                            <input type="text" class="form-control" name="encargado">
+                                            <input type="text" class="form-control" name="encargado"
+                                                value="{{ old('encargado') }}">
                                         </div>
                                         @if ($errors->has('encargado'))
                                             <span class="error text-danger"
@@ -37,7 +39,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nombre" class="bmd-label-floating">Lugar</label>
-                                            <input type="text" class="form-control" name="lugar">
+                                            <input type="text" class="form-control" name="lugar"
+                                                value="{{ old('lugar') }}">
                                         </div>
                                         @if ($errors->has('lugar'))
                                             <span class="error text-danger"

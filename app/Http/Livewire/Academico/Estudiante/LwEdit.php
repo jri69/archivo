@@ -26,6 +26,7 @@ class LwEdit extends Component
         $this->datos['expedicion'] = $this->estudiante->expedicion;
         $this->datos['carrera'] = $this->estudiante->carrera;
         $this->datos['universidad'] = $this->estudiante->universidad;
+        $this->datos['numero_registro'] = $this->estudiante->numero_registro;
     }
 
     public function store()
@@ -34,11 +35,13 @@ class LwEdit extends Component
             [
                 'datos.nombre' => 'required|string|max:200',
                 'datos.email' => 'required|email|max:200|unique:estudiantes,email,' . $this->estudiante->id,
-                'datos.telefono' => 'required|numeric',
+                'datos.telefono' => 'numeric',
                 'datos.cedula' => 'required|numeric|unique:estudiantes,cedula,' . $this->estudiante->id,
                 'datos.expedicion' => 'required|alpha|size:2',
                 'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'datos.numero_registro' => 'nullable|string|max:200',
+                'datos.nacionalidad' => 'required|string',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -46,7 +49,6 @@ class LwEdit extends Component
                 'datos.email.required' => 'El campo correo es obligatorio',
                 'datos.email.email' => 'El campo correo debe ser un correo valido',
                 'datos.email.unique' => 'El campo correo ya esta registrado',
-                'datos.telefono.required' => 'El campo telefono es obligatorio',
                 'datos.telefono.numeric' => 'El campo telefono solo puede contener numeros',
                 'datos.cedula.required' => 'El campo cedula es obligatorio',
                 'datos.cedula.numeric' => 'El campo cedula solo puede contener numeros',
@@ -57,17 +59,11 @@ class LwEdit extends Component
                 'datos.carrera.regex' => 'El campo carrera solo puede contener letras',
                 'datos.universidad.required' => 'El campo universidad es obligatorio',
                 'datos.universidad.regex' => 'El campo universidad solo puede contener letras',
+                'datos.numero_registro.required' => 'El campo numero de registro es obligatorio',
+                'datos.nacionalidad.required' => 'El campo nacionalidad es obligatorio',
             ]
         );
-        $this->estudiante->update([
-            'nombre' => $this->datos['nombre'],
-            'email' => $this->datos['email'],
-            'telefono' => $this->datos['telefono'],
-            'cedula' => $this->datos['cedula'],
-            'expedicion' => $this->datos['expedicion'],
-            'carrera' => $this->datos['carrera'],
-            'universidad' => $this->datos['universidad'],
-        ]);
+        $this->estudiante->update($this->datos);
         if ($this->documentos) {
             $requisitos = Requisito::all();
             foreach ($requisitos as $requisito) {

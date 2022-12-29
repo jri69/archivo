@@ -15,7 +15,6 @@
                 </a>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -32,14 +31,20 @@
                                     <th>Estado</th>
                                     <th>Correo</th>
                                     <th>Telefono</th>
+                                    <th>Nacionalidad</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($estudiantes as $estudiante)
                                         <tr>
                                             <td>{{ $estudiante->id }} </td>
-                                            <td>{{ $estudiante->nombre }}</td>
-                                            <td>{{ $estudiante->cedula }}</td>
+                                            <td>{{ $estudiante->nombre }}
+                                                @if ($estudiante->numero_registro)
+                                                    <br>
+                                                    <small>Reg: {{ $estudiante->numero_registro }}</small>
+                                                @endif
+                                            </td>
+                                            <td>{{ $estudiante->cedula ? $estudiante->cedula : 'Sin cedula' }}</td>
                                             <td>
                                                 @if ($estudiante->estado == 'Activo')
                                                     <span class="badge badge-success">Activo</span>
@@ -47,8 +52,12 @@
                                                     <span class="badge badge-danger">Inactivo</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $estudiante->email }}</td>
-                                            <td>{{ $estudiante->telefono }}</td>
+                                            <td>{{ $estudiante->email ? $estudiante->email : 'Sin correo' }}</td>
+                                            <td>{{ $estudiante->telefono ? $estudiante->telefono : 'Sin telefono' }}
+                                            </td>
+                                            <td>{{ $estudiante->telefono ? $estudiante->telefono : 'Sin telefono' }}
+                                            </td>
+                                            <td>{{ $estudiante->nacionalidad ? $estudiante->nacionalidad : '-' }}</td>
                                             <td class="td-actions">
                                                 <a href="{{ route('estudiante.show', $estudiante->id) }}"
                                                     class="btn btn-success">

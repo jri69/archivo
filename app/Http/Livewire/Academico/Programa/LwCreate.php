@@ -12,6 +12,7 @@ class LwCreate extends Component
 
     public function mount()
     {
+        $datos['codigo'] = '';
         $datos['nombre'] = '';
         $datos['sigla'] = '';
         $datos['version'] = '';
@@ -27,6 +28,7 @@ class LwCreate extends Component
     {
         $this->validate(
             [
+                'datos.codigo' => 'required|string',
                 'datos.nombre' => 'required|string|max:255',
                 'datos.sigla' => 'required|string|max:50',
                 'datos.version' => 'required|string|max:10',
@@ -39,6 +41,7 @@ class LwCreate extends Component
                 'datos.hrs_academicas' => 'required|numeric',
             ],
             [
+                'datos.codigo.required' => 'El campo codigo es obligatorio',
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
                 'datos.sigla.required' => 'El campo sigla es obligatorio',
                 'datos.version.required' => 'El campo version es obligatorio',
@@ -52,19 +55,9 @@ class LwCreate extends Component
                 'datos.hrs_academicas.numeric' => 'El campo horas academicas debe ser un numero',
             ]
         );
-        $programa = Programa::create([
-            'nombre' => $this->datos['nombre'],
-            'sigla' => $this->datos['sigla'],
-            'version' => $this->datos['version'],
-            'edicion' => $this->datos['edicion'],
-            'fecha_inicio' => $this->datos['fecha_inicio'],
-            'fecha_finalizacion' => $this->datos['fecha_finalizacion'],
-            'cantidad_modulos' => 0,
-            'costo' => $this->datos['costo'],
-            'tipo' => $this->datos['tipo'],
-            'modalidad' => $this->datos['modalidad'],
-            'hrs_academicas' => $this->datos['hrs_academicas'],
-        ]);
+        //aumentar cantidad_modulos
+        $this->datos['cantidad_modulos'] = 0;
+        $programa = Programa::create($this->datos);
         ProgramaCalendar::create([
             'title' => $programa->nombre,
             'start' => $programa->fecha_inicio,
