@@ -29,6 +29,7 @@ use App\Http\Controllers\Pago_ServicioController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PartidaController;
 use App\Http\Controllers\PresupuestoController;
+use App\Http\Controllers\ProcesosController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\QuarterPartidaController;
 use App\Http\Controllers\RecepcionController;
@@ -121,6 +122,8 @@ Route::group(['prefix' => 'modulo', 'middleware' => ['can:modulo.index', 'auth']
     Route::get('/create', [ModuloController::class, 'create'])->name('modulo.create');
     Route::post('/store', [ModuloController::class, 'store'])->name('modulo.store');
     Route::get('/edit/{modulo}', [ModuloController::class, 'edit'])->name('modulo.edit');
+    Route::get('/show/{modulo}', [ModuloController::class, 'show'])->name('modulo.show');
+    Route::get('/proceso/{modulo}/{proceso}', [ModuloController::class, 'proceso'])->name('modulo.proceso');
     Route::put('/update/{modulo}', [ModuloController::class, 'update'])->name('modulo.update');
     Route::delete('/delete/{modulo}', [ModuloController::class, 'destroy'])->name('modulo.delete');
 });
@@ -133,6 +136,16 @@ Route::group(['prefix' => 'requisito', 'middleware' => ['can:requisito.index', '
     Route::get('/edit/{requisito}', [RequisitosController::class, 'edit'])->name('requisito.edit');
     Route::put('/update/{requisito}', [RequisitosController::class, 'update'])->name('requisito.update');
     Route::delete('/delete/{requisito}', [RequisitosController::class, 'destroy'])->name('requisito.delete');
+});
+
+// Procesos
+Route::group(['prefix' => 'procesos', 'middleware' => [/* 'can:requisito.index', */'auth']], function () {
+    Route::get('/index', [ProcesosController::class, 'index'])->name('procesos.index');
+    Route::get('/create', [ProcesosController::class, 'create'])->name('procesos.create');
+    Route::post('/store', [ProcesosController::class, 'store'])->name('procesos.store');
+    Route::get('/edit/{procesos}', [ProcesosController::class, 'edit'])->name('procesos.edit');
+    Route::put('/update/{procesos}', [ProcesosController::class, 'update'])->name('procesos.update');
+    Route::delete('/delete/{procesos}', [ProcesosController::class, 'destroy'])->name('procesos.delete');
 });
 
 // Estudiantes

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Docente;
+use App\Models\EstudianteModulo;
 use App\Models\Modulo;
+use App\Models\NotasPrograma;
+use App\Models\ProcesoModulo;
+use App\Models\ProcesoRealizado;
 use App\Models\Programa;
 use App\Models\ProgramaCalendar;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ModuloController extends Controller
@@ -167,5 +172,49 @@ class ModuloController extends Controller
         }
         $modulo->delete();
         return redirect()->route('modulo.index');
+    }
+
+    // Mostrar un módulo
+    public function show($id)
+    {
+        $modulo = Modulo::findOrFail($id);
+        $programa = Programa::findOrFail($modulo->programa_id);
+        $estudiantesModulo = NotasPrograma::Join('estudiantes', 'estudiantes.id', '=', 'notas_programas.id_estudiante')
+            ->select('estudiantes.*', 'notas_programas.*')
+            ->where('notas_programas.id_modulo', $modulo->id)
+            ->get();
+        $cant_estudiantes = $estudiantesModulo->count();
+
+        $procesos = ProcesoModulo::OrderBy('orden', 'asc')->get();
+        $procesoModulo = ProcesoRealizado::where('modulo_id', $modulo->id)->get();
+        $listaProceso = [];
+        foreach ($procesos as $proceso) {
+            $realizado = false;
+            $fecha = null;
+            foreach ($procesoModulo as $procesoRealizado) {
+                if ($proceso->id == $procesoRealizado->proceso_modulo_id) {
+                    $realizado = true;
+                    $fecha = $procesoRealizado->fecha;
+                    $procesoModulo->forget($procesoModulo->search($procesoRealizado));
+                    break;
+                }
+            }
+            $listaProceso[] = [
+                'id' => $proceso->id,
+                'nombre' => $proceso->nombre,
+                'estado' => $realizado,
+                'fecha' => $fecha
+            ];
+        }
+        return view('modulo.show', compact('modulo', 'programa', 'estudiantesModulo', 'cant_estudiantes', 'listaProceso'));
+    }
+    public function proceso($modulo, $proceso)
+    {
+        ProcesoRealizado::create([
+            'modulo_id' => $modulo,
+            'proceso_modulo_id' => $proceso,
+            'fecha' => Carbon::now()
+        ]);
+        return redirect()->route('modulo.show', $modulo);
     }
 }

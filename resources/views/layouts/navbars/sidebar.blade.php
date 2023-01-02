@@ -175,6 +175,12 @@
                                     </a>
                                 </li>
                             @endcan
+                            <li class="nav-item{{ $activePage == 'procesos' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('procesos.index') }}">
+                                    <span class="sidebar-mini"> PR </span>
+                                    <span class="sidebar-normal"> {{ __('Procesos') }} </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

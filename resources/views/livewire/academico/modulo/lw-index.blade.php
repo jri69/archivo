@@ -54,9 +54,9 @@
                                             <td>{{ date('d-m-Y', strtotime($modulo->fecha_final)) }}</td>
 
                                             <td class="td-actions">
-                                                <a href="{{ route('modulo.edit', $modulo->id) }}"
-                                                    class="btn btn-primary">
-                                                    <span class="material-icons">edit</span>
+                                                <a href="{{ route('modulo.show', $modulo->id) }}"
+                                                    class="btn btn-success">
+                                                    <span class="material-icons">visibility</span>
                                                 </a>
                                                 <form action="{{ route('modulo.delete', $modulo->id) }}" method="POST"
                                                     style="display: inline-block;"
