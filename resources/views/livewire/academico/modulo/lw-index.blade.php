@@ -25,7 +25,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary text-dark">
-                                    <th>#</th>
+                                    <th>Codigo</th>
                                     <th>Programa</th>
                                     <th>Modulo</th>
                                     <th>Docente</th>
@@ -37,7 +37,7 @@
                                 <tbody>
                                     @foreach ($modulos as $modulo)
                                         <tr>
-                                            <td>{{ $modulo->id }} </td>
+                                            <td>{{ $modulo->codigo }} </td>
                                             <td>{{ $modulo->programa->sigla . ' ' . $modulo->programa->version . '.' . $modulo->programa->edicion }}
                                             </td>
                                             <td>{{ $modulo->nombre }}
@@ -54,9 +54,9 @@
                                             <td>{{ date('d-m-Y', strtotime($modulo->fecha_final)) }}</td>
 
                                             <td class="td-actions">
-                                                <a href="{{ route('modulo.edit', $modulo->id) }}"
-                                                    class="btn btn-primary">
-                                                    <span class="material-icons">edit</span>
+                                                <a href="{{ route('modulo.show', $modulo->id) }}"
+                                                    class="btn btn-success">
+                                                    <span class="material-icons">visibility</span>
                                                 </a>
                                                 <form action="{{ route('modulo.delete', $modulo->id) }}" method="POST"
                                                     style="display: inline-block;"

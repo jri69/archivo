@@ -25,7 +25,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary text-dark">
-                                    <th>#</th>
+                                    <th>Codigo</th>
                                     <th>Nombre</th>
                                     <th>Tipo</th>
                                     <th>Sigla</th>
@@ -38,7 +38,7 @@
                                 <tbody>
                                     @foreach ($programas as $programa)
                                         <tr>
-                                            <td>{{ $programa->id }} </td>
+                                            <td>{{ $programa->codigo }} </td>
                                             <td>{{ $programa->nombre }}
                                                 <br>
                                                 <small class=" text-capitalize">

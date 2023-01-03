@@ -39,9 +39,23 @@ class LwEdit extends Component
                 default:
                     break;
             }
-            // $this->permisosV[$permiso] = $permiso;
         }
-        // $this->permissions = Permission::orderBy('name')->get();
+        $permisos = Permission::orderBy('name')->get();
+        foreach ($permisos as $permiso) {
+            switch ($permiso->type) {
+                case 'Administrativo':
+                    array_push($this->administrativos, $permiso);
+                    break;
+                case 'Contabilidad':
+                    array_push($this->contables, $permiso);
+                    break;
+                case 'Académico':
+                    array_push($this->academico, $permiso);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public function add()

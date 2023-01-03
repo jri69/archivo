@@ -36,7 +36,7 @@
                 </li>
             @endcan
             @can('eventos.index')
-                <li class="nav-item{{ $activePage == 'evento' ? ' active' : '' }}">
+                <li class="nav-item{{ $activePage == 'eventos' ? ' active' : '' }}">
                     <a class="nav-link" href="{{ route('eventos.index') }}">
                         <i class="material-icons">event</i>
                         <p>{{ __('Eventos') }}</p>
@@ -175,6 +175,12 @@
                                     </a>
                                 </li>
                             @endcan
+                            <li class="nav-item{{ $activePage == 'procesos' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('procesos.index') }}">
+                                    <span class="sidebar-mini"> PR </span>
+                                    <span class="sidebar-normal"> {{ __('Procesos') }} </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

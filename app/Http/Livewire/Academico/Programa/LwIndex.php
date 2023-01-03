@@ -27,6 +27,7 @@ class LwIndex extends Component
         $programas = Programa::where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orWhere('sigla', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orWhere('tipo', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+            ->orWhere('codigo', 'ILIKE', '%' . strtolower($this->attribute) . '%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
         return view('livewire..academico.programa.lw-index', compact('programas'));

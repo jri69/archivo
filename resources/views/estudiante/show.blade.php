@@ -45,25 +45,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Correo Electrónico</label>
-                                        <input type="email" class="form-control" value="{{ $estudiante->email }}"
-                                            disabled>
-                                    </div>
+                            @if ($estudiante->email || $estudiante->telefono)
+                                <br>
+                                <div class="row">
+                                    @if ($estudiante->email)
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Correo Electrónico</label>
+                                                <input type="email" class="form-control" value="{{ $estudiante->email }}"
+                                                    disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if ($estudiante->telefono)
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Telefono</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $estudiante->telefono }}" disabled>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Telefono</label>
-                                        <input type="text" class="form-control" value="{{ $estudiante->telefono }}"
-                                            disabled>
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
                             <br>
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -72,13 +77,15 @@
                                             value="{{ $estudiante->cedula }} - {{ $estudiante->expedicion }}" disabled>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Carrera</label>
-                                        <input type="text" class="form-control" value="{{ $estudiante->carrera }}"
-                                            disabled>
+                                @if ($estudiante->numero_registro)
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Registro</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $estudiante->numero_registro }}" disabled>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             @if ($estudiante->estado == 'Inactivo')
                                 <br>
@@ -102,7 +109,14 @@
                             @endif
                             <br>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Carrera</label>
+                                        <input type="text" class="form-control" value="{{ $estudiante->carrera }}"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Universadad</label>
                                         <input type="text" class="form-control" value="{{ $estudiante->universidad }}"
@@ -110,13 +124,10 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">

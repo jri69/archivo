@@ -34,7 +34,8 @@ class LwCreate extends Component
         $this->datos['estado'] = 'Activo';
         $this->datos['id_modulo'] = '';
         $this->datos['id_programa'] = '';
-        // pedir todos los programas que aun estan en fechas de finalizacion disponible
+        $this->datos['numero_registro'] = '';
+        $this->datos['nacionalidad'] = 'Boliviano';
         $date = date('Y-m-d');
         $this->programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
         $this->requisitos = Requisito::all();
@@ -46,20 +47,21 @@ class LwCreate extends Component
             [
                 'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.email' => 'email|max:200|unique:estudiantes,email',
-                'datos.telefono' => 'required|numeric',
+                'datos.telefono' => 'numeric',
                 'datos.cedula' => 'required|numeric|unique:estudiantes,cedula',
                 'datos.expedicion' => 'required|alpha|size:2',
                 'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.id_programa' => 'required|numeric',
                 'datos.id_modulo' => 'required|numeric',
+                'datos.numero_registro' => 'numeric',
+                'datos.nacionalidad' => 'required|string',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
                 'datos.nombre.regex' => 'El campo nombre solo puede contener letras',
                 'datos.email.email' => 'El campo correo debe ser un correo valido',
                 'datos.email.unique' => 'El campo correo ya esta registrado',
-                'datos.telefono.required' => 'El campo telefono es obligatorio',
                 'datos.telefono.numeric' => 'El campo telefono solo puede contener numeros',
                 'datos.cedula.required' => 'El campo cedula es obligatorio',
                 'datos.cedula.numeric' => 'El campo cedula solo puede contener numeros',
@@ -72,18 +74,11 @@ class LwCreate extends Component
                 'datos.universidad.regex' => 'El campo universidad solo puede contener letras',
                 'datos.id_programa.required' => 'El campo programa es obligatorio',
                 'datos.id_modulo.required' => 'El campo modulo es obligatorio',
+                'datos.numero_registro.numeric' => 'El campo numero de registro solo puede contener numeros',
+                'datos.nacionalidad.required' => 'El campo nacionalidad es obligatorio',
             ]
         );
-        $estudiante = Estudiante::create([
-            'nombre' => $this->datos['nombre'],
-            'email' => $this->datos['email'],
-            'estado' => $this->datos['estado'],
-            'telefono' => $this->datos['telefono'],
-            'cedula' => $this->datos['cedula'],
-            'expedicion' => $this->datos['expedicion'],
-            'carrera' => $this->datos['carrera'],
-            'universidad' => $this->datos['universidad'],
-        ]);
+        $estudiante = Estudiante::create($this->datos);
         if ($this->datos['id_programa']) {
             EstudiantePrograma::create([
                 'id_estudiante' => $estudiante->id,

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Docente;
+use App\Models\EstudianteModulo;
 use App\Models\Modulo;
+use App\Models\NotasPrograma;
+use App\Models\ProcesoModulo;
+use App\Models\ProcesoRealizado;
 use App\Models\Programa;
 use App\Models\ProgramaCalendar;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ModuloController extends Controller
@@ -30,54 +35,43 @@ class ModuloController extends Controller
     {
         $request->validate(
             [
+                'codigo' => 'required|string',
                 'nombre' => 'required|string',
                 'sigla' => 'required|string',
                 'version' => 'required|numeric',
                 'edicion' => 'required|numeric',
                 'fecha_inicio' => 'required|date',
                 'fecha_final' => 'required|date',
-                'id_programa' => 'required|numeric',
+                'programa_id' => 'required|numeric',
                 'docente_id' => 'required|numeric',
                 'modalidad' => 'required|string',
                 'hrs_academicas' => 'required|numeric',
             ],
             [
+                'codigo.required' => 'El código es requerido',
                 'nombre.required' => 'El nombre es requerido',
                 'sigla.required' => 'La sigla es requerida',
                 'version.required' => 'La versión es requerida',
                 'edicion.required' => 'La edición es requerida',
                 'fecha_inicio.required' => 'La fecha de inicio es requerida',
                 'fecha_final.required' => 'La fecha final es requerida',
-                'id_programa.required' => 'El programa es requerido',
+                'programa_id.required' => 'El programa es requerido',
                 'docente_id.required' => 'El docente es requerido',
                 'modalidad.required' => 'La modalidad es requerida',
                 'hrs_academicas.required' => 'Las horas académicas son requeridas',
             ]
         );
-        $modulos = Modulo::where('programa_id', $request->id_programa)->get();
+        $modulos = Modulo::where('programa_id', $request->programa_id)->get();
         $cantidad = count($modulos) + 1;
-        $programa = Programa::findOrFail($request->id_programa);
+        $programa = Programa::findOrFail($request->programa_id);
         $costoXmodulo = $programa->costo / $cantidad;
         foreach ($modulos as $modulo) {
             $mod = Modulo::findOrFail($modulo->id);
             $mod->costo = $costoXmodulo;
             $mod->save();
         }
-        $modulo = Modulo::create([
-            'nombre' => $request->nombre,
-            'sigla' => $request->sigla,
-            'version' => $request->version,
-            'edicion' => $request->edicion,
-            'costo' => $costoXmodulo,
-            'estado' => $request->estado,
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_final' => $request->fecha_final,
-            'id_programa' => $request->id_programa,
-            'docente_id' => $request->docente_id,
-            'modalidad' => $request->modalidad,
-            'programa_id' => $request->id_programa,
-            'hrs_academicas' => $request->hrs_academicas,
-        ]);
+        $request->request->add(['costo' => $costoXmodulo]);
+        $modulo = Modulo::create($request->all());
         ProgramaCalendar::create([
             'title' => $modulo->nombre . ' - ' . $programa->sigla,
             'start' => $modulo->fecha_inicio,
@@ -112,6 +106,7 @@ class ModuloController extends Controller
     {
         $request->validate(
             [
+                'codigo' => 'required|string',
                 'nombre' => 'required|string',
                 'sigla' => 'required|string',
                 'version' => 'required|numeric',
@@ -123,6 +118,7 @@ class ModuloController extends Controller
                 'cal_docente' => 'numeric',
             ],
             [
+                'codigo.required' => 'El código es requerido',
                 'nombre.required' => 'El nombre es requerido',
                 'sigla.required' => 'La sigla es requerida',
                 'version.required' => 'La versión es requerida',
@@ -176,5 +172,49 @@ class ModuloController extends Controller
         }
         $modulo->delete();
         return redirect()->route('modulo.index');
+    }
+
+    // Mostrar un módulo
+    public function show($id)
+    {
+        $modulo = Modulo::findOrFail($id);
+        $programa = Programa::findOrFail($modulo->programa_id);
+        $estudiantesModulo = NotasPrograma::Join('estudiantes', 'estudiantes.id', '=', 'notas_programas.id_estudiante')
+            ->select('estudiantes.*', 'notas_programas.*')
+            ->where('notas_programas.id_modulo', $modulo->id)
+            ->get();
+        $cant_estudiantes = $estudiantesModulo->count();
+
+        $procesos = ProcesoModulo::OrderBy('orden', 'asc')->get();
+        $procesoModulo = ProcesoRealizado::where('modulo_id', $modulo->id)->get();
+        $listaProceso = [];
+        foreach ($procesos as $proceso) {
+            $realizado = false;
+            $fecha = null;
+            foreach ($procesoModulo as $procesoRealizado) {
+                if ($proceso->id == $procesoRealizado->proceso_modulo_id) {
+                    $realizado = true;
+                    $fecha = $procesoRealizado->fecha;
+                    $procesoModulo->forget($procesoModulo->search($procesoRealizado));
+                    break;
+                }
+            }
+            $listaProceso[] = [
+                'id' => $proceso->id,
+                'nombre' => $proceso->nombre,
+                'estado' => $realizado,
+                'fecha' => $fecha
+            ];
+        }
+        return view('modulo.show', compact('modulo', 'programa', 'estudiantesModulo', 'cant_estudiantes', 'listaProceso'));
+    }
+    public function proceso($modulo, $proceso)
+    {
+        ProcesoRealizado::create([
+            'modulo_id' => $modulo,
+            'proceso_modulo_id' => $proceso,
+            'fecha' => Carbon::now()
+        ]);
+        return redirect()->route('modulo.show', $modulo);
     }
 }

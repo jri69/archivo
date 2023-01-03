@@ -15,6 +15,7 @@ class LwEdit extends Component
     public $modulos;
 
     protected $messages = [
+        'datos.codigo.required' => 'El campo código es requerido.',
         'datos.nombre.required' => 'El campo nombre es requerido.',
         'datos.sigla.required' => 'El campo sigla es requerido.',
         'datos.version.required' => 'El campo versión es requerido.',
@@ -31,6 +32,7 @@ class LwEdit extends Component
     public function mount($programa)
     {
         $this->programa = Programa::find($programa);
+        $this->datos['codigo'] = $this->programa->codigo;
         $this->datos['nombre'] = $this->programa->nombre;
         $this->datos['sigla'] = $this->programa->sigla;
         $this->datos['version'] = $this->programa->version;
@@ -47,6 +49,7 @@ class LwEdit extends Component
     public function store()
     {
         $this->validate([
+            'datos.codigo' => 'required|string',
             'datos.nombre' => 'required|string',
             'datos.sigla' => 'required|string',
             'datos.version' => 'required|string',
