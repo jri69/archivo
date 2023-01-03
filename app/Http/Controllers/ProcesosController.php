@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProcesoModulo;
+use App\Models\ProcesoRealizado;
 use Illuminate\Http\Request;
 
 class ProcesosController extends Controller
@@ -62,6 +63,10 @@ class ProcesosController extends Controller
     public function destroy($id)
     {
         $proceso = ProcesoModulo::findOrFail($id);
+        $procesosM = ProcesoRealizado::where('proceso_modulo_id', $id)->get();
+        foreach ($procesosM as $procesoM) {
+            $procesoM->delete();
+        }
         $proceso->delete();
         return redirect()->route('procesos.index');
     }
