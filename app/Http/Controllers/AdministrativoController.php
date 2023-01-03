@@ -11,7 +11,6 @@ class AdministrativoController extends Controller
     // Ver los administrativos
     public function index()
     {
-
         return view('administrativo.index');
     }
 

@@ -139,7 +139,7 @@ Route::group(['prefix' => 'requisito', 'middleware' => ['can:requisito.index', '
 });
 
 // Procesos
-Route::group(['prefix' => 'procesos', 'middleware' => [/* 'can:requisito.index', */'auth']], function () {
+Route::group(['prefix' => 'procesos', 'middleware' => ['can:procesos.index', 'auth']], function () {
     Route::get('/index', [ProcesosController::class, 'index'])->name('procesos.index');
     Route::get('/create', [ProcesosController::class, 'create'])->name('procesos.create');
     Route::post('/store', [ProcesosController::class, 'store'])->name('procesos.store');
@@ -228,7 +228,7 @@ Route::group(['prefix' => 'tic', 'middleware' => ['can:tic.index', 'auth']], fun
 });
 
 // Solicitudes
-Route::group(['prefix' => 'solicitudes', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'solicitudes', 'middleware' => ['can:solicitudes.index', 'auth']], function () {
     Route::get('/', [SolicitudController::class, 'index'])->name('solicitudes.index')->can('solicitudes.index');
     Route::get('/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
     Route::post('/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
@@ -444,7 +444,6 @@ Route::group(['prefix' => 'roles', 'middleware' => ['can:roles.index', 'auth']],
 
 // Contratacion administrativos
 Route::group(['prefix' => 'contratacion', 'middleware' => ['can:contratacion.index', 'auth']], function () {
-    // Route::get('/', [ContratacionController::class, 'index'])->name('contratacion.index');
     Route::get('/create/{contratacion}', [ContratacionController::class, 'create'])->name('contratacion.create');
     Route::post('/store', [ContratacionController::class, 'store'])->name('contratacion.store');
     Route::get('/edit/{contratacion}', [ContratacionController::class, 'edit'])->name('contratacion.edit');
@@ -465,7 +464,7 @@ Route::group(['prefix' => 'administrativos', 'middleware' => ['can:administrativ
 });
 
 // Marketing
-Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'marketing', 'middleware' => ['can:marketing.index', 'auth']], function () {
     Route::get('/', [MarketingController::class, 'index'])->name('marketing.index');
     Route::get('/create', [MarketingController::class, 'create'])->name('marketing.create');
     Route::post('/store', [MarketingController::class, 'store'])->name('marketing.store');
@@ -476,7 +475,7 @@ Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
 });
 
 // Eventos
-Route::group(['prefix' => 'eventos', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'eventos', 'middleware' => ['can:eventos.index', 'auth']], function () {
     Route::get('/', [EventoController::class, 'index'])->name('eventos.index');
     Route::get('/create', [EventoController::class, 'create'])->name('eventos.create');
     Route::post('/store', [EventoController::class, 'store'])->name('eventos.store');

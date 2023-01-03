@@ -9,7 +9,6 @@
         <center>
             <img style="width:200px" style="margin-left:20px" src="{{ asset('material') }}/img/logo.jpg">
         </center>
-
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
@@ -131,7 +130,8 @@
             @if (auth()->user()->can('estudiante.index') ||
                 auth()->user()->can('programa.index') ||
                 auth()->user()->can('modulo.index') ||
-                auth()->user()->can('requisito.index'))
+                auth()->user()->can('requisito.index') ||
+                auth()->user()->can('procesos.index'))
                 <li
                     class="nav-item {{ $activePage == 'estudiante' || $activePage == 'programa' || $activePage == 'modulo' || $activePage == 'requisito' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="false">
@@ -142,7 +142,6 @@
                     </a>
                     <div class="collapse" id="Academico">
                         <ul class="nav">
-
                             @can('estudiante.index')
                                 <li class="nav-item{{ $activePage == 'estudiante' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('estudiante.index') }}">
@@ -175,12 +174,14 @@
                                     </a>
                                 </li>
                             @endcan
-                            <li class="nav-item{{ $activePage == 'procesos' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('procesos.index') }}">
-                                    <span class="sidebar-mini"> PR </span>
-                                    <span class="sidebar-normal"> {{ __('Procesos') }} </span>
-                                </a>
-                            </li>
+                            @can('procesos.index')
+                                <li class="nav-item{{ $activePage == 'procesos' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('procesos.index') }}">
+                                        <span class="sidebar-mini"> PR </span>
+                                        <span class="sidebar-normal"> {{ __('Procesos') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
