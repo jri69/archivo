@@ -44,7 +44,6 @@ class CartaController extends Controller
         $tipoCarta->nombre == 'Condiciones y términos para la contratación' ? $tabla = true : '';
         $tipoCarta->nombre == 'Condiciones y términos para la contratación' ? $codigo = false : '';
         $tipoCarta->nombre == 'Condiciones y términos para la contratación' ? $codigo = false : '';
-
         return view('cartas.edit', compact('id', 'plazo', 'codigo', 'tabla', 'carta', 'cuadro'));
     }
 

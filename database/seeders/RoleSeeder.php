@@ -31,7 +31,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'contratacion.index', 'description' => 'Gestionar contratos de administrativos', 'type' => 'Administrativo'])->syncRoles($admin);
         Permission::create(['name' => 'marketing.index', 'description' => 'Gestionar clientes', 'type' => 'Administrativo'])->syncRoles($admin);
         Permission::create(['name' => 'documentos.index', 'description' => 'Gestionar documentos', 'type' => 'Administrativo'])->syncRoles($admin);
-
         Permission::create(['name' => 'inventario.index', 'description' => 'Gestionar inventario', 'type' => 'Administrativo'])->syncRoles($admin);
         Permission::create(['name' => 'tic.index', 'description' => 'Gestionar equipos TIC', 'type' => 'Administrativo'])->syncRoles($admin);
         Permission::create(['name' => 'activo.index', 'description' => 'Gestionar activos fijos', 'type' => 'Administrativo'])->syncRoles($admin);
@@ -48,6 +47,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'unidad.index', 'description' => 'Gestionar unidad organizacional', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'docentes.index', 'description' => 'Gestionar docentes', 'type' => 'Académico'])->syncRoles($admin);
         Permission::create(['name' => 'directivos.index', 'description' => 'Gestionar directivos', 'type' => 'Académico'])->syncRoles($admin);
+        Permission::create(['name' => 'procesos.index', 'description' => 'Gestionar procesos', 'type' => 'Académico'])->syncRoles($admin);
 
 
 

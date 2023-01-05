@@ -80,7 +80,7 @@ Route::group(['prefix' => 'calendario', 'middleware' => ['can:calendario.index',
 
 //Usuario
 Route::group(['prefix' => 'usuario', 'middleware' => ['can:usuario.index', 'auth']], function () {
-    Route::get('/index', [UsuarioController::class, 'index'])->name('usuario.index');
+    Route::get('/', [UsuarioController::class, 'index'])->name('usuario.index');
     Route::get('/create', [UsuarioController::class, 'create'])->name('usuario.create');
     Route::post('/', [UsuarioController::class, 'store'])->name('usuario.store');
     Route::get('/edit/{usuario}', [UsuarioController::class, 'edit'])->name('usuario.edit');
@@ -90,7 +90,7 @@ Route::group(['prefix' => 'usuario', 'middleware' => ['can:usuario.index', 'auth
 
 //Area
 Route::group(['prefix' => 'area', 'middleware' => ['can:area.index', 'auth']], function () {
-    Route::get('/index', [AreaController::class, 'index'])->name('area.index');
+    Route::get('/', [AreaController::class, 'index'])->name('area.index');
     Route::get('/create', [AreaController::class, 'create'])->name('area.create');
     Route::post('/', [AreaController::class, 'store'])->name('area.store');
     Route::get('/edit/{area}', [AreaController::class, 'edit'])->name('area.edit');
@@ -100,7 +100,7 @@ Route::group(['prefix' => 'area', 'middleware' => ['can:area.index', 'auth']], f
 
 //Cargo
 Route::group(['prefix' => 'cargo', 'middleware' => ['can:cargo.index', 'auth']], function () {
-    Route::get('/index', [CargoController::class, 'index'])->name('cargo.index');
+    Route::get('/', [CargoController::class, 'index'])->name('cargo.index');
     Route::get('/create', [CargoController::class, 'create'])->name('cargo.create');
     Route::post('/', [CargoController::class, 'store'])->name('cargo.store');
     Route::get('/edit/{cargo}', [CargoController::class, 'edit'])->name('cargo.edit');
@@ -118,7 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Modulos
 Route::group(['prefix' => 'modulo', 'middleware' => ['can:modulo.index', 'auth']], function () {
-    Route::get('/index', [ModuloController::class, 'index'])->name('modulo.index');
+    Route::get('/', [ModuloController::class, 'index'])->name('modulo.index');
     Route::get('/create', [ModuloController::class, 'create'])->name('modulo.create');
     Route::post('/store', [ModuloController::class, 'store'])->name('modulo.store');
     Route::get('/edit/{modulo}', [ModuloController::class, 'edit'])->name('modulo.edit');
@@ -130,7 +130,7 @@ Route::group(['prefix' => 'modulo', 'middleware' => ['can:modulo.index', 'auth']
 
 // Requisitos
 Route::group(['prefix' => 'requisito', 'middleware' => ['can:requisito.index', 'auth']], function () {
-    Route::get('/index', [RequisitosController::class, 'index'])->name('requisito.index');
+    Route::get('/', [RequisitosController::class, 'index'])->name('requisito.index');
     Route::get('/create', [RequisitosController::class, 'create'])->name('requisito.create');
     Route::post('/store', [RequisitosController::class, 'store'])->name('requisito.store');
     Route::get('/edit/{requisito}', [RequisitosController::class, 'edit'])->name('requisito.edit');
@@ -139,8 +139,8 @@ Route::group(['prefix' => 'requisito', 'middleware' => ['can:requisito.index', '
 });
 
 // Procesos
-Route::group(['prefix' => 'procesos', 'middleware' => [/* 'can:requisito.index', */'auth']], function () {
-    Route::get('/index', [ProcesosController::class, 'index'])->name('procesos.index');
+Route::group(['prefix' => 'procesos', 'middleware' => ['can:procesos.index', 'auth']], function () {
+    Route::get('/', [ProcesosController::class, 'index'])->name('procesos.index');
     Route::get('/create', [ProcesosController::class, 'create'])->name('procesos.create');
     Route::post('/store', [ProcesosController::class, 'store'])->name('procesos.store');
     Route::get('/edit/{procesos}', [ProcesosController::class, 'edit'])->name('procesos.edit');
@@ -150,7 +150,7 @@ Route::group(['prefix' => 'procesos', 'middleware' => [/* 'can:requisito.index',
 
 // Estudiantes
 Route::group(['prefix' => 'estudiante', 'middleware' => ['can:estudiante.index', 'auth']], function () {
-    Route::get('/index', [EstudianteController::class, 'index'])->name('estudiante.index');
+    Route::get('/', [EstudianteController::class, 'index'])->name('estudiante.index');
     Route::get('/create', [EstudianteController::class, 'create'])->name('estudiante.create');
     Route::get('/show/notas/{estudiante}/{programa}', [EstudianteController::class, 'showNotas'])->name('estudiante.showNotas');
     Route::get('/inscribirse/{estudiante}', [EstudianteController::class, 'newprogram'])->name('estudiante.newprogram');
@@ -166,7 +166,7 @@ Route::group(['prefix' => 'estudiante', 'middleware' => ['can:estudiante.index',
 
 //Tipo Descuento
 Route::group(['prefix' => 'tipo_descuento', 'middleware' => ['can:descuento.index', 'auth']], function () {
-    Route::get('/index', [Tipo_descuentoController::class, 'index'])->name('descuento.index');
+    Route::get('/', [Tipo_descuentoController::class, 'index'])->name('descuento.index');
     Route::get('/create', [Tipo_descuentoController::class, 'create'])->name('descuento.create');
     Route::post('/store', [Tipo_descuentoController::class, 'store'])->name('descuento.store');
     Route::get('/edit/{descuento}', [Tipo_descuentoController::class, 'edit'])->name('descuento.edit');
@@ -175,7 +175,7 @@ Route::group(['prefix' => 'tipo_descuento', 'middleware' => ['can:descuento.inde
 
 //Tipo Pago
 Route::group(['prefix' => 'tipo_pago', 'middleware' => ['can:tipo_pago.index', 'auth']], function () {
-    Route::get('/index', [tipo_pagoController::class, 'index'])->name('tipo_pago.index');
+    Route::get('/', [tipo_pagoController::class, 'index'])->name('tipo_pago.index');
     Route::get('/create', [tipo_pagoController::class, 'create'])->name('tipo_pago.create');
     Route::post('/store', [tipo_pagoController::class, 'store'])->name('tipo_pago.store');
     Route::get('/edit/{pago}', [tipo_pagoController::class, 'edit'])->name('tipo_pago.edit');
@@ -184,7 +184,7 @@ Route::group(['prefix' => 'tipo_pago', 'middleware' => ['can:tipo_pago.index', '
 
 //Pago Estudiante
 Route::group(['prefix' => 'Pago_Estudiante', 'middleware' => ['can:pago_estudiante.index', 'auth']], function () {
-    Route::get('/index', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
+    Route::get('/', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
     Route::get('/create', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
     Route::get('/edit/{id}', [Pago_EstudianteController::class, 'edit'])->name('pago_estudiante.edit');
     Route::post('/store', [Pago_EstudianteController::class, 'store'])->name('pago_estudiante.store');
@@ -194,7 +194,7 @@ Route::group(['prefix' => 'Pago_Estudiante', 'middleware' => ['can:pago_estudian
 
 //Pago
 Route::group(['prefix' => 'pago', 'middleware' => ['can:pago.index', 'auth']], function () {
-    Route::get('/index', [PagoController::class, 'index'])->name('pago.index');
+    Route::get('/', [PagoController::class, 'index'])->name('pago.index');
     Route::get('/create/{id}', [PagoController::class, 'create'])->name('pago.create');
     Route::get('/edit/{pago}', [PagoController::class, 'edit'])->name('pago.edit');
     Route::post('/store/{id}', [PagoController::class, 'store'])->name('pago.store');
@@ -204,7 +204,7 @@ Route::group(['prefix' => 'pago', 'middleware' => ['can:pago.index', 'auth']], f
 
 // Programas
 Route::group(['prefix' => 'programa', 'middleware' => ['can:programa.index', 'auth']], function () {
-    Route::get('/index', [ProgramaController::class, 'index'])->name('programa.index');
+    Route::get('/', [ProgramaController::class, 'index'])->name('programa.index');
     Route::get('/create', [ProgramaController::class, 'create'])->name('programa.create');
     Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
     Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
@@ -228,7 +228,7 @@ Route::group(['prefix' => 'tic', 'middleware' => ['can:tic.index', 'auth']], fun
 });
 
 // Solicitudes
-Route::group(['prefix' => 'solicitudes', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'solicitudes', 'middleware' => ['can:solicitudes.index', 'auth']], function () {
     Route::get('/', [SolicitudController::class, 'index'])->name('solicitudes.index')->can('solicitudes.index');
     Route::get('/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
     Route::post('/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
@@ -250,7 +250,7 @@ Route::group(['prefix' => 'inventario', 'middleware' => ['can:inventario.index',
 
 // Activo Fijo
 Route::group(['prefix' => 'activo_fijo', 'middleware' => ['can:activo.index', 'auth']], function () {
-    Route::get('/index', [ActivoFijoController::class, 'index'])->name('activo.index');
+    Route::get('/', [ActivoFijoController::class, 'index'])->name('activo.index');
     Route::get('/create', [ActivoFijoController::class, 'create'])->name('activo.create');
     Route::post('/store', [ActivoFijoController::class, 'store'])->name('activo.store');
     Route::get('/edit/{activo}', [ActivoFijoController::class, 'edit'])->name('activo.edit');
@@ -260,7 +260,7 @@ Route::group(['prefix' => 'activo_fijo', 'middleware' => ['can:activo.index', 'a
 
 // Unidad organizacional
 Route::group(['prefix' => 'unidad_organizacional', 'middleware' => ['can:unidad.index', 'auth']], function () {
-    Route::get('/index', [UnidadOrganizacionalController::class, 'index'])->name('unidad.index');
+    Route::get('/', [UnidadOrganizacionalController::class, 'index'])->name('unidad.index');
     Route::get('/create', [UnidadOrganizacionalController::class, 'create'])->name('unidad.create');
     Route::post('/store', [UnidadOrganizacionalController::class, 'store'])->name('unidad.store');
     Route::get('/edit/{unidad}', [UnidadOrganizacionalController::class, 'edit'])->name('unidad.edit');
@@ -270,7 +270,7 @@ Route::group(['prefix' => 'unidad_organizacional', 'middleware' => ['can:unidad.
 
 // recepcion de la documentacion
 Route::group(['prefix' => 'recepcion', 'middleware' => ['can:recepcion.index', 'auth']], function () {
-    Route::get('/index', [RecepcionController::class, 'index'])->name('recepcion.index');       // list of all documents
+    Route::get('/', [RecepcionController::class, 'index'])->name('recepcion.index');       // list of all documents
     Route::get('/create', [RecepcionController::class, 'create'])->name('recepcion.create');    // create a new recepcion
     Route::post('/store', [RecepcionController::class, 'store'])->name('recepcion.store');  // store a new recepcion
     Route::get('/show/{recepcion}', [RecepcionController::class, 'show'])->name('recepcion.show');    // show a recepcion
@@ -295,7 +295,7 @@ Route::get('/documentos', [DocumentoController::class, 'index'])->name('document
 
 //Servicio
 Route::group(['prefix' => 'servicio', 'middleware' => ['can:servicio.index', 'auth']], function () {
-    Route::get('/index', [ServicioController::class, 'index'])->name('servicio.index');
+    Route::get('/', [ServicioController::class, 'index'])->name('servicio.index');
     Route::get('/create', [ServicioController::class, 'create'])->name('servicio.create');
     Route::get('/edit/{servicio}', [ServicioController::class, 'edit'])->name('servicio.edit');
     Route::post('/store', [ServicioController::class, 'store'])->name('servicio.store');
@@ -304,7 +304,7 @@ Route::group(['prefix' => 'servicio', 'middleware' => ['can:servicio.index', 'au
 
 //Pago de Servicios
 Route::group(['prefix' => 'pago_servicio', 'middleware' => ['can:pago_servicio.index', 'auth']], function () {
-    Route::get('/index', [Pago_ServicioController::class, 'index'])->name('pago_servicio.index');
+    Route::get('/', [Pago_ServicioController::class, 'index'])->name('pago_servicio.index');
     Route::get('/create', [Pago_ServicioController::class, 'create'])->name('pago_servicio.create');
     Route::get('/edit/{pago}', [Pago_ServicioController::class, 'edit'])->name('pago_servicio.edit');
     Route::post('/store', [Pago_ServicioController::class, 'store'])->name('pago_servicio.store');
@@ -444,7 +444,6 @@ Route::group(['prefix' => 'roles', 'middleware' => ['can:roles.index', 'auth']],
 
 // Contratacion administrativos
 Route::group(['prefix' => 'contratacion', 'middleware' => ['can:contratacion.index', 'auth']], function () {
-    // Route::get('/', [ContratacionController::class, 'index'])->name('contratacion.index');
     Route::get('/create/{contratacion}', [ContratacionController::class, 'create'])->name('contratacion.create');
     Route::post('/store', [ContratacionController::class, 'store'])->name('contratacion.store');
     Route::get('/edit/{contratacion}', [ContratacionController::class, 'edit'])->name('contratacion.edit');
@@ -465,7 +464,7 @@ Route::group(['prefix' => 'administrativos', 'middleware' => ['can:administrativ
 });
 
 // Marketing
-Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'marketing', 'middleware' => ['can:marketing.index', 'auth']], function () {
     Route::get('/', [MarketingController::class, 'index'])->name('marketing.index');
     Route::get('/create', [MarketingController::class, 'create'])->name('marketing.create');
     Route::post('/store', [MarketingController::class, 'store'])->name('marketing.store');
@@ -476,7 +475,7 @@ Route::group(['prefix' => 'marketing', 'middleware' => ['auth']], function () {
 });
 
 // Eventos
-Route::group(['prefix' => 'eventos', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'eventos', 'middleware' => ['can:eventos.index', 'auth']], function () {
     Route::get('/', [EventoController::class, 'index'])->name('eventos.index');
     Route::get('/create', [EventoController::class, 'create'])->name('eventos.create');
     Route::post('/store', [EventoController::class, 'store'])->name('eventos.store');
