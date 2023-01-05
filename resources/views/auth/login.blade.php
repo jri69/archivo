@@ -36,7 +36,7 @@
                                         </span>
                                     </div>
                                     <input type="email" name="email" class="form-control"
-                                        placeholder="{{ __('Usuario') }}" value="desarrollo@ei-uagrm.edu.bo" required>
+                                        placeholder="{{ __('Usuario') }}" value="" required>
                                 </div>
                                 @if ($errors->has('email'))
                                     <div id="email-error" class="error text-danger pl-3" for="email"
@@ -53,7 +53,7 @@
                                         </span>
                                     </div>
                                     <input type="password" name="password" id="password" class="form-control"
-                                        placeholder="{{ __('Contraseña') }}" value="secret2022" required>
+                                        placeholder="{{ __('Contraseña') }}" value="" required>
                                 </div>
                                 @if ($errors->has('password'))
                                     <div id="password-error" class="error text-danger pl-3" for="password"
