@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cartas\Docentes;
+namespace App\Http\Controllers\Cartas\Titulacion;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
@@ -11,10 +11,10 @@ use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Comunicacion_Interna extends Fpdf
+class Designacion_Director_Trabajo_Grado extends Fpdf
+
 {
     protected $fpdf;
-    public $title = "Comunicacion Interna";
     public $margin = 30;
     public $width = 165;
     public $space = 5;
@@ -53,9 +53,10 @@ class Comunicacion_Interna extends Fpdf
         return $formatter->toMoney($number);
     }
 
+
     public function informe($data)
     {
-        // obtencion de datos
+        /*         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];
         $modulo = Modulo::find($contrato->modulo_id);
@@ -95,78 +96,63 @@ class Comunicacion_Interna extends Fpdf
 
         // convertir texto a mayuscula
         $name_docente = mb_strtoupper($name_docente, 'UTF-8');
-
+ */
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ADM No. " . $carta->codigo_admi), 0, 'R', 0);
-
-        $this->fpdf->Ln(2);
-        $this->widths = array(14, $this->width - 14);
-        $this->Row(array(utf8_decode('A:'), utf8_decode($asesor)), 1, "L", "N");
-        $this->Row(array(utf8_decode('VIA:'), utf8_decode($director)), 1, "L", "N");
-        $this->Row(array(utf8_decode('DE:'), utf8_decode($responsable)), 1, "L", "N");
-        $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL ' . mb_strtoupper($name_docente) . ', ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "' . mb_strtoupper($modulo->nombre) . '" (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN) ' . mb_strtoupper($modalidad) . '. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS.' . $contrato->honorario . ' (' . $honorarioLiteral . ' CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
-
-        $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 'R', 0);
-        $this->fpdf->Ln(5);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, 19 de diciembre del 2022"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
+        $this->fpdf->Ln(8);
+
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Señor:"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Iván Ilia Flores Pérez, M. Sc."), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente.-"), 0, 'L', 0);
+
+        $this->fpdf->SetFont('Arial', 'B', 9);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  designación de Director de Trabajo de Grado "), 0, 'C', 0);
+        $this->fpdf->Ln(2);
 
         // CONTENIDO
         $contenido = [
-            'first' => 'Según el oficio OF.COORD. ACA. N.º ' . $carta->codigo_admi . ' del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "' . $modulo->nombre . ' (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN)  ' . $modalidad . '. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el ' . $carta->fecha_plazo . '.',
-            'second' => 'Proceda a ejecutar las siguientes acciones: En sujeción al D.S. 181 art. 37.- (ASESORIA LEGAL). En cada proceso de contratación, tiene como principales funciones:',
+            'first' => "Por sus conocimientos y antecedentes profesionales, nos es muy grato dirigirnos a su persona para designarlo Director de Trabajo de Grado de la Tesis Magistral: “Diseño e implementación del programa de capacitación ambiental “Restaurantes limpios y sostenibles” para el manejo adecuado de residuos sólidos en el sector gastronómico por la empresa EMACRUZ (Santa Cruz de la Sierra) 2022”.",
+            'second' => "Por sus conocimientos y antecedentes profesionales, nos es muy grato dirigirnos a su persona para designarlo Director de Trabajo de Grado de la Tesis Magistral: “Diseño e implementación del programa de capacitación ambiental “Restaurantes limpios y sostenibles” para el manejo adecuado de residuos sólidos en el sector gastronómico por la empresa EMACRUZ (Santa Cruz de la Sierra) 2022”.",
+            'third' => "El espíritu de los puntos señalados está basado en la genuina aspiración que tiene la Escuela de Ingeniería de elevar el nivel científico-académico de los Trabajos Finales de Grado, de  forma  que  verdaderamente  ameriten  ser  catalogados  como  Tesis de Grado Magistrales",
         ];
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Distinguido Ing.:"), 0, 'L', 0);
+        $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi mayor consideración:"), 0, 'L', 0);
-        $this->fpdf->Ln(4);
-        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
         $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(8);
-        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
+        $this->fpdf->Ln(6);
         $this->WriteText($contenido['second']);
-        $this->fpdf->Ln(4);
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'a)', utf8_decode('Atender y asesorar en la revisión de documentos y asuntos legales que sean sometidos a su consideración durante el proceso de contratación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'b)', utf8_decode('Elaborar todos los informes legales requeridos en el proceso de contratación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'c)', utf8_decode('Elaborar los contratos para los procesos de contratación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'd)', utf8_decode('Firmar o visar el contrato de forma previa a su suscripción, como responsable de su elaboración.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'e)', utf8_decode('Revisar la legalidad de la documentación presentada por el proponente adjudicado para la suscripción del contrato.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'f)', utf8_decode('Atender y asesorar en procedimientos, plazos y resolución de Recursos Administrativos de impugnación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'g)', utf8_decode('Elaborar y visar todas las Resoluciones establecidas en las presentes NB-SABS.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'h)', utf8_decode('Elaborar el informe.'));
-
-        $this->fpdf->Ln(1);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Con este motivo, saludo a usted atentamente'), 0, 'L', 0);
+        $this->fpdf->Ln(6);
+        $this->WriteText("El informe del Trabajo Final de Tesis de Grado debe contener un análisis de los siguientes aspectos:");
+        $this->fpdf->Ln(6);
+        $this->WriteText("a)  Tema");
+        $this->fpdf->Ln(6);
+        $this->WriteText("b) Fundamentación teórica");
+        $this->fpdf->Ln(6);
+        $this->WriteText("c) Uso metodológico");
+        $this->fpdf->Ln(6);
+        $this->WriteText("d) Resultados");
+        $this->fpdf->Ln(6);
+        $this->WriteText($contenido['third']);
+        $this->fpdf->Ln(6);
+        $this->WriteText("Agradeciéndole de antemano su gentil colaboración, nos es grato reiterarle nuestros cordiales saludos.");
+        $this->fpdf->Ln(6);
+        $this->WriteText("Atentamente,");
+        $this->fpdf->Ln(8);
 
         // pie de pagina
-        $this->fpdf->Ln(25);
-
+        $this->fpdf->Ln(60);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adjunto: Lo indicado "), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("C.c.  Archivo-Dirección E.I."), 0, 'L', 0);
-
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc./Arch."), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", $name_docente . " - Comunicacion Interna.pdf");
+        $this->fpdf->Output("I", "Designacion_Director_Trabajo_Grado.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

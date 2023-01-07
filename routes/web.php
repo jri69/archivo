@@ -157,6 +157,7 @@ Route::group(['prefix' => 'estudiante', 'middleware' => ['can:estudiante.index',
     Route::get('/show/{estudiante}', [EstudianteController::class, 'show'])->name('estudiante.show');
     Route::get('/estado/{estudiante}', [EstudianteController::class, 'estado'])->name('estudiante.estado');
     Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
+    Route::get('/carta/{estudiante}/{programa}', [EstudianteController::class, 'carta'])->name('estudiante.carta');
     Route::put('/update/{estudiante}', [EstudianteController::class, 'update'])->name('estudiante.update');
     Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
     Route::post('/inscribirse/store/{estudiante}', [EstudianteController::class, 'storenewprogram'])->name('estudiante.storenewprogram');

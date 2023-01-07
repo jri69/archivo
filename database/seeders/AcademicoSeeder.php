@@ -29,180 +29,51 @@ class AcademicoSeeder extends Seeder
     {
         $tipo = ['Doctorado', 'Maestria', 'Especialidad', 'Diplomado', 'Cursos', 'Sin tipo'];
         $modalidad = ['Presencial', 'Virtual'];
-        $start = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
-        $end = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
-        $programa = Programa::create([
-            'nombre' => 'Programa de Ingeniería de Sistemas',
-            'sigla' => 'PR',
-            'version' => 1,
-            'edicion' => 2,
-            'fecha_inicio' => $start,
-            'fecha_finalizacion' => $end,
-            'cantidad_modulos' => 0,
-            'costo' => 30000,
+        $start = now();
+        $end = '2023-12-31';
+
+        Docente::create([
+            'nombre' => 'Juan',
+            'apellido' => 'Perez',
+            'honorifico' => 'Lic',
+            'cedula' => '123456789',
+            'expedicion' => 'LP',
+            'correo' => 'juan@emi.com',
+            'telefono' => 23456789,
+            'facturacion' => true,
+        ]);
+        Programa::create([
+            'nombre' => "Programa de prueba",
+            'codigo' => '123456',
+            'sigla' => 'PRUEBA',
+            'version' => '1',
+            'edicion' => '1',
             'tipo' => $tipo[rand(0, 5)],
             'modalidad' => $modalidad[rand(0, 1)],
-            'hrs_academicas' => rand(60, 80),
+            'hrs_academicas' => rand(1, 100),
+            'fecha_inicio' => $start,
+            'fecha_finalizacion' => $end,
+            'cantidad_modulos' => rand(1, 10),
+            'costo' => rand(1, 100),
+            'has_grafica' => 'Si',
         ]);
-        ProgramaCalendar::create([
-            'title' => $programa->nombre,
-            'start' => $programa->fecha_inicio,
-            'end' => $programa->fecha_inicio,
-            'sigla' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
-            'tipo' => $programa->tipo,
-            'tipo_fecha' => 'inicio',
-            'programa_id' => $programa->id,
-        ]);
-        ProgramaCalendar::create([
-            'title' =>  $programa->nombre,
-            'start' => $programa->fecha_finalizacion,
-            'end' => $programa->fecha_finalizacion,
-            'sigla' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
-            'tipo' => $programa->tipo,
-            'tipo_fecha' => 'final',
-            'programa_id' => $programa->id,
-        ]);
-        for ($i = 0; $i < 50; $i++) {
-            $start = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
-            $end = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
-            $programa = Programa::create([
-                'nombre' => 'Programa ' . $i + 1,
-                'sigla' => 'PR',
-                'version' => $i,
-                'edicion' => $i + 1,
-                'fecha_inicio' => $start,
-                'fecha_finalizacion' => $end,
-                'cantidad_modulos' => 0,
-                'costo' => 1000 * $i,
-                'tipo' => $tipo[rand(0, 5)],
-                'modalidad' => $modalidad[rand(0, 1)],
-                'hrs_academicas' => rand(60, 80),
-            ]);
-            ProgramaCalendar::create([
-                'title' => $programa->nombre,
-                'start' => $programa->fecha_inicio,
-                'end' => $programa->fecha_inicio,
-                'sigla' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
-                'tipo' => $programa->tipo,
-                'tipo_fecha' => 'inicio',
-                'programa_id' => $programa->id,
-            ]);
-            ProgramaCalendar::create([
-                'title' => $programa->nombre,
-                'start' => $programa->fecha_finalizacion,
-                'end' => $programa->fecha_finalizacion,
-                'sigla' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
-                'tipo' => $programa->tipo,
-                'tipo_fecha' => 'final',
-                'programa_id' => $programa->id,
-            ]);
-        }
-
-        for ($i = 0; $i < 100; $i++) {
-            Docente::create([
-                'nombre' => 'Docente ' . $i + 1,
-                'apellido' => 'Apellido ' . $i + 1,
-                'honorifico' => 'Ing.',
-                'cedula' => 'V-12345678',
-                'expedicion' => 'SC',
-                'correo' => 'docente' . $i + 1 . '@gmail.com',
-                'telefono' => '0414-1234567',
-                'facturacion' => true,
-            ]);
-        }
-
-        for ($i = 0; $i < 100; $i++) {
-            $start = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
-            $end = rand(1, 28) . '/' . rand(1, 12) . '/' . rand(2020, 2023);
-            $modulo = Modulo::create([
-                'nombre' => 'Modulo ' . $i + 10,
-                'sigla' => 'PR ' . $i,
-                'estado' => 'Sin Iniciar',
-                'version' => $i,
-                'edicion' => $i + 1,
-                'costo' => 123 * $i,
-                'fecha_inicio' => $start,
-                'fecha_final' => $end,
-                'docente_id' => rand(1, 100),
-                'modalidad' => $modalidad[rand(0, 1)],
-                'programa_id' => rand(1, 50),
-                'hrs_academicas' => rand(60, 80),
-                'cal_docente' => rand(1, 8),
-            ]);
-            ProgramaCalendar::create([
-                'title' => $modulo->nombre,
-                'start' => $modulo->fecha_inicio,
-                'end' => $modulo->fecha_inicio,
-                'sigla' => $modulo->sigla . '-' . $modulo->version . '.' . $modulo->edicion,
-                'tipo' => 'Modulo',
-                'tipo_fecha' => 'inicio',
-                'modulo_id' => $modulo->id,
-            ]);
-            ProgramaCalendar::create([
-                'title' => $modulo->nombre,
-                'start' => $modulo->fecha_final,
-                'end' => $modulo->fecha_final,
-                'sigla' => $modulo->sigla . '-' . $modulo->version . '.' . $modulo->edicion,
-                'tipo' => 'Modulo',
-                'tipo_fecha' => 'final',
-                'modulo_id' => $modulo->id,
-            ]);
-        }
-        for ($i = 0; $i < 100; $i++) {
-            Contrato::create([
-                'fecha_inicio' => now(),
-                'fecha_final' => '2022/12/10',
-                'horarios' => 'Lunes 8:00-10:00, Martes 8:00-10:00, Miercoles 8:00-10:00',
-                'pagado' => 'true',
-                'honorario' => rand(5000, 10000),
-                'modulo_id' => rand(1, 100),
-                'nro_preventiva' => 1086,
-            ]);
-        }
-        $estudiante = Estudiante::create([
-            'nombre' => 'Nahuel Zalazar',
-            'email' => 'nahu@inegas.com',
+        Modulo::create([
             'estado' => 'Activo',
-            'telefono' => '256589555',
-            'cedula' => '2545845',
-            'carrera' => 'Ingenieria Informatica',
-            'universidad' => 'UAGRM',
-            'expedicion' => 'SC',
+            'hrs_academicas' => rand(1, 100),
+            'codigo' => '123456',
+            'contenido' => 'Contenido de prueba',
+            'nombre' => 'Modulo de prueba',
+            'sigla' => 'PRUEBA',
+            'version' => '1',
+            'edicion' => '1',
+            'modalidad' => $modalidad[rand(0, 1)],
+            'costo' => rand(1, 100),
+            'fecha_inicio' => $start,
+            'fecha_final' => $end,
+            'docente_id' => 1,
+            'programa_id' => 1,
+            'cal_docente' => rand(1, 5),
         ]);
-
-        EstudiantePrograma::create([
-            'id_programa' => $programa->id,
-            'id_estudiante' => $estudiante->id,
-        ]);
-
-        for ($i = 0; $i < 1500; $i++) {
-            $name = 'Estudiante ' . $i + 1;
-            $estudiante = Estudiante::create([
-                'nombre' => $name,
-                'email' =>  $name . '@inegas.com',
-                'estado' => 'Activo',
-                'telefono' => '256589555',
-                'cedula' => '2545845' . $i,
-                'carrera' => 'Ingenieria Informatica',
-                'universidad' => 'UAGRM',
-                'expedicion' => 'SC',
-            ]);
-
-            EstudiantePrograma::create([
-                'id_programa' => rand(1, 50),
-                'id_estudiante' => $estudiante->id,
-            ]);
-            EstudianteModulo::create([
-                'id_modulo' => rand(1, 50),
-                'id_estudiante' => $estudiante->id,
-            ]);
-            NotasPrograma::create([
-                'id_programa' => rand(1, 50),
-                'id_estudiante' => $estudiante->id,
-                'nota' => rand(1, 10),
-                'observacion' => 'Observacion ' . $i + 1,
-            ]);
-        };
         Requisito::create([
             'nombre' => 'Curriculum',
             'importancia' => 'Alto',
@@ -215,18 +86,5 @@ class AcademicoSeeder extends Seeder
             'nombre' => 'Otro',
             'importancia' => 'Bajo',
         ]);
-
-        // marketing
-        for ($i = 0; $i < 100; $i++) {
-            Prospecto::create([
-                'nombre' => 'Prospecto ' . $i + 1,
-                'telefono' => '693514' . $i,
-                'email' => 'correo1@gmail.com',
-                'estado' => 'Prospecto',
-                'interes' =>  'Programa ' . $i + 1,
-                'grado_interes' => 'Alto',
-                'observaciones' => 'Quiere saber mas informacion sobre el programa ' . $i + 1,
-            ]);
-        }
     }
 }

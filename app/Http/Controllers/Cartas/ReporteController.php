@@ -12,11 +12,45 @@ use App\Http\Controllers\Cartas\Docentes\Notificacion_Adjudicacion;
 use App\Http\Controllers\Cartas\Docentes\Comunicacion_Interna;
 use App\Http\Controllers\Cartas\Docentes\Informe_Conformidad;
 use App\Http\Controllers\Cartas\Docentes\Planilla_pago;
+
+use App\Http\Controllers\Cartas\Titulacion\Cac_Informe_Cumplimiento_Requisitos;
+use App\Http\Controllers\Cartas\Titulacion\Designacion_Director_Trabajo_Grado;
+use App\Http\Controllers\Cartas\Titulacion\Comite_Academico_Cientifico;
+use App\Http\Controllers\Cartas\Titulacion\Informe_Cumplimiento_Requisitos;
+use App\Http\Controllers\Cartas\Titulacion\Consejo_Directivo_Postgrado;
+use App\Http\Controllers\Cartas\Titulacion\Informe_Cumplimiento_Requisitos2;
+
 use App\Models\Contrato;
 
 class ReporteController extends Controller
 {
     protected $fpdf;
+
+    // Docentes
+    private $SC = 'Solicitud de contratacion';
+    private $CTC = 'Condiciones y términos para la contratación';
+    private $RP = 'Requerimiento de propuesta';
+    private $PC = 'Propuesta del consultor';
+    private $IT = 'Informe técnico';
+    private $NA = 'Notificación de adjudicación';
+    private $CI = 'Comunicación interna';
+    private $IC = 'Informe de conformidad';
+    private $PP = 'Planilla de pago';
+
+    // Titulacion
+    private $CACICR = 'CAC Informe de cumplimiento de requisitos';
+    private $DDTG = 'Designación de director de trabajo de grado';
+    private $CACA = 'CAC tutor';
+    private $ICR = 'Informe de cumplimiento de requisitos';
+    private $CDP = 'Consejo directivo de postgrado';
+    private $ICR2 = 'Informe de cumplimiento de requisitos 2';
+    private $CACICR2 = 'CAC Informe de cumplimiento de requisitos 2';
+    private $CACT = 'CAC tribunal';
+    private $CDT = 'CD tribunal';
+    private $PD = 'Predefensa';
+    private $EM = 'Empastado';
+    private $ILI = 'Informe de lineas de investigación';
+
 
     public function test()
     {
@@ -28,32 +62,68 @@ class ReporteController extends Controller
     {
         $contrato = Contrato::find($id);
         switch ($tipo) {
-            case 'Solicitud de contratacion':
+            case $this->SC:
                 $this->Sol_Contrataciones([$contrato, $idCarta]);
                 break;
-            case 'Requerimiento de propuesta':
+            case $this->RP:
                 $this->Requerimiento_Propuesta([$contrato, $idCarta]);
                 break;
-            case 'Propuesta del consultor':
+            case $this->PC:
                 $this->Propuesta_Consultor([$contrato, $idCarta]);
                 break;
-            case 'Informe técnico':
+            case $this->IT:
                 $this->Informe_Tecnico([$contrato, $idCarta]);
                 break;
-            case 'Notificación de adjudicación':
+            case $this->NA:
                 $this->Notificacion_Adjudicacion([$contrato, $idCarta]);
                 break;
-            case 'Comunicación interna':
+            case $this->CI:
                 $this->Comunicacion_Interna([$contrato, $idCarta]);
                 break;
-            case 'Informe de conformidad':
+            case $this->IC:
                 $this->Informe_Conformidad([$contrato, $idCarta]);
                 break;
-            case 'Condiciones y términos para la contratación':
+            case $this->CTC:
                 $this->Condiciones_Terminos([$contrato, $idCarta]);
                 break;
-            case 'Planilla de pago':
+            case $this->PP:
                 $this->Planilla_pago([$contrato, $idCarta]);
+                break;
+            case $this->CACICR:
+                $this->Cac_Informe_Cumplimiento_Requisitos([$contrato, $idCarta]);
+                break;
+            case $this->DDTG:
+                $this->Designacion_Director_Trabajo_Grado([$contrato, $idCarta]);
+                break;
+            case $this->CACA:
+                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                break;
+            case $this->ICR:
+                $this->Informe_Cumplimiento_Requisitos([$contrato, $idCarta]);
+                break;
+            case $this->CDP:
+                $this->Consejo_Directivo_Postgrado([$contrato, $idCarta]);
+                break;
+            case $this->ICR2:
+                $this->Informe_Cumplimiento_Requisitos2([$contrato, $idCarta]);
+                break;
+            case $this->CACICR2:
+                $this->Informe_Cumplimiento_Requisitos([$contrato, $idCarta]);
+                break;
+            case $this->CACT:
+                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                break;
+            case $this->CDT:
+                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                break;
+            case $this->PD:
+                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                break;
+            case $this->EM:
+                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                break;
+            case $this->ILI:
+                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
                 break;
             default:
                 return 'No se encontro el tipo de carta';
@@ -113,5 +183,41 @@ class ReporteController extends Controller
     {
         $pp = new Planilla_pago();
         return $pp->planilla_pago($data);
+    }
+
+    public function Cac_Informe_Cumplimiento_Requisitos($data)
+    {
+        $icr = new Cac_Informe_Cumplimiento_Requisitos($data);
+        return $icr->informe($data);
+    }
+
+    public function Designacion_Director_Trabajo_Grado($data)
+    {
+        $ddtg = new Designacion_Director_Trabajo_Grado($data);
+        return $ddtg->informe($data);
+    }
+
+    public function Comite_Academico_Cientifico($data)
+    {
+        $cac = new Comite_Academico_Cientifico($data);
+        return $cac->informe($data);
+    }
+
+    public function Informe_Cumplimiento_Requisitos($data)
+    {
+        $icr = new Informe_Cumplimiento_Requisitos($data);
+        return $icr->informe($data);
+    }
+
+    public function Consejo_Directivo_Postgrado($data)
+    {
+        $cdp = new Consejo_Directivo_Postgrado($data);
+        return $cdp->informe($data);
+    }
+
+    public function Informe_Cumplimiento_Requisitos2($data)
+    {
+        $icr = new Informe_Cumplimiento_Requisitos2($data);
+        return $icr->informe($data);
     }
 }
