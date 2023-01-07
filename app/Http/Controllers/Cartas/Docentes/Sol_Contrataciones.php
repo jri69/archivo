@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cartas;
+namespace App\Http\Controllers\Cartas\Docentes;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
@@ -162,7 +162,7 @@ class Sol_Contrataciones extends Fpdf
 
 
         // pie de pagina
-        $this->fpdf->Ln(25);
+        $this->fpdf->Ln(35);
 
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Cartas;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Cartas\Condiciones_Terminos;
-use App\Http\Controllers\Cartas\Sol_Contrataciones;
-use App\Http\Controllers\Cartas\Requerimiento_Propuesta;
-use App\Http\Controllers\Cartas\Propuesta_Consultor;
-use App\Http\Controllers\Cartas\Informe_Tecnico;
-use App\Http\Controllers\Cartas\Notificacion_Adjudicacion;
-use App\Http\Controllers\Cartas\Comunicacion_Interna;
-use App\Http\Controllers\Cartas\Informe_Conformidad;
-use App\Http\Controllers\Cartas\Planilla_pago;
+use App\Http\Controllers\Cartas\Docentes\Condiciones_Terminos;
+use App\Http\Controllers\Cartas\Docentes\Sol_Contrataciones;
+use App\Http\Controllers\Cartas\Docentes\Requerimiento_Propuesta;
+use App\Http\Controllers\Cartas\Docentes\Propuesta_Consultor;
+use App\Http\Controllers\Cartas\Docentes\Informe_Tecnico;
+use App\Http\Controllers\Cartas\Docentes\Notificacion_Adjudicacion;
+use App\Http\Controllers\Cartas\Docentes\Comunicacion_Interna;
+use App\Http\Controllers\Cartas\Docentes\Informe_Conformidad;
+use App\Http\Controllers\Cartas\Docentes\Planilla_pago;
 use App\Models\Contrato;
 
 class ReporteController extends Controller
