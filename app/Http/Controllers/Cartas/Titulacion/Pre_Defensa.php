@@ -11,7 +11,7 @@ use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
+class Pre_Defensa extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -103,83 +103,37 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->Ln(20);
 
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
-        $this->fpdf->Ln(5);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, 15 de diciembre del 2022"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº 0582/2022"), 0, 'L', 0);
+        $this->fpdf->Ln(8);
 
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Señor:"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ing. Rodolfo Francisco Toledo Escalante"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente.-"), 0, 'L', 0);
+
+        $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("COMITÉ ACADÉMICO CIENTÍFICO"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME DE CUMPLIMIENTO DE REQUISITOS"), 0, 'C', 0);
-        $this->fpdf->Ln(2);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  acto de pre-defensa de tesis"), 0, 'C', 0);
+        $this->fpdf->Ln(4);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que el Oficio de Coordinación de Investigación Nº 0290/2022, informa el cumplimiento de requisitos de la Ing. Siriam Katty Arce Rios, quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia” correspondiente a la maestría en “Ingeniería del gas natural y petroquímica”, Plan 4095-0, que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
-            'second' => "Que el Comité Académico Científico aprobó la designación del M. Sc. Ing. Luis Enrique Claure Vargas, como Tutor de Tesis de la Ing. Siriam Katty Arce Rios, mediante la Resolución Comité Académico Científico Nº 0429/2022, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
-            'third' => "La postgraduante Ing. Siriam Katty Arce Rios, cumple en el Art. 104º del Reglamento General de Postgrado.",
-            'four' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil del TFG, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: “Optimización de las técnicas en el análisis y diseño estructural”.",
-            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'six' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° 0290/2022 de la Ing. Siriam Katty Arce Rios de la maestría “Ingeniería del gas natural y petroquímica”, Plan 4095-0, emitido por el Coordinador de Investigación de la Escuela de Ingeniería, con el tema de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”.",
+            'first' => "Me dirijo a su persona, para expresarle mis cordiales y fraternos saludos, para confirmarle el acto de pre-defensa del Trabajo Final de su tesis de maestría titulado “Pautas sociales en la gestión  de residuos sólidos en ciudades universitarias”, de la maestría en Sistemas integrados de gestión de la calidad, medio ambiente y seguridad. La predefensa se llevará a cabo el día viernes 09 de diciembre del presente año a las 08:30 a.m. horas, mediante plataforma Zoom.  Se solicita su puntual asistencia.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi consideración:"), 0, 'L', 0);
         $this->fpdf->Ln(2);
-        $this->fpdf->SetFont('Arial', '', 9);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['first']);
         $this->fpdf->Ln(6);
-        $this->WriteText($contenido['second']);
-        $this->fpdf->Ln(6);
-        $this->WriteText($contenido['third']);
-        $this->fpdf->Ln(6);
-        $this->WriteText($contenido['four']);
-        $this->fpdf->Ln(6);
-
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("POR LO TANTO:");
-        $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['five']);
-        $this->fpdf->Ln(6);
-
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("RESUELVE:");
-        $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['six']);
-        $this->fpdf->Ln(8);
-
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, 09 de septiembre del 2022"), 0, 'C', 0);
-        $this->fpdf->Ln(12);
-
-        // 3 espacios para 3 firmas
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('M. Sc. Ing. Erick Rojas Balcazar'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Ln(15);
-
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(5);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Daniel Tejerina Claudio'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Fernando Miguel Navarro Canaviri'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR ACADÉMICO'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR DE INVESTIGACIÓN'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Atentamente,"), 0, 'L', 0);
 
         // pie de pagina
-        $this->fpdf->Ln(15);
-        $this->fpdf->SetFont('Arial', '', 9);
+        $this->fpdf->Ln(130);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Cac_Informe_Cumplimiento_Requisitos.pdf");
+        $this->fpdf->Output("I", "Pre_Defensa.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

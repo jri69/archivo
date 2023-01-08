@@ -11,7 +11,7 @@ use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
+class Informe_Lineas_Investigacion extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -103,83 +103,101 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->Ln(20);
 
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
-        $this->fpdf->Ln(5);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, 15 de diciembre del 2022"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Dirección Nº 0961/2022"), 0, 'L', 0);
+        $this->fpdf->Ln(8);
 
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Señora:"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ph. D. Marbel R. Galeán Barriga"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DIRECTORA GENERAL DE POSTGRADO"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("U.A.G.R.M."), 0, 'L', 0);
+
+        $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("COMITÉ ACADÉMICO CIENTÍFICO"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME DE CUMPLIMIENTO DE REQUISITOS"), 0, 'C', 0);
-        $this->fpdf->Ln(2);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.: Informe de las líneas de investigación"), 0, 'C', 0);
+        $this->fpdf->Ln(4);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que el Oficio de Coordinación de Investigación Nº 0290/2022, informa el cumplimiento de requisitos de la Ing. Siriam Katty Arce Rios, quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia” correspondiente a la maestría en “Ingeniería del gas natural y petroquímica”, Plan 4095-0, que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
-            'second' => "Que el Comité Académico Científico aprobó la designación del M. Sc. Ing. Luis Enrique Claure Vargas, como Tutor de Tesis de la Ing. Siriam Katty Arce Rios, mediante la Resolución Comité Académico Científico Nº 0429/2022, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
-            'third' => "La postgraduante Ing. Siriam Katty Arce Rios, cumple en el Art. 104º del Reglamento General de Postgrado.",
-            'four' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil del TFG, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: “Optimización de las técnicas en el análisis y diseño estructural”.",
-            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'six' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° 0290/2022 de la Ing. Siriam Katty Arce Rios de la maestría “Ingeniería del gas natural y petroquímica”, Plan 4095-0, emitido por el Coordinador de Investigación de la Escuela de Ingeniería, con el tema de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”.",
+            'first' => "Por medio de la presente, nos es muy grato dirigirnos a su persona para hacerle llegar las líneas de investigación del Trabajo de Grado titulado: “Patologías en el rubro de los servicios petroleros”, correspondiente a la maestría en “Sistemas integrados de gestión de seguridad, medio ambiente y calidad”, (2º Versión – 2º Edición) de la postgraduante Ing. María Alejandra Medina.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Distinguida Sra.:"), 0, 'L', 0);
         $this->fpdf->Ln(2);
-        $this->fpdf->SetFont('Arial', '', 9);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(6);
-        $this->WriteText($contenido['second']);
-        $this->fpdf->Ln(6);
-        $this->WriteText($contenido['third']);
-        $this->fpdf->Ln(6);
-        $this->WriteText($contenido['four']);
-        $this->fpdf->Ln(6);
 
+        // new page horizonal
+        $this->fpdf->AddPage('L');
+
+        $tamano = $this->width;
+        /*         $this->widths = array($tamano * 2 / 12, $tamano * 2 / 12, $tamano * 2 / 12, $tamano * 2 / 12, $tamano * 2 / 12, $tamano * 7 / 12);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("POR LO TANTO:");
-        $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['five']);
-        $this->fpdf->Ln(6);
+        $this->row(array(utf8_decode('Programa'), utf8_decode('Postgraduante'), utf8_decode('Líneas de investigación'), utf8_decode('Ejes temáticos'), utf8_decode('Trabajo final de grado'), utf8_decode('Aportes que genera el TFG')), 0, 'C', 'N'); */
 
+        $this->widths = array($tamano * 7 / 12);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("RESUELVE:");
-        $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['six']);
-        $this->fpdf->Ln(8);
+        $hmax = $this->height('La importancia de esta investigación permitirá contar con una metodología y herramienta muy útil para que en los proyectos cuenten con registros y estadísticas de las patologías que se producen y les permitan diagnosticar, identificar oportunamente los daños producidos por estas patologías.
+        La metodología utilizada en el presente trabajo puede ser aplicada y adaptada no sólo para proyectos de construcción pertenecientes al rubro de los servicios petrolero, sino también a otros rubros o sectores por el sector salud, por los departamentos de Higiene y Seguridad Ocupacional y aquellas industrias que implementen o cuenten un sistema de gestión de la seguridad y salud en el trabajo, cuyo fin sea de planificar acciones preventivas e implementar medidas de control encaminadas a la eliminación o disminución del riesgo de que se produzcan enfermedades u patologías resguardando la salud de los trabajadores en cumplimiento de la normativa vigente en materia de salud y seguridad en el trabajo.
+        ');
+        $this->widths = array($tamano * 2 / 12);
+        $hcmax = $this->height('Líneas de investigación');
 
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, 09 de septiembre del 2022"), 0, 'C', 0);
-        $this->fpdf->Ln(12);
+        $this->widths = array($tamano * 2 / 12);
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->row(array(utf8_decode('Programa')), 0, 'C', 'N', $hcmax);
+        $this->row(array(utf8_decode('“Sistemas integrados de gestión de seguridad, medio ambiente y calidad”, (2º Versión - 2º Edición)')), 0, 'L', 'N', $hmax);
 
-        // 3 espacios para 3 firmas
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('M. Sc. Ing. Erick Rojas Balcazar'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Ln(15);
+        $this->widths = array($tamano * 2 / 12);
+        $this->fpdf->SetXY($x + $tamano * 2 / 12, $y);
+        $this->row(array(utf8_decode('Postgraduante')), 0, 'C', 'N', $hcmax);
+        $this->fpdf->SetXY($x + $tamano * 2 / 12, $y + $hcmax);
+        $this->row(array(utf8_decode('María Alejandra Medina')), 0, 'L', 'N', $hmax / 2);
+        $this->fpdf->SetXY($x + $tamano * 2 / 12, $y + $hcmax + $hmax / 2);
+        $this->row(array(utf8_decode('No es docente')), 0, 'L', 'N', $hmax / 2);
 
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
+        $x = $x + ($tamano * 2 / 12) * 2;
+        $this->widths = array($tamano * 2 / 12);
+        $this->fpdf->SetXY($x, $y);
+        $this->row(array(utf8_decode('Líneas de investigación')), 0, 'C', 'N', $hcmax);
+        $this->fpdf->SetXY($x, $y + $hcmax);
+        $this->row(array(utf8_decode('UAGRM 2.  Administración pública, privada y desarrollo empresarial ')), 0, 'L', 'N', $hmax / 2);
+        $this->fpdf->SetXY($x, $y + $hcmax + $hmax / 2);
+        $this->row(array(utf8_decode('UPCET “Seguridad y riesgos industriales” ')), 0, 'L', 'N', $hmax / 2);
+
+        $x = $x + $tamano * 2 / 12;
+        $this->widths = array($tamano * 2 / 12);
+        $this->fpdf->SetXY($x, $y);
+        $this->row(array(utf8_decode('Ejes temáticos')), 0, 'C', 'N', $hcmax);
+        $this->fpdf->SetXY($x, $y + $hcmax);
+        $this->row(array(utf8_decode('11.  Gestión de programas y proyectos')), 0, 'L', 'N', $hmax);
+
+        $x = $x + $tamano * 2 / 12;
+        $this->widths = array($tamano * 2 / 12);
+        $this->fpdf->SetXY($x, $y);
+        $this->row(array(utf8_decode('Trabajo final de grado')), 0, 'C', 'N', $hcmax);
+        $this->fpdf->SetXY($x, $y + $hcmax);
+        $this->row(array(utf8_decode('“Patologías en el rubro de los servicios petroleros ”')), 0, 'L', 'N', $hmax);
+
+        $x = $x + $tamano * 2 / 12;
+        $this->widths = array($tamano * 7 / 12);
+        $this->fpdf->SetXY($x, $y);
+        $this->row(array(utf8_decode('Aportes que genera el TFG')), 0, 'C', 'N', $hcmax);
+        $this->fpdf->SetXY($x, $y + $hcmax);
+        $this->row(array(utf8_decode('La importancia de esta investigación permitirá contar con una metodología y herramienta muy útil para que en los proyectos cuenten con registros y estadísticas de las patologías que se producen y les permitan diagnosticar, identificar oportunamente los daños producidos por estas patologías.        La metodología utilizada en el presente trabajo puede ser aplicada y adaptada no sólo para proyectos de construcción pertenecientes al rubro de los servicios petrolero, sino también a otros rubros o sectores por el sector salud, por los departamentos de Higiene y Seguridad Ocupacional y aquellas industrias que implementen o cuenten un sistema de gestión de la seguridad y salud en el trabajo, cuyo fin sea de planificar acciones preventivas e implementar medidas de control encaminadas a la eliminación o disminución del riesgo de que se produzcan enfermedades u patologías resguardando la salud de los trabajadores en cumplimiento de la normativa vigente en materia de salud y seguridad en el trabajo.
+        ')), 0, 'L', 'N', $hmax);
+
         $this->fpdf->Ln(5);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Daniel Tejerina Claudio'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Fernando Miguel Navarro Canaviri'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR ACADÉMICO'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR DE INVESTIGACIÓN'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-
+        $this->WriteText("Agradeciendo su atención, la saludo con las consideraciones más distinguidas.");
+        $this->fpdf->Ln(6);
+        $this->WriteText("Atentamente,");
         // pie de pagina
-        $this->fpdf->Ln(15);
-        $this->fpdf->SetFont('Arial', '', 9);
+        $this->fpdf->Ln(30);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Cac_Informe_Cumplimiento_Requisitos.pdf");
+        $this->fpdf->Output("I", "Informe_Lineas_Investigacion.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
@@ -200,49 +218,41 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->SetX($bak_x);
     }
 
-    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
+    function height($data)
     {
-        //Calculate the height of the row
-        $nb = 0;
-        for ($i = 0; $i < count($data); $i++)
-            $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
-        $h = 5 * $nb + 2;
-        //Issue a page break first if needed
-        //Draw the cells of the row
-        for ($i = 0; $i < count($data); $i++) {
-            $w = $this->widths[$i];
-            $a = isset($this->aligns[$i]) ? $this->aligns[$i] : $alling;
-            //Save the current position
-            $x = $this->fpdf->GetX();
-            $y = $this->fpdf->GetY();
-            if ($pintado == 1) {
-                $this->fpdf->SetFillColor(224, 235, 255);
-                $this->fpdf->Rect($x - 1, $y, $w + 1, $h, 'DF');
-                $this->fpdf->SetXY($x, $y + 1);
-                // celeste clarito
+        // $nb = 0;
+        // for ($i = 0; $i < count($data); $i++)
+        //     $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
+        // return $h = 5 * $nb + 2;
+        return $this->NbLines($this->widths[0], $data) * 5 + 2;
+    }
+    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N", $h)
+    {
+        $w = $this->widths[0];
+        $a = isset($this->aligns[0]) ? $this->aligns[0] : $alling;
+        //Save the current position
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        if ($pintado == 1) {
+            $this->fpdf->SetFillColor(224, 235, 255);
+            $this->fpdf->Rect($x - 1, $y, $w + 1, $h, 'DF');
+            $this->fpdf->SetXY($x, $y + 1);
+            // celeste clarito
+            $this->fpdf->SetFont('Arial', 'B', 10);
+        } else {
+            $this->fpdf->Rect($x, $y, $w, $h);
+            $this->fpdf->SetXY($x, $y + 1);
+            $this->fpdf->SetFont('Arial', '', 10);
+            if ($negrita === "S") {
                 $this->fpdf->SetFont('Arial', 'B', 10);
-            } else {
-
-                $this->fpdf->Rect($x, $y, $w, $h);
-                $this->fpdf->SetXY($x, $y + 1);
-                $this->fpdf->SetFont('Arial', '', 10);
-                if ($i == 0) {
-                    $a = 'L';
-                }
-                if ($negrita === "S") {
-                    $this->fpdf->SetFont('Arial', 'B', 10);
-                }
-                if ($negrita === "SI") {
-                    $this->fpdf->SetFont('Arial', 'BI', 10);
-                }
             }
-            $this->fpdf->MultiCell($w, $this->space, $data[$i], 0, $a, $pintado);
-            $pintado = 0;
-            //Put the position to the right of the cell
-            $this->fpdf->SetXY($x + $w, $y);
-            // letra color negro
-            $this->fpdf->SetTextColor(0, 0, 0);
+            if ($negrita === "SI") {
+                $this->fpdf->SetFont('Arial', 'BI', 10);
+            }
         }
+        $this->fpdf->MultiCell($w, $this->space, $data[0], 0, $a, $pintado);
+        $this->fpdf->SetXY($x + $w, $y);
+        $this->fpdf->SetTextColor(0, 0, 0);
         $this->fpdf->Ln($h);
     }
 

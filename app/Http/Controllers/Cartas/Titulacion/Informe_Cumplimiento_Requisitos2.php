@@ -153,7 +153,7 @@ class Informe_Cumplimiento_Requisitos2 extends Fpdf
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Informe_cumplimiento_requisitos.pdf");
+        $this->fpdf->Output("I", "Informe_Cumplimiento_Requisitos2.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

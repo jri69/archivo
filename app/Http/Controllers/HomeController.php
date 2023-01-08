@@ -67,6 +67,7 @@ class HomeController extends Controller
                 ->where('id_modulo', $ultimo_modulo->id)->get();
             $last = $estudiantesM->count();
             $retirados = $first - $last;
+            $first == 0 ? $first = 1 : $first;
             $indice = $retirados * 100 / $first;
             $cantidad[] = $indice;
             $nombres[] = $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion;

@@ -35,29 +35,26 @@
                                                 <td> {{ $carta['carta'] ? $carta['carta']->fecha : 'No creado' }}</td>
                                                 <td class="td-actions">
                                                     {{-- @if ((!$tipo['carta'] && $tipos_cartas[0]['carta']) || ($tipos_cartas[0] == $tipo && !$tipo['carta'])) --}}
-                                                    {{-- <a href="{{ route('carta.create', [$contrato->id, $tipo['tipo']->id]) }}" --}}
-                                                    {{-- class="btn btn-success"> --}}
-                                                    {{-- <span class="material-icons">save</span> --}}
-                                                    {{-- </a> --}}
+                                                    <a href="{{ route('estudiante.cartaCreate', [$programa->id, $carta['tipo']->id, 2]) }}"
+                                                        class="btn btn-success">
+                                                        <span class="material-icons">save</span>
+                                                    </a>
                                                     {{-- @endif --}}
                                                     {{-- @if ($tipo['carta']) --}}
                                                     <a href="{{ route('carta.pdf', [1, $carta['tipo']->nombre, $carta['tipo']->id]) }}"
                                                         class="btn btn-primary" target="_blank">
                                                         <span class="material-icons">cloud_download</span>
                                                     </a>
-                                                    {{-- <a href="{{ route('carta.edit', [$tipo['carta']->id]) }}" --}}
-                                                    {{-- class="btn btn-success"> --}}
-                                                    {{-- <span class="material-icons">edit</span> --}}
-                                                    {{-- </a> --}}
-                                                    {{-- <form action="{{ route('carta.delete', $tipo['carta']->id) }}" --}}
-                                                    {{-- method="POST" style="display: inline-block;" --}}
-                                                    {{-- onsubmit="return confirm('¿Está seguro?')"> --}}
-                                                    {{-- @csrf
+                                                    <form
+                                                        action="{{ route('estudiante.cartaDestroy', $carta['tipo']->id) }}"
+                                                        method="POST" style="display: inline-block;"
+                                                        onsubmit="return confirm('¿Está seguro?')">
+                                                        @csrf
                                                         @method('DELETE')
                                                         <button class="btn btn-danger" type="submit">
                                                             <i class="material-icons">delete</i>
                                                         </button>
-                                                    </form> --}}
+                                                    </form>
                                                     {{-- @endif --}}
                                                 </td>
                                             </tr>

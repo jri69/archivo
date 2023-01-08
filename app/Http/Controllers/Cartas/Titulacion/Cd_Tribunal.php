@@ -11,7 +11,7 @@ use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
+class Cd_Tribunal extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -102,65 +102,107 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. CONS.D.P. N° 0371/2022"), 0, 'L', 0);
         $this->fpdf->Ln(5);
 
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("COMITÉ ACADÉMICO CIENTÍFICO"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME DE CUMPLIMIENTO DE REQUISITOS"), 0, 'C', 0);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("CONSEJO DIRECTIVO DE POSTGRADO"), 0, 'C', 0);
         $this->fpdf->Ln(2);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que el Oficio de Coordinación de Investigación Nº 0290/2022, informa el cumplimiento de requisitos de la Ing. Siriam Katty Arce Rios, quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia” correspondiente a la maestría en “Ingeniería del gas natural y petroquímica”, Plan 4095-0, que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
-            'second' => "Que el Comité Académico Científico aprobó la designación del M. Sc. Ing. Luis Enrique Claure Vargas, como Tutor de Tesis de la Ing. Siriam Katty Arce Rios, mediante la Resolución Comité Académico Científico Nº 0429/2022, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
-            'third' => "La postgraduante Ing. Siriam Katty Arce Rios, cumple en el Art. 104º del Reglamento General de Postgrado.",
-            'four' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil del TFG, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: “Optimización de las técnicas en el análisis y diseño estructural”.",
-            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'six' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° 0290/2022 de la Ing. Siriam Katty Arce Rios de la maestría “Ingeniería del gas natural y petroquímica”, Plan 4095-0, emitido por el Coordinador de Investigación de la Escuela de Ingeniería, con el tema de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”.",
+            'first' => "El informe emitido por el Coordinador de Investigación oficio Nº 0583/2022 y Resolución del Comité Académico Científico Nº 0784/2022, la Resolución del Comité Académico Científico Nº 0785/2022.",
+
+            'second' => "Que el oficio de Coordinación de Investigación Nº 0583/2022 informa el cumplimiento de requisitos presentado por el Ing. Noel Jesús Medina Yucra, quien ha aprobado todos los módulos y concluido la elaboración del Trabajo Final de Grado “Volúmenes de residuos sólidos según proveniencia”; correspondiente a la maestría en: “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1ºVersión-3º Edición), que se cursó en esta Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el Trabajo Final de Grado en tres ejemplares aprobado con Resolución del Comité Académico Científico Nº 0784/2022  y la  Resolución del Comité Académico Científico Nº 0785/2022, el mismo que está amparado en el CONSUPO Nº 004/2021, en el Artículo 10º y CONSUPO 005/2022.",
+
+            'third' => "La Dirección General de Postgrado, emitió la Resolución Nº 1478/2022 mediante la solicitud de oficio de Dirección General de la Escuela de Ingeniería la Resolución de Consejo Directivo de Postgrado, nombrando al Director de Tesis a la M. Sc. Ing. Alexandra Guerrero Ramirez, como tutor de tesis del Ing. Noel Jesús Medina Yucra, con el trabajo final de grado “Volúmenes de residuos sólidos según proveniencia” correspondiente a la maestría en “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1ºVersión-3º Edición).",
+
+            'four' => " Que el Reglamento General del Sistema de POSTGRADO de la Universidad Autónoma “Gabriel René Moreno”, establece en su Sección III Consejo Directivo de POSTGRADO en el Artículo Nº 37, Inciso h) Nominar mediante resolución a los tutores de tesis o de trabajos de grado y a los tribunales de evaluación, en los diferentes niveles post-graduales, en base a la propuesta presentada por el Comité Académico Científico.",
+
+            'five' => "Que el Comité Académico Científico aprobó la designación de los tribunales de Tesis del Ing. Noel Jesús Medina Yucra, mediante la Resolución Comité Académico Científico Nº 0785/2022.",
+
+            'six' => "Que el Comité Académico Científico aprobó el informe de Coordinación de Investigación, mediante  el oficio Nº 583/2022, emitido por el Coordinador de Investigación de la Escuela de Ingeniería con Resolución del Comité Académico Científico N° 0784/2022, del Postgraduante: Ing. Noel Jesús Medina Yucra del programa de maestría en: “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1ºVersión-3º Edición)  ; en el que el Coordinador de Investigación emite el informe de las líneas de investigación: “Gestión ambiental”.",
+
+            'seven' => "El Consejo Directivo de Postgrado, en uso de sus legítimas atribuciones, de acuerdo al Reglamento General del Sistema de Postgrado de la Universidad Autónoma Gabriel René Moreno, Capitulo IV, Sección III, El Consejo Directivo de Postgrado Artículo 36º el Consejo Directivo de Postgrado es la máxima instancia en las decisiones académico-científico y de carácter administrativo, en el ámbito de su facultad. ",
+
+            'eight' => "Art. 1º Disponer la defensa ante Tribunal, del Trabajo de Grado “Volúmenes de residuos sólidos según proveniencia”. Elaborado por el Ing. Noel Jesús Medina Yucra, correspondiente a la maestría en: “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1ºVersión-3º Edición).",
+
+            'nine' => "Art. 3° Homologar la decisión del Comité Académico Científico N° 0784/2022, de aprobar el informe emitido por el Coordinador de Investigación de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología; donde el Director de tesis de grado M. Sc. Ing. Alexandra Guerrero Ramirez, ha emitido su informe de aprobación del Trabajo Final de Grado del Postgraduante: Ing. Noel Jesús Medina Yucra con el tema de tesis “Volúmenes de residuos sólidos según proveniencia” de la maestría en “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1ºVersión-3º Edición).",
+
+            'ten' => "Art. 4° Homologar la decisión del Comité Académico Científico N° 0785/2022, de aprobar la designación de los tribunales de Defensa de la Postgraduante: Ing. Noel Jesús Medina Yucra.",
         ];
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTOS:"), 0, 'L', 0);
         $this->fpdf->Ln(2);
-        $this->fpdf->SetFont('Arial', '', 9);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['first']);
         $this->fpdf->Ln(6);
         $this->WriteText($contenido['second']);
         $this->fpdf->Ln(6);
         $this->WriteText($contenido['third']);
+        $this->fpdf->Ln(8);
+
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->WriteText("CONSIDERANDO:");
         $this->fpdf->Ln(6);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['four']);
         $this->fpdf->Ln(6);
-
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("POR LO TANTO:");
-        $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', '', 9);
         $this->WriteText($contenido['five']);
         $this->fpdf->Ln(6);
+        $this->WriteText($contenido['six']);
+        $this->fpdf->Ln(8);
 
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->WriteText("POR LO TANTO:");
+        $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', '', 10);
+        $this->WriteText($contenido['seven']);
+        $this->fpdf->Ln(8);
+
+        $this->fpdf->SetFont('Arial', 'B', 10);
         $this->WriteText("RESUELVE:");
         $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['six']);
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->WriteText($contenido['eight']);
+        // pasar a la siguente pagina
+        $this->WriteText('Art. 2º Designar los siguientes profesores para integrar el mencionado Tribunal de Defensa:');
+
+        $first = $this->width * 3 / 8;
+        $second = $this->width * 5 / 8;
+
+        $this->fpdf->Ln(8);
+        $this->fpdf->Cell($first, $this->space, utf8_decode('Postgraduante'), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('Siriam Katty Arce Rios'), 0, 'L');
+        $this->fpdf->Ln(1);
+        $this->fpdf->Cell($first, $this->space, utf8_decode('D.T.F.G.:'), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('M. Sc. Ing. Luis Enrique Claure Vargas'), 0, 'L');
+        $this->fpdf->Ln(1);
+        $this->fpdf->Cell($first, $this->space, utf8_decode('Maestría'), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('Ingeniería del gas natural y petroquímica Plan 4095-0'), 0, 'L');
+        $this->fpdf->Ln(1);
+        $this->fpdf->Cell($first, $this->space, utf8_decode('Título del T.F.G.:'), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('“Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”'), 0, 'L');
+        $this->fpdf->Ln(1);
+        $this->fpdf->Cell($first, $this->space, utf8_decode('Composición del Tribunal: '), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('•	M. Sc. Ing. Yan Carla Antelo Vaca Diez'), 0, 'L');
+        $this->fpdf->Cell($first, $this->space, utf8_decode(''), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('•	M. Sc. Ing. Yenny Lizeth Paz Suárez'), 0, 'L');
+        $this->fpdf->Cell($first, $this->space, utf8_decode(''), 0, 0, 'L');
+        $this->fpdf->MultiCell($second, $this->space, utf8_decode('•	M. Sc. Ing. Maria Sandy Vargas Zabala'), 0, 'L');
+        $this->fpdf->Ln(6);
+
+        $this->WriteText($contenido['nine']);
+        $this->fpdf->Ln(8);
+        $this->WriteText($contenido['ten']);
         $this->fpdf->Ln(8);
 
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, 09 de septiembre del 2022"), 0, 'C', 0);
-        $this->fpdf->Ln(12);
-
-        // 3 espacios para 3 firmas
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('M. Sc. Ing. Erick Rojas Balcazar'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Ln(15);
+        $this->fpdf->Ln(6);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode(" Por el Consejo Directivo de Postgrado"), 0, 'L', 0);
+        $this->fpdf->Ln(20);
 
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
@@ -173,13 +215,16 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('F.C.E.T  -  U.A.G.R.M.'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('F.C.E.T  -  U.A.G.R.M.'), 0, 0, 'C');
 
         // pie de pagina
-        $this->fpdf->Ln(15);
+        $this->fpdf->Ln(30);
         $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Cac_Informe_Cumplimiento_Requisitos.pdf");
+        $this->fpdf->Output("I", "Cd_Tribunal.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

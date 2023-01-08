@@ -157,10 +157,13 @@ Route::group(['prefix' => 'estudiante', 'middleware' => ['can:estudiante.index',
     Route::get('/show/{estudiante}', [EstudianteController::class, 'show'])->name('estudiante.show');
     Route::get('/estado/{estudiante}', [EstudianteController::class, 'estado'])->name('estudiante.estado');
     Route::get('/edit/{estudiante}', [EstudianteController::class, 'edit'])->name('estudiante.edit');
+    Route::get('/carta/create/{estudiante}/{programa}/{tipo}', [EstudianteController::class, 'cartaCreate'])->name('estudiante.cartaCreate');
     Route::get('/carta/{estudiante}/{programa}', [EstudianteController::class, 'carta'])->name('estudiante.carta');
     Route::put('/update/{estudiante}', [EstudianteController::class, 'update'])->name('estudiante.update');
     Route::post('/store', [EstudianteController::class, 'store'])->name('estudiante.store');
+    Route::post('/carta/store/{estudiante}/{programa}', [EstudianteController::class, 'cartaStore'])->name('estudiante.cartaStore');
     Route::post('/inscribirse/store/{estudiante}', [EstudianteController::class, 'storenewprogram'])->name('estudiante.storenewprogram');
+    Route::delete('/carta/delete/{carta}', [EstudianteController::class, 'cartaDestroy'])->name('estudiante.cartaDestroy');
     Route::delete('/delete/documento/{documento}', [EstudianteController::class, 'deleteFile'])->name('estudiante.deleteFile');
     Route::delete('/delete/{estudiante}', [EstudianteController::class, 'destroy'])->name('estudiante.delete');
 });

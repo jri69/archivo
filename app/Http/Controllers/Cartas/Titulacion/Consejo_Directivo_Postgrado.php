@@ -214,7 +214,7 @@ class Consejo_Directivo_Postgrado extends Fpdf
         $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Informe_cumplimiento_requisitos.pdf");
+        $this->fpdf->Output("I", "Consejo_Directivo_Postgrado.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
