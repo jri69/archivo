@@ -73,7 +73,8 @@
                                         <label for="nombre" class="col-sm-2 col-form-label"> <b> Formación requerida</b>
                                         </label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="formacion_requerida">
+                                            <input type="text" class="form-control" name="formacion_requerida"
+                                                placeholder="Formacion Requerida">
                                             @if ($errors->has('formacion_requerida'))
                                                 <span class="error text-danger"
                                                     for="input-formacion_requerida">{{ $errors->first('formacion_requerida') }}</span>

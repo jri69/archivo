@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cartas;
+namespace App\Http\Controllers\Cartas\Titulacion;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
@@ -11,10 +11,9 @@ use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Comunicacion_Interna extends Fpdf
+class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
 {
     protected $fpdf;
-    public $title = "Comunicacion Interna";
     public $margin = 30;
     public $width = 165;
     public $space = 5;
@@ -53,9 +52,10 @@ class Comunicacion_Interna extends Fpdf
         return $formatter->toMoney($number);
     }
 
+
     public function informe($data)
     {
-        // obtencion de datos
+        /*         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];
         $modulo = Modulo::find($contrato->modulo_id);
@@ -95,78 +95,91 @@ class Comunicacion_Interna extends Fpdf
 
         // convertir texto a mayuscula
         $name_docente = mb_strtoupper($name_docente, 'UTF-8');
-
+         */
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ADM No. " . $carta->codigo_admi), 0, 'R', 0);
-
-        $this->fpdf->Ln(2);
-        $this->widths = array(14, $this->width - 14);
-        $this->Row(array(utf8_decode('A:'), utf8_decode($asesor)), 1, "L", "N");
-        $this->Row(array(utf8_decode('VIA:'), utf8_decode($director)), 1, "L", "N");
-        $this->Row(array(utf8_decode('DE:'), utf8_decode($responsable)), 1, "L", "N");
-        $this->Row(array(utf8_decode('REF:'), utf8_decode('SOLICITUD DE REVISIÓN DE DOCUMENTACIÓN Y ELABORACIÓN DE CONTRATO A FAVOR DEL ' . mb_strtoupper($name_docente) . ', ADJUDICACIÓN CONTRATACIÓN MENOR PARA EL MÓDULO DENOMINADO: "' . mb_strtoupper($modulo->nombre) . '" (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN) ' . mb_strtoupper($modalidad) . '. A EJECUTARSE CON RECURSOS PROPIOS, POR UN MONTO DE BS.' . $contrato->honorario . ' (' . $honorarioLiteral . ' CON 00/100 BOLIVIANOS). A REALIZARSE EN UN PLAZO DE 60 HORAS ACADÉMICAS.-')), 1, "L", "SI");
-
-        $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 'R', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
         $this->fpdf->Ln(5);
+
+        $this->fpdf->SetFont('Arial', 'B', 9);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("COMITÉ ACADÉMICO CIENTÍFICO"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME DE CUMPLIMIENTO DE REQUISITOS"), 0, 'C', 0);
+        $this->fpdf->Ln(2);
 
         // CONTENIDO
         $contenido = [
-            'first' => 'Según el oficio OF.COORD. ACA. N.º ' . $carta->codigo_admi . ' del Coordinador Académico de la ESCUELA DE INGENIERIA - UAGRM, remito a usted la integridad del proceso de Contratación para el <MÓDULO> DENOMINADO: "' . $modulo->nombre . ' (' . $modulo->version . 'º VERSIÓN, ' . $modulo->edicion . 'º EDICIÓN)  ' . $modalidad . '. (UNA CARPETA), A EFECTOS DE LA RECEPCIÓN y verificación de la documentación requerida para la elaboración y firma del contrato, teniendo un plazo hasta el ' . $carta->fecha_plazo . '.',
-            'second' => 'Proceda a ejecutar las siguientes acciones: En sujeción al D.S. 181 art. 37.- (ASESORIA LEGAL). En cada proceso de contratación, tiene como principales funciones:',
+            'first' => "Que el Oficio de Coordinación de Investigación Nº 0290/2022, informa el cumplimiento de requisitos de la Ing. Siriam Katty Arce Rios, quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia” correspondiente a la maestría en “Ingeniería del gas natural y petroquímica”, Plan 4095-0, que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
+            'second' => "Que el Comité Académico Científico aprobó la designación del M. Sc. Ing. Luis Enrique Claure Vargas, como Tutor de Tesis de la Ing. Siriam Katty Arce Rios, mediante la Resolución Comité Académico Científico Nº 0429/2022, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
+            'third' => "La postgraduante Ing. Siriam Katty Arce Rios, cumple en el Art. 104º del Reglamento General de Postgrado.",
+            'four' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil del TFG, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: “Optimización de las técnicas en el análisis y diseño estructural”.",
+            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
+            'six' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° 0290/2022 de la Ing. Siriam Katty Arce Rios de la maestría “Ingeniería del gas natural y petroquímica”, Plan 4095-0, emitido por el Coordinador de Investigación de la Escuela de Ingeniería, con el tema de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”.",
         ];
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
+        $this->fpdf->Ln(2);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi mayor consideración:"), 0, 'L', 0);
-        $this->fpdf->Ln(4);
-        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
         $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(8);
-        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
+        $this->fpdf->Ln(6);
         $this->WriteText($contenido['second']);
+        $this->fpdf->Ln(6);
+        $this->WriteText($contenido['third']);
+        $this->fpdf->Ln(6);
+        $this->WriteText($contenido['four']);
+        $this->fpdf->Ln(6);
+
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->WriteText("POR LO TANTO:");
+        $this->fpdf->Ln(6);
+        $this->fpdf->SetFont('Arial', '', 9);
+        $this->WriteText($contenido['five']);
+        $this->fpdf->Ln(6);
+
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->WriteText("RESUELVE:");
+        $this->fpdf->Ln(6);
+        $this->fpdf->SetFont('Arial', '', 9);
+        $this->WriteText($contenido['six']);
+        $this->fpdf->Ln(8);
+
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, 09 de septiembre del 2022"), 0, 'C', 0);
+        $this->fpdf->Ln(12);
+
+        // 3 espacios para 3 firmas
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Ln(4);
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'a)', utf8_decode('Atender y asesorar en la revisión de documentos y asuntos legales que sean sometidos a su consideración durante el proceso de contratación.'));
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode('M. Sc. Ing. Erick Rojas Balcazar'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->Ln(15);
 
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'b)', utf8_decode('Elaborar todos los informes legales requeridos en el proceso de contratación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'c)', utf8_decode('Elaborar los contratos para los procesos de contratación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'd)', utf8_decode('Firmar o visar el contrato de forma previa a su suscripción, como responsable de su elaboración.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'e)', utf8_decode('Revisar la legalidad de la documentación presentada por el proponente adjudicado para la suscripción del contrato.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'f)', utf8_decode('Atender y asesorar en procedimientos, plazos y resolución de Recursos Administrativos de impugnación.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'g)', utf8_decode('Elaborar y visar todas las Resoluciones establecidas en las presentes NB-SABS.'));
-
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, 'h)', utf8_decode('Elaborar el informe.'));
-
-        $this->fpdf->Ln(1);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Con este motivo, saludo a usted atentamente'), 0, 'L', 0);
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
+        $this->fpdf->Ln(5);
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Daniel Tejerina Claudio'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Fernando Miguel Navarro Canaviri'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR ACADÉMICO'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR DE INVESTIGACIÓN'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
 
         // pie de pagina
         $this->fpdf->Ln(15);
-
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adjunto: Lo indicado "), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("C.c.  Archivo-Dirección E.I."), 0, 'L', 0);
-
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", $name_docente . " - Comunicacion Interna.pdf");
+        $this->fpdf->Output("I", "Informe_cumplimiento_requisitos.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
@@ -245,7 +258,7 @@ class Comunicacion_Interna extends Fpdf
         //Computes the number of lines a MultiCell of width w will take
         $cw = &$this->fpdf->CurrentFont['cw'];
         if ($w == 0)
-            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdfx;
+            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdf->x;
         $wmax = ($w - 2 * $this->fpdf->cMargin) * 1000 / $this->fpdf->FontSize;
         $s = str_replace("\r", '', $txt);
         $nb = strlen($s);

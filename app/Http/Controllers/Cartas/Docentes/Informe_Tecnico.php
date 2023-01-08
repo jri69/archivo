@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Cartas;
+namespace App\Http\Controllers\Cartas\Docentes;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
+use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
-use Luecano\NumeroALetras\NumeroALetras;
 
-class Planilla_pago extends Fpdf
+class Informe_Tecnico extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
-    public $width = 250;
+    public $width = 165;
     public $space = 5;
     public $vineta = 30;
     public $widths;
@@ -22,7 +22,7 @@ class Planilla_pago extends Fpdf
 
     public function __construct()
     {
-        $this->fpdf = new Fpdf('L', 'mm', 'Letter');
+        $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
 
     private function fechaLiteral($fecha)
@@ -61,13 +61,7 @@ class Planilla_pago extends Fpdf
         }
     }
 
-    private function numeroAliteral($number)
-    {
-        $formatter = new NumeroALetras();
-        return $formatter->toMoney($number);
-    }
-
-    public function planilla_pago($data)
+    public function informe($data)
     {
         // obtencion de datos
         $contrato = $data[0];
@@ -77,105 +71,128 @@ class Planilla_pago extends Fpdf
         $carta = Carta::find($idCarta);
         $fecha = date('d/m/Y', strtotime($carta->fecha));
         $fechaLiteral = $this->fechaLiteral($fecha);
-        $fechaIni = date('d/m/Y', strtotime($modulo->fecha_inicio));
-        $fechaFin = date('d/m/Y', strtotime($modulo->fecha_final));
+        $facturacion = $docente->facturacion == 'Si' ? "SI" : "NO";
+        $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
+        $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
+        $title = 'INFORME TECNICO';
         $programa = Programa::find($modulo->programa_id);
         $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
-        $name_programa = $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) ";
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
+
+        // carta
+        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
         // directivos
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $adm = '';
-        $dir = '';
-        $dec = '';
+        $responsable = '';
+        $coordinador = '';
         foreach ($directivos as $directivo) {
-            if ($directivo->directivo->cargo == 'Decano') {
-                $dec = $directivo->directivo;
+            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
+                $responsable = $directivo->directivo;
             }
-            if ($directivo->directivo->cargo == 'Director') {
-                $dir = $directivo->directivo;
-            }
-            if ($directivo->directivo->cargo == 'Jefe ADM. y Financiero') {
-                $adm = $directivo->directivo;
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo;
             }
         }
+
+        $responsable ? $responsable_name = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo . ' ' . $responsable->institucion : $responsable_name = '';
+        $coordinador ? $coordinador_name = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido  . ' - ' . $coordinador->cargo . ' ' . $coordinador->institucion : $coordinador_name = '';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
 
-        // marco grande
-        $this->fpdf->Rect(23, $this->fpdf->GetY(), 240, $this->fpdf->GetY() + 15, 'D');
-        // imange
-        $this->fpdf->Image('logo.png', 30, $this->fpdf->GetY() + 2, 25, 20);
-        // subtitulo
-        // titulo
-        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->Ln(20);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($title), 0, 'C', 0);
+
+        $this->fpdf->Ln(4);
+        $this->widths = array(14, $this->width - 14);
+        $this->Row(array(utf8_decode('De:'), utf8_decode($coordinador_name)), 1, "L", "N");
+        $this->Row(array(utf8_decode('A:'), utf8_decode($responsable_name)), 1, "L", "N");
+
         $this->fpdf->Ln(5);
-        $this->fpdf->Cell(0, 5, utf8_decode('Universidad Autónoma "Gabriel René Moreno"'), 0, 1, 'C');
-        $this->fpdf->Ln(0.5);
-        $this->fpdf->Cell(0, 5, utf8_decode('Facultad de Ciencias Exactas y Tecnologia'), 0, 0, 'C');
-        $this->fpdf->Cell(0, 5, utf8_decode('RPC-002-01'), 0, 1, 'R');
-        $this->fpdf->Cell(0, 5, utf8_decode('Escuela de Ingenieria'), 0, 1, 'C');
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Distinguido ' . $responsable->honorifico . ' ' . $responsable->nombre), 0, 'L', 0);
+        $this->fpdf->Ln(5);
 
-        $this->fpdf->Ln(7);
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width - 20, 4, utf8_decode($carta->codigo_admi), 0, 'R', 0);
-        $this->fpdf->Ln(2);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("PLANILLA DE PAGO"), 0, 'C', 0);
-
-        $this->fpdf->Ln(7);
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($programa->tipo . " en: " . $name_programa), 0, 'L', 0);
-        $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Modulo: " . $modulo->nombre), 0, 'L', 0);
-        $this->fpdf->Ln(4);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Duracion: " . $fechaIni . " al " . $fechaFin), 0, 'L', 0);
-
-        $this->fpdf->Ln(4);
-        $lent = $this->width / 9;
-        $this->widths = array($lent / 4, $lent * 2, $lent + ($lent) / 2, ($lent) / 2 + ($lent) / 3, $lent / 2, $lent / 2, ($lent) / 2 + ($lent) / 3, ($lent) / 2 + ($lent) / 3, $lent);
-        $this->Row(array(utf8_decode('N°'), utf8_decode("NOMBRE"), utf8_decode("PERIODO"), utf8_decode("TOTAL GANADO"), utf8_decode("I.U. 12,5%"), utf8_decode("I.T.  3%"), utf8_decode("TOTAL DSCTOS."), utf8_decode("LIQUIDO PAGABLE (Bs.)"), utf8_decode("FIRMA")), 1, "C", "S");
-        $this->Row(array(utf8_decode('1'), utf8_decode($name_docente), utf8_decode($fechaIni . " al " . $fechaFin), utf8_decode($contrato->honorario), utf8_decode("0"), utf8_decode("0"), utf8_decode("0"), utf8_decode($contrato->honorario), utf8_decode("")), 0, "C", "N");
-
+        // CONTENIDO
+        $contenido = [
+            'first' => 'En cumplimiento a las normas establecidas, informo a usted que el proceso de calificación para la contratación del consultor por producto para el <MÓDULO> denominado: "' . $modulo->nombre . '", en relación ' . $name_programa . '. Se concluyó con el proceso bajo el siguiente detalle: ',
+            'second' => 'Por todo lo expuesto anteriormente expreso la conformidad respecto a la recepción de todos los temas arriba citados e informar que <CUMPLE> con los requerido por la capacitación según los términos de referencia; así también se <RECOMIENDA LA ADJUDICACION>.',
+        ];
+        $this->fpdf->SetFont('Arial', '', 10);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['first']), 0, 'J', 0);
+        $this->WriteText($contenido['first']);
         $this->fpdf->Ln(8);
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Solicitud de contratación para consultor e informe presupuestario mediante comunicación ESCUELA DE INGENIERIA OF.COORD. ACA. N.º ' . $carta->codigo_admi . '.'));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CONSULTOR	: ' . $name_docente));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('CEDULA DE IDENTIDAD: ' . $docente->cedula . ' ' . $docente->expedido));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('PROGRAMAS 	: ' . $programa->tipo . ' en ' . $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('MODULO   : "' . $modulo->nombre . '".'));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HONORARIO	: ' . $contrato->honorario . 'Bs (Total Ganado).'));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORAS ACADEMICAS: ' . $programa->hrs_academicas . ' hrs.'));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, ' ', utf8_decode('DURACION DEL MODULO: ' . $fechaIni . ' al ' . $fechaFin . '.'));
+
+        $this->fpdf->SetX($this->vineta);
+        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('HORARIOS   : ' . $contrato->horario . '.'));
+
+        $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("IMPORTA LA PRESENTE PLANILLA LA SUMA DE Bs." . $contrato->honorario . ".- (" . $this->numeroAliteral($contrato->honorario) . "00/100 Bolivianos)"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('EL CONSULTOR ' . $facturacion . ' PRESENTA FACTURA.'), 0, 'L', 0);
         $this->fpdf->Ln(4);
-
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("LÍQUIDO PAGABLE DE Bs." . $contrato->honorario . ".- (" . $this->numeroAliteral($contrato->honorario) . "00/100 Bolivianos)"), 0, 'C', 0);
-        // LINEA RECTA
-        $this->fpdf->Ln(4);
-        $this->fpdf->Line(15, $this->fpdf->GetY(), 270, $this->fpdf->GetY());
-
-        $this->fpdf->Ln(4);
-
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 'C', 0);
+        $this->fpdf->SetFont('Arial', '', 10);
+        // $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($contenido['second']), 0, 'J', 0);
+        $this->WriteText($contenido['second']);
+        $this->fpdf->Ln(8);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 'L', 0);
 
         // pie de pagina
-        $this->fpdf->Ln(20);
+        $this->fpdf->Ln(30);
 
-        // 3 espacios para 3 firmas
+        // FONT BOLD
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(5);
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($adm->honorifico . ' ' . $adm->nombre . ' ' . $adm->apellido), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($dec->honorifico . ' ' . $dec->nombre . ' ' . $dec->apellido), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($dir->honorifico . ' ' . $dir->nombre . ' ' . $dir->apellido), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($adm->cargo . ' - UAGRM'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($dec->cargo . ' - UAGRM'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($dir->cargo . ' - UAGRM'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($adm->institucion), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode($dec->institucion), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 3, $this->space, utf8_decode('E.I.F.C.E.T. - U.A.G.R.M'), 0, 0, 'C');
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode($coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido), 0, 'C', 0);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - UAGRM"), 0, 'C', 0);
+        $this->fpdf->Output("I", $docente->nombre . " - Informe Tecnico.pdf");
+    }
 
-        $this->fpdf->Output("I", $name_docente . " - Planilla de pago.pdf");
+    function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
+    {
+        //Get bullet width including margins
+        $blt_width = $this->fpdf->GetStringWidth($blt) + 2 * 2;
+
+        //Save x
+        $bak_x = $this->fpdf->GetX();
+
+        //Output bullet
+        $this->fpdf->Cell($blt_width, $h, $blt, 0, '', $fill);
+
+        //Output text
+        $this->fpdf->MultiCell($w - $blt_width, $this->space, $txt, $border, $align, $fill);
+
+        //Restore x
+        $this->fpdf->SetX($bak_x);
     }
 
     function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
@@ -197,11 +214,16 @@ class Planilla_pago extends Fpdf
                 $this->fpdf->SetFillColor(224, 235, 255);
                 $this->fpdf->Rect($x - 1, $y, $w + 1, $h, 'DF');
                 $this->fpdf->SetXY($x, $y + 1);
+                // celeste clarito
                 $this->fpdf->SetFont('Arial', 'B', 10);
             } else {
-                $this->fpdf->Rect($x - 1, $y, $w + 1, $h);
+
+                $this->fpdf->Rect($x, $y, $w, $h);
                 $this->fpdf->SetXY($x, $y + 1);
                 $this->fpdf->SetFont('Arial', '', 10);
+                if ($i == 0) {
+                    $a = 'L';
+                }
                 if ($negrita === "S") {
                     $this->fpdf->SetFont('Arial', 'B', 10);
                 }
@@ -209,13 +231,10 @@ class Planilla_pago extends Fpdf
                     $this->fpdf->SetFont('Arial', 'BI', 10);
                 }
             }
-            if ($i == 8) {
-                $this->fpdf->MultiCell($w - 1, $this->space, $data[$i], 0, $a, $pintado);
-            } else {
-                $this->fpdf->MultiCell($w, $this->space, $data[$i], 0, $a, $pintado);
-            }
+            $this->fpdf->MultiCell($w, $this->space, $data[$i], 0, $a, $pintado);
+            $pintado = 0;
             //Put the position to the right of the cell
-            $this->fpdf->SetXY($x + ($w + 1), $y);
+            $this->fpdf->SetXY($x + $w, $y);
             // letra color negro
             $this->fpdf->SetTextColor(0, 0, 0);
         }
@@ -234,7 +253,7 @@ class Planilla_pago extends Fpdf
         //Computes the number of lines a MultiCell of width w will take
         $cw = &$this->fpdf->CurrentFont['cw'];
         if ($w == 0)
-            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdfx;
+            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdf->x;
         $wmax = ($w - 2 * $this->fpdf->cMargin) * 1000 / $this->fpdf->FontSize;
         $s = str_replace("\r", '', $txt);
         $nb = strlen($s);
@@ -273,6 +292,7 @@ class Planilla_pago extends Fpdf
         }
         return $nl;
     }
+
     function WriteText($text)
     {
         $intPosIni = 0;

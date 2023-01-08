@@ -60,7 +60,7 @@
                                         </label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" name="formacion_requerida"
-                                                value="{{ $cuadro->informacion_requerida }}">
+                                                value="{{ $cuadro->formacion_requerida }}">
                                             @if ($errors->has('formacion_requerida'))
                                                 <span class="error text-danger"
                                                     for="input-formacion_requerida">{{ $errors->first('formacion_requerida') }}</span>

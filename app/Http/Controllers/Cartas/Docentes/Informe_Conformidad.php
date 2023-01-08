@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Cartas;
+namespace App\Http\Controllers\Cartas\Docentes;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
+use App\Models\Directivo;
 use App\Models\Docente;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
-class Requerimiento_Propuesta extends Fpdf
+class Informe_Conformidad extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -45,23 +46,7 @@ class Requerimiento_Propuesta extends Fpdf
         return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
     }
 
-    private function tipoPrograma($tipo)
-    {
-        if ($tipo == 'Maestria') {
-            return 'a la <MAESTRIA> en ';
-        }
-        if ($tipo == 'Diplomado') {
-            return 'al <DIPLOMADO> en ';
-        }
-        if ($tipo == 'Cursos') {
-            return 'al <CURSO> de ';
-        }
-        if ($tipo == 'Doctorado') {
-            return 'al <DOCTORADO> en ';
-        }
-    }
-
-    public function propuesta($data)
+    public function informe($data)
     {
         // obtencion de datos
         $contrato = $data[0];
@@ -71,18 +56,24 @@ class Requerimiento_Propuesta extends Fpdf
         $carta = Carta::find($idCarta);
         $fecha = date('d/m/Y', strtotime($carta->fecha));
         $fechaLiteral = $this->fechaLiteral($fecha);
+        $gestion = date('Y', strtotime($carta->fecha));
+        $facturacion = $docente->facturacion == 'Si' ? "SI" : "NO";
         $fechaIni = date('d/m/Y', strtotime($contrato->fecha_inicio));
         $fechaFin = date('d/m/Y', strtotime($contrato->fecha_final));
-        $title = 'REF.- REQUERIMIENTO DE PROPUESTA';
+        $title = "REF: INFORME DE CONFORMIDAD DEL MODULO: " . strtoupper($modulo->nombre);
         $programa = Programa::find($modulo->programa_id);
-        $modalidad = $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
-        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
-        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
+        $cartas = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        $fecha_carta_literal = $this->fechaLiteral(date('d/m/Y', strtotime($cartas->fecha)));
 
         // directivos
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $director = '';
         $coordinador = '';
         foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Director') {
+                $director = $directivo->directivo;
+            }
             if ($directivo->directivo->cargo == 'Coordinador Académico') {
                 $coordinador = $directivo->directivo;
             }
@@ -90,48 +81,52 @@ class Requerimiento_Propuesta extends Fpdf
         $docente_nombre = $docente->nombre . ' ' . $docente->apellido;
 
         // validaciones
+        $director ? $director = $director->honorifico . ' ' . $director->nombre . ' ' . $director->apellido : $director = 'DIRECTOR';
         $coordinador ? $coordinador = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido : $coordinador = 'COORDINADOR ACADÉMICO';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
 
-        $this->fpdf->Ln(15);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Santa Cruz de la Sierra, " . $fechaLiteral), 0, 'L', 0);  //dinamico
+        $this->fpdf->Ln(25);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("OF. COORD. ACAD. N° " . $carta->codigo_admi), 0, 'L', 0);    //dinamico
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("COMUNICACIÓN INTERNA"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("OF. COORD. ACAD. N°" . $carta->codigo_admi), 0, 'C', 0);
 
         $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'R', 0);
+        $this->fpdf->Ln(4);
+
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Señor. - "), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($name_docente), 0, 'L', 0);     //dinamico
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($director), 0, 'L', 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("CONSULTOR."), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente. -"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DIRECTOR DE LA ESCUELA DE INGENIERIA - F.C.E.T. "), 0, 'L', 0);
 
         $this->fpdf->Ln(8);
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($title), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($title), 0, 'C', 0);
         $this->fpdf->Ln(7);
-
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($docente->honorifico . ' ' . $docente->apellido), 0, 'L', 0);    //dinamico
-        $this->fpdf->Ln(8);
 
         // CONTENIDO
         $contenido = [
-            'first' => 'Tengo a bien remitir a su persona el requerimiento de propuesta en calidad de consultor en el <MÓDULO> denominado: "' . $modulo->nombre . '", en relación ' . $name_programa . '. A realizarse en fecha <' . $fechaIni . ' al ' . $fechaFin . '>. Teniendo una carga horaria de 60 (sesenta) horas Académicas, el programa antes mencionado depende de la coordinación académica.',
-            'second' => 'En caso de estar interesado, por favor hacer llegar el <CURRÍCULUM VITAE, CÉDULA DE IDENTIDAD, PROGRAMA DE ASIGNATURA (PROPUESTA)> y dar la conformidad de aceptación por escrito hasta el 11 de agosto de 2022.',
+            'first' => 'De acuerdo al Contrato Administrativo <N° ' . $carta->codigo_admi . '> suscrito en la Escuela de Ingeniería, dependiente de la Facultad de Ciencias Exactas y Tecnología de la UAGRM y el <consultor ' . $docente->honorifico . ' ' . $docente_nombre . '>, cuyo objetivo fue el de desarrollar como facilitador (a) en el <MÓDULO>: ' . $modulo->nombre . ' (' . $modulo->version . 'º Versión, ' . $modulo->edicion . 'º Edición) ' . $modalidad . '; ejecutado en fecha <' . $fechaIni . ' a ' . $fechaFin . '.>',
+            'second' => 'Que, revisado el informe académico, acta de nota y el Programa de asignatura impartido por <el consultor>, cumplió con todas nuestras exigencias tanto académicas como de calidad. Expresando por tanto mi CONFORMIDAD por el servicio prestado en la presente gestión ' . $gestion . '. En cumplimiento de los procedimientos institucionales y la ejecución satisfactoria del servicio, solicito la cancelación de los honorarios de <Bs. ' . $contrato->honorario . '> del consultor, que fueron presupuestado en el <OF. COORD. ACAD. N° ' . $cartas->codigo_admi . '> en fecha <' . $fecha_carta_literal . '>; con N° de preventiva ' . $contrato->nro_preventiva  . '.',
+            'third' => 'Informándole que el consultor ' . $facturacion . ' PRESENTA FACTURA, debiendo realizarse las deducciones de impuesto de ley correspondientes'
         ];
         $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode('Distinguido Sr. Director:'), 0, 'J', 0);
         $this->WriteText($contenido['first']);
         $this->fpdf->Ln(8);
         $this->WriteText($contenido['second']);
         $this->fpdf->Ln(8);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('Sin otro particular, saludo a usted atentamente.'), 0, 'L', 0);
+        $this->WriteText($contenido['third']);
+        $this->fpdf->Ln(8);
+        $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode('Sin otro particular, me despido de usted con las consideraciones más distinguidas.'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space + 2, utf8_decode('Atte:'), 0, 'L', 0);
 
         // pie de pagina
-        $this->fpdf->Ln(50);
+        $this->fpdf->Ln(30);
 
         // FONT BOLD
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"), 0, 'C', 0);
@@ -141,7 +136,13 @@ class Requerimiento_Propuesta extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - UAGRM"), 0, 'C', 0);
 
-        $this->fpdf->Output("I", $name_docente . " - Requerimiento Propuesta.pdf");
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->Ln(8);
+        $this->WriteText('KES');
+        $this->fpdf->Ln(4);
+        $this->WriteText('<C.c.:> Archivo');
+
+        $this->fpdf->Output("I", $docente_nombre . " - Informe Conformidad.pdf");
     }
 
     function WriteText($text)

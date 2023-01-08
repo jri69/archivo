@@ -55,8 +55,6 @@
                                             <td>{{ $estudiante->email ? $estudiante->email : 'Sin correo' }}</td>
                                             <td>{{ $estudiante->telefono ? $estudiante->telefono : 'Sin telefono' }}
                                             </td>
-                                            <td>{{ $estudiante->telefono ? $estudiante->telefono : 'Sin telefono' }}
-                                            </td>
                                             <td>{{ $estudiante->nacionalidad ? $estudiante->nacionalidad : '-' }}</td>
                                             <td class="td-actions">
                                                 <a href="{{ route('estudiante.show', $estudiante->id) }}"

@@ -101,5 +101,56 @@ class CartasSeeder extends Seeder
             'institucion' => 'F.C.E.T.',
             'activo' => true,
         ]);
+
+
+        // Titulacion
+        TipoCarta::create([
+            'nombre' => 'CAC Informe de cumplimiento de requisitos',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Designación de director de trabajo de grado',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'CAC tutor',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Informe de cumplimiento de requisitos',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Consejo directivo de postgrado',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Informe de cumplimiento de requisitos 2',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'CAC Informe de cumplimiento de requisitos 2',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'CAC tribunal',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'CD tribunal',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Predefensa',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Empastado',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Informe de lineas de investigación',
+            'tipo' => 'Titulacion',
+        ]);
     }
 }

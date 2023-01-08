@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cartas;
+namespace App\Http\Controllers\Cartas\Docentes;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
@@ -742,7 +742,7 @@ class Condiciones_Terminos extends Fpdf
         //Computes the number of lines a MultiCell of width w will take
         $cw = &$this->fpdf->CurrentFont['cw'];
         if ($w == 0)
-            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdfx;
+            $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdf->x;
         $wmax = ($w - 2 * $this->fpdf->cMargin) * 1000 / $this->fpdf->FontSize;
         $s = str_replace("\r", '', $txt);
         $nb = strlen($s);
