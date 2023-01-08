@@ -11,7 +11,7 @@ use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
+class Cac_Informe_Cumplimiento_Requisitos2 extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -113,12 +113,11 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que el Oficio de Coordinación de Investigación Nº 0290/2022, informa el cumplimiento de requisitos de la Ing. Siriam Katty Arce Rios, quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia” correspondiente a la maestría en “Ingeniería del gas natural y petroquímica”, Plan 4095-0, que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
-            'second' => "Que el Comité Académico Científico aprobó la designación del M. Sc. Ing. Luis Enrique Claure Vargas, como Tutor de Tesis de la Ing. Siriam Katty Arce Rios, mediante la Resolución Comité Académico Científico Nº 0429/2022, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
-            'third' => "La postgraduante Ing. Siriam Katty Arce Rios, cumple en el Art. 104º del Reglamento General de Postgrado.",
-            'four' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil del TFG, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: “Optimización de las técnicas en el análisis y diseño estructural”.",
-            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'six' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° 0290/2022 de la Ing. Siriam Katty Arce Rios de la maestría “Ingeniería del gas natural y petroquímica”, Plan 4095-0, emitido por el Coordinador de Investigación de la Escuela de Ingeniería, con el tema de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”.",
+            'first' => "Que el  Oficio  de  Coordinación de Investigación Nº 0583/2022, informa el cumplimiento de requisitos del Ing. Noel Jesús Medina Yucra, quien ha aprobado todos los módulos y concluido la elaboración del trabajo de grado “Volúmenes de residuos sólidos según proveniencia” correspondiente a la maestría en “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1º Versión-3º Edición), que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado los tres ejemplares que se disponen en el Reglamento General del Sistema de Postgrado.",
+            'second' => "Que el Director de trabajo final de grado la M. Sc. Ing. Alexandra Guerrero Ramirez ha emitido su informe de aprobación del trabajo final de grado “Volúmenes de residuos sólidos según proveniencia”, incluyendo las líneas de investigación que son: “Gestión ambiental”; el informe del Director de trabajo final de grado cumple con el artículo 98º.",
+            'third' => "Que el Ing. Noel Jesús Medina Yucra, concluyó su último módulo en fecha del 31 de mayo del 2015; realizó los cursos de actualización el 17 de julio del 2018; está sujeto al CONSUPO 004/2021 en el Art. 10º y CONSUPO 005/2022.",
+            'four' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
+            'five' => "Art. 1º Aprobar el informe de cumplimiento de requisitos N° 0583/2022 del Ing. Noel Jesús Medina Yucra de la maestría “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1º Versión-3º Edición), con el trabajo de grado “Volúmenes de residuos sólidos según proveniencia”, emitido por el Coordinador de Investigación de la Escuela de Ingeniería.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
@@ -130,21 +129,19 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->Ln(6);
         $this->WriteText($contenido['third']);
         $this->fpdf->Ln(6);
-        $this->WriteText($contenido['four']);
-        $this->fpdf->Ln(6);
 
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText("POR LO TANTO:");
         $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['five']);
+        $this->WriteText($contenido['four']);
         $this->fpdf->Ln(6);
 
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText("RESUELVE:");
         $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['six']);
+        $this->WriteText($contenido['five']);
         $this->fpdf->Ln(8);
 
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
@@ -179,7 +176,7 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Cac_Informe_Cumplimiento_Requisitos.pdf");
+        $this->fpdf->Output("I", "Cac_Informe_Cumplimiento_Requisitos2.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

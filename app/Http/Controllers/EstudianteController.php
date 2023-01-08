@@ -113,4 +113,17 @@ class EstudianteController extends Controller
         // $cartas = )
         return view('estudiante.carta', compact('estudiante', 'programa', 'tipos_cartas'));
     }
+
+    public function cartaCreate($estudiante, $programa, $tipo)
+    {
+        return view('estudiante.cartaCreate', compact('estudiante', 'programa', 'tipo'));
+    }
+
+    public function cartaStore($request, $estudiante, $programa)
+    {
+    }
+
+    public function cartaDestroy($carta)
+    {
+    }
 }

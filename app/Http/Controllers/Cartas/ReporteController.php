@@ -19,6 +19,14 @@ use App\Http\Controllers\Cartas\Titulacion\Comite_Academico_Cientifico;
 use App\Http\Controllers\Cartas\Titulacion\Informe_Cumplimiento_Requisitos;
 use App\Http\Controllers\Cartas\Titulacion\Consejo_Directivo_Postgrado;
 use App\Http\Controllers\Cartas\Titulacion\Informe_Cumplimiento_Requisitos2;
+use App\Http\Controllers\Cartas\Titulacion\Cac_Informe_Cumplimiento_Requisitos2;
+use App\Http\Controllers\Cartas\Titulacion\Cac_Tribunal;
+use App\Http\Controllers\Cartas\Titulacion\Cd_Tribunal;
+use App\Http\Controllers\Cartas\Titulacion\Pre_Defensa;;
+
+use App\Http\Controllers\Cartas\Titulacion\Empastado;;
+
+use App\Http\Controllers\Cartas\Titulacion\Informe_Lineas_Investigacion;
 
 use App\Models\Contrato;
 
@@ -90,40 +98,40 @@ class ReporteController extends Controller
                 $this->Planilla_pago([$contrato, $idCarta]);
                 break;
             case $this->CACICR:
-                $this->Cac_Informe_Cumplimiento_Requisitos([$contrato, $idCarta]);
+                $this->Cac_Informe_Cumplimiento_Requisitos([$id, $idCarta]);
                 break;
             case $this->DDTG:
-                $this->Designacion_Director_Trabajo_Grado([$contrato, $idCarta]);
+                $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]);
                 break;
             case $this->CACA:
-                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                $this->Comite_Academico_Cientifico([$id, $idCarta]);
                 break;
             case $this->ICR:
-                $this->Informe_Cumplimiento_Requisitos([$contrato, $idCarta]);
+                $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]);
                 break;
             case $this->CDP:
-                $this->Consejo_Directivo_Postgrado([$contrato, $idCarta]);
+                $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
                 break;
             case $this->ICR2:
-                $this->Informe_Cumplimiento_Requisitos2([$contrato, $idCarta]);
+                $this->Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
                 break;
             case $this->CACICR2:
-                $this->Informe_Cumplimiento_Requisitos([$contrato, $idCarta]);
+                $this->Cac_Informe_Cumplimiento_Requisitos2([$id, $idCarta]); //
                 break;
             case $this->CACT:
-                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                $this->Cac_Tribunal([$id, $idCarta]); //
                 break;
             case $this->CDT:
-                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                $this->Cd_Tribunal([$id, $idCarta]); //
                 break;
             case $this->PD:
-                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                $this->Pre_Defensa([$id, $idCarta]);
                 break;
             case $this->EM:
-                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                $this->Empastado([$id, $idCarta]);
                 break;
             case $this->ILI:
-                $this->Comite_Academico_Cientifico([$contrato, $idCarta]);
+                $this->Informe_Lineas_Investigacion([$id, $idCarta]);
                 break;
             default:
                 return 'No se encontro el tipo de carta';
@@ -219,5 +227,41 @@ class ReporteController extends Controller
     {
         $icr = new Informe_Cumplimiento_Requisitos2($data);
         return $icr->informe($data);
+    }
+
+    public function Cac_Informe_Cumplimiento_Requisitos2($data)
+    {
+        $icr = new Cac_Informe_Cumplimiento_Requisitos2($data);
+        return $icr->informe($data);
+    }
+
+    public function Cac_Tribunal($data)
+    {
+        $ct = new Cac_Tribunal($data);
+        return $ct->informe($data);
+    }
+
+    public function Cd_Tribunal($data)
+    {
+        $ct = new Cd_Tribunal($data);
+        return $ct->informe($data);
+    }
+
+    public function Pre_Defensa($data)
+    {
+        $pd = new Pre_Defensa($data);
+        return $pd->informe($data);
+    }
+
+    public function Empastado($data)
+    {
+        $em = new Empastado($data);
+        return $em->informe($data);
+    }
+
+    public function Informe_Lineas_Investigacion($data)
+    {
+        $ili = new Informe_Lineas_Investigacion($data);
+        return $ili->informe($data);
     }
 }
