@@ -115,8 +115,8 @@
                                 <label for="nombre" class="col-sm-2 col-form-label"> <b> Modalidad:</b>
                                 </label>
                                 <div class="col-sm-7">
-                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"
-                                        value="Presencial" checked>
+                                    <input wire:model.defer="datos.modalidad" type="radio" name="modalidad" checked
+                                        value="Presencial">
                                     <span>Presencial</span>
 
                                     <input wire:model.defer="datos.modalidad" type="radio" name="modalidad"

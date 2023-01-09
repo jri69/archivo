@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-1">
                     </div>
                     <div class="col-sm" style="margin-bottom: 10px">
                         <div class="container" id="filtrar_programa">
@@ -92,7 +92,6 @@
     <script>
         // declarar variable global
         var tipo_programa = document.getElementById('tipo_programa').value;
-        console.log("C" + tipo_programa);
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             themeSystem: 'bootstrap',
@@ -146,7 +145,7 @@
                 // html para mostrar la fecha del evento la sigla y el tipo de evento
                 var html = '<div class="row"><div class="col-12 text-left"><h5>' + 'Sigla: ' + info
                     .event
-                    .extendedProps.sigla +
+                    .title +
                     '</h5></div></div><div class="row"><div class="col-12 text-left"><h6>' +
                     'Tipo: ' + info
                     .event.extendedProps.tipo +
@@ -154,7 +153,7 @@
                     'Fecha ' + info
                     .event.extendedProps.tipo_fecha + ' : ' + fecha +
                     '</h6></div></div>';
-                $('#modalTitle').html(info.event.title);
+                $('#modalTitle').html(info.event.extendedProps.nombre);
                 $('#modalBody').html(html);
                 $('#eventUrl').attr('href', url);
                 $('#fullCalModal').modal();
@@ -219,7 +218,7 @@
                     // html para mostrar la fecha del evento la sigla y el tipo de evento
                     var html = '<div class="row"><div class="col-12 text-left"><h5>' + 'Sigla: ' + info
                         .event
-                        .extendedProps.sigla +
+                        .title +
                         '</h5></div></div><div class="row"><div class="col-12 text-left"><h6>' +
                         'Tipo: ' + info
                         .event.extendedProps.tipo +
@@ -227,7 +226,7 @@
                         'Fecha ' + info
                         .event.extendedProps.tipo_fecha + ' : ' + fecha +
                         '</h6></div></div>';
-                    $('#modalTitle').html(info.event.title);
+                    $('#modalTitle').html(info.event.extendedProps.nombre);
                     $('#modalBody').html(html);
                     $('#eventUrl').attr('href', url);
                     $('#fullCalModal').modal();
@@ -295,9 +294,7 @@
                         fecha = dd + '-' + mm + '-' + yyyy;
                         // html para mostrar la fecha del evento la sigla y el tipo de evento
                         var html = '<div class="row"><div class="col-12 text-left"><h5>' + 'Sigla: ' +
-                            info
-                            .event
-                            .extendedProps.sigla +
+                            info.event.title +
                             '</h5></div></div><div class="row"><div class="col-12 text-left"><h6>' +
                             'Tipo: ' + info
                             .event.extendedProps.tipo +
@@ -305,7 +302,7 @@
                             'Fecha ' + info
                             .event.extendedProps.tipo_fecha + ' : ' + fecha +
                             '</h6></div></div>';
-                        $('#modalTitle').html(info.event.title);
+                        $('#modalTitle').html(info.event.extendedProps.nombre);
                         $('#modalBody').html(html);
                         $('#eventUrl').attr('href', url);
                         $('#fullCalModal').modal();
@@ -361,7 +358,8 @@
                     eventClick: function(info) {
                         // obtener la url de la pagina y solo quedarme sin los ultimos 5 caracteres
                         var url = window.location.href;
-                        url = url.substring(0, url.length - 10) + 'modulo/index/';
+                        url = url.substring(0, url.length - 10) + 'modulo/show/' + info.event
+                            .extendedProps.modulo_id;
                         // dar formato a la fecha DD-MM-YYYY
                         var fecha = new Date(info.event.start);
                         var dd = String(fecha.getDate()).padStart(2, '0');
@@ -372,15 +370,21 @@
                         var html = '<div class="row"><div class="col-12 text-left"><h5>' + 'Sigla: ' +
                             info
                             .event
-                            .extendedProps.sigla +
+                            .title +
                             '</h5></div></div><div class="row"><div class="col-12 text-left"><h6>' +
                             'Tipo: ' + info
                             .event.extendedProps.tipo +
                             '</h6></div></div><div class="row"><div class="col-12 text-left"><h6>' +
                             'Fecha ' + info
                             .event.extendedProps.tipo_fecha + ' : ' + fecha +
+                            '</h6></div></div><div class="row"><div class="col-12 text-left"><h6>' +
+                            'Docente: ' + info
+                            .event.extendedProps.docente +
+                            '</h6></div></div><div class="row"><div class="col-12 text-left"><h6>' +
+                            'Modalidad: ' + info
+                            .event.extendedProps.modalidad +
                             '</h6></div></div>';
-                        $('#modalTitle').html(info.event.title);
+                        $('#modalTitle').html(info.event.extendedProps.nombre);
                         $('#modalBody').html(html);
                         $('#eventUrl').attr('href', url);
                         $('#fullCalModal').modal();
@@ -432,13 +436,17 @@
                         var yyyy = fecha.getFullYear();
                         fecha = dd + '-' + mm + '-' + yyyy;
                         // html para mostrar la fecha del evento la sigla y el tipo de evento
-                        var html = '<div class="row"><div class="col-12 text-left"><h6>' +
-                            'Tipo: ' + info
-                            .event.extendedProps.tipo +
-                            '</h6></div></div><div class="row"><div class="col-12 text-left"><h6>' +
-                            'Fecha ' + info
-                            .event.extendedProps.tipo_fecha + ' : ' + fecha +
-                            '</h6></div></div>';
+                        var html = '<div class="row"><div class="col-12 text-left"><h6>' + 'Tipo: ' +
+                            info.event.extendedProps.tipo +
+                            '</h6>    </div></div><div class="row">    <div class="col-12 text-left"><h6>' +
+                            'Lugar: ' + info.event.extendedProps.lugar +
+                            '</h6>    </div></div> <div class = "row" ><div class = "col-12 text-left" ><h6 > ' +
+                            'Encargado: ' + info.event.extendedProps.encargado +
+                            '</h6> </div> </div> <div class = "row" ><div class = "col-12 text-left" ><h6 > ' +
+                            'Hora: ' + info.event.extendedProps.hora +
+                            '</h6> </div> </div> <div class = "row" ><div class = "col-12 text-left" ><h6 > ' +
+                            'Fecha: ' + fecha +
+                            '</h6> </div> </div>';
                         $('#modalTitle').html(info.event.title);
                         $('#modalBody').html(html);
                         $('#eventUrl').attr('href', url);

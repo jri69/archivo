@@ -23,7 +23,7 @@
                                     <label class="bmd-label"> <b>Permisos Administrativos</b></label><br>
                                     @foreach ($administrativos as $key => $permission)
                                         <label>
-                                            <input wire:model.defer='permisos.{{ $key + 1 }}' type="checkbox"
+                                            <input wire:model.defer='permisos.{{ $permission->id }}' type="checkbox"
                                                 name="" id="" value="{{ $permission->id }}"
                                                 class="checkbox">
                                             {{ $permission->description }} &nbsp;
@@ -33,7 +33,7 @@
                                     <label class="bmd-label"><b>Permisos Academicos</b></label><br>
                                     @foreach ($academicos as $key => $permission)
                                         <label>
-                                            <input wire:model.defer='permisos.{{ $key + 1 }}' type="checkbox"
+                                            <input wire:model.defer='permisos.{{ $permission->id }}' type="checkbox"
                                                 name="" id="" value="{{ $permission->id }}"
                                                 class="checkbox">
                                             {{ $permission->description }} &nbsp;
@@ -43,7 +43,7 @@
                                     <label class="bmd-label"><b>Permisos Contables</b></label><br>
                                     @foreach ($contables as $key => $permission)
                                         <label>
-                                            <input wire:model.defer='permisos.{{ $key + 1 }}' type="checkbox"
+                                            <input wire:model.defer='permisos.{{ $permission->id }}' type="checkbox"
                                                 name="" id="" value="{{ $permission->id }}"
                                                 class="checkbox">
                                             {{ $permission->description }} &nbsp;

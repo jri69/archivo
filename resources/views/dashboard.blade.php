@@ -106,9 +106,9 @@
                             <i class="material-icons">domain_verification</i>
                         </div>
                         <p class="card-category">
-                            <strong class="h6 card-title">Programas finalizados</strong>
+                            <strong class="h6 card-title">Modulos finalizados</strong>
                         </p>
-                        <h3 class="card-title">{{ $programas_finalizado }} </h3>
+                        <h3 class="card-title">{{ $modulos_finalizados }} </h3>
                     </div>
                     @can('programa.index')
                         <div class="card-footer">

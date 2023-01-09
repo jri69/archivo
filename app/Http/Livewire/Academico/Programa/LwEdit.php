@@ -65,17 +65,17 @@ class LwEdit extends Component
         $calendarInicio = ProgramaCalendar::where('programa_id', $this->programa->id)->where('tipo_fecha', 'inicio')->first();
         $calendarFin = ProgramaCalendar::where('programa_id', $this->programa->id)->where('tipo_fecha', 'final')->first();
         $calendarInicio->update([
-            'title' => $this->programa->nombre,
+            'nombre' => $this->programa->nombre,
             'start' => $this->programa->fecha_inicio,
             'end' => $this->programa->fecha_inicio,
-            'sigla' => $this->programa->sigla . ' - ' . $this->programa->version . '.' . $this->programa->edicion,
+            'title' => $this->programa->sigla . ' - ' . $this->programa->version . '.' . $this->programa->edicion,
             'tipo' => $this->programa->tipo
         ]);
         $calendarFin->update([
-            'title' => $this->programa->nombre,
+            'nombre' => $this->programa->nombre,
             'start' => $this->programa->fecha_finalizacion,
             'end' => $this->programa->fecha_finalizacion,
-            'sigla' => $this->programa->sigla . '-' . $this->programa->version . '.' . $this->programa->edicion,
+            'title' => $this->programa->sigla . '-' . $this->programa->version . '.' . $this->programa->edicion,
             'tipo' => $this->programa->tipo
         ]);
         return redirect()->route('programa.show', $this->programa);

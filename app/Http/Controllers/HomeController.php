@@ -35,7 +35,8 @@ class HomeController extends Controller
         $now = now();
         $now = $now->format('Y-m-d');
         $estudiantes = Estudiante::where('estado', 'Activo')->get()->count();
-        $programas_finalizado = Programa::where('fecha_finalizacion', '<', $now)->get()->count();
+        // $programas_finalizado = Programa::where('fecha_finalizacion', '<', $now)->get()->count();
+        $modulos_finalizados = Modulo::where('fecha_final', '<', $now)->get()->count();
         $programas_cursos = Programa::where('fecha_finalizacion', '>=', $now)->get()->count();
         $modulos = Modulo::where('fecha_final', '>=', $now)->get()->count();
         $fecha = now()->addDays(7);
@@ -72,6 +73,6 @@ class HomeController extends Controller
             $cantidad[] = $indice;
             $nombres[] = $programa->sigla . ' ' . $programa->version . '.' . $programa->edicion;
         }
-        return view('dashboard', compact('estudiantes', 'eventos', 'programas_finalizado', 'programas_cursos', 'modulos', 'cal_docente', 'nombres', 'cantidad'));
+        return view('dashboard', compact('estudiantes', 'eventos', 'modulos_finalizados', 'programas_cursos', 'modulos', 'cal_docente', 'nombres', 'cantidad'));
     }
 }

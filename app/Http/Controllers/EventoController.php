@@ -39,12 +39,15 @@ class EventoController extends Controller
         ]);
         $evento = Evento::create($request->all());
         ProgramaCalendar::create([
-            'title' => $request->titulo,
-            'start' => $request->fecha,
-            'end' => $request->fecha,
+            'title' => $evento->titulo,
+            'start' => $evento->fecha,
+            'end' => $evento->fecha,
             'tipo_fecha' => 'inicio',
             'tipo' => 'Evento',
             'evento_id' => $evento->id,
+            'lugar' => $evento->lugar,
+            'hora' =>  $evento->hora,
+            'encargado' => $evento->encargado,
         ]);
         return redirect()->route('eventos.index');
     }

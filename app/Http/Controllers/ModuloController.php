@@ -73,22 +73,26 @@ class ModuloController extends Controller
         $request->request->add(['costo' => $costoXmodulo]);
         $modulo = Modulo::create($request->all());
         ProgramaCalendar::create([
-            'title' => $modulo->nombre . ' - ' . $programa->sigla,
+            'nombre' => $modulo->nombre,
             'start' => $modulo->fecha_inicio,
             'end' => $modulo->fecha_inicio,
-            'sigla' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
+            'title' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
             'tipo' => 'Modulo',
             'tipo_fecha' => 'inicio',
             'modulo_id' => $modulo->id,
+            'docente' => $modulo->docente->honorifico . " " . $modulo->docente->nombre . " " . $modulo->docente->apellido,
+            'modalidad' => $modulo->modalidad,
         ]);
         ProgramaCalendar::create([
-            'title' => $modulo->nombre  . ' - ' . $programa->sigla,
+            'nombre' => $modulo->nombre,
             'start' => $modulo->fecha_final,
             'end' => $modulo->fecha_final,
-            'sigla' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
+            'title' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
             'tipo' => 'Modulo',
             'tipo_fecha' => 'final',
             'modulo_id' => $modulo->id,
+            'docente' => $modulo->docente->honorifico . " " . $modulo->docente->nombre . " " . $modulo->docente->apellido,
+            'modalidad' => $modulo->modalidad,
         ]);
         return redirect()->route('modulo.index', $modulo);
     }
@@ -137,16 +141,20 @@ class ModuloController extends Controller
         $calendarInicio = ProgramaCalendar::where('modulo_id', $id)->where('tipo_fecha', 'inicio')->first();
         $calendarFin = ProgramaCalendar::where('modulo_id', $id)->where('tipo_fecha', 'final')->first();
         $calendarInicio->update([
-            'title' => $modulo->nombre  . ' - ' . $programa->sigla,
+            'nombre' => $modulo->nombre,
             'start' => $modulo->fecha_inicio,
             'end' => $modulo->fecha_inicio,
-            'sigla' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
+            'title' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
+            'docente' => $modulo->docente->honorifico . " " . $modulo->docente->nombre . " " . $modulo->docente->apellido,
+            'modalidad' => $modulo->modalidad,
         ]);
         $calendarFin->update([
-            'title' => $modulo->nombre  . ' - ' . $programa->sigla,
+            'nombre' => $modulo->nombre,
             'start' => $modulo->fecha_final,
             'end' => $modulo->fecha_final,
-            'sigla' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
+            'title' => $modulo->sigla . ' - ' . $modulo->version . '.' . $modulo->edicion,
+            'docente' => $modulo->docente->honorifico . " " . $modulo->docente->nombre . " " . $modulo->docente->apellido,
+            'modalidad' => $modulo->modalidad,
         ]);
         return redirect()->route('modulo.index');
     }
