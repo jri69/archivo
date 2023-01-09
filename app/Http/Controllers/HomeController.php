@@ -53,6 +53,9 @@ class HomeController extends Controller
         $nombres = [];
         foreach ($programas as $programa) {
             $modulosP = Modulo::where('programa_id', $programa->id)->get();
+            if (count($modulosP) == 0) {
+                continue;
+            }
             $first = 0;
             $last = 0;
             $first_modulo = $modulosP->first();
