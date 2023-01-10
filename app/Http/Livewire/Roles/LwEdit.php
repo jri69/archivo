@@ -22,18 +22,16 @@ class LwEdit extends Component
         $this->rol = Role::find($id);
         $this->name = $this->rol->name;
         $this->permisos = $this->rol->getAllPermissions();
+        // dd($this->permisos);
         foreach ($this->permisos as $permiso) {
             switch ($permiso->type) {
                 case 'Administrativo':
-                    array_push($this->administrativos, $permiso);
                     $this->permisosV[$permiso->id] = $permiso->id;
                     break;
                 case 'Contabilidad':
-                    array_push($this->contables, $permiso);
                     $this->permisosV[$permiso->id] = $permiso->id;
                     break;
                 case 'Académico':
-                    array_push($this->academico, $permiso);
                     $this->permisosV[$permiso->id] = $permiso->id;
                     break;
                 default:

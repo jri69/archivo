@@ -59,19 +59,19 @@ class LwCreate extends Component
         $this->datos['cantidad_modulos'] = 0;
         $programa = Programa::create($this->datos);
         ProgramaCalendar::create([
-            'title' => $programa->nombre,
+            'title' => $programa->sigla . ' - ' . $programa->version . '.' . $programa->edicion,
             'start' => $programa->fecha_inicio,
             'end' => $programa->fecha_inicio,
-            'sigla' => $programa->sigla . ' - ' . $programa->version . '.' . $programa->edicion,
+            'nombre' => $programa->nombre,
             'tipo' => $programa->tipo,
             'tipo_fecha' => 'inicio',
             'programa_id' => $programa->id,
         ]);
         ProgramaCalendar::create([
-            'title' => $programa->nombre,
+            'title' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
             'start' => $programa->fecha_finalizacion,
             'end' => $programa->fecha_finalizacion,
-            'sigla' => $programa->sigla . '-' . $programa->version . '.' . $programa->edicion,
+            'nombre' => $programa->nombre,
             'tipo' => $programa->tipo,
             'tipo_fecha' => 'final',
             'programa_id' => $programa->id,
