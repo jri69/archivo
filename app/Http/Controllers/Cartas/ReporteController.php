@@ -46,10 +46,13 @@ class ReporteController extends Controller
     private $PP = 'Planilla de pago';
 
     // Titulacion
-    private $CACICR = 'CAC Informe de cumplimiento de requisitos';
-    private $DDTG = 'Designación de director de trabajo de grado';
+    private $ICR = 10;
+    private $DDTG = 11;
+    private $Cac_Dt = 12;
+
+    // private $DDTG = 'Designación de director de trabajo de grado';
     private $CACA = 'CAC tutor';
-    private $ICR = 'Informe de cumplimiento de requisitos';
+    // private $ICR = 'Informe de cumplimiento de requisitos';
     private $CDP = 'Consejo directivo de postgrado';
     private $ICR2 = 'Informe de cumplimiento de requisitos 2';
     private $CACICR2 = 'CAC Informe de cumplimiento de requisitos 2';
@@ -97,42 +100,43 @@ class ReporteController extends Controller
             case $this->PP:
                 $this->Planilla_pago([$contrato, $idCarta]);
                 break;
-            case $this->CACICR:
-                $this->Cac_Informe_Cumplimiento_Requisitos([$id, $idCarta]);
+
+            case $this->ICR:
+                $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]); //
                 break;
             case $this->DDTG:
-                $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]);
+                $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]); //
                 break;
-            case $this->CACA:
-                $this->Comite_Academico_Cientifico([$id, $idCarta]);
+            case $this->Cac_Dt:
+                $this->Comite_Academico_Cientifico([$id, $idCarta]); //
                 break;
-            case $this->ICR:
-                $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]);
-                break;
-            case $this->CDP:
-                $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
-                break;
-            case $this->ICR2:
-                $this->Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
-                break;
-            case $this->CACICR2:
-                $this->Cac_Informe_Cumplimiento_Requisitos2([$id, $idCarta]); //
-                break;
-            case $this->CACT:
-                $this->Cac_Tribunal([$id, $idCarta]); //
-                break;
-            case $this->CDT:
-                $this->Cd_Tribunal([$id, $idCarta]); //
-                break;
-            case $this->PD:
-                $this->Pre_Defensa([$id, $idCarta]);
-                break;
-            case $this->EM:
-                $this->Empastado([$id, $idCarta]);
-                break;
-            case $this->ILI:
-                $this->Informe_Lineas_Investigacion([$id, $idCarta]);
-                break;
+                // case $this->ICR:
+                //     $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]);
+                //     break;
+                // case $this->CDP:
+                //     $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
+                //     break;
+                // case $this->ICR2:
+                //     $this->Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
+                //     break;
+                // case $this->CACICR2:
+                //     $this->Cac_Informe_Cumplimiento_Requisitos2([$id, $idCarta]); //
+                //     break;
+                // case $this->CACT:
+                //     $this->Cac_Tribunal([$id, $idCarta]); //
+                //     break;
+                // case $this->CDT:
+                //     $this->Cd_Tribunal([$id, $idCarta]); //
+                //     break;
+                // case $this->PD:
+                //     $this->Pre_Defensa([$id, $idCarta]);
+                //     break;
+                // case $this->EM:
+                //     $this->Empastado([$id, $idCarta]);
+                //     break;
+                // case $this->ILI:
+                //     $this->Informe_Lineas_Investigacion([$id, $idCarta]);
+                //     break;
             default:
                 return 'No se encontro el tipo de carta';
                 break;
@@ -193,6 +197,12 @@ class ReporteController extends Controller
         return $pp->planilla_pago($data);
     }
 
+    public function Informe_Cumplimiento_Requisitos($data)
+    {
+        $icr = new Informe_Cumplimiento_Requisitos($data);
+        return $icr->informe($data);
+    }
+
     public function Cac_Informe_Cumplimiento_Requisitos($data)
     {
         $icr = new Cac_Informe_Cumplimiento_Requisitos($data);
@@ -211,11 +221,7 @@ class ReporteController extends Controller
         return $cac->informe($data);
     }
 
-    public function Informe_Cumplimiento_Requisitos($data)
-    {
-        $icr = new Informe_Cumplimiento_Requisitos($data);
-        return $icr->informe($data);
-    }
+
 
     public function Consejo_Directivo_Postgrado($data)
     {

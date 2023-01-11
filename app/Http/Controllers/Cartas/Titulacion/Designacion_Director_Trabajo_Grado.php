@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Cartas\Titulacion;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
+use App\Models\CartaTitulacion;
 use App\Models\Docente;
+use App\Models\Estudiante;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
+use App\Models\Titulacion;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
@@ -29,7 +32,7 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
 
     private function fechaLiteral($fecha)
     {
-        $fecha = explode('/', $fecha);
+        $fecha = explode('-', $fecha);
         $meses = [
             '01' => 'Enero',
             '02' => 'Febrero',
@@ -44,7 +47,7 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
             '11' => 'Noviembre',
             '12' => 'Diciembre',
         ];
-        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+        return $fecha[2] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[0];
     }
 
     private function numeroAliteral($number)
@@ -53,50 +56,39 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
         return $formatter->toMoney($number);
     }
 
+    private function tipoPrograma($tipo)
+    {
+        if ($tipo == 'Maestria') {
+            return 'de MAESTRIA en ';
+        }
+        if ($tipo == 'Diplomado') {
+            return 'de DIPLOMADO en ';
+        }
+        if ($tipo == 'Cursos') {
+            return 'de CURSO de ';
+        }
+        if ($tipo == 'Doctorado') {
+            return 'de DOCTORADO en ';
+        }
+        if ($tipo == 'Especialidad') {
+            return 'de especialidad en';
+        }
+    }
+
 
     public function informe($data)
     {
-        /*         // obtencion de datos
-        $contrato = $data[0];
-        $idCarta = $data[1];
-        $modulo = Modulo::find($contrato->modulo_id);
-        $docente = Docente::find($modulo->docente_id);
-        $carta = Carta::find($idCarta);
-        $fecha = date('d/m/Y', strtotime($carta->fecha));
-        $fechaLiteral = $this->fechaLiteral($fecha);
-        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $programa = Programa::find($modulo->programa_id);
-        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
-        $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
-        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        // obtener datos
+        $carta = CartaTitulacion::findOrFail($data[1]);
+        $titulacion = Titulacion::findOrFail($data[0]);
+        $programa = Programa::findOrFail($titulacion->programa_id);
+        $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
+        $fechaLiteral = $this->fechaLiteral($carta->fecha);
 
-        $director = '';
-        $asesor = '';
-        $responsable = '';
-        foreach ($directivos as $directivo) {
-            if ($directivo->directivo->cargo == 'Director') {
-                $director = $directivo->directivo;
-            }
-            if ($directivo->directivo->cargo == 'Asesor Legal') {
-                $asesor = $directivo->directivo;
-            }
-            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
-                $responsable = $directivo->directivo;
-            }
-        }
-
-        // validaciones
-        $director ? $director = $director->honorifico . " " . $director->nombre . " " . $director->apellido . " - " . $director->cargo . ' ' . $director->institucion : $director = '';
-
-        $asesor ? $asesor = $asesor->honorifico . " " . $asesor->nombre . " " . $asesor->apellido . " - " . $asesor->cargo . ' ' . $asesor->institucion : $asesor = '';
-
-        $responsable ? $responsable = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo : $responsable = '';
-
-        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
-
-        // convertir texto a mayuscula
-        $name_docente = mb_strtoupper($name_docente, 'UTF-8');
- */
+        // aumentar honorifico a estudiante y sexo
+        $sexo = $estudiante->sexo == 'F' ? 'de la' : 'del';
+        $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
+        $nombre_programa = $this->tipoPrograma($programa->tipo) . ' ' . $programa->nombre;
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -104,12 +96,14 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
         $this->fpdf->Ln(20);
 
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, 19 de diciembre del 2022"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 9);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº " . $carta->codigo_admi), 0, 'L', 0);
         $this->fpdf->Ln(8);
 
+        $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Señor:"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Iván Ilia Flores Pérez, M. Sc."), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($titulacion->director), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente.-"), 0, 'L', 0);
 
         $this->fpdf->SetFont('Arial', 'B', 9);
@@ -118,9 +112,9 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Por sus conocimientos y antecedentes profesionales, nos es muy grato dirigirnos a su persona para designarlo Director de Trabajo de Grado de la Tesis Magistral: “Diseño e implementación del programa de capacitación ambiental “Restaurantes limpios y sostenibles” para el manejo adecuado de residuos sólidos en el sector gastronómico por la empresa EMACRUZ (Santa Cruz de la Sierra) 2022”.",
-            'second' => "Por sus conocimientos y antecedentes profesionales, nos es muy grato dirigirnos a su persona para designarlo Director de Trabajo de Grado de la Tesis Magistral: “Diseño e implementación del programa de capacitación ambiental “Restaurantes limpios y sostenibles” para el manejo adecuado de residuos sólidos en el sector gastronómico por la empresa EMACRUZ (Santa Cruz de la Sierra) 2022”.",
-            'third' => "El espíritu de los puntos señalados está basado en la genuina aspiración que tiene la Escuela de Ingeniería de elevar el nivel científico-académico de los Trabajos Finales de Grado, de  forma  que  verdaderamente  ameriten  ser  catalogados  como  Tesis de Grado Magistrales",
+            'first' => "Por sus conocimientos y antecedentes profesionales, nos es muy grato dirigirnos a su persona para designarlo Director de Trabajo de Grado de la Tesis Magistral: <" . $titulacion->tesis . ">.",
+            'second' => "El mencionado Trabajo de Grado ha sido elaborado por " . $nombre_estudiante . ", cumpliendo de esta forma con la primera etapa regular de un proceso académico indispensable que culminara con la presentación y defensa de su Tesis Magistral, para así poder alcanzar al Grado Académico de Maestro en <" . $titulacion->grado_academico . ">.",
+            'third' => "El espíritu de los puntos señalados está basado en la genuina aspiración que tiene la Escuela de Ingeniería de elevar el nivel científico-académico de los Trabajos Finales de Grado, de forma que verdaderamente ameriten ser catalogados como Tesis de Grado Magistrales."
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Distinguido Ing.:"), 0, 'L', 0);
@@ -129,7 +123,7 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
         $this->WriteText($contenido['first']);
         $this->fpdf->Ln(6);
         $this->WriteText($contenido['second']);
-        $this->fpdf->Ln(6);
+        $this->fpdf->Ln(8);
         $this->WriteText("El informe del Trabajo Final de Tesis de Grado debe contener un análisis de los siguientes aspectos:");
         $this->fpdf->Ln(6);
         $this->WriteText("a)  Tema");
@@ -139,11 +133,11 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
         $this->WriteText("c) Uso metodológico");
         $this->fpdf->Ln(6);
         $this->WriteText("d) Resultados");
-        $this->fpdf->Ln(6);
+        $this->fpdf->Ln(8);
         $this->WriteText($contenido['third']);
-        $this->fpdf->Ln(6);
+        $this->fpdf->Ln(8);
         $this->WriteText("Agradeciéndole de antemano su gentil colaboración, nos es grato reiterarle nuestros cordiales saludos.");
-        $this->fpdf->Ln(6);
+        $this->fpdf->Ln(8);
         $this->WriteText("Atentamente,");
         $this->fpdf->Ln(8);
 
