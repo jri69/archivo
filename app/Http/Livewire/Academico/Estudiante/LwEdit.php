@@ -24,9 +24,12 @@ class LwEdit extends Component
         $this->datos['telefono'] = $this->estudiante->telefono;
         $this->datos['email'] = $this->estudiante->email;
         $this->datos['expedicion'] = $this->estudiante->expedicion;
+        $this->datos['nacionalidad'] = $this->estudiante->nacionalidad;
         $this->datos['carrera'] = $this->estudiante->carrera;
         $this->datos['universidad'] = $this->estudiante->universidad;
         $this->datos['numero_registro'] = $this->estudiante->numero_registro;
+        $this->datos['sexo'] = $this->estudiante->sexo;
+        $this->datos['honorifico'] = $this->estudiante->honorifico;
     }
 
     public function store()
@@ -36,12 +39,14 @@ class LwEdit extends Component
                 'datos.nombre' => 'required|string|max:200',
                 'datos.email' => 'required|email|max:200|unique:estudiantes,email,' . $this->estudiante->id,
                 'datos.telefono' => 'numeric',
-                'datos.cedula' => 'required|numeric|unique:estudiantes,cedula,' . $this->estudiante->id,
+                'datos.cedula' => 'required|unique:estudiantes,cedula,' . $this->estudiante->id,
                 'datos.expedicion' => 'required|alpha|size:2',
                 'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.numero_registro' => 'nullable|string|max:200',
                 'datos.nacionalidad' => 'required|string',
+                'datos.honorifico' => 'required|string',
+                'datos.sexo' => 'required|string'
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -51,7 +56,6 @@ class LwEdit extends Component
                 'datos.email.unique' => 'El campo correo ya esta registrado',
                 'datos.telefono.numeric' => 'El campo telefono solo puede contener numeros',
                 'datos.cedula.required' => 'El campo cedula es obligatorio',
-                'datos.cedula.numeric' => 'El campo cedula solo puede contener numeros',
                 'datos.expedicion.required' => 'El campo expedicion es obligatorio',
                 'datos.expedicion.alpha' => 'El campo expedicion solo puede contener letras',
                 'datos.expedicion.size' => 'El campo expedicion debe tener 2 caracteres',

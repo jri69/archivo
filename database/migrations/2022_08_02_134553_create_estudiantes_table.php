@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('estudiantes', function (Blueprint $table) {
             $table->id();
+            $table->string('honorifico');
             $table->string('nombre');
             $table->string('numero_registro')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('telefono')->nullable();
             $table->string('cedula')->unique()->nullable();
             $table->string('nacionalidad')->nullable();
+            $table->string('sexo');
             $table->string('expedicion', 2);
             $table->string('carrera');
             $table->string('universidad');

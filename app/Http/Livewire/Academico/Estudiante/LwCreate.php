@@ -26,7 +26,8 @@ class LwCreate extends Component
     public function mount()
     {
         $this->datos['nombre'] = '';
-        $this->datos['apellido'] = '';
+        $this->datos['honorifico'] = '';
+        $this->datos['sexo'] = 'M';
         $this->datos['cedula'] = '';
         $this->datos['telefono'] = '';
         $this->datos['email'] = '';
@@ -48,7 +49,7 @@ class LwCreate extends Component
                 'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.email' => 'email|max:200|unique:estudiantes,email',
                 'datos.telefono' => 'numeric',
-                'datos.cedula' => 'required|numeric|unique:estudiantes,cedula',
+                'datos.cedula' => 'required|unique:estudiantes,cedula',
                 'datos.expedicion' => 'required|alpha|size:2',
                 'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
@@ -56,6 +57,8 @@ class LwCreate extends Component
                 'datos.id_modulo' => 'required|numeric',
                 'datos.numero_registro' => 'numeric',
                 'datos.nacionalidad' => 'required|string',
+                'datos.honorifico' => 'required|string',
+                'datos.sexo' => 'required|string',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -63,7 +66,6 @@ class LwCreate extends Component
                 'datos.email.email' => 'El campo correo debe ser un correo valido',
                 'datos.email.unique' => 'El campo correo ya esta registrado',
                 'datos.telefono.numeric' => 'El campo telefono solo puede contener numeros',
-                'datos.cedula.required' => 'El campo cedula es obligatorio',
                 'datos.cedula.numeric' => 'El campo cedula solo puede contener numeros',
                 'datos.expedicion.required' => 'El campo expedicion es obligatorio',
                 'datos.expedicion.alpha' => 'El campo expedicion solo puede contener letras',

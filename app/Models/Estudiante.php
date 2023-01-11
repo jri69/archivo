@@ -9,7 +9,7 @@ class Estudiante extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'numero_registro', 'email', 'estado', 'telefono', 'cedula', 'expedicion', 'carrera', 'universidad', 'nacionalidad'];
+    protected $fillable = ['nombre', 'honorifico', 'sexo', 'numero_registro', 'email', 'estado', 'telefono', 'cedula', 'expedicion', 'carrera', 'universidad', 'nacionalidad'];
 
     public function pago_estudiante()
     {

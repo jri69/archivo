@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Carta;
 use App\Models\Estudiante;
 use App\Models\EstudiantePrograma;
 use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\RequisitoEstudiante;
-use App\Models\TipoCarta;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class EstudianteController extends Controller
@@ -95,35 +92,5 @@ class EstudianteController extends Controller
         return back()->with('mensaje', 'Estado cambiado correctamente');
     }
 
-    public function carta($estudiante, $programa)
-    {
-        $estudiante = Estudiante::findOrFail($estudiante);
-        $programa = Programa::findOrFail($programa);
-        $tipos = TipoCarta::Where('tipo', 'Titulacion')->orderBy('id', 'asc')->get();
-        $cartas = Carta::where('contrato_id', $programa->id)->get();
-        $tipos_cartas = [];
-        foreach ($tipos as $key => $tipo) {
-            // $carta = $cartas->where('tipo_carta_id', $tipo->id)->first();
-            $carta = $cartas->where('tipo_id', $tipo->id)->first();
-            $tipos_cartas[$key] = [
-                'tipo' => $tipo,
-                'carta' => $carta
-            ];
-        }
-        // $cartas = )
-        return view('estudiante.carta', compact('estudiante', 'programa', 'tipos_cartas'));
-    }
 
-    public function cartaCreate($estudiante, $programa, $tipo)
-    {
-        return view('estudiante.cartaCreate', compact('estudiante', 'programa', 'tipo'));
-    }
-
-    public function cartaStore($request, $estudiante, $programa)
-    {
-    }
-
-    public function cartaDestroy($carta)
-    {
-    }
 }

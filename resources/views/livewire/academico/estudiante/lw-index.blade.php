@@ -38,7 +38,7 @@
                                     @foreach ($estudiantes as $estudiante)
                                         <tr>
                                             <td>{{ $estudiante->id }} </td>
-                                            <td>{{ $estudiante->nombre }}
+                                            <td>{{ $estudiante->honorifico . ' ' . $estudiante->nombre }}
                                                 @if ($estudiante->numero_registro)
                                                     <br>
                                                     <small>Reg: {{ $estudiante->numero_registro }}</small>

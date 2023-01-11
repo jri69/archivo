@@ -235,7 +235,7 @@
                                                             class="btn btn-success">
                                                             <span class="material-icons">visibility</span>
                                                         </a>
-                                                        <a href="{{ route('estudiante.carta', [$estudiante->id, $programa->id]) }}"
+                                                        <a href="{{ route('estudiante.titulacionCreate', [$estudiante->id, $programa->id]) }}"
                                                             class="btn btn-primary">
                                                             <span class="material-icons">file_copy</span>
                                                         </a>

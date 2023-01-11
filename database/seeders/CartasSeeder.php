@@ -101,11 +101,18 @@ class CartasSeeder extends Seeder
             'institucion' => 'F.C.E.T.',
             'activo' => true,
         ]);
-
+        Directivo::create([
+            'nombre' => 'Fernando Miguel',
+            'apellido' => 'Navarro Canaviri',
+            'honorifico' => 'M. Sc.',
+            'cargo' => 'Coordinador de investigación',
+            'institucion' => 'Escuela de Ingeniería - F.C.E.T.',
+            'activo' => true,
+        ]);
 
         // Titulacion
         TipoCarta::create([
-            'nombre' => 'CAC Informe de cumplimiento de requisitos',
+            'nombre' => 'Informe de cumplimiento de requisitos',
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
@@ -113,15 +120,35 @@ class CartasSeeder extends Seeder
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
-            'nombre' => 'CAC tutor',
+            'nombre' => 'CAC DT',
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
-            'nombre' => 'Informe de cumplimiento de requisitos',
+            'nombre' => 'CAC Informe de cumplimiento de requisitos',
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
-            'nombre' => 'Consejo directivo de postgrado',
+            'nombre' => 'CD DT',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Invitacion tribunal',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Informe de acreditacion DT',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Informe de originalidad Perfil',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Solicitud homologacion DT',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Elaboracion de borrador de tesis',
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
@@ -133,11 +160,23 @@ class CartasSeeder extends Seeder
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
-            'nombre' => 'CAC tribunal',
+            'nombre' => 'CAC tribunales',
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
-            'nombre' => 'CD tribunal',
+            'nombre' => 'CD tribunales',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Informe de originalidad',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Solicitud de homologacion',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Invitacion a tribunales',
             'tipo' => 'Titulacion',
         ]);
         TipoCarta::create([
@@ -152,5 +191,64 @@ class CartasSeeder extends Seeder
             'nombre' => 'Informe de lineas de investigación',
             'tipo' => 'Titulacion',
         ]);
+        TipoCarta::create([
+            'nombre' => 'Solicitud fecha defensa',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Programacion fecha defensa',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Conformidad de trabajo',
+            'tipo' => 'Titulacion',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Solicitud de pago',
+            'tipo' => 'Titulacion',
+        ]);
+
+
+        // // borrables
+        // TipoCarta::create([
+        //     'nombre' => 'CAC tutor',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'Informe de cumplimiento de requisitos',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'Consejo directivo de postgrado',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'Informe de cumplimiento de requisitos 2',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'CAC Informe de cumplimiento de requisitos 2',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'CAC tribunal',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'CD tribunal',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'Predefensa',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'Empastado',
+        //     'tipo' => 'Titulacion',
+        // ]);
+        // TipoCarta::create([
+        //     'nombre' => 'Informe de lineas de investigación',
+        //     'tipo' => 'Titulacion',
+        // ]);
     }
 }

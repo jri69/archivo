@@ -2,11 +2,28 @@
     <div class="container-fluid">
         <div class="row" style="margin-left: 10%">
             <div class="col-md-11">
-
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="honorifico" id="_honorifico" class="form-control"
+                                        wire:model.defer='datos.honorifico'>
+                                        <option disabled value="">Seleccione el honorifico</option>
+                                        <option value="Lic">Lic</option>
+                                        <option value="Ing">Ing</option>
+                                        <option value="MsC">MsC</option>
+                                        <option value="PhD">PhD</option>
+                                    </select>
+                                </div>
+                                @error('datos.honorifico')
+                                    <span class="error text-danger" for="input-honorifico">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Nombre del estudiante</label>
                                     <input type="text" class="form-control" name="nombre"
@@ -75,21 +92,41 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="nombre" class="col-sm-7">
-                                Nacionalidad:
-                            </label>
-                            <div class="col-sm-7">
-                                <input wire:model.defer="datos.nacionalidad" type="radio" name="nacionalidad"
-                                    value="Boliviano" checked>
-                                <span>Boliviano</span>
-                                <input wire:model.defer="datos.nacionalidad" type="radio" name="nacionalidad"
-                                    value="Extranjero" style='margin-left: 20px'>
-                                <span>Extranjero</span>
+                            <div class="col-md-6">
+                                <label for="nombre" class="">
+                                    Sexo:
+                                </label>
+                                <div class="">
+                                    <input wire:model.defer="datos.sexo" type="radio" name="sexo" value="M"
+                                        checked>
+                                    <span>Masculino</span>
+                                    <input wire:model.defer="datos.sexo" type="radio" name="sexo" value="F"
+                                        style='margin-left: 20px'>
+                                    <span>Femenino</span>
+                                </div>
+                                <div class="">
+                                    @error('datos.sexo')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col-sm-7">
-                                @error('datos.nacionalidad')
-                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-6">
+                                <label for="nombre" class="col-sm-7">
+                                    Nacionalidad:
+                                </label>
+                                <div class="col-sm-7">
+                                    <input wire:model.defer="datos.nacionalidad" type="radio" name="nacionalidad"
+                                        value="Boliviano" checked>
+                                    <span>Boliviano</span>
+                                    <input wire:model.defer="datos.nacionalidad" type="radio" name="nacionalidad"
+                                        value="Extranjero" style='margin-left: 20px'>
+                                    <span>Extranjero</span>
+                                </div>
+                                <div class="col-sm-7">
+                                    @error('datos.nacionalidad')
+                                        <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                         <br>
