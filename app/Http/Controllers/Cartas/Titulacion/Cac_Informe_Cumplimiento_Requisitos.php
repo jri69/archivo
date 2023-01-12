@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Cartas\Titulacion;
 
-use App\Models\Carta;
-use App\Models\CartaDirectivo;
-use App\Models\Docente;
-use App\Models\Modulo;
+use App\Models\CartaTitulacion;
+use App\Models\Estudiante;
 use App\Models\Programa;
-use App\Models\ProgramaModulo;
+use App\Models\Titulacion;
+use App\Models\TitulacionDirectivo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
@@ -28,7 +27,7 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
 
     private function fechaLiteral($fecha)
     {
-        $fecha = explode('/', $fecha);
+        $fecha = explode('-', $fecha);
         $meses = [
             '01' => 'Enero',
             '02' => 'Febrero',
@@ -43,7 +42,7 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
             '11' => 'Noviembre',
             '12' => 'Diciembre',
         ];
-        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+        return $fecha[2] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[0];
     }
 
     private function numeroAliteral($number)
@@ -52,50 +51,57 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         return $formatter->toMoney($number);
     }
 
+    private function tipoPrograma($tipo)
+    {
+        if ($tipo == 'Maestria') {
+            return 'la MAESTRIA en ';
+        }
+        if ($tipo == 'Diplomado') {
+            return 'el DIPLOMADO en ';
+        }
+        if ($tipo == 'Cursos') {
+            return 'el CURSO de ';
+        }
+        if ($tipo == 'Doctorado') {
+            return 'el DOCTORADO en ';
+        }
+        if ($tipo == 'Especialidad') {
+            return 'la especialidad en';
+        }
+    }
+
 
     public function informe($data)
     {
-        /*         // obtencion de datos
-        $contrato = $data[0];
-        $idCarta = $data[1];
-        $modulo = Modulo::find($contrato->modulo_id);
-        $docente = Docente::find($modulo->docente_id);
-        $carta = Carta::find($idCarta);
-        $fecha = date('d/m/Y', strtotime($carta->fecha));
-        $fechaLiteral = $this->fechaLiteral($fecha);
-        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $programa = Programa::find($modulo->programa_id);
-        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
-        $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
-        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        // obtener datos
+        $carta = CartaTitulacion::findOrFail($data[1]);
+        $titulacion = Titulacion::findOrFail($data[0]);
+        $programa = Programa::findOrFail($titulacion->programa_id);
+        $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
+        $fechaLiteral = $this->fechaLiteral($carta->fecha);
 
+        // aumentar honorifico a estudiante y sexo
+        $sexo = $estudiante->sexo == 'F' ? 'de la' : 'del';
+        $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
+        $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
+
+        // obtener directivos
+        $directivos = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->get();
         $director = '';
-        $asesor = '';
-        $responsable = '';
+        $coordinador = '';
+        $investigacion = '';
+
         foreach ($directivos as $directivo) {
             if ($directivo->directivo->cargo == 'Director') {
-                $director = $directivo->directivo;
+                $director = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
             }
-            if ($directivo->directivo->cargo == 'Asesor Legal') {
-                $asesor = $directivo->directivo;
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
             }
-            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
-                $responsable = $directivo->directivo;
+            if ($directivo->directivo->cargo == 'Coordinador de investigación') {
+                $investigacion = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
             }
         }
-
-        // validaciones
-        $director ? $director = $director->honorifico . " " . $director->nombre . " " . $director->apellido . " - " . $director->cargo . ' ' . $director->institucion : $director = '';
-
-        $asesor ? $asesor = $asesor->honorifico . " " . $asesor->nombre . " " . $asesor->apellido . " - " . $asesor->cargo . ' ' . $asesor->institucion : $asesor = '';
-
-        $responsable ? $responsable = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo : $responsable = '';
-
-        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
-
-        // convertir texto a mayuscula
-        $name_docente = mb_strtoupper($name_docente, 'UTF-8');
-         */
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
@@ -103,22 +109,21 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->Ln(20);
 
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
-        $this->fpdf->Ln(5);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. " . $carta->codigo_admi), 0, 'L', 0);
+        $this->fpdf->Ln(8);
 
         $this->fpdf->SetFont('Arial', 'B', 9);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("COMITÉ ACADÉMICO CIENTÍFICO"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME DE CUMPLIMIENTO DE REQUISITOS"), 0, 'C', 0);
-        $this->fpdf->Ln(2);
+        $this->fpdf->Ln(8);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que el Oficio de Coordinación de Investigación Nº 0290/2022, informa el cumplimiento de requisitos de la Ing. Siriam Katty Arce Rios, quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia” correspondiente a la maestría en “Ingeniería del gas natural y petroquímica”, Plan 4095-0, que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
-            'second' => "Que el Comité Académico Científico aprobó la designación del M. Sc. Ing. Luis Enrique Claure Vargas, como Tutor de Tesis de la Ing. Siriam Katty Arce Rios, mediante la Resolución Comité Académico Científico Nº 0429/2022, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
-            'third' => "La postgraduante Ing. Siriam Katty Arce Rios, cumple en el Art. 104º del Reglamento General de Postgrado.",
-            'four' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil del TFG, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: “Optimización de las técnicas en el análisis y diseño estructural”.",
-            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'six' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° 0290/2022 de la Ing. Siriam Katty Arce Rios de la maestría “Ingeniería del gas natural y petroquímica”, Plan 4095-0, emitido por el Coordinador de Investigación de la Escuela de Ingeniería, con el tema de tesis de grado “Análisis y propuesta de nuevas tecnologías para exploración de bloques con indicios de hidrocarburos en Bolivia”.",
+            'first' => "Que  el  Oficio  de  Coordinación Académica Nº <" . $carta->codigo1 . ">, informa el cumplimiento de requisitos " . $nombre_estudiante . ", quien ha aprobado todos los módulos y concluido la elaboración del perfil de tesis de grado <" . $titulacion->tesis . "> correspondiente a " . $nombre_programa . ",  Plan " . $programa->codigo . ", que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado el perfil de tesis en dos ejemplares.",
+            'second' => "Que el Comité Académico Científico aprobó la designación <" . $titulacion->tutor . ">, como Tutor de Tesis " . $nombre_estudiante . ", mediante la Resolución Comité Académico Científico Nº <" . $carta->codigo2 . ">, quien cumple los requisitos, cuya documentación se encuentra respaldada en la Escuela de Postgrado.",
+            'third' => "Que el Coordinador de Investigación ha emitido un informe sobre el Perfil de tesis, indicando las líneas de investigación a las cuales está dirigida el perfil de tesis que son: <" . $titulacion->lineas_academicas . ">.",
+            'four' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
+            'five' => "Art. 1º Aprobar el informe de cumplimiento de requisitos del perfil de tesis de grado N° <" . $carta->codigo3 . "> " . $nombre_estudiante . " de " . $nombre_programa . ", <Plan " . $programa->codigo . ">, emitido por el Coordinador Académico de la Escuela de Ingeniería.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
@@ -130,49 +135,55 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->Ln(6);
         $this->WriteText($contenido['third']);
         $this->fpdf->Ln(6);
-        $this->WriteText($contenido['four']);
-        $this->fpdf->Ln(6);
 
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText("POR LO TANTO:");
         $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['five']);
+        $this->WriteText($contenido['four']);
         $this->fpdf->Ln(6);
 
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText("RESUELVE:");
         $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['six']);
+        $this->WriteText($contenido['five']);
         $this->fpdf->Ln(8);
 
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, 09 de septiembre del 2022"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, " . $fechaLiteral), 0, 'C', 0);
         $this->fpdf->Ln(12);
 
         // 3 espacios para 3 firmas
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('M. Sc. Ing. Erick Rojas Balcazar'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode($director), 0, 0, 'C');
+        $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode('FCET-UAGRM'), 0, 0, 'C');
         $this->fpdf->Ln(15);
+        $this->fpdf->SetFont('Arial', '', 10);
 
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Ln(5);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Daniel Tejerina Claudio'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Fernando Miguel Navarro Canaviri'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode($coordinador), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode($investigacion), 0, 0, 'C');
+        $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR ACADÉMICO'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR DE INVESTIGACIÓN'), 0, 0, 'C');
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->Ln(4);
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('FCET-UAGRM'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('FCET-UAGRM'), 0, 0, 'C');
 
         // pie de pagina
         $this->fpdf->Ln(15);

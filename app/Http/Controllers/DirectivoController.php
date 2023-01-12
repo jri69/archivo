@@ -29,7 +29,8 @@ class DirectivoController extends Controller
             'honorifico' => 'required|string|max:10',
             'cargo' => 'required|string|max:100',
             'institucion' => 'required|string|max:255',
-            'activo' => 'required'
+            'activo' => 'required',
+            'sexo' => 'required'
         ], [
             'nombre.required' => 'El nombre es requerido',
             'apellido.required' => 'El apellido es requerido',
@@ -61,7 +62,8 @@ class DirectivoController extends Controller
             'honorifico' => 'required|string|max:10',
             'cargo' => 'required|string|max:100',
             'institucion' => 'required|string|max:255',
-            'activo' => 'required'
+            'activo' => 'required',
+            'sexo' => 'required'
         ], [
             'nombre.required' => 'El nombre es requerido',
             'apellido.required' => 'El apellido es requerido',

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('honorifico')->nullable();
+            $table->string('sexo')->nullable();
             $table->string('cargo');
             $table->string('institucion');
             $table->boolean('activo')->default(true);

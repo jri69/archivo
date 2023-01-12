@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('titulacion_directivos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('titulacion_id');
-            $table->foreign('titulacion_id')->references('id')->on('titulacions')->onDelete('cascade');
+            $table->unsignedBigInteger('carta_titulacion_id');
+            $table->foreign('carta_titulacion_id')->references('id')->on('carta_titulacions')->onDelete('cascade');
             $table->unsignedBigInteger('directivo_id');
             $table->foreign('directivo_id')->references('id')->on('directivos')->onDelete('cascade');
             $table->timestamps();

@@ -25,7 +25,7 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
     public $widths;
     public $aligns;
 
-    public function __construct()
+    public function __construct() 
     {
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }

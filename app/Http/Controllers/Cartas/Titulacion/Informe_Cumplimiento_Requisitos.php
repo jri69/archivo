@@ -70,7 +70,7 @@ class Informe_Cumplimiento_Requisitos extends Fpdf
         }
     }
 
-    public function informe($data)
+    public function informe($data) 
     {
         // obtener datos
         $carta = ModelsCartaTitulacion::findOrFail($data[1]);

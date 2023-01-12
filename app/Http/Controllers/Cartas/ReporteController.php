@@ -22,7 +22,11 @@ use App\Http\Controllers\Cartas\Titulacion\Informe_Cumplimiento_Requisitos2;
 use App\Http\Controllers\Cartas\Titulacion\Cac_Informe_Cumplimiento_Requisitos2;
 use App\Http\Controllers\Cartas\Titulacion\Cac_Tribunal;
 use App\Http\Controllers\Cartas\Titulacion\Cd_Tribunal;
-use App\Http\Controllers\Cartas\Titulacion\Pre_Defensa;;
+use App\Http\Controllers\Cartas\Titulacion\Pre_Defensa;
+use App\Http\Controllers\Cartas\Titulacion\Informe_Acreditacion_DT;
+use App\Http\Controllers\Cartas\Titulacion\Informe_Originalidad;
+use App\Http\Controllers\Cartas\Titulacion\Solicitud_Homologacion;
+use App\Http\Controllers\Cartas\Titulacion\Invitacion_Tribunal;;
 
 use App\Http\Controllers\Cartas\Titulacion\Empastado;;
 
@@ -48,7 +52,13 @@ class ReporteController extends Controller
     // Titulacion
     private $ICR = 10;
     private $DDTG = 11;
-    private $Cac_Dt = 12;
+    private $CAC_DT = 12;
+    private $CAC_ICR = 13;
+    private $CDDT = 14;
+    private $ITR = 15;
+    private $IADT = 16;
+    private $IDO = 17;
+    private $SHRCDO = 18;
 
     // private $DDTG = 'Designación de director de trabajo de grado';
     private $CACA = 'CAC tutor';
@@ -107,36 +117,27 @@ class ReporteController extends Controller
             case $this->DDTG:
                 $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]); //
                 break;
-            case $this->Cac_Dt:
+            case $this->CAC_DT:
                 $this->Comite_Academico_Cientifico([$id, $idCarta]); //
                 break;
-                // case $this->ICR:
-                //     $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]);
-                //     break;
-                // case $this->CDP:
-                //     $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
-                //     break;
-                // case $this->ICR2:
-                //     $this->Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
-                //     break;
-                // case $this->CACICR2:
-                //     $this->Cac_Informe_Cumplimiento_Requisitos2([$id, $idCarta]); //
-                //     break;
-                // case $this->CACT:
-                //     $this->Cac_Tribunal([$id, $idCarta]); //
-                //     break;
-                // case $this->CDT:
-                //     $this->Cd_Tribunal([$id, $idCarta]); //
-                //     break;
-                // case $this->PD:
-                //     $this->Pre_Defensa([$id, $idCarta]);
-                //     break;
-                // case $this->EM:
-                //     $this->Empastado([$id, $idCarta]);
-                //     break;
-                // case $this->ILI:
-                //     $this->Informe_Lineas_Investigacion([$id, $idCarta]);
-                //     break;
+            case $this->CAC_ICR:
+                $this->Cac_Informe_Cumplimiento_Requisitos([$id, $idCarta]); //
+                break;
+            case $this->CDDT:
+                $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
+                break;
+            case $this->ITR:
+                $this->Invitacion_Tribunal([$id, $idCarta, $tipo]);
+                break;
+            case $this->IADT:
+                $this->Informe_Acreditacion_DT([$id, $idCarta]);
+                break;
+            case $this->IDO:
+                $this->Informe_Originalidad([$id, $idCarta]);
+                break;
+            case $this->SHRCDO:
+                $this->Solicitud_Homologacion([$id, $idCarta]);
+                break;
             default:
                 return 'No se encontro el tipo de carta';
                 break;
@@ -269,5 +270,29 @@ class ReporteController extends Controller
     {
         $ili = new Informe_Lineas_Investigacion($data);
         return $ili->informe($data);
+    }
+
+    public function Invitacion_Tribunal($data)
+    {
+        $it = new Invitacion_Tribunal();
+        return $it->informe($data);
+    }
+
+    public function Informe_Acreditacion_DT($data)
+    {
+        $iad = new Informe_Acreditacion_DT($data);
+        return $iad->informe($data);
+    }
+
+    public function Informe_Originalidad($data)
+    {
+        $io = new Informe_Originalidad($data);
+        return $io->informe($data);
+    }
+
+    public function Solicitud_Homologacion($data)
+    {
+        $sh = new Solicitud_Homologacion($data);
+        return $sh->informe($data);
     }
 }

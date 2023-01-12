@@ -15,5 +15,6 @@ class Directivo extends Model
         'cargo',
         'institucion',
         'activo',
+        'sexo'
     ];
 }
