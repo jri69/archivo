@@ -25,6 +25,16 @@ class CartaTitulacion extends Controller
     private $IADT = 16;
     private $IDO = 17;
     private $SHRCDO = 18;
+    private $EBT = 19;
+    private $ICR2 = 20;
+    private $CAC_ICR2 = 21;
+    private $CAC_TRB = 22;
+    private $CD_TB = 23;
+    private $IO = 24;
+    private $SH = 25;
+
+    private $PD = 27;
+    private $EP = 28;
 
     // Cargos
     private $DR = 'Director';
@@ -77,29 +87,41 @@ class CartaTitulacion extends Controller
         $similitud = false;
         $aporte = false;
         $documento = false;
+        $exceso = false;
+        $fecha_ini = false;
+        $fecha_fin = false;
+        $articulo = false;
         $estudiante = Estudiante::findOrFail($estudiante);
         $titulacion = Titulacion::findOrFail($titulacion);
         $tipo = TipoCarta::findOrFail($tipo);
-        if ($tipo->id == $this->CAC_DT || $tipo->id == $this->CAC_ICR || $tipo->id == $this->CDDT || $tipo->id == $this->SHRCDO)
+        if ($tipo->id == $this->CAC_DT || $tipo->id == $this->CAC_ICR || $tipo->id == $this->CDDT || $tipo->id == $this->SHRCDO || $tipo->id == $this->CAC_ICR2 || $tipo->id == $this->CD_TB || $tipo->id == $this->SH)
             $codigo1 = true;
-        if ($tipo->id == $this->CAC_ICR || $tipo->id == $this->CDDT || $tipo->id == $this->SHRCDO)
+        if ($tipo->id == $this->CAC_ICR || $tipo->id == $this->CDDT || $tipo->id == $this->SHRCDO || $tipo->id == $this->ICR2 || $tipo->id == $this->CAC_ICR2 || $tipo->id == $this->CAC_TRB || $tipo->id == $this->CD_TB || $tipo->id == $this->SH)
             $codigo2 = true;
-        if ($tipo->id == $this->CAC_ICR || $tipo->id == $this->CDDT || $tipo->id == $this->SHRCDO)
+        if ($tipo->id == $this->CAC_ICR || $tipo->id == $this->CDDT || $tipo->id == $this->SHRCDO || $tipo->id == $this->CD_TB || $tipo->id == $this->SH)
             $codigo3 = true;
         if ($tipo->id == $this->ITR)
             $tribunal = true;
         if ($tipo->id == $this->IADT)
             $profesion = true;
-        if ($tipo->id == $this->CDDT)
+        if ($tipo->id == $this->CDDT || $tipo->id == $this->EBT)
             $consupo = true;
-        if ($tipo->id == $this->SHRCDO || $tipo->id == $this->IDO)
+        if ($tipo->id == $this->SHRCDO || $tipo->id == $this->IDO || $tipo->id == $this->IO || $tipo->id == $this->SH)
             $documento = true;
-        if ($tipo->id == $this->IDO) {
+        if ($tipo->id == $this->EBT || $tipo->id == $this->CD_TB)
+            $exceso = true;
+        if ($tipo->id == $this->CAC_TRB || $tipo->id == $this->ICR2 || $tipo->id == $this->CAC_ICR2 || $tipo->id == $this->CD_TB)
+            $articulo = true;
+        if ($tipo->id == $this->IDO || $tipo->id == $this->IO) {
             $originalidad = true;
             $similitud = true;
             $aporte = true;
         }
-        return view('estudiante.cartaCreate', compact('estudiante', 'titulacion', 'tipo', 'codigo1', 'codigo2', 'codigo3', 'tribunal', 'profesion', 'consupo', 'originalidad', 'similitud', 'aporte', 'documento'));
+        if ($tipo->id == $this->ICR2 || $tipo->id == $this->CAC_ICR2) {
+            $fecha_ini = true;
+            $fecha_fin = true;
+        }
+        return view('estudiante.cartaCreate', compact('estudiante', 'titulacion', 'tipo', 'codigo1', 'codigo2', 'codigo3', 'tribunal', 'profesion', 'consupo', 'originalidad', 'similitud', 'aporte', 'documento', 'exceso', 'fecha_ini', 'fecha_fin', 'articulo'));
     }
 
     public function cartaStore(Request $request, $estudiante, $titulacion, $tipo)
@@ -117,21 +139,21 @@ class CartaTitulacion extends Controller
             'consupo' => $request->consupo ? $request->consupo : "",
         ];
         // codigo 1
-        if ($tipo == $this->CAC_DT || $tipo == $this->CAC_ICR || $tipo == $this->CDDT || $tipo == $this->SHRCDO) {
+        if ($tipo == $this->CAC_DT || $tipo == $this->CAC_ICR || $tipo == $this->CDDT || $tipo == $this->SHRCDO || $tipo == $this->CAC_ICR2 || $tipo == $this->CD_TB || $tipo == $this->SH) {
             $request->validate(['codigo1' => 'required',]);
             $data['codigo1'] = $request->codigo1;
         }
         // codigo 2
-        if ($tipo == $this->CAC_ICR || $tipo == $this->CDDT || $tipo == $this->SHRCDO) {
+        if ($tipo == $this->CAC_ICR || $tipo == $this->CDDT || $tipo == $this->SHRCDO || $tipo == $this->ICR2 || $tipo == $this->CAC_ICR2 || $tipo == $this->CAC_TRB || $tipo == $this->CD_TB || $tipo == $this->SH) {
             $request->validate(['codigo2' => 'required',]);
             $data['codigo2'] = $request->codigo2;
         }
         //codigo 3
-        if ($tipo == $this->CAC_ICR || $tipo == $this->CDDT || $tipo == $this->SHRCDO) {
+        if ($tipo == $this->CAC_ICR || $tipo == $this->CDDT || $tipo == $this->SHRCDO || $tipo == $this->CD_TB || $tipo == $this->SH) {
             $request->validate(['codigo3' => 'required',]);
             $data['codigo3'] = $request->codigo3;
         }
-        if ($tipo == $this->SHRCDO || $tipo == $this->IDO) {
+        if ($tipo == $this->SHRCDO || $tipo == $this->IDO || $tipo == $this->IO || $tipo == $this->SH) {
             $request->validate(['documento' => 'required',]);
             $data['documento'] = $request->documento;
         }
@@ -139,7 +161,20 @@ class CartaTitulacion extends Controller
             $request->validate(['profesion' => 'required',]);
             $data['profesion'] = $request->profesion;
         }
-        if ($tipo == $this->IDO) {
+        if ($tipo == $this->EBT || $tipo == $this->CD_TB) {
+            $request->validate(['exceso' => 'required',]);
+            $data['exceso'] = $request->exceso;
+        }
+        if ($tipo == $this->CAC_TRB || $tipo == $this->CD_TB) {
+            $request->validate(['articulo' => 'required',]);
+            $data['articulo'] = $request->articulo;
+        }
+        if ($tipo == $this->ICR2 || $tipo == $this->CAC_ICR2) {
+            $request->validate(['fecha_ini' => 'required', 'fecha_fin' => 'required']);
+            $titulacion = Titulacion::findOrFail($titulacion);
+            $titulacion->update(['fecha_ini' => $request->fecha_ini, 'fecha_fin' => $request->fecha_fin]);
+        }
+        if ($tipo == $this->IDO || $tipo == $this->IO) {
             $request->validate(['originalidad' => 'required', 'similitud' => 'required', 'aporte_academico' => 'required']);
             $titulacion = Titulacion::findOrFail($titulacion);
             $titulacion->update(['originalidad' => $request->originalidad, 'similitud' => $request->similitud, 'aporte_academico' =>  $request->aporte_academico]);
@@ -250,52 +285,26 @@ class CartaTitulacion extends Controller
 
     private function createDirectivo($tipo, $carta)
     {
-        switch ($tipo) {
-            case $this->CAC_DT:
-                $director = $this->directivo($this->DR, $this->EI);
-                $coordinador = $this->directivo($this->CA, $this->EIUAGRM);
-                $investigacion = $this->directivo($this->CDI, $this->EI);
-                $this->addCartaDirectivo($carta, $director->id);
-                $this->addCartaDirectivo($carta, $coordinador->id);
-                $this->addCartaDirectivo($carta, $investigacion->id);
-                break;
-            case $this->CAC_ICR;
-                $director = $this->directivo($this->DR, $this->EI);
-                $coordinador = $this->directivo($this->CA, $this->EIUAGRM);
-                $investigacion = $this->directivo($this->CDI, $this->EI);
-                $this->addCartaDirectivo($carta, $director->id);
-                $this->addCartaDirectivo($carta, $coordinador->id);
-                $this->addCartaDirectivo($carta, $investigacion->id);
-                break;
-            case $this->CDDT:
-                $director = $this->directivo($this->DR, $this->EI);
-                $presidente = $this->directivo($this->PRD, $this->CDP);
-                $this->addCartaDirectivo($carta, $director->id);
-                $this->addCartaDirectivo($carta, $presidente->id);
-                break;
-            case $this->IADT;
-                $directora = $this->directivo($this->DRA, $this->UAGRM);
-                $this->addCartaDirectivo($carta, $directora->id);
-                break;
-            case $this->IDO;
-                $directora = $this->directivo($this->DRA, $this->UAGRM);
-                $this->addCartaDirectivo($carta, $directora->id);
-                break;
-            case $this->SHRCDO;
-                $directora = $this->directivo($this->DRA, $this->UAGRM);
-                $this->addCartaDirectivo($carta, $directora->id);
-                break;
-            default:
-                break;
+        if ($tipo == $this->CAC_DT || $tipo == $this->CAC_ICR || $tipo == $this->CAC_ICR2 || $tipo == $this->CAC_TRB) {
+            $director = $this->directivo($this->DR, $this->EI);
+            $coordinador = $this->directivo($this->CA, $this->EIUAGRM);
+            $investigacion = $this->directivo($this->CDI, $this->EI);
+            $this->addCartaDirectivo($carta, $director->id);
+            $this->addCartaDirectivo($carta, $coordinador->id);
+            $this->addCartaDirectivo($carta, $investigacion->id);
+            return;
+        };
+        if ($tipo == $this->IADT || $tipo == $this->IDO || $tipo == $this->SHRCDO || $tipo == $this->IO || $tipo == $this->SH) {
+            $directora = $this->directivo($this->DRA, $this->UAGRM);
+            $this->addCartaDirectivo($carta, $directora->id);
+            return;
         }
-    }
-
-    private function createTribunal($data, $request)
-    {
-        for ($i = 1; $i <= 5; $i++) {
-            if (empty($request['nombreT' . $i])) {
-                continue;
-            };
+        if ($tipo == $this->CDDT || $tipo == $this->CD_TB) {
+            $director = $this->directivo($this->DR, $this->EI);
+            $presidente = $this->directivo($this->PRD, $this->CDP);
+            $this->addCartaDirectivo($carta, $director->id);
+            $this->addCartaDirectivo($carta, $presidente->id);
+            return;
         }
     }
 }

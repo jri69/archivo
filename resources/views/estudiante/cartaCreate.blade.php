@@ -14,7 +14,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Codigo de carta</label>
-                                            <input type="text" class="form-control" name="codigo_admi">
+                                            <input type="text" class="form-control" name="codigo_admi" required>
                                         </div>
                                         @if ($errors->has('codigo_admi'))
                                             <span class="error text-danger"
@@ -36,12 +36,14 @@
                                 @if ($codigo1 || $codigo2)
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            @if ($codigo1)
+                                        @if ($codigo1)
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="bmd-label-floating">
-                                                        @if ($tipo->id == 18)
+                                                        @if ($tipo->id == 18 || $tipo->id == 25)
                                                             Codigo de resolucion CAC
+                                                        @elseif ($tipo->id == 21 || $tipo->id == 23)
+                                                            Codigo de coordinacion de investigacion
                                                         @else
                                                             Codigo de CA
                                                         @endif
@@ -52,13 +54,19 @@
                                                     <span class="error text-danger"
                                                         for="input-codigo1">{{ $errors->first('codigo1') }}</span>
                                                 @endif
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
                                         <div class="col-md-6">
                                             @if ($codigo2)
                                                 <div class="form-group">
                                                     <label class="bmd-label-floating">
-                                                        Codigo de resolucion CAC
+                                                        @if ($tipo->id == 20)
+                                                            Codigo de resolucion homolagacion
+                                                        @elseif ($tipo->id == 21)
+                                                            Codigo de informe de cumplimiento de requisitos
+                                                        @else
+                                                            Codigo de resolucion CAC
+                                                        @endif
                                                     </label>
                                                     <input type="text" class="form-control" name="codigo2">
                                                 </div>
@@ -70,33 +78,92 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if ($codigo3)
+                                @if ($codigo3 || $exceso)
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            @if ($codigo3)
+                                        @if ($codigo3)
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="bmd-label-floating">
                                                         @if ($tipo->id == 13)
                                                             Codigo de ICRP
                                                         @endif
-                                                        @if ($tipo->id == 14)
+                                                        @if ($tipo->id == 14 || $tipo->id == 23)
                                                             Codigo de resolucion CAC
                                                         @endif
-                                                        @if ($tipo->id == 18)
+                                                        @if ($tipo->id == 18 || $tipo->id == 25)
                                                             Codigo de resolucion CD
                                                         @endif
                                                     </label>
-                                                    <input type="text" class="form-control" name="codigo3">
+                                                    <input type="text" class="form-control" name="codigo3" required>
                                                 </div>
                                                 @if ($errors->has('codigo3'))
                                                     <span class="error text-danger"
                                                         for="input-codigo3">{{ $errors->first('codigo3') }}</span>
                                                 @endif
+                                            </div>
+                                        @endif
+                                        <div class="col-md-6">
+                                            @if ($exceso)
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">
+                                                        @if ($tipo->id == 23)
+                                                            Codigo Resolucion DGP
+                                                        @else
+                                                            Tiempo de elaboracion
+                                                        @endif
+                                                    </label>
+                                                    <input type="text" class="form-control" name="exceso" required>
+                                                </div>
+                                                @if ($errors->has('exceso'))
+                                                    <span class="error text-danger"
+                                                        for="input-exceso">{{ $errors->first('exceso') }}</span>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                                @if ($fecha_ini || $fecha_fin)
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @if ($fecha_ini)
+                                                <label class="bmd-label-floating">Fecha de inicio del programa</label>
+                                                <div class="form-group">
+                                                    <input type="date" class="form-control" name="fecha_ini" required>
+                                                </div>
+                                                @if ($errors->has('fecha_ini'))
+                                                    <span class="error text-danger"
+                                                        for="input-fecha_ini">{{ $errors->first('fecha_ini') }}</span>
+                                                @endif
                                             @endif
                                         </div>
                                         <div class="col-md-6">
-
+                                            @if ($fecha_fin)
+                                                <label class="bmd-label-floating">Fecha de finalizacion del programa</label>
+                                                <div class="form-group">
+                                                    <input type="date" class="form-control" name="fecha_fin" required>
+                                                </div>
+                                                @if ($errors->has('fecha_fin'))
+                                                    <span class="error text-danger"
+                                                        for="input-fecha_fin">{{ $errors->first('fecha_fin') }}</span>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                                @if ($articulo)
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating"> Articulo </label>
+                                                <input type="text" class="form-control" name="articulo" required>
+                                            </div>
+                                            @if ($errors->has('articulo'))
+                                                <span class="error text-danger"
+                                                    for="input-articulo">{{ $errors->first('articulo') }}</span>
+                                            @endif
                                         </div>
                                     </div>
                                 @endif
@@ -106,7 +173,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating"> Consupo </label>
-                                                <input type="text" class="form-control" name="consupo">
+                                                <input type="text" class="form-control" name="consupo" required>
                                             </div>
                                             @if ($errors->has('consupo'))
                                                 <span class="error text-danger"
@@ -144,7 +211,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if ($documento)
+                                @if ($documento && $tipo->id != 24 && $tipo->id != 25)
                                     <br>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -172,6 +239,14 @@
                                         <div class="col-md-6">
                                         </div>
                                     </div>
+                                @endif
+                                @if ($documento && $tipo->id == 24)
+                                    <input class="form-check-input" type="radio" name="documento"
+                                        value="Trabajo final de grado" checked hidden>
+                                @endif
+                                @if ($documento && $tipo->id == 25)
+                                    <input class="form-check-input" type="radio" name="documento" value="Final"
+                                        checked hidden>
                                 @endif
                                 @if ($profesion || $aporte)
                                     <div class="row">

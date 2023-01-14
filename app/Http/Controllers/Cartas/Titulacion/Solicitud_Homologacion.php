@@ -88,7 +88,8 @@ class Solicitud_Homologacion extends Fpdf
         $nombre_estudiante2 = $sexo2 . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
         $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
         $presentacion = '';
-
+        $documentoT = '';
+        $carta->documento == 'Final' ? $documentoT = 'y concluido el Trabajo de Grado titulado ' : $documentoT = ' ha concluido su ' . $carta->documento . ' de Tesis de Grado titulado ';
 
         // directora
         $directora = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->first();
@@ -127,7 +128,7 @@ class Solicitud_Homologacion extends Fpdf
         // CONTENIDO
         $contenido = [
             'first' => "Le ruego tenga a bien homologar las resoluciones Nº <" . $carta->codigo1 . ">; <" . $carta->codigo2 . "> del Comité Académico Científico y del Consejo Directivo Nº <" . $carta->codigo3 . "> de la Facultad de Ciencias Exactas y Tecnología, designando un Director de tesis para " . $nombre_estudiante . ".",
-            'second' =>  $nombre_estudiante2 . " ha aprobado todos los módulos de " . $nombre_programa . ", Plan " . $programa->codigo . ", ha concluido su <" . $carta->documento . "> de Tesis de Grado titulado <" . $titulacion->tesis . ">."
+            'second' =>  $nombre_estudiante2 . " ha aprobado todos los módulos de " . $nombre_programa . ", Plan " . $programa->codigo . "," . $documentoT . " <" . $titulacion->tesis . ">."
         ];
         $this->fpdf->SetFont('Arial', '', 11);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($presentacion), 0, 'L', 0);
@@ -147,10 +148,11 @@ class Solicitud_Homologacion extends Fpdf
         $this->fpdf->SetFont('Arial', 'I', 9);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc./Archivo."), 0, 'L', 0);
         $this->fpdf->Ln(2);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adj. Documentos + CD del perfil y la autenticidad "), 0, 'L', 0);
-        // FONT BOLD
-
-
+        if ($carta->documento == 'Final') {
+            $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adj. Documentos "), 0, 'L', 0);
+        } else {
+            $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adj. Documentos + CD del perfil y la autenticidad "), 0, 'L', 0);
+        }
         $this->fpdf->Output("I", "Informe_Acreditacion_DT.pdf");
     }
 
