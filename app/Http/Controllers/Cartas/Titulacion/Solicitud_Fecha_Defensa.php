@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Cartas\Titulacion;
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
 use App\Models\CartaTitulacion;
+use App\Models\Directivo;
 use App\Models\Docente;
 use App\Models\Estudiante;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use App\Models\Titulacion;
+use App\Models\TitulacionDirectivo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Pre_Defensa extends Fpdf
+class Solicitud_Fecha_Defensa extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -58,19 +60,19 @@ class Pre_Defensa extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'de la maestría';
+            return 'de la maestría en';
         }
         if ($tipo == 'Diplomado') {
-            return 'del diplomado';
+            return 'del diplomado en';
         }
         if ($tipo == 'Cursos') {
-            return 'del curso';
+            return 'del curso en';
         }
         if ($tipo == 'Doctorado') {
-            return 'del doctorado';
+            return 'del doctorado en';
         }
         if ($tipo == 'Especialidad') {
-            return 'de la especialidad';
+            return 'de la especialidad en';
         }
     }
 
@@ -83,49 +85,66 @@ class Pre_Defensa extends Fpdf
         $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
         $fechaLiteral = $this->fechaLiteral($carta->fecha);
 
-        // poner am o pm a la hora
-        $hora = explode(':', $titulacion->hora_defensa);
-        $hora = $hora[0] . ':' . $hora[1] . ' ' . ($hora[0] > 12 ? 'pm' : 'am');
+        $directora = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->first();
+        $directora = Directivo::where('id', $directora->directivo_id)->where('cargo', 'Directora general de postgrado')->first();
+        $directora->sexo == 'M' ? $presentacion = 'Estimado Sr. director' : $presentacion = 'Estimada Sra. directora';
+        $nombre_dra = $directora->honorifico . ' ' . $directora->nombre . ' ' . $directora->apellido;
+
+        $sexo = $estudiante->sexo == 'F' ? 'La' : 'El';
+        $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
+        $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->SetFont('Arial', '', 9);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº " . $carta->codigo_admi), 0, 'L', 0);
-        $this->fpdf->Ln(10);
-
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($estudiante->sexo == 'M' ? "Señor:" : "Señora:"), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($estudiante->honorifico . ' ' . $estudiante->nombre), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente.-"), 0, 'L', 0);
-
         $this->fpdf->Ln(8);
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  Acto de pre-defensa de tesis"), 0, 'C', 0);
-        $this->fpdf->Ln(8);
+
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($directora->sexo == 'M' ? 'Señor:' : 'Señora:'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($nombre_dra), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DIRECTORA GENERAL DE POSTGRADO"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("U.A.G.R.M"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente"), 0, 'L', 0);
+
+        $this->fpdf->Ln(6);
+        $this->fpdf->SetFont('Arial', 'B', 9);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  Solicitud de asignación de fecha y hora para defensa de trabajo final de grado"), 0, 'C', 0);
+        $this->fpdf->Ln(6);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Me dirijo a su persona, para expresarle mis cordiales y fraternos saludos, para confirmarle el acto de pre-defensa del Trabajo Final de su tesis " . $this->tipoPrograma($programa->tipo) . " titulado <" . $titulacion->tesis . ">, " . $this->tipoPrograma($programa->tipo) . " en <" . $programa->nombre . ">. La predefensa se llevará a cabo el día <" . $titulacion->dia_defensa . "> del presente año a las <" . $hora . ">. horas, mediante plataforma Zoom.  Se solicita su puntual asistencia.",
+            'first' => "Por medio de la presente, solicito fijar fecha y hora para la defensa de tesis del postgraduante <" . $estudiante->honorifico . ' ' . $estudiante->nombre . "> con el tema de tesis titulada <" . $titulacion->tesis . ">, egresado " . $nombre_programa . ", Plan " . $programa->codigo . ", para lo cual se adjunta el trabajo a exponer y defender.",
+            'second' => $nombre_estudiante . " está amparado en el " . $carta->consupo . ".",
+            'third' => "Asimismo, se sugiere que el acto de defensa de tesis se lleve a cabo en instalaciones de la Escuela de Ingeniería, ubicado en la Av. Busch (entre 2º anillo y 3º anillo) esq. Raúl Bascopé, aula Nº 8 planta baja.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi consideración:"), 0, 'L', 0);
-        $this->fpdf->Ln(6);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($directora->sexo == 'M' ? 'Distinguido Sr.:' : 'Distinguida Sra.:'), 0, 'L', 0);
+        $this->fpdf->Ln(4);
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(8);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Atentamente,"), 0, 'L', 0);
+        $this->fpdf->Ln(7);
+        $this->WriteText($contenido['second']);
+        $this->fpdf->Ln(7);
+        $this->WriteText($contenido['third']);
 
+        $this->fpdf->Ln(10);
+        $this->WriteText("Agradeciéndole de antemano su atención, me despido con las consideraciones más distinguidas");
+        $this->fpdf->Ln(10);
+        $this->WriteText("Atentamente,");
         // pie de pagina
-        $this->fpdf->Ln(110);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Arch."), 0, 'L', 0);
+        $this->fpdf->Ln(80);
+        $this->fpdf->SetFont('Arial', 'I', 9);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adj. Documentos"), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Pre_Defensa.pdf");
+        $this->fpdf->Output("I", "Solicitud_Fecha_Defensa.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

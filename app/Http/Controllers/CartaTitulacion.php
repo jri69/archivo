@@ -36,6 +36,8 @@ class CartaTitulacion extends Controller
     private $PD = 27;
     private $EP = 28;
 
+    private $SFD = 30;
+
     // Cargos
     private $DR = 'Director';
     private $DRA = 'Directora general de postgrado';
@@ -91,6 +93,8 @@ class CartaTitulacion extends Controller
         $fecha_ini = false;
         $fecha_fin = false;
         $articulo = false;
+        $dia_defensa = false;
+        $hora_defensa = false;
         $estudiante = Estudiante::findOrFail($estudiante);
         $titulacion = Titulacion::findOrFail($titulacion);
         $tipo = TipoCarta::findOrFail($tipo);
@@ -104,7 +108,7 @@ class CartaTitulacion extends Controller
             $tribunal = true;
         if ($tipo->id == $this->IADT)
             $profesion = true;
-        if ($tipo->id == $this->CDDT || $tipo->id == $this->EBT)
+        if ($tipo->id == $this->CDDT || $tipo->id == $this->EBT || $tipo->id == $this->SFD)
             $consupo = true;
         if ($tipo->id == $this->SHRCDO || $tipo->id == $this->IDO || $tipo->id == $this->IO || $tipo->id == $this->SH)
             $documento = true;
@@ -112,6 +116,10 @@ class CartaTitulacion extends Controller
             $exceso = true;
         if ($tipo->id == $this->CAC_TRB || $tipo->id == $this->ICR2 || $tipo->id == $this->CAC_ICR2 || $tipo->id == $this->CD_TB)
             $articulo = true;
+        if ($tipo->id == $this->PD) {
+            $dia_defensa = true;
+            $hora_defensa = true;
+        }
         if ($tipo->id == $this->IDO || $tipo->id == $this->IO) {
             $originalidad = true;
             $similitud = true;
@@ -121,7 +129,7 @@ class CartaTitulacion extends Controller
             $fecha_ini = true;
             $fecha_fin = true;
         }
-        return view('estudiante.cartaCreate', compact('estudiante', 'titulacion', 'tipo', 'codigo1', 'codigo2', 'codigo3', 'tribunal', 'profesion', 'consupo', 'originalidad', 'similitud', 'aporte', 'documento', 'exceso', 'fecha_ini', 'fecha_fin', 'articulo'));
+        return view('estudiante.cartaCreate', compact('estudiante', 'titulacion', 'tipo', 'codigo1', 'codigo2', 'codigo3', 'tribunal', 'profesion', 'consupo', 'originalidad', 'similitud', 'aporte', 'documento', 'exceso', 'fecha_ini', 'fecha_fin', 'articulo', 'dia_defensa', 'hora_defensa'));
     }
 
     public function cartaStore(Request $request, $estudiante, $titulacion, $tipo)
@@ -168,6 +176,11 @@ class CartaTitulacion extends Controller
         if ($tipo == $this->CAC_TRB || $tipo == $this->CD_TB) {
             $request->validate(['articulo' => 'required',]);
             $data['articulo'] = $request->articulo;
+        }
+        if ($tipo == $this->PD) {
+            $request->validate(['dia_defensa' => 'required', 'hora_defensa' => 'required']);
+            $titulacion = Titulacion::findOrFail($titulacion);
+            $titulacion->update(['dia_defensa' => $request->dia_defensa, 'hora_defensa' => $request->hora_defensa]);
         }
         if ($tipo == $this->ICR2 || $tipo == $this->CAC_ICR2) {
             $request->validate(['fecha_ini' => 'required', 'fecha_fin' => 'required']);
@@ -294,7 +307,7 @@ class CartaTitulacion extends Controller
             $this->addCartaDirectivo($carta, $investigacion->id);
             return;
         };
-        if ($tipo == $this->IADT || $tipo == $this->IDO || $tipo == $this->SHRCDO || $tipo == $this->IO || $tipo == $this->SH) {
+        if ($tipo == $this->IADT || $tipo == $this->IDO || $tipo == $this->SHRCDO || $tipo == $this->IO || $tipo == $this->SH || $tipo == $this->SFD) {
             $directora = $this->directivo($this->DRA, $this->UAGRM);
             $this->addCartaDirectivo($carta, $directora->id);
             return;

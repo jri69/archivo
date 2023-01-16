@@ -152,6 +152,36 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if ($dia_defensa || $hora_defensa)
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @if ($dia_defensa)
+                                                <label class="bmd-label-floating">Dia y fecha de defensa</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="dia_defensa"
+                                                        placeholder="Dia y fecha" required>
+                                                </div>
+                                                @if ($errors->has('dia_defensa'))
+                                                    <span class="error text-danger"
+                                                        for="input-dia_defensa">{{ $errors->first('dia_defensa') }}</span>
+                                                @endif
+                                            @endif
+                                        </div>
+                                        <div class="col-md-6">
+                                            @if ($hora_defensa)
+                                                <label class="bmd-label-floating">Hora de defensa</label>
+                                                <div class="form-group">
+                                                    <input type="time" class="form-control" name="hora_defensa" required>
+                                                </div>
+                                                @if ($errors->has('hora_defensa'))
+                                                    <span class="error text-danger"
+                                                        for="input-hora_defensa">{{ $errors->first('hora_defensa') }}</span>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
                                 @if ($articulo)
                                     <br>
                                     <div class="row">

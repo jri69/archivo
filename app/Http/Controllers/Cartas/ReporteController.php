@@ -29,6 +29,7 @@ use App\Http\Controllers\Cartas\Titulacion\Solicitud_Homologacion;
 use App\Http\Controllers\Cartas\Titulacion\Invitacion_Tribunal;
 use App\Http\Controllers\Cartas\Titulacion\Elaboracion_Borrador_Tesis;
 use App\Http\Controllers\Cartas\Titulacion\Empastado;
+use App\Http\Controllers\Cartas\Titulacion\Solicitud_Fecha_Defensa;
 
 use App\Http\Controllers\Cartas\Titulacion\Informe_Lineas_Investigacion;
 
@@ -67,6 +68,11 @@ class ReporteController extends Controller
     private $IO = 24;
     private $SH = 25;
 
+    private $PD = 27;
+    private $EP = 28;
+
+    private $SFD = 30;
+
     // private $DDTG = 'Designación de director de trabajo de grado';
     private $CACA = 'CAC tutor';
     // private $ICR = 'Informe de cumplimiento de requisitos';
@@ -75,8 +81,8 @@ class ReporteController extends Controller
     private $CACICR2 = 'CAC Informe de cumplimiento de requisitos 2';
     private $CACT = 'CAC tribunal';
     private $CDT = 'CD tribunal';
-    private $PD = 'Predefensa';
-    private $EM = 'Empastado';
+    // private $PD = 'Predefensa';
+    // private $EM = 'Empastado';
     private $ILI = 'Informe de lineas de investigación';
 
 
@@ -165,6 +171,15 @@ class ReporteController extends Controller
                 break;
             case $this->SH:
                 $this->Solicitud_Homologacion([$id, $idCarta]);
+                break;
+            case $this->PD:
+                $this->Pre_Defensa([$id, $idCarta]);
+                break;
+            case $this->EP:
+                $this->Empastado([$id, $idCarta]);
+                break;
+            case $this->SFD:
+                $this->Solicitud_Fecha_Defensa([$id, $idCarta]);
                 break;
             default:
                 return 'No se encontro el tipo de carta';
@@ -328,5 +343,11 @@ class ReporteController extends Controller
     {
         $ebt = new Elaboracion_Borrador_Tesis($data);
         return $ebt->informe($data);
+    }
+
+    public function Solicitud_Fecha_Defensa($data)
+    {
+        $sfd = new Solicitud_Fecha_Defensa($data);
+        return $sfd->informe($data);
     }
 }
