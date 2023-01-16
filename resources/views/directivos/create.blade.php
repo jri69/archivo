@@ -69,6 +69,11 @@
                                                     proceso de contratación</option>
                                                 <option value="Decano">Decano</option>
                                                 <option value="Jefe ADM. y Financiero">Jefe ADM. y Financiero</option>
+                                                <option value="Coordinador de investigación">Coordinador de investigación
+                                                </option>
+                                                <option value="Presidente">Presidente</option>
+                                                <option value="Directora general de postgrado">Director general de
+                                                    postgrado</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('cargo'))
@@ -87,6 +92,9 @@
                                                 <option value="F.C.E.T. - UAGRM">F.C.E.T. - UAGRM</option>
                                                 <option value="JAF">JAF</option>
                                                 <option value="F.C.E.T.">F.C.E.T.</option>
+                                                <option value="UAGRM">UAGRM</option>
+                                                <option value="Consejo directivo de postgrado">Consejo directivo de
+                                                    postgrado</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('institucion'))

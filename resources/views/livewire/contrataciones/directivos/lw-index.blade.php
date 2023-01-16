@@ -59,7 +59,8 @@
                                                     class="btn btn-primary">
                                                     <span class="material-icons">edit</span>
                                                 </a>
-                                                <form action="{{ route('directivo.delete', $directivo->id) }}"
+
+                                                {{-- <form action="{{ route('directivo.delete', $directivo->id) }}"
                                                     method="POST" style="display: inline-block;"
                                                     onsubmit="return confirm('¿Está seguro?')">
                                                     @csrf
@@ -67,7 +68,7 @@
                                                     <button class="btn btn-danger" type="submit">
                                                         <i class="material-icons">close</i>
                                                     </button>
-                                                </form>
+                                                </form> --}}
                                             </td>
                                         </tr>
                                     @endforeach
