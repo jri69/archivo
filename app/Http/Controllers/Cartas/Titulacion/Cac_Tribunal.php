@@ -60,16 +60,16 @@ class Cac_Tribunal extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'de la MAESTRIA en ';
+            return 'de la maestria en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'del DIPLOMADO en ';
+            return 'del diplomado en ';
         }
         if ($tipo == 'Cursos') {
-            return 'del CURSO de ';
+            return 'del curso de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'del DOCTORADO en ';
+            return 'del doctorado en ';
         }
         if ($tipo == 'Especialidad') {
             return 'de la especialidad en';

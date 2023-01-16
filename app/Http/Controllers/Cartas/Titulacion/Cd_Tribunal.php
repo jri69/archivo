@@ -60,16 +60,16 @@ class Cd_Tribunal extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'a la MAESTRIA en';
+            return 'a la maestria en';
         }
         if ($tipo == 'Diplomado') {
-            return 'al DIPLOMADO en';
+            return 'al diplomado en';
         }
         if ($tipo == 'Cursos') {
-            return 'al CURSO de';
+            return 'al curso de';
         }
         if ($tipo == 'Doctorado') {
-            return 'al DOCTORADO en';
+            return 'al doctorado en';
         }
         if ($tipo == 'Especialidad') {
             return 'a la especialidad en';

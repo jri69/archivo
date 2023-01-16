@@ -56,16 +56,16 @@ class Solicitud_Homologacion extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'la MAESTRIA en ';
+            return 'la maestria en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'el DIPLOMADO en ';
+            return 'el diplomado en ';
         }
         if ($tipo == 'Cursos') {
-            return 'el CURSO de ';
+            return 'el curso de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'el DOCTORADO en ';
+            return 'el doctorado en ';
         }
         if ($tipo == 'Especialidad') {
             return 'la especialidad en';

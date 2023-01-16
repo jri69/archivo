@@ -60,16 +60,16 @@ class Invitacion_Tribunal extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'de MAESTRIA en ';
+            return 'de maestria en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'de DIPLOMADO en ';
+            return 'de diplomado en ';
         }
         if ($tipo == 'Cursos') {
-            return 'de CURSO de ';
+            return 'de curso de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'de DOCTORADO en ';
+            return 'de doctorado en ';
         }
         if ($tipo == 'Especialidad') {
             return 'de especialidad en';

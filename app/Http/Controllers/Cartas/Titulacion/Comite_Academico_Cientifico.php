@@ -61,16 +61,16 @@ class Comite_Academico_Cientifico extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'la MAESTRIA en ';
+            return 'la maestria en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'el DIPLOMADO en ';
+            return 'el diplomado en ';
         }
         if ($tipo == 'Cursos') {
-            return 'al CURSO de ';
+            return 'al curso de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'al DOCTORADO en ';
+            return 'al doctorado en ';
         }
         if ($tipo == 'Especialidad') {
             return 'la especialidad en';
