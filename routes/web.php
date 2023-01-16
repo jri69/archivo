@@ -58,7 +58,6 @@ use App\Http\Controllers\UnidadOrganizacionalController;
 */
 
 Auth::routes();
-Route::get('/test', [CartasReporteController::class, 'test']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

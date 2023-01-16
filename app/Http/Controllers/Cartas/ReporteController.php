@@ -30,8 +30,11 @@ use App\Http\Controllers\Cartas\Titulacion\Invitacion_Tribunal;
 use App\Http\Controllers\Cartas\Titulacion\Elaboracion_Borrador_Tesis;
 use App\Http\Controllers\Cartas\Titulacion\Empastado;
 use App\Http\Controllers\Cartas\Titulacion\Solicitud_Fecha_Defensa;
-
+use App\Http\Controllers\Cartas\Titulacion\Invitacion_Tribunal_Borrador;
+use App\Http\Controllers\Cartas\Titulacion\Programacion_Fecha_Defensa;
+use App\Http\Controllers\Cartas\Titulacion\Conformidad_De_Trabajo;
 use App\Http\Controllers\Cartas\Titulacion\Informe_Lineas_Investigacion;
+use App\Http\Controllers\Cartas\Titulacion\Solicitud_De_Pago;
 
 use App\Models\Contrato;
 
@@ -67,35 +70,20 @@ class ReporteController extends Controller
     private $CD_TB = 23;
     private $IO = 24;
     private $SH = 25;
-
+    private $ITB = 26;
     private $PD = 27;
     private $EP = 28;
-
+    private $LI = 29;
     private $SFD = 30;
-
-    // private $DDTG = 'Designación de director de trabajo de grado';
-    private $CACA = 'CAC tutor';
-    // private $ICR = 'Informe de cumplimiento de requisitos';
-    private $CDP = 'Consejo directivo de postgrado';
-    // private $ICR2 = 'Informe de cumplimiento de requisitos 2';
-    private $CACICR2 = 'CAC Informe de cumplimiento de requisitos 2';
-    private $CACT = 'CAC tribunal';
-    private $CDT = 'CD tribunal';
-    // private $PD = 'Predefensa';
-    // private $EM = 'Empastado';
-    private $ILI = 'Informe de lineas de investigación';
-
-
-    public function test()
-    {
-        $sc = new Planilla_pago();
-        return $sc->planilla_pago([]);
-    }
+    private $PFD = 31;
+    private $CDT = 32;
+    private $SDP = 33;
 
     public function pdf($id, $tipo, $idCarta)
     {
         $contrato = Contrato::find($id);
         switch ($tipo) {
+                // Contrato Docente
             case $this->SC:
                 $this->Sol_Contrataciones([$contrato, $idCarta]);
                 break;
@@ -123,18 +111,18 @@ class ReporteController extends Controller
             case $this->PP:
                 $this->Planilla_pago([$contrato, $idCarta]);
                 break;
-
+                // Titulacion
             case $this->ICR:
-                $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]); //
+                $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]);
                 break;
             case $this->DDTG:
-                $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]); //
+                $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]);
                 break;
             case $this->CAC_DT:
-                $this->Comite_Academico_Cientifico([$id, $idCarta]); //
+                $this->Comite_Academico_Cientifico([$id, $idCarta]);
                 break;
             case $this->CAC_ICR:
-                $this->Cac_Informe_Cumplimiento_Requisitos([$id, $idCarta]); //
+                $this->Cac_Informe_Cumplimiento_Requisitos([$id, $idCarta]);
                 break;
             case $this->CDDT:
                 $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
@@ -172,17 +160,32 @@ class ReporteController extends Controller
             case $this->SH:
                 $this->Solicitud_Homologacion([$id, $idCarta]);
                 break;
+            case $this->ITB:
+                $this->Invitacion_Tribunal_Borrador([$id, $idCarta, $tipo]);
+                break;
             case $this->PD:
                 $this->Pre_Defensa([$id, $idCarta]);
                 break;
             case $this->EP:
                 $this->Empastado([$id, $idCarta]);
                 break;
+            case $this->LI:
+                $this->Informe_Lineas_Investigacion([$id, $idCarta]);
+                break;
             case $this->SFD:
                 $this->Solicitud_Fecha_Defensa([$id, $idCarta]);
                 break;
+            case $this->PFD:
+                $this->Programacion_Fecha_Defensa([$id, $idCarta]);
+                break;
+            case $this->CDT:
+                $this->Conformidad_De_Trabajo([$id, $idCarta]);
+                break;
+            case $this->SDP:
+                $this->Solicitud_De_Pago([$id, $idCarta]);
+                break;
             default:
-                return 'No se encontro el tipo de carta';
+                return  redirect()->route('error');
                 break;
         }
     }
@@ -264,8 +267,6 @@ class ReporteController extends Controller
         $cac = new Comite_Academico_Cientifico($data);
         return $cac->informe($data);
     }
-
-
 
     public function Consejo_Directivo_Postgrado($data)
     {
@@ -349,5 +350,29 @@ class ReporteController extends Controller
     {
         $sfd = new Solicitud_Fecha_Defensa($data);
         return $sfd->informe($data);
+    }
+
+    public function Invitacion_Tribunal_Borrador($data)
+    {
+        $iad = new Invitacion_Tribunal_Borrador($data);
+        return $iad->informe($data);
+    }
+
+    public function Programacion_Fecha_Defensa($data)
+    {
+        $pfd = new Programacion_Fecha_Defensa($data);
+        return $pfd->informe($data);
+    }
+
+    public function Conformidad_De_Trabajo($data)
+    {
+        $itd = new Conformidad_De_Trabajo($data);
+        return $itd->informe($data);
+    }
+
+    public function Solicitud_De_Pago($data)
+    {
+        $iad = new Solicitud_De_Pago($data);
+        return $iad->informe($data);
     }
 }

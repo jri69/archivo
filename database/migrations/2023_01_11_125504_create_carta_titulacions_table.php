@@ -28,7 +28,9 @@ return new class extends Migration
             $table->string('codigo1')->nullable();
             $table->string('codigo2')->nullable();
             $table->string('codigo3')->nullable();
+            $table->string('directorTFG')->nullable();
             $table->string('documento')->nullable();
+            $table->string('otro')->nullable();
             $table->unsignedBigInteger('titulacion_id');
             $table->foreign('titulacion_id')->references('id')->on('titulacions')->onDelete('cascade');
             $table->unsignedBigInteger('tipo_id')->nullable();

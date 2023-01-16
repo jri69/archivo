@@ -91,6 +91,16 @@
                                                     {{ $directivo->cargo == 'Jefe ADM. y Financiero' ? 'selected' : '' }}
                                                     value="Jefe ADM. y Financiero">
                                                     Jefe ADM. y Financiero</option>
+                                                <option
+                                                    {{ $directivo->cargo == 'Coordinador de investigación' ? 'selected' : '' }}
+                                                    value="Coordinador de investigación">Coordinador de investigación
+                                                </option>
+                                                <option {{ $directivo->cargo == 'Presidente' ? 'selected' : '' }}
+                                                    value="Presidente">Presidente</option>
+                                                <option
+                                                    {{ $directivo->cargo == 'Directora general de postgrado' ? 'selected' : '' }}
+                                                    value="Directora general de postgrado">Director general de
+                                                    postgrado</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('cargo'))
@@ -117,6 +127,12 @@
                                                     value="JAF">JAF</option>
                                                 <option {{ $directivo->institucion == 'F.C.E.T.' ? 'selected' : '' }}
                                                     value="F.C.E.T."> F.C.E.T.</option>
+                                                <option {{ $directivo->institucion == 'UAGRM' ? 'selected' : '' }}
+                                                    value="UAGRM">UAGRM</option>
+                                                <option
+                                                    {{ $directivo->institucion == 'Consejo directivo de postgrado' ? 'selected' : '' }}
+                                                    value="Consejo directivo de postgrado">Consejo directivo de
+                                                    postgrado</option>
                                             </select>
                                         </div>
                                         @if ($errors->has('institucion'))

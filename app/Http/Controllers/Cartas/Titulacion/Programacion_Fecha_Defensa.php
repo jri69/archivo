@@ -13,10 +13,11 @@ use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use App\Models\Titulacion;
 use App\Models\TitulacionDirectivo;
+use App\Models\Tribunal;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Informe_Lineas_Investigacion extends Fpdf
+class Programacion_Fecha_Defensa extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -84,105 +85,92 @@ class Informe_Lineas_Investigacion extends Fpdf
         $titulacion = Titulacion::findOrFail($data[0]);
         $programa = Programa::findOrFail($titulacion->programa_id);
         $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
-        $fechaLiteral = $this->fechaLiteral($carta->fecha);
 
-        // aumentar honorifico a estudiante y sexo
-        $sexo = $estudiante->sexo == 'F' ? 'de la postgraduante' : 'del postgraduante';
-        $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
-        $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
+        $director = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->first();
+        $director = Directivo::where('id', $director->directivo_id)->where('cargo', 'Director')->first();
+        $director->sexo == 'M' ? $presentacion = 'Estimado Sr. director' : $presentacion = 'Estimada Sra. directora';
+        $nombrePresidente = $director->honorifico . ' ' . $director->nombre . ' ' . $director->apellido;
+        $hora = explode(':', $titulacion->hora_defensa);
+        $hora = $hora[0] . ':' . $hora[1] . ' ';
 
-        $directora = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->first();
-        $directora = Directivo::where('id', $directora->directivo_id)->where('cargo', 'Directora general de postgrado')->first();
-        $directora->sexo == 'M' ? $presentacion = 'Estimado Sr. director' : $presentacion = 'Estimada Sra. directora';
-        $nombre_dra = $directora->honorifico . ' ' . $directora->nombre . ' ' . $directora->apellido;
-        $presentacion = $directora->sexo == 'M' ? 'Sr.' : 'Sra.';
+        // dar vuelva la fecha
+        $fecha = explode('-', $carta->codigo2);
+        $fecha = $fecha[2] . '/' . $fecha[1] . '/' . $fecha[0];
+        $cartas = CartaTitulacion::where('titulacion_id', $titulacion->id)->where('tipo_id', 15)->get();
 
-        $this->fpdf->AddPage();
+        $this->fpdf->AddPage('L');
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Dirección Nº " . $carta->codigo_admi), 0, 'L', 0);
-        $this->fpdf->Ln(8);
-
-        $this->fpdf->SetFont('Arial', '', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($directora->sexo == 'M' ? 'Señor:' : 'Señora:'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($nombre_dra), 0, 'L', 0);
         $this->fpdf->SetFont('Arial', 'B', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DIRECTORA GENERAL DE POSTGRADO"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("U.A.G.R.M"), 0, 'L', 0);
-
-        $this->fpdf->Ln(8);
-        $this->fpdf->SetFont('Arial', 'B', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.: Informe de las líneas de investigación"), 0, 'C', 0);
-        $this->fpdf->Ln(8);
-
-        // CONTENIDO
-        $contenido = [
-            'first' => "Por medio de la presente, nos es muy grato dirigirnos a su persona para hacerle llegar las líneas de investigación del Trabajo de Grado titulado: <" . $titulacion->tesis . ">, correspondiente a " . $nombre_programa . ", Plan " . $programa->codigo . ", " . $nombre_estudiante . ".",
-        ];
-        $this->fpdf->SetFont('Arial', '', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Distinguida " . $presentacion . ":"), 0, 'L', 0);
-        $this->fpdf->Ln(2);
-        $this->fpdf->SetFont('Arial', '', 11);
-        $this->WriteText($contenido['first']);
-
-        // new page horizonal
-        $this->fpdf->AddPage('L');
+        $this->fpdf->MultiCell($this->width * 1.5, $this->space, utf8_decode("PROGRAMACIÓN DE DEFENSA DE TESIS DE MAESTRÍA"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width * 1.5, $this->space, utf8_decode("ESCUELA DE INGENIERÍA"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width * 1.5, $this->space, utf8_decode("FACULTAD DE CIENCIAS EXACTAS Y TECNOLOGÍA"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width * 1.5, $this->space, utf8_decode("UAGRM"), 0, 'C', 0);
+        $this->fpdf->Ln(10);
 
         $tamano = $this->width;
 
         $this->widths = array($tamano * 7 / 12);
         $this->fpdf->SetFont('Arial', '', 12);
-        $hmax = $this->height($titulacion->aporte) * 2;
+        $hmax = $this->height('Salón de actos de la Escuela de Ingeniería, ubicado en la Av. Busch entre (2º anillo y 3º anillo) esq. Raúl Bascopé, aula Nº 8 planta baja
+        Ref.: 76661857
+        ') * 2;
+        $cartas->count() > 3 ? $hmax = $hmax + 10 : $hmax = $hmax;
         $this->widths = array($tamano * 2 / 12);
-        $hcmax = $this->height($titulacion->lineas_academicas) + 5;
+        $hcmax = $this->height('Posgraduante');
 
-        $this->widths = array($tamano * 2 / 12);
+        $this->widths = array($tamano * 1 / 12);
         $x = $this->fpdf->GetX();
         $y = $this->fpdf->GetY();
-        $this->row(array(utf8_decode('Programa')), 0, 'C', 'N', $hcmax);
-        $this->row(array(utf8_decode($programa->nombre . ', Plan ' . $programa->codigo)), 0, 'L', 'N', $hmax);
+        $this->row(array(utf8_decode('N°')), 0, 'C', 'N', $hcmax);
+        $this->row(array(utf8_decode('                            ')), 0, 'C', 'N', $hmax, '1');
 
-        $this->widths = array($tamano * 2 / 12);
-        $this->fpdf->SetXY($x + $tamano * 2 / 12, $y);
+        $this->widths = array($tamano * 3 / 12);
+        $this->fpdf->SetXY($x + $tamano * 1 / 12, $y);
         $this->row(array(utf8_decode('Postgraduante')), 0, 'C', 'N', $hcmax);
-        $this->fpdf->SetXY($x + $tamano * 2 / 12, $y + $hcmax);
-        $this->row(array(utf8_decode($estudiante->nombre)), 0, 'L', 'N', $hmax / 2);
-        $this->fpdf->SetXY($x + $tamano * 2 / 12, $y + $hcmax + $hmax / 2);
-        $this->row(array(utf8_decode($carta->is_docente)), 0, 'L', 'N', $hmax / 2);
+        $this->fpdf->SetXY($x + $tamano * 1 / 12, $y + $hcmax);
+        $this->row(array(utf8_decode($estudiante->nombre)), 0, 'L', 'N', $hmax * 1 / 5);
+        $this->fpdf->SetXY($x + $tamano * 1 / 12, $y + $hcmax + $hmax * 1 / 5);
+        $this->row(array(utf8_decode("Miembros Tribunal Evaluador: Res. N° " . $carta->codigo1)), 0, 'L', 'N', $hmax * 1.5 / 5);
+        $this->fpdf->SetXY($x + $tamano * 1 / 12, $y + $hcmax + $hmax * 1 / 5 + $hmax * 1.5 / 5);
+        $this->row(array(utf8_decode(" ")), 0, 'L', 'N', $hmax * 2.5 / 5, '', $cartas);
 
         $x = $x + ($tamano * 2 / 12) * 2;
+        $this->widths = array($tamano * 3 / 12);
+        $this->fpdf->SetXY($x, $y);
+        $this->row(array(utf8_decode('TemaTFG')), 0, 'C', 'N', $hcmax);
+        $this->fpdf->SetXY($x, $y + $hcmax);
+        $this->row(array(utf8_decode($titulacion->tesis)), 0, 'L', 'N', $hmax, 'Director TFG                 ' . $nombrePresidente);
+
+        $x = $x + ($tamano * 3 / 12);
         $this->widths = array($tamano * 2 / 12);
         $this->fpdf->SetXY($x, $y);
-        $this->row(array(utf8_decode('Líneas de investigación')), 0, 'C', 'N', $hcmax);
+        $this->row(array(utf8_decode('Programa')), 0, 'C', 'N', $hcmax);
         $this->fpdf->SetXY($x, $y + $hcmax);
-        $this->row(array(utf8_decode('   UAGRM  ' . $titulacion->lineas_academicas)), 0, 'L', 'N', $hmax / 2);
-        $this->fpdf->SetXY($x, $y + $hcmax + $hmax / 2);
-        $this->row(array(utf8_decode('Escuela de Ingenieria      ' . $carta->otro)), 0, 'L', 'N', $hmax / 2);
+        $this->row(array(utf8_decode($programa->tipo . "                  " . $programa->nombre)), 0, 'L', 'N', $hmax, 'Presidente     ' . $nombrePresidente);
 
         $x = $x + $tamano * 2 / 12;
         $this->widths = array($tamano * 2 / 12);
         $this->fpdf->SetXY($x, $y);
-        $this->row(array(utf8_decode('Ejes temáticos')), 0, 'C', 'N', $hcmax);
+        $this->row(array(utf8_decode('Fecha')), 0, 'C', 'N', $hcmax);
         $this->fpdf->SetXY($x, $y + $hcmax);
-        $this->row(array(utf8_decode($titulacion->eje_tematico)), 0, 'L', 'N', $hmax);
+        $this->row(array(utf8_decode("                                              ")), 0, 'C', 'N', $hmax, $fecha);
 
         $x = $x + $tamano * 2 / 12;
         $this->widths = array($tamano * 2 / 12);
         $this->fpdf->SetXY($x, $y);
-        $this->row(array(utf8_decode('Trabajo final de grado')), 0, 'C', 'N', $hcmax);
+        $this->row(array(utf8_decode('Hora')), 0, 'C', 'N', $hcmax);
         $this->fpdf->SetXY($x, $y + $hcmax);
-        $this->row(array(utf8_decode($titulacion->tesis)), 0, 'L', 'N', $hmax);
+        $this->row(array(utf8_decode("                                              ")), 0, 'C', 'N', $hmax, $hora);
 
         $x = $x + $tamano * 2 / 12;
-        $this->widths = array($tamano * 7 / 12);
+        $this->widths = array($tamano * 4 / 12);
         $this->fpdf->SetXY($x, $y);
-        $this->row(array(utf8_decode('Aportes que genera el TFG')), 0, 'C', 'N', $hcmax);
+        $this->row(array(utf8_decode('Lugar')), 0, 'C', 'N', $hcmax);
         $this->fpdf->SetXY($x, $y + $hcmax);
-        $this->row(array(utf8_decode($titulacion->aporte)), 0, 'L', 'N', $hmax);
+        $this->row(array(utf8_decode('Salón de actos de la Escuela de Ingeniería, ubicado en la Av. Busch entre (2º anillo y 3º anillo) esq. Raúl Bascopé, aula Nº 8 planta baja.                                 Ref.: 76661857')), 0, 'L', 'N', $hmax);
 
         $this->fpdf->Ln(8);
         $this->WriteText("Agradeciendo su atención, la saludo con las consideraciones más distinguidas.");
@@ -222,7 +210,7 @@ class Informe_Lineas_Investigacion extends Fpdf
         // return $h = 5 * $nb + 2;
         return $this->NbLines($this->widths[0], $data) * 5 + 2;
     }
-    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N", $h)
+    function Row($data, $pintado = 0, $alling = 'C', $negrita = "N", $h, $txt = '', $cartas = [])
     {
         $w = $this->widths[0];
         $a = isset($this->aligns[0]) ? $this->aligns[0] : $alling;
@@ -234,19 +222,33 @@ class Informe_Lineas_Investigacion extends Fpdf
             $this->fpdf->Rect($x - 1, $y, $w + 1, $h, 'DF');
             $this->fpdf->SetXY($x, $y + 1);
             // celeste clarito
-            $this->fpdf->SetFont('Arial', 'B', 11);
+            $this->fpdf->SetFont('Arial', 'B', 10);
         } else {
             $this->fpdf->Rect($x, $y, $w, $h);
             $this->fpdf->SetXY($x, $y + 1);
-            $this->fpdf->SetFont('Arial', '', 11);
+            $this->fpdf->SetFont('Arial', '', 10);
             if ($negrita === "S") {
-                $this->fpdf->SetFont('Arial', 'B', 11);
+                $this->fpdf->SetFont('Arial', 'B', 10);
             }
             if ($negrita === "SI") {
-                $this->fpdf->SetFont('Arial', 'BI', 11);
+                $this->fpdf->SetFont('Arial', 'BI', 10);
             }
         }
-        $this->fpdf->MultiCell($w, $this->space, $data[0], 0, $a, $pintado);
+        if ($data[0] == ' ') {
+            $this->fpdf->SetXY($x, $y);
+            foreach ($cartas as $key => $carta) {
+                $jurado = Tribunal::where('carta_titulacion_id', $carta->id)->first();
+                $this->fpdf->MultiCell($w, $this->space, $jurado->nombre, 0, $a, $pintado);
+                $this->fpdf->SetXY($x, $this->fpdf->GetY() + 0.1);
+            }
+        } else
+            $this->fpdf->MultiCell($w, $this->space, $data[0], 0, $a, $pintado);
+
+        if ($txt != '') {
+            $this->fpdf->SetXY($x, $y + $this->height($data[0]) + 15);
+            $this->fpdf->MultiCell($w, $this->space, $txt, 0, $a, $pintado);
+        }
+
         $this->fpdf->SetXY($x + $w, $y);
         $this->fpdf->SetTextColor(0, 0, 0);
         $this->fpdf->Ln($h);
