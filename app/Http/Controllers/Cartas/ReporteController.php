@@ -22,9 +22,14 @@ use App\Http\Controllers\Cartas\Titulacion\Informe_Cumplimiento_Requisitos2;
 use App\Http\Controllers\Cartas\Titulacion\Cac_Informe_Cumplimiento_Requisitos2;
 use App\Http\Controllers\Cartas\Titulacion\Cac_Tribunal;
 use App\Http\Controllers\Cartas\Titulacion\Cd_Tribunal;
-use App\Http\Controllers\Cartas\Titulacion\Pre_Defensa;;
-
-use App\Http\Controllers\Cartas\Titulacion\Empastado;;
+use App\Http\Controllers\Cartas\Titulacion\Pre_Defensa;
+use App\Http\Controllers\Cartas\Titulacion\Informe_Acreditacion_DT;
+use App\Http\Controllers\Cartas\Titulacion\Informe_Originalidad;
+use App\Http\Controllers\Cartas\Titulacion\Solicitud_Homologacion;
+use App\Http\Controllers\Cartas\Titulacion\Invitacion_Tribunal;
+use App\Http\Controllers\Cartas\Titulacion\Elaboracion_Borrador_Tesis;
+use App\Http\Controllers\Cartas\Titulacion\Empastado;
+use App\Http\Controllers\Cartas\Titulacion\Solicitud_Fecha_Defensa;
 
 use App\Http\Controllers\Cartas\Titulacion\Informe_Lineas_Investigacion;
 
@@ -48,18 +53,36 @@ class ReporteController extends Controller
     // Titulacion
     private $ICR = 10;
     private $DDTG = 11;
-    private $Cac_Dt = 12;
+    private $CAC_DT = 12;
+    private $CAC_ICR = 13;
+    private $CDDT = 14;
+    private $ITR = 15;
+    private $IADT = 16;
+    private $IDO = 17;
+    private $SHRCDO = 18;
+    private $EBT = 19;
+    private $ICR2 = 20;
+    private $CAC_ICR2 = 21;
+    private $CAC_TRB = 22;
+    private $CD_TB = 23;
+    private $IO = 24;
+    private $SH = 25;
+
+    private $PD = 27;
+    private $EP = 28;
+
+    private $SFD = 30;
 
     // private $DDTG = 'Designación de director de trabajo de grado';
     private $CACA = 'CAC tutor';
     // private $ICR = 'Informe de cumplimiento de requisitos';
     private $CDP = 'Consejo directivo de postgrado';
-    private $ICR2 = 'Informe de cumplimiento de requisitos 2';
+    // private $ICR2 = 'Informe de cumplimiento de requisitos 2';
     private $CACICR2 = 'CAC Informe de cumplimiento de requisitos 2';
     private $CACT = 'CAC tribunal';
     private $CDT = 'CD tribunal';
-    private $PD = 'Predefensa';
-    private $EM = 'Empastado';
+    // private $PD = 'Predefensa';
+    // private $EM = 'Empastado';
     private $ILI = 'Informe de lineas de investigación';
 
 
@@ -107,36 +130,57 @@ class ReporteController extends Controller
             case $this->DDTG:
                 $this->Designacion_Director_Trabajo_Grado([$id, $idCarta]); //
                 break;
-            case $this->Cac_Dt:
+            case $this->CAC_DT:
                 $this->Comite_Academico_Cientifico([$id, $idCarta]); //
                 break;
-                // case $this->ICR:
-                //     $this->Informe_Cumplimiento_Requisitos([$id, $idCarta]);
-                //     break;
-                // case $this->CDP:
-                //     $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
-                //     break;
-                // case $this->ICR2:
-                //     $this->Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
-                //     break;
-                // case $this->CACICR2:
-                //     $this->Cac_Informe_Cumplimiento_Requisitos2([$id, $idCarta]); //
-                //     break;
-                // case $this->CACT:
-                //     $this->Cac_Tribunal([$id, $idCarta]); //
-                //     break;
-                // case $this->CDT:
-                //     $this->Cd_Tribunal([$id, $idCarta]); //
-                //     break;
-                // case $this->PD:
-                //     $this->Pre_Defensa([$id, $idCarta]);
-                //     break;
-                // case $this->EM:
-                //     $this->Empastado([$id, $idCarta]);
-                //     break;
-                // case $this->ILI:
-                //     $this->Informe_Lineas_Investigacion([$id, $idCarta]);
-                //     break;
+            case $this->CAC_ICR:
+                $this->Cac_Informe_Cumplimiento_Requisitos([$id, $idCarta]); //
+                break;
+            case $this->CDDT:
+                $this->Consejo_Directivo_Postgrado([$id, $idCarta]);
+                break;
+            case $this->ITR:
+                $this->Invitacion_Tribunal([$id, $idCarta, $tipo]);
+                break;
+            case $this->IADT:
+                $this->Informe_Acreditacion_DT([$id, $idCarta]);
+                break;
+            case $this->IDO:
+                $this->Informe_Originalidad([$id, $idCarta]);
+                break;
+            case $this->SHRCDO:
+                $this->Solicitud_Homologacion([$id, $idCarta]);
+                break;
+            case $this->EBT:
+                $this->Elaboracion_Borrador_Tesis([$id, $idCarta]);
+                break;
+            case $this->ICR2:
+                $this->Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
+                break;
+            case $this->CAC_ICR2:
+                $this->Cac_Informe_Cumplimiento_Requisitos2([$id, $idCarta]);
+                break;
+            case $this->CAC_TRB:
+                $this->Cac_Tribunal([$id, $idCarta]);
+                break;
+            case $this->CD_TB:
+                $this->Cd_Tribunal([$id, $idCarta]);
+                break;
+            case $this->IO:
+                $this->Informe_Originalidad([$id, $idCarta]);
+                break;
+            case $this->SH:
+                $this->Solicitud_Homologacion([$id, $idCarta]);
+                break;
+            case $this->PD:
+                $this->Pre_Defensa([$id, $idCarta]);
+                break;
+            case $this->EP:
+                $this->Empastado([$id, $idCarta]);
+                break;
+            case $this->SFD:
+                $this->Solicitud_Fecha_Defensa([$id, $idCarta]);
+                break;
             default:
                 return 'No se encontro el tipo de carta';
                 break;
@@ -269,5 +313,41 @@ class ReporteController extends Controller
     {
         $ili = new Informe_Lineas_Investigacion($data);
         return $ili->informe($data);
+    }
+
+    public function Invitacion_Tribunal($data)
+    {
+        $it = new Invitacion_Tribunal();
+        return $it->informe($data);
+    }
+
+    public function Informe_Acreditacion_DT($data)
+    {
+        $iad = new Informe_Acreditacion_DT($data);
+        return $iad->informe($data);
+    }
+
+    public function Informe_Originalidad($data)
+    {
+        $io = new Informe_Originalidad($data);
+        return $io->informe($data);
+    }
+
+    public function Solicitud_Homologacion($data)
+    {
+        $sh = new Solicitud_Homologacion($data);
+        return $sh->informe($data);
+    }
+
+    public function Elaboracion_Borrador_Tesis($data)
+    {
+        $ebt = new Elaboracion_Borrador_Tesis($data);
+        return $ebt->informe($data);
+    }
+
+    public function Solicitud_Fecha_Defensa($data)
+    {
+        $sfd = new Solicitud_Fecha_Defensa($data);
+        return $sfd->informe($data);
     }
 }

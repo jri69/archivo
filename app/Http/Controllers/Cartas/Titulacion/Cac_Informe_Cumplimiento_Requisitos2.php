@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Cartas\Titulacion;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
+use App\Models\CartaTitulacion;
 use App\Models\Docente;
+use App\Models\Estudiante;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
+use App\Models\Titulacion;
+use App\Models\TitulacionDirectivo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
@@ -28,7 +32,7 @@ class Cac_Informe_Cumplimiento_Requisitos2 extends Fpdf
 
     private function fechaLiteral($fecha)
     {
-        $fecha = explode('/', $fecha);
+        $fecha = explode('-', $fecha);
         $meses = [
             '01' => 'Enero',
             '02' => 'Febrero',
@@ -52,58 +56,70 @@ class Cac_Informe_Cumplimiento_Requisitos2 extends Fpdf
         return $formatter->toMoney($number);
     }
 
+    private function tipoPrograma($tipo)
+    {
+        if ($tipo == 'Maestria') {
+            return 'de la maestria en ';
+        }
+        if ($tipo == 'Diplomado') {
+            return 'del diplomado en ';
+        }
+        if ($tipo == 'Cursos') {
+            return 'del curso de ';
+        }
+        if ($tipo == 'Doctorado') {
+            return 'del doctorado en ';
+        }
+        if ($tipo == 'Especialidad') {
+            return 'de la especialidad en';
+        }
+    }
 
     public function informe($data)
     {
-        /*         // obtencion de datos
-        $contrato = $data[0];
-        $idCarta = $data[1];
-        $modulo = Modulo::find($contrato->modulo_id);
-        $docente = Docente::find($modulo->docente_id);
-        $carta = Carta::find($idCarta);
-        $fecha = date('d/m/Y', strtotime($carta->fecha));
-        $fechaLiteral = $this->fechaLiteral($fecha);
-        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $programa = Programa::find($modulo->programa_id);
-        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
-        $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
-        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        // obtener datos
+        $carta = CartaTitulacion::findOrFail($data[1]);
+        $titulacion = Titulacion::findOrFail($data[0]);
+        $programa = Programa::findOrFail($titulacion->programa_id);
+        $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
+        $fechaLiteral = $this->fechaLiteral($carta->fecha);
 
+        // aumentar honorifico a estudiante y sexo
+        $sexo = $estudiante->sexo == 'F' ? 'de la' : 'del';
+        $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
+        $nombre_estudiante2 = $sexo . ' ' . $estudiante->honorifico . ' ' . $estudiante->nombre . '';
+        $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
+
+        $fecha = explode('-', $titulacion->fecha_ini);
+        $fecha_ini = $fecha[2] . '/' . $fecha[1] . '/' . $fecha[0];
+        $fecha = explode('-', $titulacion->fecha_fin);
+        $fecha_fin = $fecha[2] . '/' . $fecha[1] . '/' . $fecha[0];
+
+        // obtener directivos
+        $directivos = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->get();
         $director = '';
-        $asesor = '';
-        $responsable = '';
+        $coordinador = '';
+        $investigacion = '';
+
         foreach ($directivos as $directivo) {
             if ($directivo->directivo->cargo == 'Director') {
-                $director = $directivo->directivo;
+                $director = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
             }
-            if ($directivo->directivo->cargo == 'Asesor Legal') {
-                $asesor = $directivo->directivo;
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
             }
-            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
-                $responsable = $directivo->directivo;
+            if ($directivo->directivo->cargo == 'Coordinador de investigación') {
+                $investigacion = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
             }
         }
-
-        // validaciones
-        $director ? $director = $director->honorifico . " " . $director->nombre . " " . $director->apellido . " - " . $director->cargo . ' ' . $director->institucion : $director = '';
-
-        $asesor ? $asesor = $asesor->honorifico . " " . $asesor->nombre . " " . $asesor->apellido . " - " . $asesor->cargo . ' ' . $asesor->institucion : $asesor = '';
-
-        $responsable ? $responsable = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo : $responsable = '';
-
-        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
-
-        // convertir texto a mayuscula
-        $name_docente = mb_strtoupper($name_docente, 'UTF-8');
-         */
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº 0651/2022"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 9);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº " . $carta->codigo_admi), 0, 'L', 0);
         $this->fpdf->Ln(5);
 
         $this->fpdf->SetFont('Arial', 'B', 9);
@@ -113,11 +129,11 @@ class Cac_Informe_Cumplimiento_Requisitos2 extends Fpdf
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que el  Oficio  de  Coordinación de Investigación Nº 0583/2022, informa el cumplimiento de requisitos del Ing. Noel Jesús Medina Yucra, quien ha aprobado todos los módulos y concluido la elaboración del trabajo de grado “Volúmenes de residuos sólidos según proveniencia” correspondiente a la maestría en “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1º Versión-3º Edición), que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado los tres ejemplares que se disponen en el Reglamento General del Sistema de Postgrado.",
-            'second' => "Que el Director de trabajo final de grado la M. Sc. Ing. Alexandra Guerrero Ramirez ha emitido su informe de aprobación del trabajo final de grado “Volúmenes de residuos sólidos según proveniencia”, incluyendo las líneas de investigación que son: “Gestión ambiental”; el informe del Director de trabajo final de grado cumple con el artículo 98º.",
-            'third' => "Que el Ing. Noel Jesús Medina Yucra, concluyó su último módulo en fecha del 31 de mayo del 2015; realizó los cursos de actualización el 17 de julio del 2018; está sujeto al CONSUPO 004/2021 en el Art. 10º y CONSUPO 005/2022.",
+            'first' => "Que el  Oficio  de  Coordinación de Investigación Nº " . $carta->codigo1 . ", informa el cumplimiento de requisitos " . $nombre_estudiante . ", quien ha aprobado todos los módulos y concluido la elaboración del trabajo de grado <" . $titulacion->tesis . ">, Plan " . $programa->codigo . ", que se cursó en la Escuela de Ingeniería de la Facultad de Tecnología, habiendo presentado los tres ejemplares que se disponen en el Reglamento General del Sistema de Postgrado.",
+            'second' => "Que el Director de trabajo final de grado el <" . $titulacion->director . "> ha emitido su informe de aprobación del trabajo final de grado <" . $titulacion->tesis . ">, incluyendo las líneas de investigación que son: <" . $titulacion->lineas_academicas . ">; el informe del Director de trabajo final de grado cumple con el artículo 98º.",
+            'third' => "Que " . $nombre_estudiante . ", cursó su maestría entre el " . $fecha_ini . " al " . $fecha_fin . "; cumple con el " . $carta->articulo . " del Reglamento General de Postgrado.",
             'four' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'five' => "Art. 1º Aprobar el informe de cumplimiento de requisitos N° 0583/2022 del Ing. Noel Jesús Medina Yucra de la maestría “Sistemas integrados de gestión de seguridad, medio ambiente y calidad” (1º Versión-3º Edición), con el trabajo de grado “Volúmenes de residuos sólidos según proveniencia”, emitido por el Coordinador de Investigación de la Escuela de Ingeniería.",
+            'five' => "Art. 1º Aprobar el informe de cumplimiento de requisitos N° " . $carta->codigo2 . " " . $nombre_estudiante . " " . $nombre_programa . ", Plan " . $programa->codigo . ", con el trabajo de grado <" . $titulacion->tesis . ">, emitido por el Coordinador de Investigación de la Escuela de Ingeniería.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
@@ -145,25 +161,27 @@ class Cac_Informe_Cumplimiento_Requisitos2 extends Fpdf
         $this->fpdf->Ln(8);
 
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, 09 de septiembre del 2022"), 0, 'C', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, " . $fechaLiteral), 0, 'C', 0);
         $this->fpdf->Ln(12);
-
         // 3 espacios para 3 firmas
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('M. Sc. Ing. Erick Rojas Balcazar'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width, $this->space, utf8_decode($director), 0, 0, 'C');
+        $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
         $this->fpdf->Ln(15);
+        $this->fpdf->SetFont('Arial', '', 10);
 
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
         $this->fpdf->Ln(5);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Daniel Tejerina Claudio'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('M. Sc. Ing. Fernando Miguel Navarro Canaviri'), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode($coordinador), 0, 0, 'C');
+        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode($investigacion), 0, 0, 'C');
+        $this->fpdf->SetFont('Arial', 'B', 10);
         $this->fpdf->Ln(4);
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR ACADÉMICO'), 0, 0, 'C');
         $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR DE INVESTIGACIÓN'), 0, 0, 'C');

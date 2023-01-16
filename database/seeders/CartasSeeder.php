@@ -60,6 +60,7 @@ class CartasSeeder extends Seeder
             'cargo' => 'Director',
             'institucion' => 'Escuela de Ingeniería - F.C.E.T.',
             'activo' => true,
+            'sexo' => 'M'
         ]);
         Directivo::create([
             'nombre' => 'Daniel',
@@ -68,6 +69,7 @@ class CartasSeeder extends Seeder
             'cargo' => 'Coordinador Académico',
             'institucion' => 'Escuela de Ingeniería - UAGRM',
             'activo' => true,
+            'sexo' => 'M'
         ]);
         Directivo::create([
             'nombre' => 'Rene',
@@ -76,6 +78,7 @@ class CartasSeeder extends Seeder
             'cargo' => 'Asesor Legal',
             'institucion' => 'F.C.E.T. - UAGRM',
             'activo' => true,
+            'sexo' => 'M'
         ]);
         Directivo::create([
             'nombre' => 'Ruben',
@@ -84,6 +87,7 @@ class CartasSeeder extends Seeder
             'cargo' => 'Responsable del proceso de contratación',
             'institucion' => 'JAF',
             'activo' => true,
+            'sexo' => 'M'
         ]);
         Directivo::create([
             'nombre' => 'Orlando',
@@ -92,6 +96,7 @@ class CartasSeeder extends Seeder
             'cargo' => 'Decano',
             'institucion' => 'F.C.E.T.',
             'activo' => true,
+            'sexo' => 'M'
         ]);
         Directivo::create([
             'nombre' => 'Ruben',
@@ -100,6 +105,7 @@ class CartasSeeder extends Seeder
             'cargo' => 'Jefe ADM. y Financiero',
             'institucion' => 'F.C.E.T.',
             'activo' => true,
+            'sexo' => 'M'
         ]);
         Directivo::create([
             'nombre' => 'Fernando Miguel',
@@ -108,6 +114,25 @@ class CartasSeeder extends Seeder
             'cargo' => 'Coordinador de investigación',
             'institucion' => 'Escuela de Ingeniería - F.C.E.T.',
             'activo' => true,
+            'sexo' => 'M'
+        ]);
+        Directivo::create([
+            'nombre' => 'Orlando',
+            'apellido' => 'Pedraza Merida',
+            'honorifico' => 'Ph. D.',
+            'cargo' => 'Presidente',
+            'institucion' => 'Consejo directivo de postgrado',
+            'activo' => true,
+            'sexo' => 'M'
+        ]);
+        Directivo::create([
+            'nombre' => 'Marbel R',
+            'apellido' => 'Galeán Barriga',
+            'honorifico' => 'Ph. D.',
+            'cargo' => 'Directora general de postgrado',
+            'institucion' => 'UAGRM',
+            'activo' => true,
+            'sexo' => 'F'
         ]);
 
         // Titulacion

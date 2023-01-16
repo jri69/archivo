@@ -95,42 +95,40 @@
                                         @endif
                                     </div>
                                 </div>
-
+                                <br>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Activo</label>
-                                            <div class="form-check form-check-radio col-md-2">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="activo"
-                                                        id="exampleRadios1" value="true" checked>
-                                                    Si
-                                                    <span class="circle">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-radio col-md-2">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="activo"
-                                                        id="exampleRadios2" value="false">
-                                                    No
-                                                    <span class="circle">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
+                                        <label for="nombre" class=""> Sexo: </label>
+                                        <div class="">
+                                            <input type="radio" name="sexo" value="M" checked>
+                                            <span>Masculino</span>
+                                            <input type="radio" name="sexo" value="F" style='margin-left: 20px'>
+                                            <span>Femenino</span>
                                         </div>
-                                        @if ($errors->has('activo'))
-                                            <span class="error text-danger"
-                                                for="input-activo">{{ $errors->first('activo') }}</span>
-                                        @endif
+                                        <div class="">
+                                            @if ($errors->has('sexo'))
+                                                <span class="error text-danger"
+                                                    for="input-sexo">{{ $errors->first('sexo') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
-
+                                        <label for="nombre" class="col-sm-7"> Activo: </label>
+                                        <div class="col-sm-7">
+                                            <input type="radio" name="activo" value="true" checked>
+                                            <span>Si</span>
+                                            <input type="radio" name="activo" value="false" style='margin-left: 20px'>
+                                            <span>No</span>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            @if ($errors->has('activo'))
+                                                <span class="error text-danger"
+                                                    for="input-activo">{{ $errors->first('activo') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                                <br>
+
                             </div>
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">

@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Cartas\Titulacion;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
+use App\Models\CartaTitulacion;
 use App\Models\Docente;
+use App\Models\Estudiante;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
+use App\Models\Titulacion;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
@@ -28,7 +31,7 @@ class Pre_Defensa extends Fpdf
 
     private function fechaLiteral($fecha)
     {
-        $fecha = explode('/', $fecha);
+        $fecha = explode('-', $fecha);
         $meses = [
             '01' => 'Enero',
             '02' => 'Febrero',
@@ -43,7 +46,7 @@ class Pre_Defensa extends Fpdf
             '11' => 'Noviembre',
             '12' => 'Diciembre',
         ];
-        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+        return $fecha[2] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[0];
     }
 
     private function numeroAliteral($number)
@@ -52,86 +55,75 @@ class Pre_Defensa extends Fpdf
         return $formatter->toMoney($number);
     }
 
+    private function tipoPrograma($tipo)
+    {
+        if ($tipo == 'Maestria') {
+            return 'de la maestría';
+        }
+        if ($tipo == 'Diplomado') {
+            return 'del diplomado';
+        }
+        if ($tipo == 'Cursos') {
+            return 'del curso';
+        }
+        if ($tipo == 'Doctorado') {
+            return 'del doctorado';
+        }
+        if ($tipo == 'Especialidad') {
+            return 'de la especialidad';
+        }
+    }
 
     public function informe($data)
     {
-        /*         // obtencion de datos
-        $contrato = $data[0];
-        $idCarta = $data[1];
-        $modulo = Modulo::find($contrato->modulo_id);
-        $docente = Docente::find($modulo->docente_id);
-        $carta = Carta::find($idCarta);
-        $fecha = date('d/m/Y', strtotime($carta->fecha));
-        $fechaLiteral = $this->fechaLiteral($fecha);
-        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
-        $programa = Programa::find($modulo->programa_id);
-        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
-        $honorarioLiteral = $this->numeroAliteral($contrato->honorario);
-        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        // obtener datos
+        $carta = CartaTitulacion::findOrFail($data[1]);
+        $titulacion = Titulacion::findOrFail($data[0]);
+        $programa = Programa::findOrFail($titulacion->programa_id);
+        $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
+        $fechaLiteral = $this->fechaLiteral($carta->fecha);
 
-        $director = '';
-        $asesor = '';
-        $responsable = '';
-        foreach ($directivos as $directivo) {
-            if ($directivo->directivo->cargo == 'Director') {
-                $director = $directivo->directivo;
-            }
-            if ($directivo->directivo->cargo == 'Asesor Legal') {
-                $asesor = $directivo->directivo;
-            }
-            if ($directivo->directivo->cargo == 'Responsable del proceso de contratación') {
-                $responsable = $directivo->directivo;
-            }
-        }
-
-        // validaciones
-        $director ? $director = $director->honorifico . " " . $director->nombre . " " . $director->apellido . " - " . $director->cargo . ' ' . $director->institucion : $director = '';
-
-        $asesor ? $asesor = $asesor->honorifico . " " . $asesor->nombre . " " . $asesor->apellido . " - " . $asesor->cargo . ' ' . $asesor->institucion : $asesor = '';
-
-        $responsable ? $responsable = $responsable->honorifico . " " . $responsable->nombre . " " . $responsable->apellido . " - " . $responsable->cargo : $responsable = '';
-
-        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
-
-        // convertir texto a mayuscula
-        $name_docente = mb_strtoupper($name_docente, 'UTF-8');
-         */
+        // poner am o pm a la hora
+        $hora = explode(':', $titulacion->hora_defensa);
+        $hora = $hora[0] . ':' . $hora[1] . ' ' . ($hora[0] > 12 ? 'pm' : 'am');
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
         $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, 15 de diciembre del 2022"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº 0582/2022"), 0, 'L', 0);
-        $this->fpdf->Ln(8);
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº " . $carta->codigo_admi), 0, 'L', 0);
+        $this->fpdf->Ln(10);
 
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Señor:"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ing. Rodolfo Francisco Toledo Escalante"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($estudiante->sexo == 'M' ? "Señor:" : "Señora:"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($estudiante->honorifico . ' ' . $estudiante->nombre), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente.-"), 0, 'L', 0);
 
-        $this->fpdf->Ln(4);
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  acto de pre-defensa de tesis"), 0, 'C', 0);
-        $this->fpdf->Ln(4);
+        $this->fpdf->Ln(8);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  Acto de pre-defensa de tesis"), 0, 'C', 0);
+        $this->fpdf->Ln(8);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Me dirijo a su persona, para expresarle mis cordiales y fraternos saludos, para confirmarle el acto de pre-defensa del Trabajo Final de su tesis de maestría titulado “Pautas sociales en la gestión  de residuos sólidos en ciudades universitarias”, de la maestría en Sistemas integrados de gestión de la calidad, medio ambiente y seguridad. La predefensa se llevará a cabo el día viernes 09 de diciembre del presente año a las 08:30 a.m. horas, mediante plataforma Zoom.  Se solicita su puntual asistencia.",
+            'first' => "Me dirijo a su persona, para expresarle mis cordiales y fraternos saludos, para confirmarle el acto de pre-defensa del Trabajo Final de su tesis " . $this->tipoPrograma($programa->tipo) . " titulado <" . $titulacion->tesis . ">, " . $this->tipoPrograma($programa->tipo) . " en <" . $programa->nombre . ">. La predefensa se llevará a cabo el día <" . $titulacion->dia_defensa . "> del presente año a las <" . $hora . ">. horas, mediante plataforma Zoom.  Se solicita su puntual asistencia.",
         ];
         $this->fpdf->SetFont('Arial', '', 10);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi consideración:"), 0, 'L', 0);
-        $this->fpdf->Ln(2);
+        $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(6);
+        $this->fpdf->Ln(8);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Atentamente,"), 0, 'L', 0);
 
         // pie de pagina
-        $this->fpdf->Ln(130);
+        $this->fpdf->Ln(110);
         $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Arch."), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Pre_Defensa.pdf");
     }

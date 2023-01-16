@@ -73,13 +73,18 @@
                                                 </td>
                                                 <td class="td-actions">
                                                     {{-- @if ((!$tipo['carta'] && $tipos_cartas[0]['carta']) || ($tipos_cartas[0] == $tipo && !$tipo['carta'])) --}}
-                                                    @if (!$carta['carta'])
+                                                    @if (!$carta['carta'] && $carta['tipo']->id != 15)
                                                         <a href="{{ route('estudiante.cartaCreate', [$estudiante->id, $titulacion->id, $carta['tipo']->id]) }}"
                                                             class="btn btn-success">
                                                             <span class="material-icons">save</span>
                                                         </a>
                                                     @endif
-                                                    {{-- @if ($tipo['carta']) --}}
+                                                    @if ($carta['tipo']->id == 15)
+                                                        <a href="{{ route('estudiante.cartaCreate', [$estudiante->id, $titulacion->id, $carta['tipo']->id]) }}"
+                                                            class="btn btn-primary">
+                                                            <span class="material-icons">add</span>
+                                                        </a>
+                                                    @endif
                                                     @if ($carta['carta'])
                                                         <a href="{{ route('carta.pdf', [$titulacion->id, $carta['tipo']->id, $carta['carta']->id]) }}"
                                                             class="btn btn-primary" target="_blank">

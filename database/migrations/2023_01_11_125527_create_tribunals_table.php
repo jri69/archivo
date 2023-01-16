@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('tribunals', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->nullable();
-            $table->unsignedBigInteger('titucacion_id');
-            $table->foreign('titucacion_id')->references('id')->on('titulacions')->onDelete('cascade');
+            $table->string('sexo')->nullable();
+            $table->unsignedBigInteger('carta_titulacion_id');
+            $table->foreign('carta_titulacion_id')->references('id')->on('carta_titulacions')->onDelete('cascade');
             $table->timestamps();
         });
     }

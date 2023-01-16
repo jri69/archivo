@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers\Cartas\Titulacion;
 
-use App\Models\Carta;
-use App\Models\CartaDirectivo;
-use App\Models\CartaTitulacion;
-use App\Models\Docente;
+use App\Http\Controllers\CartaTitulacion;
+use App\Models\CartaTitulacion as ModelsCartaTitulacion;
+use App\Models\Directivo;
 use App\Models\Estudiante;
-use App\Models\Modulo;
 use App\Models\Programa;
-use App\Models\ProgramaModulo;
 use App\Models\Titulacion;
 use App\Models\TitulacionDirectivo;
-use App\Models\Tribunal;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Luecano\NumeroALetras\NumeroALetras;
 
-class Cac_Tribunal extends Fpdf
+class Informe_Originalidad extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -48,7 +44,7 @@ class Cac_Tribunal extends Fpdf
             '11' => 'Noviembre',
             '12' => 'Diciembre',
         ];
-        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
+        return $fecha[2] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[0];
     }
 
     private function numeroAliteral($number)
@@ -60,152 +56,174 @@ class Cac_Tribunal extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'de la maestria en ';
+            return 'de maestria en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'del diplomado en ';
+            return 'de diplomado en ';
         }
         if ($tipo == 'Cursos') {
-            return 'del curso de ';
+            return 'de curso de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'del doctorado en ';
+            return 'de doctorado en ';
         }
         if ($tipo == 'Especialidad') {
-            return 'de la especialidad en';
+            return 'de especialidad en';
         }
     }
 
     public function informe($data)
     {
         // obtener datos
-        $carta = CartaTitulacion::findOrFail($data[1]);
+        $carta = ModelsCartaTitulacion::findOrFail($data[1]);
         $titulacion = Titulacion::findOrFail($data[0]);
         $programa = Programa::findOrFail($titulacion->programa_id);
         $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
         $fechaLiteral = $this->fechaLiteral($carta->fecha);
-        $jurados = Tribunal::where('carta_titulacion_id', $carta->id)->get();
 
         // aumentar honorifico a estudiante y sexo
-        $sexo = $estudiante->sexo == 'F' ? 'de la' : 'del';
+        $sexo = $estudiante->sexo == 'M' ? 'el' : 'la';
         $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
-        $nombre_estudiante2 = $sexo . ' ' . $estudiante->honorifico . ' ' . $estudiante->nombre . '';
         $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
+        $presentacion = '';
 
-        $fecha = explode('-', $titulacion->fecha_ini);
-        $fecha_ini = $fecha[2] . '/' . $fecha[1] . '/' . $fecha[0];
-        $fecha = explode('-', $titulacion->fecha_fin);
-        $fecha_fin = $fecha[2] . '/' . $fecha[1] . '/' . $fecha[0];
 
-        // obtener directivos
-        $directivos = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->get();
-        $director = '';
-        $coordinador = '';
-        $investigacion = '';
+        // directora
+        $directora = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->first();
+        $directora = Directivo::where('id', $directora->directivo_id)->where('cargo', 'Directora general de postgrado')->first();
+        $directora->sexo == 'M' ? $presentacion = 'Estimado Sr. director' : $presentacion = 'Estimada Sra. directora';
 
-        foreach ($directivos as $directivo) {
-            if ($directivo->directivo->cargo == 'Director') {
-                $director = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
-            }
-            if ($directivo->directivo->cargo == 'Coordinador Académico') {
-                $coordinador = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
-            }
-            if ($directivo->directivo->cargo == 'Coordinador de investigación') {
-                $investigacion = $directivo->directivo->honorifico . ' ' . $directivo->directivo->nombre . " " . $directivo->directivo->apellido;
-            }
-        }
+        // profesiones
+        $profesiones = explode(',', $carta->profesion);
+        $nombre_dra = $directora->honorifico . ' ' . $directora->nombre . ' ' . $directora->apellido;
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
-        $this->fpdf->Ln(15);
+        $this->fpdf->Ln(20);
 
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("RES. COM-AC-C. Nº " . $carta->codigo_admi), 0, 'L', 0);
-        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº " . $carta->codigo_admi), 0, 'L', 0);
+        $this->fpdf->Ln(8);
 
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("COMITÉ ACADÉMICO CIENTÍFICO"), 0, 'C', 0);
-        $this->fpdf->Ln(2);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($directora->sexo == 'M' ? 'Señor:' : 'Señora:'), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($nombre_dra), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DIRECTORA GENERAL DE POSTGRADO"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("U.A.G.R.M"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente"), 0, 'L', 0);
+
+        $this->fpdf->Ln(6);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.: INFORME DE ORIGINALIDAD Y AUTENTICIDAD"), 0, 'C', 0);
+        $this->fpdf->Ln(6);
 
         // CONTENIDO
         $contenido = [
-            'first' => "Que de acuerdo a la Resolución del Comité Académico Científico Nº " . $carta->codigo2 . " da conformidad que " . $nombre_estudiante . ", ha aprobado todos los módulos y concluido la elaboración del Trabajo de Grado <" . $titulacion->tesis . ">; correspondiente " . $nombre_programa . ", Plan " . $programa->codigo . ", que se cursó en la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, habiendo presentado los tres ejemplares que se disponen en el Reglamento General del Sistema de Postgrado.",
-            'second' => "Que el <" . $titulacion->director . ">, nombrado oficialmente Tutor " . $nombre_estudiante . ", ha emitido una opinión favorable acerca del trabajo presentado por el aspirante, en documento cuya copia se adjunta a la presente.",
-            'third' => "Que " . $nombre_estudiante . ", cumple con el <" . $carta->articulo . ">.",
-            'four' => "Que los profesionales abajo mencionados, miembros propuestos para integrar el Tribunal de Defensa del " . $nombre_estudiante . ", ha aprobado todos los módulos y concluido la elaboración del Trabajo de Grado correspondiente a la maestría, reúnen los requisitos establecidos en el Artículo 96 del Reglamento General del Sistema de Postgrado de la U.A.G.R.M.",
-            'five' => "El Comité Académico-Científico de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología, en uso de sus legítimas atribuciones que le confiere el Reglamento General del Sistema de Postgrado con cargo a homologación ante el Consejo Directivo de Postgrado:",
-            'six' => "Art. 1º Proponer la designación de los siguientes profesores para integrar el Tribunal de Defensa " . $nombre_estudiante . ", ha aprobado todos los módulos y concluido la elaboración del Trabajo de Grado <" . $titulacion->tesis . ">, correspondiente " . $nombre_programa . ", Plan " . $programa->codigo . ".",
+            'first' => "Envío a su persona los ANTECEDENTES DEL TRÁMITE del postgraduante <" . $estudiante->honorifico . ' ' . $estudiante->nombre . ">, correspondiente a " . $nombre_programa . ", Plan " . $programa->codigo . ".",
+            'second' => "El " . $carta->documento . " de tesis escrita por " . $nombre_estudiante . ", con el tema de perfil de tesis <" . $titulacion->tesis . ">, de " . $nombre_programa . ", Plan " . $programa->codigo . "."
         ];
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("VISTO Y CONSIDERADO:"), 0, 'L', 0);
-        $this->fpdf->Ln(1);
-        $this->fpdf->SetFont('Arial', '', 9);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($presentacion), 0, 'L', 0);
+        $this->fpdf->Ln(2);
+        $this->fpdf->SetFont('Arial', '', 11);
         $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(6);
+        $this->fpdf->Ln(10);
+
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('1. Hechos y Datos:'), 0, 'L', 0);
+        $this->fpdf->Ln(2);
+        $this->fpdf->SetFont('Arial', '', 11);
         $this->WriteText($contenido['second']);
         $this->fpdf->Ln(6);
-        $this->WriteText($contenido['third']);
+        $this->WriteText('Se utilizó la herramienta Dupli Checker, dando un resultado del ' . $titulacion->originalidad . '% de originalidad.');
+        $this->fpdf->Ln(10);
+
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('2. Información:'), 0, 'L', 0);
+        $this->fpdf->Ln(2);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->WriteText('<Datos del Postgraduante>: ' . $estudiante->nombre);
         $this->fpdf->Ln(6);
-        $this->WriteText($contenido['four']);
-        $this->fpdf->Ln(5);
-
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("POR LO TANTO:");
-        $this->fpdf->Ln(5);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['five']);
-        $this->fpdf->Ln(5);
-
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText("RESUELVE:");
-        $this->fpdf->Ln(5);
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->WriteText($contenido['six']);
+        $this->WriteText('<Datos del Tutor>: ' . $titulacion->director);
         $this->fpdf->Ln(6);
-        foreach ($jurados as $key => $value) {
-            $this->fpdf->SetX($this->vineta);
-            $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode($value->nombre));
-            $this->fpdf->Ln(4);
-        }
-        $this->fpdf->Ln(4);
+        $this->WriteText('<Tema y Datos del Trabajo Final de Grado>: ' . $titulacion->tesis);
+        $this->fpdf->Ln(6);
+        $this->WriteText('<Nombre del Programa>: ' . $programa->nombre . ' Plan ' . $programa->codigo);
+        $this->fpdf->Ln(6);
+        $this->WriteText('<Líneas de Investigación>: ' . $titulacion->lineas_academicas);
+        $this->fpdf->Ln(6);
+        $this->WriteText('<Aportes Científico que genera la investigación:> ');
+        $this->fpdf->Ln(6);
+        $this->WriteText($titulacion->aporte_academico);
+        $this->fpdf->Ln(10);
 
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REGÍSTRESE, COMUNÍQUESE Y ARCHÍVESE"), 0, 'C', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz de la Sierra, " . $fechaLiteral), 0, 'C', 0);
-        $this->fpdf->Ln(8);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('3. Análisis y resultado de la herramienta digital usada para la verificación de Similitud y/o plagio'), 0, 'L', 0);
+        $this->fpdf->Ln(2);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->WriteText('La Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología definió que se aprobará el TFG con un 75% de autenticidad y originalidad y un 25 % de similitud.');
+        $this->fpdf->Ln(10);
 
-        // 3 espacios para 3 firmas
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode($director), 0, 0, 'C');
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('DIRECTOR GENERAL'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Ln(15);
-        $this->fpdf->SetFont('Arial', '', 10);
+        // otra pagina
+        $this->fpdf->AddPage();
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('RESULTADO'), 0, 'L', 0);
+        $this->fpdf->Ln(2);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->WriteText('Nombre de la herramienta digital Utilizada: <Dupli Checker>');
+        $this->fpdf->Ln(6);
+        $this->WriteText("Resultado <" . $titulacion->originalidad . ">% Originalidad y autenticidad y una similitud del <" . $titulacion->similitud . ">%.");
+        $this->fpdf->Ln(10);
 
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'), 0, 0, 'C');
-        $this->fpdf->Ln(5);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode($coordinador), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode($investigacion), 0, 0, 'C');
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR ACADÉMICO'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('COORDINADOR DE INVESTIGACIÓN'), 0, 0, 'C');
-        $this->fpdf->Ln(4);
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
-        $this->fpdf->Cell($this->width / 2, $this->space, utf8_decode('ESCUELA DE INGENIERÍA'), 0, 0, 'C');
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('FIRMA'), 0, 'L', 0);
+        $this->fpdf->Ln(6);
 
-        // pie de pagina
-        $this->fpdf->Ln(8);
+        // dos cuadros seguidos
+        // $this->widths = array($this->width / 2, $this->width / 2);
+        // $this->Row(array(utf8_decode(''), utf8_decode('')), 0, "L", "N");
+        $h = 55;
+        $w = $this->width / 2;
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->Rect($x, $y, $w, $h);
+        $this->fpdf->SetXY($x, $y + 1);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($w, $this->space, utf8_decode('Coordinador de Investigación Escuela de Ingeniería '), 0, 'C', 0);
+        $this->fpdf->SetXY($x, $y + 20);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($w, $this->space, utf8_decode('Firma '), 0, 'L', 0);
+        $this->fpdf->SetXY($x, $y + 35);
+        $this->fpdf->MultiCell($w, $this->space, utf8_decode('Nombre Completo  '), 0, 'L', 0);
+        //Put the position to the right of the cell
+        $this->fpdf->SetXY($x + $w, $y);
+
+        $x = $this->fpdf->GetX();
+        $y = $this->fpdf->GetY();
+        $this->fpdf->Rect($x, $y, $w, $h);
+        $this->fpdf->SetXY($x, $y + 1);
+        $this->fpdf->SetFont('Arial', 'B', 11);
+        $this->fpdf->MultiCell($w, $this->space, utf8_decode('Director Escuela de Ingeniería'), 0, 'C', 0);
+        $this->fpdf->SetXY($x, $y + 20);
+        $this->fpdf->SetFont('Arial', '', 11);
+        $this->fpdf->MultiCell($w, $this->space, utf8_decode('Firma '), 0, 'L', 0);
+        $this->fpdf->SetXY($x, $y + 35);
+        $this->fpdf->MultiCell($w, $this->space, utf8_decode('Nombre Completo  '), 0, 'L', 0);
+        //Put the position to the right of the cell
+        $this->fpdf->SetXY($x + $w, $y);
+
+        $this->fpdf->Ln(150);
         $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc./Archivo."), 0, 'L', 0);
         // FONT BOLD
-        $this->fpdf->Output("I", "Cac_Tribunal.pdf");
+
+
+        $this->fpdf->Output("I", "Informe_Acreditacion_DT.pdf");
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
@@ -246,20 +264,20 @@ class Cac_Tribunal extends Fpdf
                 $this->fpdf->Rect($x - 1, $y, $w + 1, $h, 'DF');
                 $this->fpdf->SetXY($x, $y + 1);
                 // celeste clarito
-                $this->fpdf->SetFont('Arial', 'B', 10);
+                $this->fpdf->SetFont('Arial', 'B', 11);
             } else {
 
                 $this->fpdf->Rect($x, $y, $w, $h);
                 $this->fpdf->SetXY($x, $y + 1);
-                $this->fpdf->SetFont('Arial', '', 10);
+                $this->fpdf->SetFont('Arial', '', 11);
                 if ($i == 0) {
                     $a = 'L';
                 }
                 if ($negrita === "S") {
-                    $this->fpdf->SetFont('Arial', 'B', 10);
+                    $this->fpdf->SetFont('Arial', 'B', 11);
                 }
                 if ($negrita === "SI") {
-                    $this->fpdf->SetFont('Arial', 'BI', 10);
+                    $this->fpdf->SetFont('Arial', 'BI', 11);
                 }
             }
             $this->fpdf->MultiCell($w, $this->space, $data[$i], 0, $a, $pintado);
@@ -285,7 +303,7 @@ class Cac_Tribunal extends Fpdf
         $cw = &$this->fpdf->CurrentFont['cw'];
         if ($w == 0)
             $w = $this->fpdf->w - $this->fpdf->rMargin - $this->fpdf->x;
-        $wmax = ($w - 2 * $this->fpdf->cMargin) * 1000 / $this->fpdf->FontSize;
+        $wmax = ($w - 2 * $this->fpdf->cMargin) * 1100 / $this->fpdf->FontSize;
         $s = str_replace("\r", '', $txt);
         $nb = strlen($s);
         if ($nb > 0 and $s[$nb - 1] == "\n")
