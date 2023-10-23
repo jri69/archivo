@@ -36,11 +36,12 @@ class ProgramaController extends Controller
         $modulos = Modulo::where('programa_id', $programa->id)->orderBy('created_at', 'asc')->get();
         $cant_estudiantes = EstudiantePrograma::where('id_programa', $programa->id)->count();
         $cant_modulos = Modulo::where('programa_id', $programa->id)->count();
+        $programFinished = $programa->fecha_finalizacion > now();
         if ($cant_modulos != $programa->cantidad_modulos) {
             $programa->cantidad_modulos = $cant_modulos;
             $programa->save();
         }
-        return view('programa.show', compact('programa', 'modulos', 'cant_estudiantes'));
+        return view('programa.show', compact('programa', 'modulos', 'cant_estudiantes', 'programFinished'));
     }
 
     // Eliminar un programa
@@ -109,5 +110,14 @@ class ProgramaController extends Controller
         $programa->has_grafica == 'Si' ? $programa->has_grafica = 'No' : $programa->has_grafica = 'Si';
         $programa->save();
         return back()->with('mensaje', 'Grafica habilitada');
+    }
+
+
+    public function editable($id)
+    {
+        $programa = Programa::findOrFail($id);
+        $programa->has_editable == "No" ? $programa->has_editable = "Si" : $programa->has_editable = "No";
+        $programa->save();
+        return back()->with('mensaje', 'Programa habilitado para editar');
     }
 }

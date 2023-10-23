@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('cantidad_modulos');
             $table->string('modalidad');
             $table->string('has_grafica')->default('No')->nullable();
+            $table->string('has_editable')->default('No')->nullable();
             $table->timestamps();
         });
     }

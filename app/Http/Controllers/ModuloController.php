@@ -25,7 +25,9 @@ class ModuloController extends Controller
     public function create()
     {
         $date = date('Y-m-d');
-        $programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
+        $programas = Programa::orWhere('fecha_finalizacion', '>=', $date)
+            ->orWhere('has_editable', 'Si')
+            ->get();
         $docentes = Docente::orderBy('nombre', 'desc')->get();
         return view('modulo.create', compact('programas', 'docentes'));
     }

@@ -21,6 +21,16 @@
                             {{ $programa->has_grafica == 'Si' ? 'Desactivar Grafica' : 'Activar Grafica' }}
                         </span>
                     </a>
+                    @if (!$programFinished)
+                        <a href="{{ route('programa.editable', $programa->id) }}" class="btn btn-sm btn-primary">
+                            <i class="material-icons">
+                                {{ $programa->has_editable == 'Si' ? 'block' : 'check' }}
+                            </i>
+                            <span class="sidebar-normal">
+                                {{ $programa->has_editable == 'Si' ? 'Desactivar Edición' : 'Activar Edición' }}
+                            </span>
+                        </a>
+                    @endif
                     {{-- mensaje de error message --}}
                     @if (session('mensaje'))
                         <div class="alert alert-success" role="alert">

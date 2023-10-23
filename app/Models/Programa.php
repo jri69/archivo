@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Programa extends Model
 {
     use HasFactory;
-    protected $fillable = ['nombre', 'codigo', 'sigla', 'version', 'edicion', 'tipo', 'modalidad', 'hrs_academicas', 'fecha_inicio', 'fecha_finalizacion', 'cantidad_modulos', 'costo', 'has_grafica'];
+    protected $fillable = ['nombre', 'codigo', 'sigla', 'version', 'edicion', 'tipo', 'modalidad', 'hrs_academicas', 'fecha_inicio', 'fecha_finalizacion', 'cantidad_modulos', 'costo', 'has_grafica', 'has_editable'];
 
     public function modulos()
     {

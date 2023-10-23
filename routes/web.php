@@ -218,6 +218,7 @@ Route::group(['prefix' => 'programa', 'middleware' => ['can:programa.index', 'au
     Route::get('/edit/{programa}', [ProgramaController::class, 'edit'])->name('programa.edit');
     Route::get('/show/{programa}', [ProgramaController::class, 'show'])->name('programa.show');
     Route::get('/grafica/{programa}', [ProgramaController::class, 'grafica'])->name('programa.grafica');
+    Route::get('/editable/{programa}', [ProgramaController::class, 'editable'])->name('programa.editable');
     Route::delete('/delete/{programa}', [ProgramaController::class, 'destroy'])->name('programa.delete');
     Route::get('/show/modulo/init/{programa}/{modulo}', [ProgramaController::class, 'init'])->name('programa.init');
     Route::get('/show/modulo/notas/{programa}/{modulo}', [ProgramaController::class, 'notas'])->name('programa.notas');
