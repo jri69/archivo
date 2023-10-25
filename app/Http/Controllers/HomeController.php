@@ -40,7 +40,7 @@ class HomeController extends Controller
         $programas_cursos = Programa::where('fecha_finalizacion', '>=', $now)->get()->count();
         $modulos = Modulo::where('fecha_final', '>=', $now)->get()->count();
         $fecha = now()->addDays(7);
-        $eventos = Evento::where('fecha', '>=', $now)->where('fecha', '<=', $fecha)->where('hora', '>=', now()->format('H:m:s'))->limit(4)->get();
+        $eventos = Evento::where('fecha_inicio', '>=', $now)->where('fecha_final', '<=', $fecha)->where('hora', '>=', now()->format('H:m:s'))->limit(4)->get();
         $cal_docente = DB::table('modulos')
             ->join('docentes', 'modulos.docente_id', 'docentes.id')
             ->select('docentes.honorifico', 'docentes.nombre', 'docentes.apellido', 'docentes.id', DB::raw('avg(cal_docente) as promedio'))

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Evento;
 use App\Models\ProgramaCalendar;
+use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,8 @@ class EventoController extends Controller
     // Interface para crear un administrativo
     public function create()
     {
-        return view('eventos.create');
+        $encargados = Usuario::all();
+        return view('eventos.create', compact('encargados'));
     }
 
     // Guardar un administrativo
@@ -28,20 +31,29 @@ class EventoController extends Controller
             'titulo' => 'required|string',
             'lugar' => 'required|string',
             'encargado' => 'required|string',
-            'fecha' => 'date|required',
+            'fecha_inicio' => 'date|required',
+            'fecha_final' => 'date|required',
             'hora' => 'required',
         ], [
             'titulo.required' => 'El titulo es requerido',
             'lugar.required' => 'El lugar es requerido',
             'encargado.required' => 'El encargado es requerido',
-            'fecha.required' => 'La fecha es requerida',
+            'fecha_inicio.required' => 'La fecha de inicio es requerida',
+            'fecha_final.required' => 'La fecha de finalizacion es requerida',
             'hora.required' => 'La hora es requerida',
         ]);
         $evento = Evento::create($request->all());
+
+        $fechaInicio = new \DateTime($evento->fecha_inicio);
+        $fechaFinal = new \DateTime($evento->fecha_final);
+        $hora = new \DateTime($evento->hora);
+        $fechaInicio = $fechaInicio->format('Y-m-d') . 'T' . $hora->format('H:i:s');
+        $fechaFinal = $fechaFinal->format('Y-m-d') . 'T' . $hora->format('H:i:s');
+
         ProgramaCalendar::create([
             'title' => $evento->titulo,
-            'start' => $evento->fecha,
-            'end' => $evento->fecha,
+            'start' => $fechaInicio,
+            'end' => $fechaFinal,
             'tipo_fecha' => 'inicio',
             'tipo' => 'Evento',
             'evento_id' => $evento->id,
@@ -56,7 +68,8 @@ class EventoController extends Controller
     public function edit($id)
     {
         $evento = Evento::findOrFail($id);
-        return view('eventos.edit', compact('evento'));
+        $encargados = Usuario::all();
+        return view('eventos.edit', compact('evento', 'encargados'));
     }
 
     // Actualizar un administrativo
@@ -66,22 +79,31 @@ class EventoController extends Controller
             'titulo' => 'required|string',
             'lugar' => 'required|string',
             'encargado' => 'required|string',
-            'fecha' => 'date|required',
+            'fecha_inicio' => 'date|required',
+            'fecha_final' => 'date|required',
             'hora' => 'required',
         ], [
             'titulo.required' => 'El titulo es requerido',
             'lugar.required' => 'El lugar es requerido',
             'encargado.required' => 'El encargado es requerido',
-            'fecha.required' => 'La fecha es requerida',
+            'fecha_inicio.required' => 'La fecha de inicio es requerida',
+            'fecha_final.required' => 'La fecha de finalizacion es requerida',
             'hora.required' => 'La hora es requerida',
         ]);
         $evento = Evento::findOrFail($id);
         $evento->update($request->all());
+
         $calendar = ProgramaCalendar::where('evento_id', $evento->id)->first();
+        $fechaInicio = new \DateTime($evento->fecha_inicio);
+        $fechaFinal = new \DateTime($evento->fecha_final);
+        $hora = new \DateTime($evento->hora);
+        $fechaInicio = $fechaInicio->format('Y-m-d') . 'T' . $hora->format('H:i:s');
+        $fechaFinal = $fechaFinal->format('Y-m-d') . 'T' . $hora->format('H:i:s');
+
         $calendar->update([
             'title' => $request->titulo,
-            'start' => $request->fecha,
-            'end' => $request->fecha,
+            'start' => $fechaInicio,
+            'end' => $fechaFinal,
             'tipo_fecha' => 'inicio',
             'tipo' => 'Evento',
             'evento_id' => $evento->id,
@@ -94,7 +116,8 @@ class EventoController extends Controller
     {
         $evento = Evento::findOrFail($id);
         $calendario = ProgramaCalendar::where('evento_id', $evento->id)->first();
-        $calendario->delete();
+        if ($calendario)
+            $calendario->delete();
         $evento->delete();
         return redirect()->route('eventos.index');
     }

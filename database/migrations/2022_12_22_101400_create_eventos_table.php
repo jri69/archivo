@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('titulo')->nullable();
             $table->string('encargado')->nullable();
             $table->string('lugar')->nullable();
-            $table->date('fecha')->nullable();
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_final')->nullable();
             $table->time('hora')->nullable();
             $table->timestamps();
         });

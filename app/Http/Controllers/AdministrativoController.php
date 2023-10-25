@@ -73,7 +73,8 @@ class AdministrativoController extends Controller
     public function edit($id)
     {
         $administrativo = Administrativo::find($id);
-        return view('administrativo.edit', compact('administrativo'));
+        $cargos = Cargo::all();
+        return view('administrativo.edit', compact('administrativo', 'cargos'));
     }
 
     // Actualizar un administrativo

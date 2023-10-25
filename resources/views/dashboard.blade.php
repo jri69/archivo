@@ -15,7 +15,8 @@
                                 <thead class="text-primary">
                                     <th>Titulo</th>
                                     <th>Lugar</th>
-                                    <th>Fecha</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
                                     <th>Hora</th>
                                 </thead>
                                 <tbody>
@@ -23,7 +24,8 @@
                                         <tr>
                                             <td>{{ $evento->titulo }}</td>
                                             <td>{{ $evento->lugar }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($evento->fecha)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($evento->fecha_inicio)) }} </td>
+                                            <td>{{ date('d-m-Y', strtotime($evento->fecha_final)) }} </td>
                                             <td>{{ $evento->hora }}</td>
                                         </tr>
                                     @endforeach

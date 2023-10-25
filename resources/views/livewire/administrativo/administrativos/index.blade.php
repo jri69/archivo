@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="col text-right">
-                <a href="{{route('administrativo.create')}}" class="btn btn-outline-primary btn-white">
+                <a href="{{ route('administrativo.create') }}" class="btn btn-outline-primary btn-white">
                     <b>Agregar administrativo</b>
                 </a>
 
@@ -36,35 +36,36 @@
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    <tbody>
-                                        @foreach ($administrativo as $item)
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->nombre }}</td>
-                                                <td>{{ $item->apellido }}</td>
-                                                <td>{{ $item->contrato }}</td>
-                                                <td>{{ $item->ci}}-{{$item->expedicion}}</td>
-                                                <td>{{ $item->fecha_ingreso }}</td>
-                                                <td>{{ $item->fecha_retiro }}</td>
-                                                <td class="td-actions">
-                                                    {{-- Editar Area --}}
-                                                    <a href="{{ route('area.edit', $item->id) }}" class="btn btn-primary">
-                                                        <span class="material-icons">edit</span>
+                                <tbody>
+                                    @foreach ($administrativo as $item)
+                                        <tr>
+                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $item->nombre }}</td>
+                                            <td>{{ $item->apellido }}</td>
+                                            <td>{{ $item->contrato }}</td>
+                                            <td>{{ $item->ci }}-{{ $item->expedicion }}</td>
+                                            <td>{{ $item->fecha_ingreso }}</td>
+                                            <td>{{ $item->fecha_retiro }}</td>
+                                            <td class="td-actions">
+                                                {{-- Editar Area --}}
+                                                <a href="{{ route('administrativo.edit', $item->id) }}"
+                                                    class="btn btn-primary">
+                                                    <span class="material-icons">edit</span>
 
-                                                    </a>
-                                                    <form action="{{ route('area.delete', $item->id) }}" method="POST"
-                                                        style="display: inline-block;"
-                                                        onsubmit="return confirm('¿Está seguro?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger" type="submit">
-                                                            <i class="material-icons">close</i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
+                                                </a>
+                                                <form action="{{ route('administrativo.delete', $item->id) }}"
+                                                    method="POST" style="display: inline-block;"
+                                                    onsubmit="return confirm('¿Está seguro?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                                 </tbody>
                             </table>
                         </div>

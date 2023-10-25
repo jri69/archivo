@@ -10,6 +10,7 @@
                         @csrf
                         <div class="card">
                             <div class="card-body">
+                                <br>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
@@ -20,20 +21,6 @@
                                         @if ($errors->has('titulo'))
                                             <span class="error text-danger"
                                                 for="input-titulo">{{ $errors->first('titulo') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="nombre" class="bmd-label-floating">Encargado</label>
-                                            <input type="text" class="form-control" name="encargado"
-                                                value="{{ old('encargado') }}">
-                                        </div>
-                                        @if ($errors->has('encargado'))
-                                            <span class="error text-danger"
-                                                for="input-encargado">{{ $errors->first('encargado') }}</span>
                                         @endif
                                     </div>
                                     <div class="col-md-6">
@@ -49,18 +36,51 @@
                                     </div>
                                 </div>
                                 <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="nombre" class="bmd-label-floating">Encargado</label>
+                                            <select class="form-control" name="encargado" id="encargado">
+                                                <option value="">Seleccione un encargado</option>
+                                                @foreach ($encargados as $encargado)
+                                                    <option value="{{ $encargado->nombre . ' ' . $encargado->apellido }}">
+                                                        {{ $encargado->nombre }}
+                                                        {{ $encargado->apellido }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @if ($errors->has('encargado'))
+                                            <span class="error text-danger"
+                                                for="input-encargado">{{ $errors->first('encargado') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label class="bmd-label-floating">Fecha</label>
+                                        <label class="bmd-label-floating">Fecha de inicio</label>
                                         <div class="form-group">
-                                            <input type="date" class="form-control" name="fecha" required>
+                                            <input type="date" class="form-control" name="fecha_inicio" required>
                                         </div>
-                                        @if ($errors->has('fecha'))
+                                        @if ($errors->has('fecha_inicio'))
                                             <span class="error text-danger"
-                                                for="input-fecha">{{ $errors->first('fecha') }}</span>
+                                                for="input-fecha_inicio">{{ $errors->first('fecha_inicio') }}</span>
                                         @endif
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="bmd-label-floating">Fecha de finalizacion</label>
+                                        <div class="form-group">
+                                            <input type="date" class="form-control" name="fecha_final" required>
+                                        </div>
+                                        @if ($errors->has('fecha_final'))
+                                            <span class="error text-danger"
+                                                for="input-fecha_final">{{ $errors->first('fecha_final') }}</span>
+                                        @endif
+                                    </div>
+
+                                </div>
+                                <div class="row">
 
                                     <div class="col-md-6">
                                         <label class="bmd-label-floating">Hora</label>

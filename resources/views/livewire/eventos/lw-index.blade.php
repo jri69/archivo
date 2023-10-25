@@ -28,7 +28,8 @@
                                     <th>Titulo</th>
                                     <th>Encargado</th>
                                     <th>Lugar</th>
-                                    <th>Fecha</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
                                     <th>Hora</th>
                                     <th>Acciones</th>
                                 </thead>
@@ -38,7 +39,8 @@
                                             <td>{{ $evento->titulo }} </td>
                                             <td>{{ $evento->encargado }} </td>
                                             <td>{{ $evento->lugar }} </td>
-                                            <td>{{ date('d-m-Y', strtotime($evento->fecha)) }} </td>
+                                            <td>{{ date('d-m-Y', strtotime($evento->fecha_inicio)) }} </td>
+                                            <td>{{ date('d-m-Y', strtotime($evento->fecha_final)) }} </td>
                                             <td>{{ $evento->hora }} </td>
                                             <td class="td-actions">
                                                 <a href="{{ route('eventos.edit', $evento->id) }}"

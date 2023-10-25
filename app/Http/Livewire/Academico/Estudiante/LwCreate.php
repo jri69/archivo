@@ -38,7 +38,9 @@ class LwCreate extends Component
         $this->datos['numero_registro'] = '';
         $this->datos['nacionalidad'] = 'Boliviano';
         $date = date('Y-m-d');
-        $this->programas = Programa::where('fecha_finalizacion', '>=', $date)->get();
+        $this->programas = Programa::orWhere('fecha_finalizacion', '>=', $date)
+            ->orWhere('has_editable', 'Si')
+            ->get();
         $this->requisitos = Requisito::all();
     }
 
