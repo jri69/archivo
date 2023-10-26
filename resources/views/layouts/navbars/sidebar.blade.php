@@ -43,9 +43,9 @@
                 </li>
             @endcan
             @if (auth()->user()->can('usuario.index') ||
-                auth()->user()->can('cargo.index') ||
-                auth()->user()->can('area.index') ||
-                auth()->user()->can('rol.index'))
+                    auth()->user()->can('cargo.index') ||
+                    auth()->user()->can('area.index') ||
+                    auth()->user()->can('rol.index'))
                 <li
                     class="nav-item {{ $activePage == 'usuario' || $activePage == 'area' || $activePage == 'cargo' || $activePage == 'roles' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Usuario" aria-expanded="false">
@@ -95,7 +95,7 @@
 
 
             @if (auth()->user()->can('recepcion.index') ||
-                auth()->user()->can('unidad.index'))
+                    auth()->user()->can('unidad.index'))
                 <li
                     class="nav-item {{ $activePage == 'recepcion' || $activePage == 'unidad_organizacional' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Documento" aria-expanded="false">
@@ -128,10 +128,12 @@
             @endif
 
             @if (auth()->user()->can('estudiante.index') ||
-                auth()->user()->can('programa.index') ||
-                auth()->user()->can('modulo.index') ||
-                auth()->user()->can('requisito.index') ||
-                auth()->user()->can('procesos.index'))
+                    auth()->user()->can('programa.index') ||
+                    auth()->user()->can('modulo.index') ||
+                    auth()->user()->can('requisito.index') ||
+                    auth()->user()->can('procesos.index') ||
+                    auth()->user()->can('universidad.index') ||
+                    auth()->user()->can('carreras.index'))
                 <li
                     class="nav-item {{ $activePage == 'estudiante' || $activePage == 'programa' || $activePage == 'modulo' || $activePage == 'requisito' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Academico" aria-expanded="false">
@@ -182,14 +184,30 @@
                                     </a>
                                 </li>
                             @endcan
+                            @can('universidad.index')
+                                <li class="nav-item{{ $activePage == 'universidad' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('universidad.index') }}">
+                                        <span class="sidebar-mini"> UV </span>
+                                        <span class="sidebar-normal"> {{ __('Universidades') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('carreras.index')
+                                <li class="nav-item{{ $activePage == 'carreras' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('carreras.index') }}">
+                                        <span class="sidebar-mini"> CR </span>
+                                        <span class="sidebar-normal"> {{ __('Carreras') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
             @endif
 
             @if (auth()->user()->can('descuento.index') ||
-                auth()->user()->can('tipo_pago.index') ||
-                auth()->user()->can('pago_estudiante.index'))
+                    auth()->user()->can('tipo_pago.index') ||
+                    auth()->user()->can('pago_estudiante.index'))
                 <li
                     class="nav-item {{ $activePage == 'Descuento' || $activePage == 'tipo_pago' || $activePage == 'estudiantes' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Contable" aria-expanded="false">
@@ -230,9 +248,9 @@
             @endif
 
             @if (auth()->user()->can('inventario.index') ||
-                auth()->user()->can('activo.index') ||
-                auth()->user()->can('solictud.index') ||
-                auth()->user()->can('tic.index'))
+                    auth()->user()->can('activo.index') ||
+                    auth()->user()->can('solictud.index') ||
+                    auth()->user()->can('tic.index'))
                 <li
                     class="nav-item {{ $activePage == 'inventario' || $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#Tics" aria-expanded="false">
@@ -287,8 +305,8 @@
             @endif
 
             @if (auth()->user()->can('contrataciones.index') ||
-                auth()->user()->can('docentes.index') ||
-                auth()->user()->can('directivos.index'))
+                    auth()->user()->can('docentes.index') ||
+                    auth()->user()->can('directivos.index'))
                 <li
                     class="nav-item {{ $activePage == 'contrataciones' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#recursos" aria-expanded="false">
@@ -329,7 +347,7 @@
             @endif
 
             @if (auth()->user()->can('pago_servicio.index') ||
-                auth()->user()->can('servicio.index'))
+                    auth()->user()->can('servicio.index'))
                 <li
                     class="nav-item {{ $activePage == 'servicio' || $activePage == 'pago_servicio' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#servicio" aria-expanded="false">
@@ -362,8 +380,8 @@
             @endif
 
             @if (auth()->user()->can('presupuesto.index') ||
-                auth()->user()->can('partida.index') ||
-                auth()->user()->can('factura.index'))
+                    auth()->user()->can('partida.index') ||
+                    auth()->user()->can('factura.index'))
                 <li
                     class="nav-item {{ $activePage == 'thirdpartida' || $activePage == 'quarterpartida' || $activePage == 'thirdpartida' || $activePage == 'presupuesto' || $activePage == 'servi' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#partidas" aria-expanded="false">

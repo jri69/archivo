@@ -141,26 +141,37 @@
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Carrera</label>
-                                    <input type="text" class="form-control" name="carrera"
-                                        wire:model.defer='datos.carrera'>
-                                </div>
-                                @error('datos.carrera')
-                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
-                                @enderror
-                            </div>
+
                         </div>
                         <br>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label class="bmd-label-floating">Universidad</label>
-                                    <input type="text" class="form-control" name="universidad"
-                                        wire:model.defer='datos.universidad'>
+                                    <select class="form-control" name="universidad" wire:model='datos.universidad'>
+                                        <option disabled value="">Seleccione la universidad</option>
+                                        @foreach ($universidades as $universidad)
+                                            <option value="{{ $universidad->nombre }}">
+                                                {{ $universidad->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 @error('datos.universidad')
+                                    <span class="error text-danger" for="input-nombre">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="carrera" wire:model='datos.carrera'>
+                                        <option disabled value="">Seleccione la carrera</option>
+                                        @foreach ($carreras as $carrera)
+                                            <option value="{{ $carrera->nombre }}">
+                                                {{ $carrera->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('datos.carrera')
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
                                 @enderror
                             </div>

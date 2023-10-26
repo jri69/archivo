@@ -8,6 +8,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\Cartas\ReporteController as CartasReporteController;
 use App\Http\Controllers\CartaTitulacion;
@@ -45,6 +46,7 @@ use App\Http\Controllers\TicController;
 use App\Http\Controllers\Tipo_descuentoController;
 use App\Http\Controllers\tipo_pagoController;
 use App\Http\Controllers\UnidadOrganizacionalController;
+use App\Http\Controllers\UniversidadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -493,4 +495,20 @@ Route::group(['prefix' => 'eventos', 'middleware' => ['can:eventos.index', 'auth
     Route::get('/show/{eventos}', [EventoController::class, 'show'])->name('eventos.show');
     Route::put('/update/{eventos}', [EventoController::class, 'update'])->name('eventos.update');
     Route::delete('/delete/{eventos}', [EventoController::class, 'destroy'])->name('eventos.delete');
+});
+
+// Universidad
+Route::group(['prefix' => 'universidad', 'middleware' => ['can:universidad.index', 'auth']], function () {
+    Route::get('/', [UniversidadController::class, 'index'])->name('universidad.index');
+    Route::get('/create', [UniversidadController::class, 'create'])->name('universidad.create');
+    Route::post('/store', [UniversidadController::class, 'store'])->name('universidad.store');
+    Route::delete('/delete/{universidad}', [UniversidadController::class, 'destroy'])->name('universidad.delete');
+});
+
+// Carreras
+Route::group(['prefix' => 'carreras', 'middleware' => ['can:carreras.index', 'auth']], function () {
+    Route::get('/', [CarreraController::class, 'index'])->name('carreras.index');
+    Route::get('/create', [CarreraController::class, 'create'])->name('carreras.create');
+    Route::post('/store', [CarreraController::class, 'store'])->name('carreras.store');
+    Route::delete('/delete/{carreras}', [CarreraController::class, 'destroy'])->name('carreras.delete');
 });

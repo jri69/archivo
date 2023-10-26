@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Academico\Estudiante;
 
+use App\Models\Carrera;
 use App\Models\Estudiante;
 use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
@@ -10,6 +11,7 @@ use App\Models\NotasPrograma;
 use App\Models\Programa;
 use App\Models\Requisito;
 use App\Models\RequisitoEstudiante;
+use App\Models\Universidad;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +24,8 @@ class LwCreate extends Component
     public $programas;
     public $requisitos;
     public $listModulos = [];
+    public $universidades;
+    public $carreras;
 
     public function mount()
     {
@@ -36,12 +40,16 @@ class LwCreate extends Component
         $this->datos['id_modulo'] = '';
         $this->datos['id_programa'] = '';
         $this->datos['numero_registro'] = '';
+        $this->datos['universidad'] = '';
+        $this->datos['carrera'] = '';
         $this->datos['nacionalidad'] = 'Boliviano';
         $date = date('Y-m-d');
         $this->programas = Programa::orWhere('fecha_finalizacion', '>=', $date)
             ->orWhere('has_editable', 'Si')
             ->get();
         $this->requisitos = Requisito::all();
+        $this->universidades = Universidad::all();
+        $this->carreras = Carrera::all();
     }
 
     public function store()
@@ -55,8 +63,6 @@ class LwCreate extends Component
                 'datos.expedicion' => 'required|alpha|size:2',
                 'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
                 'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
-                'datos.id_programa' => 'required|numeric',
-                'datos.id_modulo' => 'required|numeric',
                 'datos.numero_registro' => 'numeric',
                 'datos.nacionalidad' => 'required|string',
                 'datos.honorifico' => 'required|string',
@@ -76,8 +82,6 @@ class LwCreate extends Component
                 'datos.carrera.regex' => 'El campo carrera solo puede contener letras',
                 'datos.universidad.required' => 'El campo universidad es obligatorio',
                 'datos.universidad.regex' => 'El campo universidad solo puede contener letras',
-                'datos.id_programa.required' => 'El campo programa es obligatorio',
-                'datos.id_modulo.required' => 'El campo modulo es obligatorio',
                 'datos.numero_registro.numeric' => 'El campo numero de registro solo puede contener numeros',
                 'datos.nacionalidad.required' => 'El campo nacionalidad es obligatorio',
             ]
