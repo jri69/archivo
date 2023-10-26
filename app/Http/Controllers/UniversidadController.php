@@ -20,6 +20,14 @@ class UniversidadController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'nombre' => 'required',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+            ]
+        );
         $universidad = Universidad::create($request->all());
         return redirect()->route('universidad.index');
     }

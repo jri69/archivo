@@ -20,6 +20,14 @@ class CarreraController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'nombre' => 'required',
+            ],
+            [
+                'nombre.required' => 'El campo nombre es obligatorio',
+            ]
+        );
         $carrera = Carrera::create($request->all());
         return redirect()->route('carreras.index');
     }
