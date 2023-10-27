@@ -32,9 +32,9 @@ class CarreraController extends Controller
         return redirect()->route('carreras.index');
     }
 
-    public function destroy(Carrera $carrera)
+    public function destroy(Carrera $carreras)
     {
-        $carrera->delete();
+        $carreras->delete();
         return redirect()->route('carreras.index');
     }
 }

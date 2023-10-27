@@ -25,7 +25,8 @@
                                 <br>
                             </div>
                             <div class="card-footer ml-auto mr-auto">
-                                <button type="submit"class="btn btn-primary">
+                                <button type="submit"class="btn btn-primary"
+                                    onclick="this.disabled=true;this.form.submit();">
                                     <b>Guardar Datos</b>
                                 </button>
                                 <a href="{{ route('universidad.index') }}" class="btn btn-primary"><b>Cancelar</b></a>
