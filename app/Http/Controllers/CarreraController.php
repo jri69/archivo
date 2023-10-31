@@ -22,10 +22,11 @@ class CarreraController extends Controller
     {
         $request->validate(
             [
-                'nombre' => 'required',
+                'nombre' => 'required|unique:carreras,nombre',
             ],
             [
                 'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.unique' => 'El nombre de la carrera ya existe',
             ]
         );
         $carrera = Carrera::create($request->all());

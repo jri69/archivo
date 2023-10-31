@@ -22,10 +22,11 @@ class UniversidadController extends Controller
     {
         $request->validate(
             [
-                'nombre' => 'required',
+                'nombre' => 'required|unique:universidads,nombre',
             ],
             [
                 'nombre.required' => 'El campo nombre es obligatorio',
+                'nombre.unique' => 'El nombre de la universidad ya existe',
             ]
         );
         $universidad = Universidad::create($request->all());

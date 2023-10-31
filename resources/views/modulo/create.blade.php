@@ -14,7 +14,20 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <select class="form-control" name="programa_id">
+                                            <select class="form-control" name="tipo_programa" id="tipo_programa">
+                                                <option value="Sin tipo">Seleccione un filtro de programas (opcional)</option>
+                                                <option value="Sin tipo"> Todos</option>
+                                                <option value="Doctorado"> Doctorado</option>
+                                                <option value="Maestria"> Maestria</option>
+                                                <option value="Diplomado"> Diplomado</option>
+                                                <option value="Especialidad"> Especialidad</option>
+                                                <option value="Cursos"> Cursos</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="programa_id" id="programa_id">
                                                 <option disabled selected>Seleccione el programa</option>
                                                 @foreach ($programas as $programa)
                                                     <option value="{{ $programa->id }}">
@@ -29,6 +42,10 @@
                                             @endif
                                         </div>
                                     </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <select class="form-control" name="docente_id">
@@ -131,7 +148,8 @@
                                         <input type="radio" name="modalidad" value="Presencial" checked>
                                         <span>Presencial</span>
 
-                                        <input type="radio" name="modalidad" value="Virtual" style='margin-left: 20px'>
+                                        <input type="radio" name="modalidad" value="Virtual"
+                                            style='margin-left: 20px'>
                                         <span>Virtual</span>
 
                                         <input type="radio" name="modalidad" value="Semi-Presencial"
@@ -199,3 +217,30 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        var programas_total = @json($programas);
+        function filtrarProgramas() {
+            var tipo = document.getElementById('tipo_programa').value;
+            var programas = document.getElementById('programa_id');
+            if (tipo == "Sin tipo")
+                var programas_filtrados = programas_total;
+            else
+                var programas_filtrados = programas_total.filter(programa => programa.tipo == tipo);
+            programas.innerHTML = '';
+            var option = document.createElement('option');
+            option.text = "Seleccione el programa";
+            programas.appendChild(option);
+            programas_filtrados.forEach(programa => {
+                var option = document.createElement('option');
+                option.value = programa.id;
+                option.text = programa.nombre + ' - ' + programa.version + '.' + programa.edicion;
+                programas.appendChild(option);
+            });
+        }
+
+        var tipo_element = document.getElementById('tipo_programa');
+        tipo_element.addEventListener('change', filtrarProgramas);
+    </script>
+@endpush
