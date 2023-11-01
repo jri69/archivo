@@ -194,12 +194,13 @@ Route::group(['prefix' => 'tipo_pago', 'middleware' => ['can:tipo_pago.index', '
 });
 
 //Pago Estudiante
-Route::group(['prefix' => 'Pago_Estudiante', 'middleware' => ['can:pago_estudiante.index', 'auth']], function () {
+Route::group(['prefix' => 'pago_estudiante', 'middleware' => ['can:pago_estudiante.index', 'auth']], function () {
     Route::get('/', [Pago_EstudianteController::class, 'index'])->name('pago_estudiante.index');
-    Route::get('/create', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
+    Route::get('/create/{estudiante}', [Pago_EstudianteController::class, 'create'])->name('pago_estudiante.create');
     Route::get('/edit/{id}', [Pago_EstudianteController::class, 'edit'])->name('pago_estudiante.edit');
-    Route::post('/store', [Pago_EstudianteController::class, 'store'])->name('pago_estudiante.store');
+    Route::post('/store/{estudiante}', [Pago_EstudianteController::class, 'store'])->name('pago_estudiante.store');
     Route::get('/show/{estudiante}', [Pago_EstudianteController::class, 'show'])->name('pago_estudiante.show');
+    Route::get('/show/programa/{pago_estudiante}', [Pago_EstudianteController::class, 'show_programa'])->name('pago_estudiante.show_programa');
     Route::put('/update/{estudiante}', [Pago_EstudianteController::class, 'update'])->name('pago_estudiante.update');
 });
 
@@ -211,6 +212,7 @@ Route::group(['prefix' => 'pago', 'middleware' => ['can:pago.index', 'auth']], f
     Route::post('/store/{id}', [PagoController::class, 'store'])->name('pago.store');
     Route::put('update/{pago}', [PagoController::class, 'update'])->name('pago.update');
     Route::get('/pdf/{id}', [PagoController::class, 'pdf'])->name('pago.pdf');
+    Route::delete('/delete/{pago}', [PagoController::class, 'destroy'])->name('pago.delete');
 });
 
 // Programas

@@ -2,21 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Contrato;
 use App\Models\Docente;
-use App\Models\Estudiante;
-use App\Models\EstudianteModulo;
-use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
-use App\Models\NotasPrograma;
 use App\Models\Programa;
-use App\Models\ProgramaCalendar;
-use App\Models\ProgramaModulo;
-use App\Models\Prospecto;
 use App\Models\Requisito;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Nette\Utils\Random;
 
 class AcademicoSeeder extends Seeder
 {

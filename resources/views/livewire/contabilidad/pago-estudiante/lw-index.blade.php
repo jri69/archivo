@@ -10,10 +10,6 @@
                 </div>
             </div>
             <div class="col text-right">
-                <a href="{{route('pago_estudiante.create')}}" class="btn btn-outline-primary btn-white">
-                    <b>Agregar Estudiante</b>
-                </a>
-                
             </div>
         </div>
 
@@ -29,30 +25,44 @@
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
                                     <th>Nombre</th>
+                                    <th>Cedula</th>
+                                    <th>Estado</th>
                                     <th>Correo</th>
                                     <th>Telefono</th>
-                                    <th>Carnet</th>
+                                    <th>Nacionalidad</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                        @foreach ($estudiantes as $estudiante )
-                                            <tr>
-                                            <td>{{$estudiante->id}}</td>
-                                            <td>{{$estudiante->nombre}}</td>
-                                            <td>{{$estudiante->email}}</td>
-                                            <td>{{$estudiante->telefono}}</td>
-                                            <td>{{$estudiante->cedula}}</td>
-                                            <td class="td-actions">                                                
-                                                <a href="{{route('pago_estudiante.show',$estudiante->id)}}" class="btn btn-primary">
-                                                    <span class="material-icons">visibility</span>
-                                                </a>   
-                                                <a href="{{route('pago_estudiante.edit',$estudiante->id)}}" class="btn btn-danger">
-                                                    <span class="material-icons">edit</span>
-                                                </a>                                             
+                                    @foreach ($estudiantes as $estudiante)
+                                        <tr>
+                                            <td>{{ $estudiante->id }} </td>
+                                            <td>{{ $estudiante->honorifico . ' ' . $estudiante->nombre }}
+                                                @if ($estudiante->numero_registro)
+                                                    <br>
+                                                    <small>Reg: {{ $estudiante->numero_registro }}</small>
+                                                @endif
                                             </td>
-                                            </tr>                                            
-                                        @endforeach
-                                    </tbody>
+                                            <td>{{ $estudiante->cedula ? $estudiante->cedula : 'Sin cedula' }}</td>
+                                            <td>
+                                                @if ($estudiante->estado == 'Activo')
+                                                    <span class="badge badge-success">Activo</span>
+                                                @else
+                                                    <span class="badge badge-danger">Inactivo</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $estudiante->email ? $estudiante->email : 'Sin correo' }}</td>
+                                            <td>{{ $estudiante->telefono ? $estudiante->telefono : 'Sin telefono' }}
+                                            </td>
+                                            <td>{{ $estudiante->nacionalidad ? $estudiante->nacionalidad : '-' }}</td>
+                                            <td class="td-actions">
+                                                <a href="{{ route('pago_estudiante.show', $estudiante->id) }}"
+                                                    class="btn btn-success">
+                                                    <span class="material-icons">visibility</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>

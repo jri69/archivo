@@ -250,6 +250,66 @@
                     </div>
                 </div>
             @endif
+
+            @if (count($pagos_programas) > 0)
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title ">Pagos</h4>
+                                <p class="card-category">Pagos de los programas</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Sigla</th>
+                                            <th>Estado</th>
+                                            <th>Deuda</th>
+                                            {{-- <th>Acciones</th> --}}
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($pagos_programas as $pago_programa)
+                                                <tr>
+                                                    <td>
+                                                        {{ $loop->iteration }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $pago_programa->programa->nombre }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $pago_programa->programa->sigla }} -
+                                                        {{ $pago_programa->programa->version }}.{{ $pago_programa->programa->edicion }}
+                                                    </td>
+
+                                                    <td>
+                                                        @if ($pago_programa->estado == 'SIN DEUDA')
+                                                            <span class="badge badge-success">SIN DEUDA</span>
+                                                        @else
+                                                            <span class="badge badge-danger">CON DEUDA</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $pago_programa->deuda ?? 'N/A' }}
+                                                    </td>
+                                                    {{-- <td class="td-actions">
+                                                        <a href="{{ route('pago_estudiante.show_programa', [$pago_programa->id]) }}"
+                                                            class="btn btn-success">
+                                                            <span class="material-icons">visibility</span>
+                                                        </a>
+                                                    </td> --}}
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

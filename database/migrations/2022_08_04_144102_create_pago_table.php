@@ -15,17 +15,21 @@ return new class extends Migration
     {
         Schema::create('pago', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pago_estudiante_id');
             $table->integer('monto');
             $table->date('fecha');
             $table->string('comprobante');
             $table->string('compro_file');
-            $table->unsignedBigInteger('tipo_pago_id')->nullable();
             $table->string('observaciones')->nullable();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('pago_estudiante_id');
+            $table->unsignedBigInteger('modulo_id')->nullable();
+            $table->unsignedBigInteger('tipo_pago_id')->nullable();
 
             $table->foreign('pago_estudiante_id')->on('pago_estudiante')->references('id')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('tipo_pago_id')->on('tipo_pagos')->references('id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('modulo_id')->on('modulos')->references('id')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->timestamps();
         });
     }
 

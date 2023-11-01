@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use App\Models\EstudiantePrograma;
 use App\Models\NotasPrograma;
+use App\Models\Pago;
+use App\Models\Pago_estudiante;
 use App\Models\Programa;
 use App\Models\RequisitoEstudiante;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +52,16 @@ class EstudianteController extends Controller
         $documentos = RequisitoEstudiante::where('id_estudiante', $idEstudiante)->get();
         $Idprogramas = EstudiantePrograma::where('id_estudiante', $idEstudiante)->get();
         $programas = Programa::whereIn('id', $Idprogramas->pluck('id_programa')->toArray())->get();
-        return view('estudiante.show', compact('estudiante', 'documentos', 'programas'));
+        $pagos_programas = Pago_estudiante::where('estudiante_id', $estudiante->id)->get();
+        foreach ($pagos_programas as $key => $pago_programa) {
+            $programa = Programa::findOrFail($pago_programa->programa_id);
+            $pagos_programas_array[$key] = $pago_programa;
+            $descuento  = $programa->costo * $pago_programa->tipo_descuento->monto / 100;
+            $monto_pagado = Pago::where('pago_estudiante_id', $pago_programa->id)->sum('monto');
+            $monto_adeudado = 0;
+            $pagos_programas_array[$key]['deuda'] = $monto_adeudado;
+        }
+        return view('estudiante.show', compact('estudiante', 'documentos', 'programas', 'pagos_programas'));
     }
 
     // Añadir al estudiante a un nuevo programa
@@ -91,6 +102,4 @@ class EstudianteController extends Controller
         $estudiante->save();
         return back()->with('mensaje', 'Estado cambiado correctamente');
     }
-
-
 }

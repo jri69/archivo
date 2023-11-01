@@ -15,13 +15,17 @@ return new class extends Migration
     {
         Schema::create('pago_estudiante', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('estudiante_id');
-            $table->unsignedBigInteger('tipo_descuento_id')->nullable();
             $table->integer('convalidacion')->nullable();
-            $table->timestamps();
+            $table->string('estado')->nullable();
+            $table->unsignedBigInteger('estudiante_id');
+            $table->unsignedBigInteger('programa_id');
+            $table->unsignedBigInteger('tipo_descuento_id')->nullable();
 
             $table->foreign('estudiante_id')->on('estudiantes')->references('id')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('tipo_descuento_id')->on('tipo_descuento')->references('id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('programa_id')->on('programas')->references('id')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->timestamps();
         });
     }
 

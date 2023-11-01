@@ -9,125 +9,97 @@ use App\Models\Pago;
 use App\Models\Pago_estudiante;
 use App\Models\Programa;
 use App\Models\tipo_descuento;
-use App\Models\Tipo_pago;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\Else_;
 
 class Pago_EstudianteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('pago_estudiante.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create($estudiante)
     {
-        $id = Pago_estudiante::all();
-        $id = $id->pluck('estudiante_id')->toArray();
-        $estu = Estudiante::all();
-        $pago = $estu->except($id);
-        /*$pago = $pago->pluck('id')->toArray();
-        $estudiante = Estudiante::whereIn('id',$pago)->get();
-        //$estu = Pago_estudiante::select('estudiante_id');
-        $prueba = DB::table('estudiantes')->whereIn('id',$id)->get();
-        $es = Estudiante::whereIn('id',$id)->get();
-        return $es;*/
-        //return $pago;
-        $fecha = Carbon::now();
-        //$programas = Programa::all();
-        $programas = DB::table('programas')->select('id', 'nombre', 'costo', 'cantidad_modulos')->where('fecha_finalizacion', '>=', $fecha)->get();
         $descuentos = tipo_descuento::all();
-        //return $programas;
-        return view('pago_estudiante.create', compact('descuentos', 'programas', 'pago'));
+        $estudiante = Estudiante::findOrFail($estudiante);
+        $programa_inscritos = EstudiantePrograma::where('id_estudiante', $estudiante->id)->get();
+        $programas = [];
+        foreach ($programa_inscritos as $key => $programa_inscrito) {
+            $pago_estudiante = Pago_estudiante::where('estudiante_id', $estudiante->id)->where('programa_id', $programa_inscrito->id_programa)->get()->first();
+            if ($pago_estudiante == null) {
+                $programas[$key] = DB::table('programas')->select('id', 'nombre', 'costo', 'cantidad_modulos')->where('id', $programa_inscrito->id_programa)->get()->first();
+            }
+        }
+        return view('pago_estudiante.create', compact('descuentos', 'programas', 'estudiante'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, $estudiante)
     {
         $request->validate([
-            'estudiante_id' => 'required',
-
+            'programa_id' => 'required',
+            'tipo_descuento_id' => 'required',
+        ], [
+            'programa_id.required' => 'El programa es requerido',
+            'tipo_descuento_id.required' => 'El tipo de descuento es requerido',
         ]);
-        Pago_estudiante::create($request->all());
-        return view('pago_estudiante.index');
+        $data = [
+            'estudiante_id' => $estudiante,
+            'programa_id' => $request['programa_id'],
+            'tipo_descuento_id' => $request['tipo_descuento_id'],
+            'convalidacion' => $request['convalidacion'],
+            'estado' => 'CON DEUDA',
+        ];
+        Pago_estudiante::create($data);
+        return redirect()->route('pago_estudiante.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $fecha = Carbon::now();
         $estudiante = Estudiante::findOrFail($id);
-        //$monto = DB::table('pago')->select('monto')->where('pago_estudiante_id', '=', $id)->sum('monto');
-        $monto = DB::table('pago')->join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->select('monto')->where('pago_estudiante.estudiante_id', '=', $id)->sum('monto');
-        //return $monto;
-        $pagos = Pago::join('pago_estudiante', 'pago_estudiante.id', '=', 'pago.pago_estudiante_id')->join('tipo_pagos', 'tipo_pagos.id', '=', 'pago.tipo_pago_id')->select('pago.*', 'tipo_pagos.*', 'pago.id')->where('pago_estudiante.estudiante_id', $id)->get();
-        //return $pagos;
-        $programa = \App\Models\EstudiantePrograma::join("estudiantes", "estudiantes.id", "=", "estudiante_programas.id_estudiante")->join("programas", "programas.id", "=", "estudiante_programas.id_programa")->join("pago_estudiante", "pago_estudiante.estudiante_id", "=", "estudiante_programas.id_estudiante")->where("estudiantes.id", $estudiante->id)->select("pago_estudiante.*", "programas.*", 'programas.nombre as nombre')->get()->first();
-
-        //$pro = DB::table('programas')->where('id', '=', $programa->programa_id)->get()->first();
-
-        $descuento = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->join("tipo_descuento", "tipo_descuento.id", "=", "pago_estudiante.tipo_descuento_id")->select("tipo_descuento.*", "pago_estudiante.id as estu")->where("estudiantes.id", $estudiante->id)->get()->first();
-
-        $pago_id = Pago_estudiante::join("estudiantes", "estudiantes.id", "=", "pago_estudiante.estudiante_id")->select("pago_estudiante.id as id")->where("estudiantes.id", $estudiante->id)->get()->first();
-
-        /*         $deuda = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->where('modulos.fecha_final', '<=', $fecha)->sum('modulos.costo'); */
-        $deuda = Modulo::where('programa_id', $programa->programa_id)->where('fecha_final', '<=', $fecha)->sum('costo');
-
-        /*         $modulo = ProgramaModulo::join('programas', 'programas.id', 'programa_modulos.id_programa')->join('modulos', 'modulos.id', '=', 'programa_modulos.id_modulo')->select('modulos.fecha_final', 'modulos.costo')->where('programas.id', $programa->programa_id)->get(); */
-        $modulo = Modulo::where('programa_id', $programa->programa_id)->get();
-
-        //return $descuento;
-        if ($descuento == []) {
-
-            $costo_t = $programa->costo - $programa->convalidacion;
-            $cuenta =  $monto + $programa->convalidacion;
-            $porcentaje = 0;
-        } else {
-
-            $porcentaje = ($programa->costo * $descuento->monto) / 100;
-            $costo_t = $programa->costo - $porcentaje - $programa->convalidacion;
-            $cuenta = $porcentaje + $monto + $programa->convalidacion;
+        $pagos_programas = Pago_estudiante::where('estudiante_id', $estudiante->id)->get();
+        foreach ($pagos_programas as $key => $pago_programa) {
+            $programa = Programa::findOrFail($pago_programa->programa_id);
+            $pagos_programas_array[$key] = $pago_programa;
+            $descuento  = $programa->costo * $pago_programa->tipo_descuento->monto / 100;
+            $monto_pagado = Pago::where('pago_estudiante_id', $pago_programa->id)->sum('monto');
+            $monto_adeudado = 0;
+            $pagos_programas_array[$key]['deuda'] = $monto_adeudado;
         }
-        //return $programa;
-        $saldo = $costo_t - $monto;
-        $deuda = $deuda - $cuenta;
-        $estado = 'SIN DEUDA';
-        if ($deuda > 0) {
-            $estado = 'CON DEUDA';
-        };
-
-
-        return view('pago.index', compact('estado', 'programa', 'estudiante', 'descuento', 'costo_t', 'pagos', 'monto', 'saldo', 'cuenta', 'deuda', 'porcentaje', 'pago_id'));
+        return view('pago.index', compact('pagos_programas', 'estudiante'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function show_programa($pago_estudiante)
+    {
+        $pago_estudiante = Pago_estudiante::findOrFail($pago_estudiante);
+        $programa = Programa::findOrFail($pago_estudiante->programa_id);
+        $estudiante = Estudiante::findOrFail($pago_estudiante->estudiante_id);
+
+        $pagos = [];
+        $pagos_db = Pago::where('pago_estudiante_id', $pago_estudiante->id)->get();
+        foreach ($pagos_db as $key => $pago) {
+            $pagos[$key] = $pago;
+            $pagos[$key]['acumulado'] = Pago::where('pago_estudiante_id', $pago_estudiante->id)->where('id', '<=', $pago->id)->sum('monto');
+        }
+
+        $descuento  = $programa->costo * $pago_estudiante->tipo_descuento->monto / 100;
+        $monto_pagado = Pago::where('pago_estudiante_id', $pago_estudiante->id)->sum('monto');
+        $monto_adeudado = 0;
+        $pagado_adeudado = $monto_pagado + $monto_adeudado;
+        $monto_total = ($programa->costo - $pago_estudiante->convalidacion) - $descuento;
+        $deuda = $monto_total - $pagado_adeudado;
+
+        if ($monto_adeudado > 0) {
+            $pago_estudiante->estado = 'CON DEUDA';
+        } else {
+            $pago_estudiante->estado = 'SIN DEUDA';
+        }
+        $pago_estudiante->save();
+        return view('pago.show_programa', compact('pago_estudiante', 'programa', 'estudiante', 'pagos', 'monto_pagado', 'monto_adeudado', 'pagado_adeudado', 'monto_total', 'deuda', 'descuento'));
+    }
+
     public function edit($id)
     {
         $estudiante = Pago_estudiante::where('pago_estudiante.estudiante_id', '=', $id)->first();
@@ -138,13 +110,6 @@ class Pago_EstudianteController extends Controller
         return view('pago_estudiante.edit', compact('estudiante', 'programas', 'descuentos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //return $id;
@@ -158,12 +123,7 @@ class Pago_EstudianteController extends Controller
         return redirect()->route('pago_estudiante.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //

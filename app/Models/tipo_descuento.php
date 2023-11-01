@@ -11,12 +11,13 @@ class tipo_descuento extends Model
 
     protected $table = 'tipo_descuento';
     protected $fillable = [
-            'nombre',
-            'monto',
-            'archivo'
+        'nombre',
+        'monto',
+        'archivo'
     ];
 
-    public function pago_estudiante(){
+    public function pago_estudiante()
+    {
         return $this->hasMany(pago_estudiante::class, 'tipo_descuento_id');
     }
 }

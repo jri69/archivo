@@ -11,22 +11,28 @@ class Pago extends Model
 
     protected $table = 'pago';
     protected $fillable = [
-            'pago_estudiante_id',
-            'monto',
-            'fecha',
-            'comprobante',
-            'compro_file',
-            'tipo_pago_id',
-            'observaciones'
+        'monto',
+        'fecha',
+        'comprobante',
+        'compro_file',
+        'observaciones',
+        'modulo_id',
+        'pago_estudiante_id',
+        'tipo_pago_id',
     ];
 
-    public function pago_estudiante(){
+    public function pago_estudiante()
+    {
         return $this->belongsTo(pago_estudiante::class, 'pago_estudiante_id');
-    } 
+    }
 
-    public function tipo_pago(){
+    public function tipo_pago()
+    {
         return $this->belongsTo(tipo_pago::class, 'tipo_pago_id');
     }
 
-    
+    public function modulo()
+    {
+        return $this->belongsTo(modulo::class, 'modulo_id');
+    }
 }

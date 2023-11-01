@@ -218,6 +218,14 @@
                     </a>
                     <div class="collapse" id="Contable">
                         <ul class="nav">
+                            @can('pago_estudiante.index')
+                                <li class="nav-item{{ $activePage == 'estudiantes' ? ' active' : '' }}">
+                                    <a class="nav-link" href="{{ route('pago_estudiante.index') }}">
+                                        <span class="sidebar-mini"> ES </span>
+                                        <span class="sidebar-normal"> {{ __('Estudiantes') }} </span>
+                                    </a>
+                                </li>
+                            @endcan
                             @can('descuento.index')
                                 <li class="nav-item{{ $activePage == 'Descuento' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('descuento.index') }}">
@@ -231,14 +239,6 @@
                                     <a class="nav-link" href="{{ route('tipo_pago.index') }}">
                                         <span class="sidebar-mini"> TP </span>
                                         <span class="sidebar-normal"> {{ __('Tipo de Pagos') }} </span>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('pago_estudiante.index')
-                                <li class="nav-item{{ $activePage == 'estudiantes' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('pago_estudiante.index') }}">
-                                        <span class="sidebar-mini"> ES </span>
-                                        <span class="sidebar-normal"> {{ __('Estudiante') }} </span>
                                     </a>
                                 </li>
                             @endcan
