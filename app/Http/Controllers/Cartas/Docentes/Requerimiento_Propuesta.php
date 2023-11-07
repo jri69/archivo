@@ -63,6 +63,7 @@ class Requerimiento_Propuesta extends Fpdf
 
     public function propuesta($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];
@@ -142,6 +143,7 @@ class Requerimiento_Propuesta extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - UAGRM"), 0, 'C', 0);
 
         $this->fpdf->Output("I", $name_docente . " - Requerimiento Propuesta.pdf");
+        exit;
     }
 
     function WriteText($text)

@@ -64,6 +64,7 @@ class Sol_Contrataciones extends Fpdf
 
     public function contrataciones($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];
@@ -178,6 +179,7 @@ class Sol_Contrataciones extends Fpdf
         $this->fpdf->Ln(4);
         $this->WriteText('<C.c/> Decanato');
         $this->fpdf->Output("I", $docente->nombre . " - Solicitud Contratacion.pdf");
+        exit;
     }
 
     function WriteText($text)

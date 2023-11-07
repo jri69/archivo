@@ -63,6 +63,7 @@ class Propuesta_Consultor extends Fpdf
 
     public function propuesta($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];
@@ -137,6 +138,7 @@ class Propuesta_Consultor extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("CONSULTOR."), 0, 'C', 0);
 
         $this->fpdf->Output("I", $name_docente . " - Propuesta Consultor.pdf");
+        exit;
     }
 
     function WriteText($text)

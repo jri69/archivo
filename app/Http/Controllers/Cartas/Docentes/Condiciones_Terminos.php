@@ -50,6 +50,7 @@ class Condiciones_Terminos extends Fpdf
 
     public function Condiciones_Terminos($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];

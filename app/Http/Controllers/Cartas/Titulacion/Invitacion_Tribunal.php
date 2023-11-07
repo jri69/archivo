@@ -79,6 +79,7 @@ class Invitacion_Tribunal extends Fpdf
 
     public function informe($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // dd($data);
         // obtener datos
         $tipo = $data[2];

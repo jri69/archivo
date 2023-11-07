@@ -76,6 +76,7 @@ class Pre_Defensa extends Fpdf
 
     public function informe($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtener datos
         $carta = CartaTitulacion::findOrFail($data[1]);
         $titulacion = Titulacion::findOrFail($data[0]);

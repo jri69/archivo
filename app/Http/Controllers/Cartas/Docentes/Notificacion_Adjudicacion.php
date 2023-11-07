@@ -62,6 +62,7 @@ class Notificacion_Adjudicacion extends Fpdf
 
     public function informe($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtencion de datos
         $contrato = $data[0];
         $idCarta = $data[1];

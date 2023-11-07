@@ -74,6 +74,7 @@ class Informe_Originalidad extends Fpdf
 
     public function informe($data)
     {
+        $this->fpdf->header('Content-type: application/pdf');
         // obtener datos
         $carta = ModelsCartaTitulacion::findOrFail($data[1]);
         $titulacion = Titulacion::findOrFail($data[0]);
