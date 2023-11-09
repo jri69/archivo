@@ -43,6 +43,7 @@
                                     <th>Nombre</th>
                                     <th>Cedula</th>
                                     <th>Carrera</th>
+                                    <th>Estado</th>
                                     <th>Inscrito</th>
                                 </thead>
                                 <tbody>
@@ -52,11 +53,19 @@
                                             <td>{{ $estudiante->nombre }} </td>
                                             <td>{{ $estudiante->cedula }}</td>
                                             <td>{{ $estudiante->carrera }}</td>
+                                            <td>
+                                                @if ($estudiante->deuda == 'CON DEUDA')
+                                                    <span class="badge badge-danger">{{ $estudiante->deuda }}</span>
+                                                @else
+                                                    <span class="badge badge-success">{{ $estudiante->deuda }}</span>
+                                                @endif
+                                            </td>
                                             <td class="td-actions">
                                                 <div class="form-check">
                                                     <label class="form-check" for="defaultCheck1">
                                                         <input class="form-check" type="checkbox"
                                                             {{ in_array($estudiante->id, $listEstudents) ? 'checked' : '' }}
+                                                            {{ $estudiante->deuda == 'CON DEUDA' && !in_array($estudiante->id, $listEstudents) ? 'disabled' : '' }}
                                                             wire:click="add({{ $estudiante->id }})">
                                                         <span class="form-check"></span>
                                                     </label>

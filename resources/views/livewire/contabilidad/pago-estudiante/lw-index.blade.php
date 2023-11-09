@@ -8,8 +8,17 @@
                         <i class="material-icons">search</i>
                     </span>
                 </div>
+
             </div>
             <div class="col text-right">
+                <a class="btn btn-primary text-white" wire:click="todos">
+                    <i class="material-icons">refresh</i>
+                    <b>Todos</b>
+                </a>
+                <a class="btn btn-primary text-white" wire:click="conDeuda">
+                    <i class="material-icons">money</i>
+                    <b>Con Deuda</b>
+                </a>
             </div>
         </div>
 
@@ -26,14 +35,14 @@
                                     <th>#</th>
                                     <th>Nombre</th>
                                     <th>Cedula</th>
-                                    <th>Estado</th>
                                     <th>Correo</th>
                                     <th>Telefono</th>
                                     <th>Nacionalidad</th>
+                                    <th>Deuda</th>
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($estudiantes as $estudiante)
+                                    @foreach ($estudantes_search as $estudiante)
                                         <tr>
                                             <td>{{ $estudiante->id }} </td>
                                             <td>{{ $estudiante->honorifico . ' ' . $estudiante->nombre }}
@@ -43,17 +52,17 @@
                                                 @endif
                                             </td>
                                             <td>{{ $estudiante->cedula ? $estudiante->cedula : 'Sin cedula' }}</td>
-                                            <td>
-                                                @if ($estudiante->estado == 'Activo')
-                                                    <span class="badge badge-success">Activo</span>
-                                                @else
-                                                    <span class="badge badge-danger">Inactivo</span>
-                                                @endif
-                                            </td>
                                             <td>{{ $estudiante->email ? $estudiante->email : 'Sin correo' }}</td>
                                             <td>{{ $estudiante->telefono ? $estudiante->telefono : 'Sin telefono' }}
                                             </td>
                                             <td>{{ $estudiante->nacionalidad ? $estudiante->nacionalidad : '-' }}</td>
+                                            <td>
+                                                @if ($estudiante->deuda == 'CON DEUDA')
+                                                    <span class="badge badge-danger">Con Deuda</span>
+                                                @else
+                                                    <span class="badge badge-success">Sin Deuda</span>
+                                                @endif
+                                            </td>
                                             <td class="td-actions">
                                                 <a href="{{ route('pago_estudiante.show', $estudiante->id) }}"
                                                     class="btn btn-success">
@@ -68,7 +77,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            {{ $estudiantes->links() }}
+                            {{-- {{ $estudiantes->links() }} --}}
                         </div>
                     </div>
                 </div>

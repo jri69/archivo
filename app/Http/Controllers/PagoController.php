@@ -76,7 +76,6 @@ class PagoController extends Controller
             $archivo = Storage::url($file);
         }
         $pago = Pago::findOrFail($id);
-        $pago->pago_estudiante_id = $pago->pago_estudiante_id;
         $pago->monto = $request['monto'];
         $pago->fecha = $request['fecha'];
         $pago->comprobante = $request['comprobante'];
@@ -84,7 +83,6 @@ class PagoController extends Controller
         $pago->compro_file = $archivo;
         $pago->observaciones = $request['observaciones'];
         $pago->save();
-        $id = Pago_estudiante::findOrFail($id);
         return redirect()->route('pago_estudiante.show_programa', $pago->pago_estudiante_id);
     }
 

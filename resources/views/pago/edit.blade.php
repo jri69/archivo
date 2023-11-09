@@ -69,10 +69,10 @@
                                     <div class="col-sm-7">
                                         <select name="tipo_pago_id" id="_area" class="form-control">
                                             <option disabled selected>Seleccione el Tipo de pago</option>
-                                            @foreach ($pagos as $pago)
-                                                <option value="{{ $pago->id }}"
-                                                    {{ old('tipo_pago_id', $pago->tipo_pago_id) == $pago->id ? 'selected' : '' }}>
-                                                    {{ $pago->nombre }}</option>
+                                            @foreach ($pagos as $pagoDB)
+                                                <option value="{{ $pagoDB->id }}"
+                                                    {{ old('tipo_pago_id', $pago->tipo_pago_id) == $pagoDB->id ? 'selected' : '' }}>
+                                                    {{ $pagoDB->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>

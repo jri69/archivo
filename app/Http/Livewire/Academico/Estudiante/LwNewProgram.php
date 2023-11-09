@@ -6,6 +6,7 @@ use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
+use App\Models\Pago_estudiante;
 use App\Models\Programa;
 use Livewire\Component;
 
@@ -14,6 +15,22 @@ class LwNewProgram extends Component
     public $estudiante;
     public $programa_id = '';
     public $modulo_id = '';
+    public $hasDeuda = false;
+
+    public function mount($estudiante)
+    {
+        $pago_estudiantes = Pago_estudiante::where('estudiante_id', $estudiante->id)->get();
+        $hasDeuda = false;
+        foreach ($pago_estudiantes as $key => $pago_estudiante) {
+            Pago_estudiante::calcularEstadoDeuda($pago_estudiante);
+            if ($pago_estudiante->estado == 'CON DEUDA') {
+                $hasDeuda = true;
+                break;
+            }
+        }
+        $this->hasDeuda = $hasDeuda;
+    }
+
 
     public function save()
     {

@@ -7,6 +7,7 @@ use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
+use App\Models\Pago_estudiante;
 use App\Models\Programa;
 use Livewire\Component;
 
@@ -80,7 +81,23 @@ class LwInscribir extends Component
         $estudianteP = EstudiantePrograma::where('id_programa', $this->programa->id)->get();
         $estudiantes = Estudiante::whereIn('id', $estudianteP->pluck('id_estudiante'))->orderBy($this->sort, $this->direction)->get();
         foreach ($estudiantes as $estudiante) {
-            if (!in_array($estudiante->id, $this->listEstudents)) {
+            $pago_estudiantes = Pago_estudiante::where('estudiante_id', $estudiante->id)->get();
+            $hasDeuda = false;
+            foreach ($pago_estudiantes as $pago_estudiante) {
+                Pago_estudiante::calcularEstadoDeuda($pago_estudiante);
+                if ($pago_estudiante->estado == 'CON DEUDA') {
+                    $hasDeuda = true;
+                    break;
+                }
+            }
+            if ($hasDeuda) {
+                $estudiante->deuda = 'CON DEUDA';
+            } else {
+                $estudiante->deuda = 'SIN DEUDA';
+            }
+        }
+        foreach ($estudiantes as $estudiante) {
+            if (!in_array($estudiante->id, $this->listEstudents) && $estudiante->deuda == 'SIN DEUDA') {
                 array_push($this->listEstudents, $estudiante->id);
             }
         }
@@ -90,7 +107,22 @@ class LwInscribir extends Component
     {
         $estudianteP = EstudiantePrograma::where('id_programa', $this->programa->id)->get();
         $estudiantes = Estudiante::whereIn('id', $estudianteP->pluck('id_estudiante'))->orderBy($this->sort, $this->direction)->get();
-        // filtrar estudiantes por nombre y cedula
+        foreach ($estudiantes as $key => $estudiante) {
+            $pago_estudiantes = Pago_estudiante::where('estudiante_id', $estudiante->id)->get();
+            $hasDeuda = false;
+            foreach ($pago_estudiantes as $key => $pago_estudiante) {
+                Pago_estudiante::calcularEstadoDeuda($pago_estudiante);
+                if ($pago_estudiante->estado == 'CON DEUDA') {
+                    $hasDeuda = true;
+                    break;
+                }
+            }
+            if ($hasDeuda) {
+                $estudiante->deuda = 'CON DEUDA';
+            } else {
+                $estudiante->deuda = 'SIN DEUDA';
+            }
+        }
         $estudiantes = $estudiantes->filter(function ($estudiante) {
             return str_contains(strtolower($estudiante->nombre), strtolower($this->attribute)) || str_contains(strtolower($estudiante->cedula), strtolower($this->attribute));
         });

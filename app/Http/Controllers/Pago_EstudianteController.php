@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\EstudianteModulo;
 use App\Models\EstudiantePrograma;
 use App\Models\Modulo;
 use App\Models\Pago;
@@ -63,9 +64,7 @@ class Pago_EstudianteController extends Controller
         foreach ($pagos_programas as $key => $pago_programa) {
             $programa = Programa::findOrFail($pago_programa->programa_id);
             $pagos_programas_array[$key] = $pago_programa;
-            $descuento  = $programa->costo * $pago_programa->tipo_descuento->monto / 100;
-            $monto_pagado = Pago::where('pago_estudiante_id', $pago_programa->id)->sum('monto');
-            $monto_adeudado = 0;
+            $monto_adeudado = Pago_estudiante::calcularEstadoDeuda($pago_programa);
             $pagos_programas_array[$key]['deuda'] = $monto_adeudado;
         }
         return view('pago.index', compact('pagos_programas', 'estudiante'));
@@ -76,7 +75,6 @@ class Pago_EstudianteController extends Controller
         $pago_estudiante = Pago_estudiante::findOrFail($pago_estudiante);
         $programa = Programa::findOrFail($pago_estudiante->programa_id);
         $estudiante = Estudiante::findOrFail($pago_estudiante->estudiante_id);
-
         $pagos = [];
         $pagos_db = Pago::where('pago_estudiante_id', $pago_estudiante->id)->get();
         foreach ($pagos_db as $key => $pago) {
@@ -86,17 +84,10 @@ class Pago_EstudianteController extends Controller
 
         $descuento  = $programa->costo * $pago_estudiante->tipo_descuento->monto / 100;
         $monto_pagado = Pago::where('pago_estudiante_id', $pago_estudiante->id)->sum('monto');
-        $monto_adeudado = 0;
+        $monto_adeudado = Pago_estudiante::calcularEstadoDeuda($pago_estudiante);
         $pagado_adeudado = $monto_pagado + $monto_adeudado;
         $monto_total = ($programa->costo - $pago_estudiante->convalidacion) - $descuento;
         $deuda = $monto_total - $pagado_adeudado;
-
-        if ($monto_adeudado > 0) {
-            $pago_estudiante->estado = 'CON DEUDA';
-        } else {
-            $pago_estudiante->estado = 'SIN DEUDA';
-        }
-        $pago_estudiante->save();
         return view('pago.show_programa', compact('pago_estudiante', 'programa', 'estudiante', 'pagos', 'monto_pagado', 'monto_adeudado', 'pagado_adeudado', 'monto_total', 'deuda', 'descuento'));
     }
 

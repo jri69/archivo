@@ -8,10 +8,12 @@
                     <a href="{{ route('pago_estudiante.show', $estudiante->id) }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">keyboard_backspace</i>
                         atras</a>
-                    <a href="{{ route('pago.create', $estudiante->id) }}" class="btn btn-sm btn-primary">
-                        <i class="material-icons">add</i>
-                        <span class="sidebar-normal">Pago</span>
-                    </a>
+                    @if ($monto_pagado != $pagado_adeudado || $monto_adeudado != 0 || $deuda != 0)
+                        <a href="{{ route('pago.create', $estudiante->id) }}" class="btn btn-sm btn-primary">
+                            <i class="material-icons">add</i>
+                            <span class="sidebar-normal">Pago</span>
+                        </a>
+                    @endif
                     <a href="{{ route('pago.pdf', $estudiante->id) }}" class="btn btn-sm btn-primary">
                         <i class="material-icons">picture_as_pdf</i>
                         <b>PDF</b>

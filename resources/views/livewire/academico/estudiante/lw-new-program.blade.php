@@ -8,6 +8,11 @@
                         <p class="card-category">Seleccione un programa y modulo</p>
                     </div>
                     <div class="card-body">
+                        @if ($hasDeuda)
+                            <div class="alert alert-danger" role="alert">
+                                <strong>El estudiante tiene una deuda pendiente, no puede matricularse.</strong> <br>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -41,7 +46,8 @@
                         <br>
                         <div class="row">
                             <div class="card-footer ml-auto mr-auto">
-                                <button class="btn btn-primary" wire:click='save()'>Guardar</button>
+                                <button class="btn btn-primary" {{ $hasDeuda ? 'disabled' : '' }}
+                                    wire:click='save()'>Guardar</button>
                                 <a href="{{ route('estudiante.show', $estudiante->id) }}"
                                     class="btn btn-primary pull-right">Cancelar</a>
                             </div>
