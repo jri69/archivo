@@ -27,6 +27,7 @@
                             <table class="table">
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
+                                    <td>Imagen</td>
                                     <td>Honorifico</td>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
@@ -39,6 +40,10 @@
                                     @foreach ($docentes as $docente)
                                         <tr>
                                             <td>{{ $docente->id }}</td>
+                                            <td>
+                                                <img src="{{ asset($docente->foto) }}" alt="" width="50px"
+                                                    height="50px" class="img-raised">
+                                            </td>
                                             <td>{{ $docente->honorifico }}</td>
                                             <td>{{ $docente->nombre }}</td>
                                             <td>{{ $docente->apellido }}</td>

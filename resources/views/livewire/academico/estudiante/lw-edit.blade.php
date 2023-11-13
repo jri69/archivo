@@ -158,9 +158,15 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="bmd-label-floating">Carrera</label>
-                                    <input type="text" class="form-control" name="carrera"
-                                        wire:model.defer='datos.carrera'>
+                                    <select class="form-control" name="carrera">
+                                        <option disabled value="">Seleccione la carrera</option>
+                                        @foreach ($carreras as $carrera)
+                                            <option value="{{ $carrera->nombre }}"
+                                                {{ $datos['carrera'] == $carrera->nombre ? 'selected' : '' }}>
+                                                {{ $carrera->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 @error('datos.carrera')
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
@@ -171,9 +177,15 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label class="bmd-label-floating">Universidad</label>
-                                    <input type="text" class="form-control" name="universidad"
-                                        wire:model.defer='datos.universidad'>
+                                    <select class="form-control" name="universidad">
+                                        <option disabled value="">Seleccione la universidad</option>
+                                        @foreach ($universidades as $universidad)
+                                            <option value="{{ $universidad->nombre }}"
+                                                {{ $datos['universidad'] == $universidad->nombre ? 'selected' : '' }}>
+                                                {{ $universidad->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 @error('datos.universidad')
                                     <span class="error text-danger" for="input-nombre">{{ $message }}</span>
@@ -181,7 +193,17 @@
                             </div>
                         </div>
                         <br>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="bmd-label-floating">Actualizar la una Foto</label>
+                                <input type="file" class="form-control" name="foto" style="display: visible"
+                                    wire:model.defer='foto'>
+                            </div>
+                            @error('foto')
+                                <span class="error text-danger" for="input-foto">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <br>
 
                         {{-- Tabla con los requisitos y un campo para subir documentos --}}
                         <div class="row">

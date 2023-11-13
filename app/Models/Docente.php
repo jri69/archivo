@@ -14,6 +14,8 @@ class Docente extends Model
         'honorifico',
         'cedula',
         'expedicion',
+        'foto',
+        'cv',
         'correo',
         'telefono',
         'facturacion',

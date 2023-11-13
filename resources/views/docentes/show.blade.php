@@ -18,6 +18,10 @@
                             <span class="sidebar-normal">Nuevo contrato</span>
                         </a>
                     @endcan
+                    <a href="{{ asset($docente->cv) }}" target="_blank" class="btn btn-sm btn-primary">
+                        <i class="material-icons">description</i>
+                        <span class="sidebar-normal">Ver CV</span>
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -27,49 +31,63 @@
                             <h4 class="card-title ">Docente</h4>
                             <p class="card-category">Informacion del Docente</p>
                         </div>
-                        <div class="card-body">
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Nombre</label>
-                                        <input type="text" class="form-control"
-                                            value="{{ $docente->honorifico . ' ' . $docente->nombre . ' ' . $docente->apellido }} "
-                                            disabled>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 justify-center">
+                                            <br>
+                                            <img src="{{ asset($docente->foto) }}" alt="Foto"
+                                                class="img-thumbnail img-responsive" width="300px">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Correo Electrónico</label>
-                                        <input type="email" class="form-control" value="{{ $docente->correo }}" disabled>
+                            <div class="card-body">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Nombre</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $docente->honorifico . ' ' . $docente->nombre . ' ' . $docente->apellido }} "
+                                                disabled>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Telefono</label>
-                                        <input type="text" class="form-control" value="{{ $docente->telefono }}"
-                                            disabled>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Correo Electrónico</label>
+                                            <input type="email" class="form-control" value="{{ $docente->correo }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Telefono</label>
+                                            <input type="text" class="form-control" value="{{ $docente->telefono }}"
+                                                disabled>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br>
+                                <br>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Cedula</label>
-                                        <input type="text" class="form-control"
-                                            value="{{ $docente->cedula . ' ' . $docente->expedicion }} " disabled>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Cedula</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $docente->cedula . ' ' . $docente->expedicion }} " disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Facturacion</label>
-                                        <input type="text" class="form-control"
-                                            value="{{ $docente->facturacion ? 'Si' : 'No' }}" disabled>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Facturacion</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $docente->facturacion ? 'Si' : 'No' }}" disabled>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

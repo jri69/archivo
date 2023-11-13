@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contrato;
 use App\Models\Docente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocentesController extends Controller
 {
@@ -27,8 +28,12 @@ class DocentesController extends Controller
             'nombre' => 'required|string|max:150',
             'apellido' => 'required|string|max:150',
             'honorifico' => 'required|string|max:10',
+            'correo' => 'required|email|unique:docentes,correo',
+            'telefono' => 'required|string|max:10',
             'cedula' => 'required|string|max:10',
-            'facturacion' => 'required'
+            'facturacion' => 'required',
+            'foto' => 'required|image',
+            'cv' => 'required|file|mimes:pdf'
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -43,8 +48,30 @@ class DocentesController extends Controller
             'cedula.string' => 'La cédula debe ser una cadena de texto',
             'cedula.max' => 'La cédula debe tener máximo 10 caracteres',
             'facturacion.required' => 'La facturación es requerida',
+            'foto.required' => 'La foto es requerida',
+            'correo.required' => 'El correo es requerido',
+            'correo.email' => 'El correo debe ser un correo electrónico',
+            'correo.unique' => 'El correo ya existe',
+            'telefono.required' => 'El teléfono es requerido',
+            'telefono.string' => 'El teléfono debe ser una cadena de texto',
+            'foto.image' => 'La foto debe ser una imagen',
+            'cv.required' => 'El CV es requerido',
+            'cv.file' => 'El CV debe ser un archivo',
         ]);
-        Docente::create($request->all());
+        $dir_foto =  $request->file('foto')->store('docentes/fotos', 'public');
+        $dir_cv =  $request->file('cv')->store('docentes/cvs', 'public');
+        $data = [
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'honorifico' => $request->honorifico,
+            'cedula' => $request->cedula,
+            'facturacion' => $request->facturacion,
+            'correo' => $request->correo,
+            'telefono' => $request->telefono,
+            'foto' => 'storage/' . $dir_foto,
+            'cv' =>  'storage/' . $dir_cv,
+        ];
+        Docente::create($data);
         return redirect()->route('docentes.index');
     }
 
@@ -72,6 +99,8 @@ class DocentesController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:150',
             'apellido' => 'required|string|max:150',
+            'telefono' => 'required|string|max:10',
+            'correo' => 'required|email|unique:docentes,correo,' . $id,
             'honorifico' => 'required|string|max:10',
             'cedula' => 'required|string|max:10',
             'facturacion' => 'required'
@@ -89,15 +118,40 @@ class DocentesController extends Controller
             'cedula.string' => 'La cédula debe ser una cadena de texto',
             'cedula.max' => 'La cédula debe tener máximo 10 caracteres',
             'facturacion.required' => 'La facturación es requerida',
+            'correo.required' => 'El correo es requerido',
+            'correo.email' => 'El correo debe ser un correo electrónico',
+            'correo.unique' => 'El correo ya existe',
+            'telefono.required' => 'El teléfono es requerido',
+            'telefono.string' => 'El teléfono debe ser una cadena de texto',
         ]);
+        $data = [
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'honorifico' => $request->honorifico,
+            'cedula' => $request->cedula,
+            'facturacion' => $request->facturacion,
+            'correo' => $request->correo,
+            'telefono' => $request->telefono,
+        ];
         $docente = Docente::findOrFail($id);
-        $docente->update($request->all());
+        if ($request->hasFile('foto')) {
+            $dir_foto =  $request->file('foto')->store('docentes/fotos', 'public');
+            Storage::disk('public')->delete($docente->foto);
+            $data['foto'] = 'storage/' . $dir_foto;
+        }
+        if ($request->hasFile('cv')) {
+            $dir_cv =  $request->file('cv')->store('docentes/cvs', 'public');
+            Storage::disk('public')->delete($docente->cv);
+            $data['cv'] = 'storage/' . $dir_cv;
+        }
+        $docente->update($data);
         return redirect()->route('docentes.show', $docente->id);
     }
 
     // Eliminar un docente
     public function destroy($id)
     {
+        Storage::disk('public')->delete(Docente::findOrFail($id)->foto);
         $docente = Docente::findOrFail($id);
         $docente->delete();
         return redirect()->route('docentes.index');

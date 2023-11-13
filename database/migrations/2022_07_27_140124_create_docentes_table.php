@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('honorifico')->nullable();
             $table->string('nombre');
             $table->string('apellido');
+            $table->string('foto');
+            $table->string('cv');
             $table->string('correo')->unique()->nullable();
             $table->string('cedula')->nullable();
             $table->string('expedicion', 2)->nullable();

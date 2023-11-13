@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('cedula')->unique()->nullable();
             $table->string('nacionalidad')->nullable();
+            $table->string('foto');
             $table->string('sexo');
             $table->string('expedicion', 2);
             $table->string('carrera');

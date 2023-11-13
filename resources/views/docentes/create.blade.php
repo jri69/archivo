@@ -27,7 +27,6 @@
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-
                                     </div>
                                 </div>
                                 <br>
@@ -116,37 +115,44 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Facturacion</label>
-                                            <div class="form-check form-check-radio col-md-2">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="facturacion"
-                                                        id="exampleRadios1" value="true" checked>
-                                                    Si
-                                                    <span class="circle">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-radio col-md-2">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="facturacion"
-                                                        id="exampleRadios2" value="false">
-                                                    No
-                                                    <span class="circle">
-                                                        <span class="check"></span>
-                                                    </span>
-                                                </label>
-                                            </div>
+                                        <div>
+                                            <label class="bmd-label-floating">Subir una Foto</label>
+                                            <input type="file" class="form-control" name="foto"
+                                                style="display: visible">
                                         </div>
-                                        @if ($errors->has('facturacion'))
+                                        @if ($errors->has('foto'))
                                             <span class="error text-danger"
-                                                for="input-facturacion">{{ $errors->first('facturacion') }}</span>
+                                                for="input-foto">{{ $errors->first('foto') }}</span>
                                         @endif
                                     </div>
                                     <div class="col-md-6">
-
+                                        <div>
+                                            <label class="bmd-label-floating">Subir una CV</label>
+                                            <input type="file" class="form-control" name="cv"
+                                                style="display: visible">
+                                        </div>
+                                        @if ($errors->has('cv'))
+                                            <span class="error text-danger"
+                                                for="input-cv">{{ $errors->first('cv') }}</span>
+                                        @endif
                                     </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2"> <b> Facturacion</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="radio" name="facturacion" value="true" checked>
+                                        <span>Si</span>
+                                        <input type="radio" name="facturacion" value="false"
+                                            style="margin-left: 15px">
+                                        <span>No</span>
+                                    </div>
+                                    @if ($errors->has('facturacion'))
+                                        <span class="error text-danger"
+                                            for="input-facturacion">{{ $errors->first('facturacion') }}</span>
+                                    @endif
                                 </div>
                                 <br>
                             </div>

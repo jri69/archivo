@@ -4,6 +4,7 @@
             <div class="col-md-11">
                 <div class="card">
                     <div class="card-body">
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -210,8 +211,18 @@
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="bmd-label-floating">Subir una Foto</label>
+                                <input type="file" class="form-control" name="foto" style="display: visible"
+                                    wire:model.defer='foto'>
+                            </div>
+                            @error('foto')
+                                <span class="error text-danger" for="input-foto">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <br>
 
-                        {{-- Tabla con los requisitos y un campo para subir documentos --}}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
@@ -255,6 +266,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div hidden>
                             <input type="text" name="estado" value="Activo" wire:model.defer='datos.estado'>

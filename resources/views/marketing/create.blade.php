@@ -66,9 +66,14 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Carrera</label>
-                                            <input type="text" class="form-control" name="carrera"
-                                                value="{{ old('carrera') }}">
+                                            <select class="form-control" name="carrera">
+                                                <option disabled selected value="">Seleccione la carrera</option>
+                                                @foreach ($carreras as $carrera)
+                                                    <option value="{{ $carrera->nombre }}">
+                                                        {{ $carrera->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         @if ($errors->has('carrera'))
                                             <span class="error text-danger"
@@ -76,6 +81,7 @@
                                         @endif
                                     </div>
                                 </div>
+
                                 <br>
                                 <div class="row">
                                     <div class="col" style="padding: 0px 0px">

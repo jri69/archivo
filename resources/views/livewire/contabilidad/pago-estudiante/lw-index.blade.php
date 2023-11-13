@@ -33,6 +33,7 @@
                             <table class="table">
                                 <thead class="text-primary text-dark">
                                     <th>#</th>
+                                    <th>Foto</th>
                                     <th>Nombre</th>
                                     <th>Cedula</th>
                                     <th>Correo</th>
@@ -45,6 +46,10 @@
                                     @foreach ($estudantes_search as $estudiante)
                                         <tr>
                                             <td>{{ $estudiante->id }} </td>
+                                            <td>
+                                                <img src="{{ asset($estudiante->foto) }}" alt=""
+                                                    class="img-fluid" width="50">
+                                            </td>
                                             <td>{{ $estudiante->honorifico . ' ' . $estudiante->nombre }}
                                                 @if ($estudiante->numero_registro)
                                                     <br>

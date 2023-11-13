@@ -34,97 +34,112 @@
                             <h4 class="card-title ">Estudiante</h4>
                             <p class="card-category">Informacion del estudiante</p>
                         </div>
-                        <div class="card-body">
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Nombre</label>
-                                        <input type="text" class="form-control" value="{{ $estudiante->nombre }}"
-                                            disabled>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <br>
+                                            <img src="{{ asset($estudiante->foto) }}" alt="Foto"
+                                                class="img-thumbnail img-responsive" width="300px">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            @if ($estudiante->email || $estudiante->telefono)
+                            <div class="card-body">
                                 <br>
                                 <div class="row">
-                                    @if ($estudiante->email)
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Nombre</label>
+                                            <input type="text" class="form-control" value="{{ $estudiante->nombre }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($estudiante->email || $estudiante->telefono)
+                                    <br>
+                                    <div class="row">
+                                        @if ($estudiante->email)
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Correo Electrónico</label>
+                                                    <input type="email" class="form-control"
+                                                        value="{{ $estudiante->email }}" disabled>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($estudiante->telefono)
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Telefono</label>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $estudiante->telefono }}" disabled>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endif
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Cedula</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $estudiante->cedula }} - {{ $estudiante->expedicion }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    @if ($estudiante->numero_registro)
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="bmd-label-floating">Correo Electrónico</label>
-                                                <input type="email" class="form-control" value="{{ $estudiante->email }}"
+                                                <label class="bmd-label-floating">Registro</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $estudiante->numero_registro }}" disabled>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                                @if ($estudiante->estado == 'Inactivo')
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Estado</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $estudiante->estado }}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Fecha Abandono</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ date('d-m-Y', strtotime($estudiante->fecha_inactividad)) }}"
                                                     disabled>
                                             </div>
                                         </div>
-                                    @endif
-                                    @if ($estudiante->telefono)
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="bmd-label-floating">Telefono</label>
-                                                <input type="text" class="form-control"
-                                                    value="{{ $estudiante->telefono }}" disabled>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Cedula</label>
-                                        <input type="text" class="form-control"
-                                            value="{{ $estudiante->cedula }} - {{ $estudiante->expedicion }}" disabled>
-                                    </div>
-                                </div>
-                                @if ($estudiante->numero_registro)
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="bmd-label-floating">Registro</label>
-                                            <input type="text" class="form-control"
-                                                value="{{ $estudiante->numero_registro }}" disabled>
-                                        </div>
                                     </div>
                                 @endif
-                            </div>
-                            @if ($estudiante->estado == 'Inactivo')
                                 <br>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Estado</label>
-                                            <input type="text" class="form-control" value="{{ $estudiante->estado }}"
+                                            <label class="bmd-label-floating">Carrera</label>
+                                            <input type="text" class="form-control" value="{{ $estudiante->carrera }}"
                                                 disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Fecha Abandono</label>
+                                            <label class="bmd-label-floating">Universadad</label>
                                             <input type="text" class="form-control"
-                                                value="{{ date('d-m-Y', strtotime($estudiante->fecha_inactividad)) }}"
-                                                disabled>
+                                                value="{{ $estudiante->universidad }}" disabled>
                                         </div>
-                                    </div>
-                                </div>
-                            @endif
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Carrera</label>
-                                        <input type="text" class="form-control" value="{{ $estudiante->carrera }}"
-                                            disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Universadad</label>
-                                        <input type="text" class="form-control" value="{{ $estudiante->universidad }}"
-                                            disabled>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

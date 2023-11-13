@@ -67,9 +67,15 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">Carrera</label>
-                                            <input type="text" class="form-control" name="carrera"
-                                                value="{{ $prospecto->carrera }}">
+                                            <select class="form-control" name="carrera">
+                                                <option disabled selected value="">Seleccione la carrera</option>
+                                                @foreach ($carreras as $carrera)
+                                                    <option value="{{ $carrera->nombre }}"
+                                                        {{ $prospecto->carrera == $carrera->nombre ? 'selected' : '' }}>
+                                                        {{ $carrera->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         @if ($errors->has('carrera'))
                                             <span class="error text-danger"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrera;
 use App\Models\Prospecto;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class MarketingController extends Controller
     // Interface para crear un administrativo
     public function create()
     {
-        return view('marketing.create');
+        $carreras = Carrera::all();
+        return view('marketing.create', compact('carreras'));
     }
 
     // Guardar un administrativo
@@ -39,8 +41,9 @@ class MarketingController extends Controller
     // Interface de edición de un administrativo
     public function edit($id)
     {
+        $carreras = Carrera::all();
         $prospecto = Prospecto::findOrFail($id);
-        return view('marketing.edit', compact('prospecto'));
+        return view('marketing.edit', compact('prospecto', 'carreras'));
     }
 
     // Actualizar un administrativo

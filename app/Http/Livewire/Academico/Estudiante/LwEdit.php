@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Academico\Estudiante;
 
+use App\Models\Carrera;
 use App\Models\Estudiante;
 use App\Models\Requisito;
 use App\Models\RequisitoEstudiante;
+use App\Models\Universidad;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -15,6 +17,9 @@ class LwEdit extends Component
     public $datos = [];
     public $documentos = [];
     public $estudiante;
+    public $carreras = [];
+    public $universidades = [];
+    public $foto;
 
     public function mount($id_estudiante)
     {
@@ -30,6 +35,8 @@ class LwEdit extends Component
         $this->datos['numero_registro'] = $this->estudiante->numero_registro;
         $this->datos['sexo'] = $this->estudiante->sexo;
         $this->datos['honorifico'] = $this->estudiante->honorifico;
+        $this->carreras = Carrera::all();
+        $this->universidades = Universidad::all();
     }
 
     public function store()
@@ -41,12 +48,13 @@ class LwEdit extends Component
                 'datos.telefono' => 'numeric',
                 'datos.cedula' => 'required|unique:estudiantes,cedula,' . $this->estudiante->id,
                 'datos.expedicion' => 'required|alpha|size:2',
-                'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
-                'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'datos.carrera' => 'required|string|max:200',
+                'datos.universidad' => 'required|string|max:200',
                 'datos.numero_registro' => 'nullable|string|max:200',
                 'datos.nacionalidad' => 'required|string',
                 'datos.honorifico' => 'required|string',
-                'datos.sexo' => 'required|string'
+                'datos.sexo' => 'required|string',
+                'foto' => 'nullable|image',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -65,8 +73,18 @@ class LwEdit extends Component
                 'datos.universidad.regex' => 'El campo universidad solo puede contener letras',
                 'datos.numero_registro.required' => 'El campo numero de registro es obligatorio',
                 'datos.nacionalidad.required' => 'El campo nacionalidad es obligatorio',
+                'datos.honorifico.required' => 'El campo honorifico es obligatorio',
+                'datos.sexo.required' => 'El campo sexo es obligatorio',
+                'foto.image' => 'El campo foto debe ser una imagen',
             ]
         );
+        if ($this->foto) {
+            $filename = $this->foto->getClientOriginalName();
+            $this->datos['foto'] = 'storage/' . Storage::disk('public')->put('estudiantes', $this->foto);
+            if ($this->estudiante->foto) {
+                unlink($this->estudiante->foto);
+            }
+        }
         $this->estudiante->update($this->datos);
         if ($this->documentos) {
             $requisitos = Requisito::all();

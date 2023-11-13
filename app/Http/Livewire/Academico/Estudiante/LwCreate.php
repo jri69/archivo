@@ -26,6 +26,7 @@ class LwCreate extends Component
     public $listModulos = [];
     public $universidades;
     public $carreras;
+    public $foto;
 
     public function mount()
     {
@@ -56,17 +57,18 @@ class LwCreate extends Component
     {
         $this->validate(
             [
-                'datos.nombre' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'datos.nombre' => 'required|string|max:200',
                 'datos.email' => 'email|max:200|unique:estudiantes,email',
                 'datos.telefono' => 'numeric',
                 'datos.cedula' => 'required|unique:estudiantes,cedula',
                 'datos.expedicion' => 'required|alpha|size:2',
-                'datos.carrera' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
-                'datos.universidad' => 'required|string|regex:/^[\pL\s\-]+$/u|max:200',
+                'datos.carrera' => 'required|string|max:200',
+                'datos.universidad' => 'required|string|max:200',
                 'datos.numero_registro' => 'numeric',
                 'datos.nacionalidad' => 'required|string',
                 'datos.honorifico' => 'required|string',
                 'datos.sexo' => 'required|string',
+                'foto' => 'required|image',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -84,8 +86,11 @@ class LwCreate extends Component
                 'datos.universidad.regex' => 'El campo universidad solo puede contener letras',
                 'datos.numero_registro.numeric' => 'El campo numero de registro solo puede contener numeros',
                 'datos.nacionalidad.required' => 'El campo nacionalidad es obligatorio',
+                'datos.honorifico.required' => 'El campo honorifico es obligatorio',
+                'datos.sexo.required' => 'El campo sexo es obligatorio',
             ]
         );
+        $this->datos['foto'] = 'storage/' . Storage::disk('public')->put('estudiantes', $this->foto);
         $estudiante = Estudiante::create($this->datos);
         if ($this->datos['id_programa']) {
             EstudiantePrograma::create([

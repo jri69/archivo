@@ -151,7 +151,31 @@
                                     @endif
                                 </div>
                                 <br>
-
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="bmd-label-floating">Subir una Foto</label>
+                                            <input type="file" class="form-control" name="foto"
+                                                style="display: visible">
+                                        </div>
+                                        @if ($errors->has('foto'))
+                                            <span class="error text-danger"
+                                                for="input-foto">{{ $errors->first('foto') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="bmd-label-floating">Subir una CV</label>
+                                            <input type="file" class="form-control" name="cv"
+                                                style="display: visible">
+                                        </div>
+                                        @if ($errors->has('cv'))
+                                            <span class="error text-danger"
+                                                for="input-cv">{{ $errors->first('cv') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
                             </div>
                             <div class="card-footer ml-auto mr-auto">
                                 <button type="submit"class="btn btn-primary">
