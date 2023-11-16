@@ -53,6 +53,12 @@ class Pago_EstudianteController extends Controller
             'convalidacion' => $request['convalidacion'],
             'estado' => 'CON DEUDA',
         ];
+        $exist = Pago_estudiante::where('estudiante_id', $estudiante)
+            ->where('programa_id', $request['programa_id'])
+            ->first();
+        if ($exist != null) {
+            return redirect()->route('pago_estudiante.create', $estudiante)->with('error', 'El estudiante ya tiene un pago registrado para este programa');
+        }
         Pago_estudiante::create($data);
         return redirect()->route('pago_estudiante.index');
     }
@@ -112,11 +118,5 @@ class Pago_EstudianteController extends Controller
         $pago_estu->save();
 
         return redirect()->route('pago_estudiante.index');
-    }
-
-
-    public function destroy($id)
-    {
-        //
     }
 }

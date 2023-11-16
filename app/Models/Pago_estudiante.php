@@ -20,7 +20,7 @@ class Pago_estudiante extends Model
 
     public function estudiante()
     {
-        return $this->belongsTo(estudiante::class, 'estudiante_id');
+        return $this->belongsTo(Estudiante::class, 'estudiante_id');
     }
     public function tipo_descuento()
     {

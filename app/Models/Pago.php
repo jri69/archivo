@@ -23,16 +23,16 @@ class Pago extends Model
 
     public function pago_estudiante()
     {
-        return $this->belongsTo(pago_estudiante::class, 'pago_estudiante_id');
+        return $this->belongsTo(Pago_estudiante::class, 'pago_estudiante_id');
     }
 
     public function tipo_pago()
     {
-        return $this->belongsTo(tipo_pago::class, 'tipo_pago_id');
+        return $this->belongsTo(Tipo_pago::class, 'tipo_pago_id');
     }
 
     public function modulo()
     {
-        return $this->belongsTo(modulo::class, 'modulo_id');
+        return $this->belongsTo(Modulo::class, 'modulo_id');
     }
 }

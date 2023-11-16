@@ -74,6 +74,8 @@ class ModuloController extends Controller
         }
         $request->request->add(['costo' => $costoXmodulo]);
         $modulo = Modulo::create($request->all());
+        $programa->cantidad_modulos += 1;
+        $programa->save();
         ProgramaCalendar::create([
             'nombre' => $modulo->nombre,
             'start' => $modulo->fecha_inicio,
