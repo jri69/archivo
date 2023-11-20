@@ -14,6 +14,12 @@ class Carta extends Model
         'tipo_id',
         'fecha_plazo',
         'contrato_id',
+        'campo_adicional_uno',
+        'campo_adicional_dos',
+        'campo_adicional_tres',
+        'campo_adicional_cuatro',
+        'campo_adicional_cinco',
+        'campo_adicional_seis',
     ];
 
     public function directivos()

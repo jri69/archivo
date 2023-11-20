@@ -161,6 +161,7 @@ class Solicitud_De_Pago extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("BNR"), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Conformidad_De_Trabajo.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

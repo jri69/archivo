@@ -144,6 +144,7 @@ class Informe_Conformidad extends Fpdf
         $this->WriteText('<C.c.:> Archivo');
 
         $this->fpdf->Output("I", $docente_nombre . " - Informe Conformidad.pdf");
+        exit;
     }
 
     function WriteText($text)

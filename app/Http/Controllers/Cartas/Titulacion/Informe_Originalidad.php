@@ -225,6 +225,7 @@ class Informe_Originalidad extends Fpdf
 
 
         $this->fpdf->Output("I", "Informe_Acreditacion_DT.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

@@ -10,7 +10,9 @@ use App\Http\Controllers\Cartas\Docentes\Propuesta_Consultor;
 use App\Http\Controllers\Cartas\Docentes\Informe_Tecnico;
 use App\Http\Controllers\Cartas\Docentes\Notificacion_Adjudicacion;
 use App\Http\Controllers\Cartas\Docentes\Comunicacion_Interna;
+use App\Http\Controllers\Cartas\Docentes\Contrato_Administrativo;
 use App\Http\Controllers\Cartas\Docentes\Informe_Conformidad;
+use App\Http\Controllers\Cartas\Docentes\Informe_Legal;
 use App\Http\Controllers\Cartas\Docentes\Planilla_pago;
 
 use App\Http\Controllers\Cartas\Titulacion\Cac_Informe_Cumplimiento_Requisitos;
@@ -47,8 +49,10 @@ class ReporteController extends Controller
     private $CTC = 'Condiciones y términos para la contratación';
     private $RP = 'Requerimiento de propuesta';
     private $PC = 'Propuesta del consultor';
+    private $IL = 'Informe legal';
     private $IT = 'Informe técnico';
     private $NA = 'Notificación de adjudicación';
+    private $CA = 'Contrato administrativo';
     private $CI = 'Comunicación interna';
     private $IC = 'Informe de conformidad';
     private $PP = 'Planilla de pago';
@@ -93,11 +97,17 @@ class ReporteController extends Controller
             case $this->PC:
                 $this->Propuesta_Consultor([$contrato, $idCarta]);
                 break;
+            case $this->IL:
+                $this->Informe_Legal([$contrato, $idCarta]);
+                break;
             case $this->IT:
                 $this->Informe_Tecnico([$contrato, $idCarta]);
                 break;
             case $this->NA:
                 $this->Notificacion_Adjudicacion([$contrato, $idCarta]);
+                break;
+            case $this->CA:
+                $this->Contrato_Administrativo([$contrato, $idCarta]);
                 break;
             case $this->CI:
                 $this->Comunicacion_Interna([$contrato, $idCarta]);
@@ -214,6 +224,12 @@ class ReporteController extends Controller
         return $pc->propuesta($data);
     }
 
+    public function Informe_Legal($data)
+    {
+        $il = new Informe_Legal();
+        return $il->informe($data);
+    }
+
     public function Informe_Tecnico($data)
     {
         $it = new Informe_Tecnico();
@@ -224,6 +240,12 @@ class ReporteController extends Controller
     {
         $na = new Notificacion_Adjudicacion();
         return $na->informe($data);
+    }
+
+    public function Contrato_Administrativo($data)
+    {
+        $ca = new Contrato_Administrativo();
+        return $ca->informe($data);
     }
 
     public function Comunicacion_Interna($data)

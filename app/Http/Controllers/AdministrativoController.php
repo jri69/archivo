@@ -27,14 +27,12 @@ class AdministrativoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:150',
             'apellido' => 'required|string|max:150',
-            /* 'honorifico' => 'required|string|max:10', */
             'ci' => 'required|string|max:10',
             'expedicion' => 'required',
             'contrato' => 'required',
             'cargo_id' => 'required',
-            /* 'facturacion' => 'required' */
             'fecha_ingreso' => 'required',
-            'fecha_retiro' => 'required'
+            'fecha_retiro' => 'nullable|date'
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -42,18 +40,13 @@ class AdministrativoController extends Controller
             'apellido.required' => 'El apellido es requerido',
             'apellido.string' => 'El apellido debe ser una cadena de texto',
             'apellido.max' => 'El apellido debe tener máximo 150 caracteres',
-            /*  'honorifico.required' => 'El honorifico es requerido',
-            'honorifico.string' => 'El honorifico debe ser una cadena de texto',
-            'honorifico.max' => 'El honorifico debe tener máximo 10 caracteres', */
             'ci.required' => 'La cédula es requerida',
             'ci.string' => 'La cédula debe ser una cadena de texto',
             'ci.max' => 'La cédula debe tener máximo 10 caracteres',
             'expedicion.required' => 'La expedicion es requerida',
             'contrato.required' => 'El tipo de contrato es requerido',
             'cargo_id.required' => 'El Cargo es requerido',
-            /* 'facturacion.required' => 'La facturación es requerida', */
             'fecha_ingreso.required' => 'La fecha de ingreso es requerida',
-            'fecha_retiro.required' => 'La fecha de retiro es requerida'
         ]);
         Administrativo::create($request->all());
         return redirect()->route('administrativo.index');
@@ -88,7 +81,7 @@ class AdministrativoController extends Controller
             'contrato' => 'required',
             'cargo_id' => 'required',
             'fecha_ingreso' => 'required',
-            'fecha_retiro' => 'required'
+            'fecha_retiro' => 'nullable|date'
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -105,16 +98,14 @@ class AdministrativoController extends Controller
             'fecha_retiro.required' => 'La fecha de retiro es requerida'
         ]);
         $administrativo->update($request->all());
-        // $docente = Docente::findOrFail($id);
-        // $docente->update($request->all());
         return redirect()->route('administrativo.index');
     }
 
     // Eliminar un administrativo
     public function destroy($id)
     {
-        // $docente = Docente::findOrFail($id);
-        // $docente->delete();
-        // return redirect()->route('administrativo.index');
+        $administrativo = Administrativo::find($id);
+        $administrativo->delete();
+        return redirect()->route('administrativo.index');
     }
 }

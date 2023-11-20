@@ -68,9 +68,89 @@
                                     </div>
                                     <br>
                                 @endif
+                                @if ($informe_legal)
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Solicitud de
+                                                contratación*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="solicitud_contratacion">
+                                            @if ($errors->has('solicitud_contratacion'))
+                                                <span class="error text-danger"
+                                                    for="input-solicitud_contratacion">{{ $errors->first('solicitud_contratacion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b> Segunda Fecha*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="date" class="form-control" name="fecha_dos"
+                                                value="{{ date('Y-m-d') }}">
+                                            @if ($errors->has('fecha_dos'))
+                                                <span class="error text-danger"
+                                                    for="input-fecha_dos">{{ $errors->first('fecha_dos') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Registro de ejecución*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="registro_ejecucion">
+                                            @if ($errors->has('registro_ejecucion'))
+                                                <span class="error text-danger"
+                                                    for="input-registro_ejecucion">{{ $errors->first('registro_ejecucion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Comunicacion interna*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="comunicacion_interna">
+                                            @if ($errors->has('comunicacion_interna'))
+                                                <span class="error text-danger"
+                                                    for="input-comunicacion_interna">{{ $errors->first('comunicacion_interna') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Modalidad de
+                                                adjudicacion*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="modalidad_adjudicacion">
+                                            @if ($errors->has('modalidad_adjudicacion'))
+                                                <span class="error text-danger"
+                                                    for="input-modalidad_adjudicacion">{{ $errors->first('modalidad_adjudicacion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Forma de adjudicacion*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="forma_adjudicacion">
+                                            @if ($errors->has('forma_adjudicacion'))
+                                                <span class="error text-danger"
+                                                    for="input-forma_adjudicacion">{{ $errors->first('forma_adjudicacion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                @endif
+
+
                                 @if ($tabla)
                                     <div class="row">
-                                        <label for="nombre" class="col-sm-2 col-form-label"> <b> Formación requerida</b>
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b> Formación
+                                                requerida</b>
                                         </label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" name="formacion_requerida"
@@ -127,8 +207,8 @@
                                                                     </td>
                                                                     <td> 10 </td>
                                                                     <td>
-                                                                        <input type="radio" name="cursos_continuo" checked
-                                                                            value="Si">
+                                                                        <input type="radio" name="cursos_continuo"
+                                                                            checked value="Si">
                                                                         <span>SI</span>
                                                                     </td>
                                                                     <td>
@@ -212,13 +292,17 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        ( Seminarios, Cursos, Talleres, Simposios y otros )
+                                                                        ( Seminarios, Cursos, Talleres, Simposios y
+                                                                        otros )
                                                                         <br>
-                                                                        * Tiene mayor o igual a 2 certificados (1 puntos)
+                                                                        * Tiene mayor o igual a 2 certificados (1
+                                                                        puntos)
                                                                         <br>
-                                                                        * Tiene mayor o igual a 4 certificados (3 puntos)
+                                                                        * Tiene mayor o igual a 4 certificados (3
+                                                                        puntos)
                                                                         <br>
-                                                                        * Tiene mayor o igual a 6 certificados (5 puntos)
+                                                                        * Tiene mayor o igual a 6 certificados (5
+                                                                        puntos)
                                                                     </td>
                                                                     <td>
                                                                         <input type="number" name="formacion_continua"

@@ -249,7 +249,8 @@
 
             @if (auth()->user()->can('inventario.index') ||
                     auth()->user()->can('activo.index') ||
-                    auth()->user()->can('solictud.index') ||
+                    auth()->user()->can('solicitudes.index') ||
+                    auth()->user()->can('solicitudes.show') ||
                     auth()->user()->can('tic.index'))
                 <li
                     class="nav-item {{ $activePage == 'inventario' || $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
@@ -260,7 +261,7 @@
                         </p>
                     </a>
                     <div class="collapse" id="Tics">
-                        @can('solicitudes.index')
+                        @can('solicitudes.show')
                             <ul class="nav">
                                 <li class="nav-item{{ $activePage == 'solicitudes' ? ' active' : '' }}">
                                     <a class="nav-link" href="{{ route('solicitudes.index') }}">

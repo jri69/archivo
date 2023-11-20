@@ -176,6 +176,7 @@ class Informe_Tecnico extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Coordinador Académico"), 0, 'C', 0);
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("ESCUELA DE INGENIERIA - UAGRM"), 0, 'C', 0);
         $this->fpdf->Output("I", $docente->nombre . " - Informe Tecnico.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

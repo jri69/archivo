@@ -146,6 +146,7 @@ class Solicitud_Fecha_Defensa extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adj. Documentos"), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Solicitud_Fecha_Defensa.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

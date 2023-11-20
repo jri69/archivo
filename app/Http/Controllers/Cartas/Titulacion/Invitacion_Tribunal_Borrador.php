@@ -157,6 +157,7 @@ class Invitacion_Tribunal_Borrador extends Fpdf
             // FONT BOLD
         }
         $this->fpdf->Output("I", "Invitacion_Tribunal_Borrador.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

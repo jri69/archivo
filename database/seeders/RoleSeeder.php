@@ -35,6 +35,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'tic.index', 'description' => 'Gestionar equipos TIC', 'type' => 'Administrativo'])->syncRoles($admin);
         Permission::create(['name' => 'activo.index', 'description' => 'Gestionar activos fijos', 'type' => 'Administrativo'])->syncRoles($admin);
         Permission::create(['name' => 'solicitudes.index', 'description' => 'Gestionar solicitudes', 'type' => 'Administrativo'])->syncRoles($admin);
+        Permission::create(['name' => 'solicitudes.show', 'description' => 'Ver solicitudes', 'type' => 'Administrativo'])->syncRoles($admin);
 
 
         Permission::create(['name' => 'modulo.index', 'description' => 'Gestionar modulos', 'type' => 'Académico'])->syncRoles($admin);

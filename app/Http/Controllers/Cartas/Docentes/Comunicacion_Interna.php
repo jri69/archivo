@@ -168,6 +168,7 @@ class Comunicacion_Interna extends Fpdf
 
         // FONT BOLD
         $this->fpdf->Output("I", $name_docente . " - Comunicacion Interna.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

@@ -155,6 +155,7 @@ class Solicitud_Homologacion extends Fpdf
             $this->fpdf->MultiCell($this->width, 4, utf8_decode("Adj. Documentos + CD del perfil y la autenticidad "), 0, 'L', 0);
         }
         $this->fpdf->Output("I", "Informe_Acreditacion_DT.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

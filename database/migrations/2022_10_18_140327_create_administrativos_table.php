@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('contrato');
             $table->unsignedInteger('cargo_id');
             $table->string('fecha_ingreso');
-            $table->string('fecha_retiro');
+            $table->string('fecha_retiro')->nullable();
             $table->timestamps();
 
             $table->foreign('cargo_id')->on('cargos')->references('id')->onDelete('cascade')->onUpdate('cascade');

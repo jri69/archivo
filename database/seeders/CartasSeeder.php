@@ -33,11 +33,19 @@ class CartasSeeder extends Seeder
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
+            'nombre' => 'Informe legal',
+            'tipo' => 'Docente',
+        ]);
+        TipoCarta::create([
             'nombre' => 'Informe técnico',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
             'nombre' => 'Notificación de adjudicación',
+            'tipo' => 'Docente',
+        ]);
+        TipoCarta::create([
+            'nombre' => 'Contrato administrativo',
             'tipo' => 'Docente',
         ]);
         TipoCarta::create([
@@ -133,6 +141,15 @@ class CartasSeeder extends Seeder
             'institucion' => 'UAGRM',
             'activo' => true,
             'sexo' => 'F'
+        ]);
+        Directivo::create([
+            'nombre' => 'Daniel',
+            'apellido' => 'Tejerina Claudio',
+            'honorifico' => 'M.Sc',
+            'cargo' => 'Comisión de calificación',
+            'institucion' => 'Escuela de Ingeniería - UAGRM',
+            'activo' => true,
+            'sexo' => 'M'
         ]);
 
         // Titulacion

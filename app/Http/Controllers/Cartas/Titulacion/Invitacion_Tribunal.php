@@ -152,6 +152,7 @@ class Invitacion_Tribunal extends Fpdf
             // FONT BOLD
         }
         $this->fpdf->Output("I", "Invitacion_Tribunal.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

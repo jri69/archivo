@@ -192,6 +192,7 @@ class Cac_Informe_Cumplimiento_Requisitos extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Cac_Informe_Cumplimiento_Requisitos.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

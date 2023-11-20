@@ -124,7 +124,7 @@
                                     <tbody>
                                         @foreach ($tipos_cartas as $tipo)
                                             <tr>
-                                                <td> {{ $tipo['tipo']->nombre }}</td>
+                                                <td>{{ $tipo['tipo']->nombre }}</td>
                                                 <td>{{ $tipo['carta'] ? 'Creado' : 'No creado' }}</td>
                                                 <td>{{ $tipo['carta'] ? $tipo['carta']->fecha : 'No creado' }}</td>
                                                 <td class="td-actions">

@@ -1,23 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Cartas\Titulacion;
+namespace App\Http\Controllers\Cartas\Docentes;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
-use App\Models\CartaTitulacion;
-use App\Models\Directivo;
 use App\Models\Docente;
-use App\Models\Estudiante;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
-use App\Models\Titulacion;
-use App\Models\TitulacionDirectivo;
-use App\Models\Tribunal;
 use Codedge\Fpdf\Fpdf\Fpdf;
-use Luecano\NumeroALetras\NumeroALetras;
 
-class Conformidad_De_Trabajo extends Fpdf
+class Informe_Legal extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -31,10 +24,9 @@ class Conformidad_De_Trabajo extends Fpdf
     {
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
-
     private function fechaLiteral($fecha)
     {
-        $fecha = explode('-', $fecha);
+        $fecha = explode('/', $fecha);
         $meses = [
             '01' => 'Enero',
             '02' => 'Febrero',
@@ -49,137 +41,69 @@ class Conformidad_De_Trabajo extends Fpdf
             '11' => 'Noviembre',
             '12' => 'Diciembre',
         ];
-        return $fecha[2] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[0];
-    }
-
-    private function numeroAliteral($number)
-    {
-        $formatter = new NumeroALetras();
-        return $formatter->toMoney($number);
+        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
     }
 
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'de la maestría en';
+            return 'a la <MAESTRIA> en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'del diplomado en';
+            return 'al <DIPLOMADO> en ';
         }
         if ($tipo == 'Cursos') {
-            return 'del curso en';
+            return 'al <CURSO> de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'del doctorado en';
-        }
-        if ($tipo == 'Especialidad') {
-            return 'de la especialidad en';
+            return 'al <DOCTORADO> en ';
         }
     }
 
     public function informe($data)
     {
         $this->fpdf->header('Content-type: application/pdf');
-        // obtener datos
-        $carta = CartaTitulacion::findOrFail($data[1]);
-        $titulacion = Titulacion::findOrFail($data[0]);
-        $programa = Programa::findOrFail($titulacion->programa_id);
-        $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
-        $fechaLiteral = $this->fechaLiteral($carta->fecha);
-        $director = TitulacionDirectivo::where('carta_titulacion_id', $carta->id)->first();
-        $director = Directivo::where('id', $director->directivo_id)->where('cargo', 'Director')->first();
-        $director->sexo == 'M' ? $presentacion = 'Estimado Sr. director' : $presentacion = 'Estimada Sra. director';
-        $nombre_dra = $director->honorifico . ' ' . $director->nombre . ' ' . $director->apellido;
+        // obtencion de datos
+        $contrato = $data[0];
+        $idCarta = $data[1];
+        $modulo = Modulo::find($contrato->modulo_id);
+        $docente = Docente::find($modulo->docente_id);
+        $carta = Carta::find($idCarta);
+        $fecha = date('d/m/Y', strtotime($carta->fecha));
+        $fechaLiteral = $this->fechaLiteral($fecha);
 
-        $sexo = $estudiante->sexo == 'F' ? 'de la' : 'del';
-        $nombre_estudiante = $sexo . ' <' . $estudiante->honorifico . ' ' . $estudiante->nombre . '>';
-        $nombre_programa = $this->tipoPrograma($programa->tipo) . ' <' . $programa->nombre . '>';
+        $programa = Programa::find($modulo->programa_id);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
+        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
-        $hora = explode(':', $titulacion->hora_defensa);
-        $hora = $hora[0] . ':' . $hora[1] . ' ' . ($hora[0] > 12 ? 'pm' : 'am');
-
-        $cartas = CartaTitulacion::where('titulacion_id', $titulacion->id)->where('tipo_id', 15)->get();
+        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
+        // directivos
+        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $comision = '';
+        $asesor = '';
+        foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Asesor Legal') {
+                $asesor = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Comisión de calificación') {
+                $comision = $directivo->directivo;
+            }
+        }
+        $comision ? $responsable_name = $comision->honorifico . " " . $comision->nombre . " " . $comision->apellido . " - " . $comision->cargo . ' ' . $comision->institucion : $responsable_name = '';
+        $asesor ? $asesor_name = $asesor->honorifico . ' ' . $asesor->nombre . ' ' . $asesor->apellido  . ' - ' . $asesor->cargo . ' ' . $asesor->institucion : $coordinador_name = '';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(25, $this->margin, 20);
         $this->fpdf->SetAutoPageBreak(true, 20);
+
         $this->fpdf->Ln(20);
-
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº " . $carta->codigo_admi), 0, 'L', 0);
-        $this->fpdf->Ln(8);
-
-        $this->fpdf->SetFont('Arial', '', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($director->sexo == 'M' ? 'Señor:' : 'Señora:'), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($nombre_dra), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', 'B', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DIRECTOR GENERAL"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("ESCUELA DE INGENIERÍA "), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("FCET - U.A.G.R.M. "), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', '', 11);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente"), 0, 'L', 0);
-
-        $this->fpdf->Ln(6);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  Conformidad de trabajo"), 0, 'C', 0);
-        $this->fpdf->Ln(6);
-
-        // CONTENIDO
-        $contenido = [
-            'first' => "Mediante la presente, el suscrito Coordinador de Investigación de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología tiene a bien emitir nota de conformidad del trabajo final de grado " . $nombre_estudiante . " quien defendió el día " . $titulacion->dia_defensa . ", a horas " . $hora . ".",
-        ];
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode('De mi mayor consideración:'), 0, 'L', 0);
-        $this->fpdf->Ln(4);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(6);
-        $this->WriteText("Los Miembros del Tribunal del Trabajo Final de Grado son:");
-        $this->fpdf->Ln(6);
-        foreach ($cartas as $key => $crt) {
-            $jurado = Tribunal::where('carta_titulacion_id', $crt->id)->first();
-            $this->fpdf->SetFont('Arial', 'B', 10);
-            $this->fpdf->SetX($this->vineta);
-            $this->MultiCellBlt($this->width - 10, 4, $key + 1, utf8_decode($jurado->nombre));
-        }
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->Ln(6);
-        $this->WriteText("Así mismo le adjunto los siguientes documentos: Nº de transacción " . $carta->otro);
-        $this->fpdf->Ln(4);
-        $this->WriteText("Fotocopias de:");
-        $this->fpdf->Ln(8);
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Res. COM. AC-C Nº ' . $carta->codigo1));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Res. CONS.D.P. Nº  ' . $carta->codigo2));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Res. CONS.D.P. Nº  ' . $carta->codigo3));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Carnet de Identidad de los miembros del tribunal '));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Curriculum Vitae '));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Título de Maestría '));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Acta de Disertación-Sustentación del Trabajo Final de Grado'));
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('Declaración Jurada de los Tribunales'));
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Informe Legal"), 0, 'C', 0);
 
 
-        $this->fpdf->Ln(10);
-        $this->WriteText("Sin otro particular, saludo a usted con las consideraciones más distinguidas.");
-        $this->fpdf->Ln(8);
-        $this->WriteText("Atentamente,");
 
-        // pie de pagina
-        $this->fpdf->Ln(20);
-        $this->fpdf->SetFont('Arial', 'I', 6);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Copia /Archivo"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("NOTA: ADJUNTO DCTOS. RESPALDATORIOS"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("BNR"), 0, 'L', 0);
-        // FONT BOLD
-        $this->fpdf->Output("I", "Conformidad_De_Trabajo.pdf");
+        $this->fpdf->Output("I", $docente->nombre . " - Informe Legal.pdf");
         exit;
     }
 
@@ -195,7 +119,7 @@ class Conformidad_De_Trabajo extends Fpdf
         $this->fpdf->Cell($blt_width, $h, $blt, 0, '', $fill);
 
         //Output text
-        $this->fpdf->MultiCell($w - $blt_width, $this->space - 1, $txt, $border, $align, $fill);
+        $this->fpdf->MultiCell($w - $blt_width, $this->space, $txt, $border, $align, $fill);
 
         //Restore x
         $this->fpdf->SetX($bak_x);
@@ -318,7 +242,7 @@ class Conformidad_De_Trabajo extends Fpdf
                 $intPosFim = strpos($text, ']');
                 // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
                 $w = $this->width;
-                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
                 $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
             }
         } else {
@@ -336,7 +260,7 @@ class Conformidad_De_Trabajo extends Fpdf
                 $intPosFim = strpos($text, ']');
                 // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
                 $w = $this->width;
-                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
                 $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
             } else {
                 $this->fpdf->Write(5, utf8_decode($text));

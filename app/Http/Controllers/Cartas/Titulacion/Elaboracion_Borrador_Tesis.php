@@ -137,6 +137,7 @@ class Elaboracion_Borrador_Tesis extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc./Arch."), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Elaboracion_Borrador_Tesis.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

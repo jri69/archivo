@@ -195,6 +195,7 @@ class Comite_Academico_Cientifico extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Comite_Academico_Cientifico.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

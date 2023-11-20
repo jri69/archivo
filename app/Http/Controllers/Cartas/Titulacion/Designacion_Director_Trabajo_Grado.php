@@ -148,6 +148,7 @@ class Designacion_Director_Trabajo_Grado extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc./Arch."), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Designacion_Director_Trabajo_Grado.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

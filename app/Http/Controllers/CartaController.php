@@ -17,8 +17,10 @@ class CartaController extends Controller
     private $CTC = 'Condiciones y términos para la contratación';
     private $RP = 'Requerimiento de propuesta';
     private $PC = 'Propuesta del consultor';
+    private $IL = 'Informe legal';
     private $IT = 'Informe técnico';
     private $NA = 'Notificación de adjudicación';
+    private $CAD = 'Contrato administrativo';
     private $CI = 'Comunicación interna';
     private $IC = 'Informe de conformidad';
     private $PP = 'Planilla de pago';
@@ -30,6 +32,7 @@ class CartaController extends Controller
     private $DC = 'Decano';
     private $AL = 'Asesor Legal';
     private $JAYF = 'Jefe ADM. y Financiero';
+    private $CDC = 'Comisión de calificación';
 
     // Instituciones
     private $EI = 'Escuela de Ingeniería - F.C.E.T.';
@@ -44,6 +47,8 @@ class CartaController extends Controller
         $codigo = true;
         $tabla = false;
         $contrato_admi = false;
+        $informe_legal = false;
+        $contrato_admi = false;
         $tipoCarta = TipoCarta::find($tipo);
         $tipoCarta->nombre == $this->RP ? $plazo = true : '';
         $tipoCarta->nombre == $this->CI ? $plazo = true : '';
@@ -52,7 +57,9 @@ class CartaController extends Controller
         $tipoCarta->nombre == $this->CTC ? $tabla = true : '';
         $tipoCarta->nombre == $this->CTC ? $codigo = false : '';
         $tipoCarta->nombre == $this->IC ? $contrato_admi = true : '';
-        return view('cartas.create', compact('id', 'plazo', 'tipo', 'codigo', 'tabla', 'contrato_admi'));
+        $tipoCarta->nombre == $this->IL ? $informe_legal = true : '';
+        $tipoCarta->nombre == $this->CAD ? $contrato_admi = true : '';
+        return view('cartas.create', compact('id', 'plazo', 'tipo', 'codigo', 'tabla', 'contrato_admi', 'informe_legal', 'contrato_admi'));
     }
 
     public function carta_edit($id)
@@ -149,6 +156,26 @@ class CartaController extends Controller
             ], [
                 'contrato_admi.required' => 'El contrato administrativo es requerido',
             ]);
+        } else if ($tipoCarta->nombre == $this->IL) {
+            $request->validate([
+                'codigo' => 'required|string',
+                'fecha' => 'required|date',
+                'solicitud_contratacion' => 'required|string',
+                'fecha_dos' => 'required|date',
+                'registro_ejecucion' => 'required|string',
+                'comunicacion_interna' => 'required|string',
+                'modalidad_adjudicacion' => 'required|string',
+                'forma_adjudicacion' => 'required|string'
+            ], [
+                'contrato_admi.required' => 'El contrato administrativo es requerido',
+                'solicitud_contratacion.required' => 'La solicitud de contratación es requerida',
+                'fecha_dos.required' => 'La fecha es requerida',
+                'fecha_dos.date' => 'La fecha debe ser una fecha válida',
+                'registro_ejecucion.required' => 'El registro de ejecución es requerido',
+                'comunicacion_interna.required' => 'La comunicación interna es requerida',
+                'modalidad_adjudicacion.required' => 'La modalidad de adjudicación es requerida',
+                'forma_adjudicacion.required' => 'La forma de adjudicación es requerida',
+            ]);
         } else {
             $request->validate([
                 'codigo' => 'required|string',
@@ -164,6 +191,14 @@ class CartaController extends Controller
         ];
         $request->fecha_plazo ? $dataCarta['fecha_plazo'] = $request->fecha_plazo : '';
         $request->contrato_admi ? $dataCarta['contrato_admi'] = $request->contrato_admi : '';
+        if ($tipoCarta->nombre == $this->IL) {
+            $dataCarta['campo_adicional_uno'] = $request->solicitud_contratacion;
+            $dataCarta['campo_adicional_dos'] = $request->fecha_dos;
+            $dataCarta['campo_adicional_tres'] = $request->registro_ejecucion;
+            $dataCarta['campo_adicional_cuatro'] = $request->comunicacion_interna;
+            $dataCarta['campo_adicional_cinco'] = $request->modalidad_adjudicacion;
+            $dataCarta['campo_adicional_seis'] = $request->forma_adjudicacion;
+        }
         $carta = Carta::create($dataCarta);
         $this->createDirectivo($tipoCarta->nombre, $carta->id);
         if ($tipoCarta->nombre == $this->CTC) {
@@ -255,6 +290,12 @@ class CartaController extends Controller
                 $this->addCartaDirectivo($carta, $director->id);
                 $this->addCartaDirectivo($carta, $jefeAd->id);
                 $this->addCartaDirectivo($carta, $decano->id);
+                break;
+            case $this->IL:
+                $asesorLegal = $this->directivo($this->AL, $this->FCETUAGRM);
+                $comisionCalificacion = $this->directivo($this->CDC, $this->EIUAGRM);
+                $this->addCartaDirectivo($carta, $asesorLegal->id);
+                $this->addCartaDirectivo($carta, $comisionCalificacion->id);
                 break;
             default:
                 break;

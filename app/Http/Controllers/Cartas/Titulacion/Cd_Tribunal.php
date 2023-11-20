@@ -244,6 +244,7 @@ class Cd_Tribunal extends Fpdf
         $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
         // FONT BOLD
         $this->fpdf->Output("I", "Cd_Tribunal.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

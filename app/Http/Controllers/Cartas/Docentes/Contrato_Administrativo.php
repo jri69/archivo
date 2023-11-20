@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Cartas\Titulacion;
+namespace App\Http\Controllers\Cartas\Docentes;
 
 use App\Models\Carta;
 use App\Models\CartaDirectivo;
-use App\Models\CartaTitulacion;
 use App\Models\Docente;
-use App\Models\Estudiante;
 use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
-use App\Models\Titulacion;
 use Codedge\Fpdf\Fpdf\Fpdf;
-use Luecano\NumeroALetras\NumeroALetras;
 
-class Empastado extends Fpdf
+class Contrato_Administrativo extends Fpdf
 {
     protected $fpdf;
     public $margin = 30;
@@ -28,10 +24,9 @@ class Empastado extends Fpdf
     {
         $this->fpdf = new Fpdf('P', 'mm', 'Letter');
     }
-
     private function fechaLiteral($fecha)
     {
-        $fecha = explode('-', $fecha);
+        $fecha = explode('/', $fecha);
         $meses = [
             '01' => 'Enero',
             '02' => 'Febrero',
@@ -46,100 +41,29 @@ class Empastado extends Fpdf
             '11' => 'Noviembre',
             '12' => 'Diciembre',
         ];
-        return $fecha[2] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[0];
-    }
-
-    private function numeroAliteral($number)
-    {
-        $formatter = new NumeroALetras();
-        return $formatter->toMoney($number);
+        return $fecha[0] . ' de ' . $meses[$fecha[1]] . ' de ' . $fecha[2];
     }
 
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'de la maestría';
+            return 'a la <MAESTRIA> en ';
         }
         if ($tipo == 'Diplomado') {
-            return 'del diplomado';
+            return 'al <DIPLOMADO> en ';
         }
         if ($tipo == 'Cursos') {
-            return 'del curso';
+            return 'al <CURSO> de ';
         }
         if ($tipo == 'Doctorado') {
-            return 'del doctorado';
-        }
-        if ($tipo == 'Especialidad') {
-            return 'de la especialidad';
+            return 'al <DOCTORADO> en ';
         }
     }
 
     public function informe($data)
     {
         $this->fpdf->header('Content-type: application/pdf');
-        // obtener datos
-        $carta = CartaTitulacion::findOrFail($data[1]);
-        $titulacion = Titulacion::findOrFail($data[0]);
-        $programa = Programa::findOrFail($titulacion->programa_id);
-        $estudiante = Estudiante::findOrFail($titulacion->estudiante_id);
-        $fechaLiteral = $this->fechaLiteral($carta->fecha);
-
-
-        $this->fpdf->AddPage();
-        $this->fpdf->SetMargins(25, $this->margin, 20);
-        $this->fpdf->SetAutoPageBreak(true, 20);
-        $this->fpdf->Ln(20);
-
-        $this->fpdf->SetFont('Arial', '', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Santa Cruz, " . $fechaLiteral), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Oficio de Coordinación de Investigación Nº " . $carta->codigo_admi), 0, 'L', 0);
-        $this->fpdf->Ln(8);
-
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($estudiante->sexo == 'M' ? "Señor:" : "Señora:"), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode($estudiante->honorifico . ' ' . $estudiante->nombre), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Presente.-"), 0, 'L', 0);
-
-        $this->fpdf->Ln(6);
-        $this->fpdf->SetFont('Arial', 'B', 9);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Ref.:  Visto bueno para presentar sus empastados"), 0, 'C', 0);
-        $this->fpdf->Ln(6);
-
-        // CONTENIDO
-        $contenido = [
-            'first' => "De acuerdo a procedimientos, habiendo cumplido con la revisión y la aprobación de los tres tribunales revisores de la tesis titulada: <" . $titulacion->tesis . ">.",
-            'second' => "En los referidos informes remitidos por los señores tribunales, usted está aprobado para proceder con el empastado de su trabajo final de grado de maestría y luego su posterior defensa ante la Escuela de Postgrado de la U.A.G.R.M.",
-        ];
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi mayor consideración:"), 0, 'L', 0);
-        $this->fpdf->Ln(4);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->WriteText($contenido['first']);
-        $this->fpdf->Ln(7);
-        $this->WriteText($contenido['second']);
-        $this->fpdf->Ln(10);
-        $this->WriteText("Debe Presentar");
-        $this->fpdf->Ln(8);
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('6 empastados, 7 si el maestrante desea quedarse con uno, de acuerdo a norma de la Escuela de Ingeniería de la Facultad de Ciencias Exactas y Tecnología de la U.A.G.R.M.'));
-        $this->fpdf->Ln(2);
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('2 CD del texto en PDF'));
-        $this->fpdf->Ln(2);
-        $this->fpdf->SetX($this->vineta);
-        $this->MultiCellBlt($this->width - 10, 4, chr(149), utf8_decode('2 CD de la presentación (díapositiva)'));
-        $this->fpdf->Ln(6);
-        $this->WriteText("Con este particular, saludo a Usted.");
-        $this->fpdf->Ln(6);
-        $this->WriteText("Atentamente,");
-        // pie de pagina
-        $this->fpdf->Ln(80);
-        $this->fpdf->SetFont('Arial', '', 10);
-        $this->fpdf->MultiCell($this->width, 4, utf8_decode("Cc. Archivo"), 0, 'L', 0);
-        // FONT BOLD
-        $this->fpdf->Output("I", "Empastado.pdf");
-        exit;
+        // obtencion de datos
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)
@@ -154,7 +78,7 @@ class Empastado extends Fpdf
         $this->fpdf->Cell($blt_width, $h, $blt, 0, '', $fill);
 
         //Output text
-        $this->fpdf->MultiCell($w - $blt_width, $this->space - 1, $txt, $border, $align, $fill);
+        $this->fpdf->MultiCell($w - $blt_width, $this->space, $txt, $border, $align, $fill);
 
         //Restore x
         $this->fpdf->SetX($bak_x);
@@ -277,7 +201,7 @@ class Empastado extends Fpdf
                 $intPosFim = strpos($text, ']');
                 // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
                 $w = $this->width;
-                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
                 $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
             }
         } else {
@@ -295,7 +219,7 @@ class Empastado extends Fpdf
                 $intPosFim = strpos($text, ']');
                 // $w = $this->fpdf->GetStringWidth('a') * ($intPosFim - $intPosIni - 1);
                 $w = $this->width;
-                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, '');
+                $this->fpdf->Cell($w, $this->FontSize + 0.75, substr($text, $intPosIni + 1, $intPosFim - $intPosIni - 1), 1, 0, 'J');
                 $this->WriteText(substr($text, $intPosFim + 1, strlen($text)));
             } else {
                 $this->fpdf->Write(5, utf8_decode($text));

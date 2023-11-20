@@ -151,6 +151,7 @@ class Informe_Acreditacion_DT extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Agradeciendo su atención, reciba un cordial saludo,"), 0, 'L', 0);
 
         $this->fpdf->Output("I", "Informe_Acreditacion_DT.pdf");
+        exit;
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

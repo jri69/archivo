@@ -128,6 +128,7 @@ class Notificacion_Adjudicacion extends Fpdf
         $this->fpdf->SetFont('Arial', '', 10);
         $this->WriteText('<C.c.:> Archivo ESCUELA DE INGENIERIA');
         $this->fpdf->Output("I", $name_docente . " - Notificacion Adjudicacion.pdf");
+        exit;
     }
 
     function WriteText($text)

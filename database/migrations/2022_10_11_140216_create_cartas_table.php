@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('contrato_admi')->nullable();
             $table->date('fecha');
             $table->date('fecha_plazo')->nullable();
+            $table->string('campo_adicional_uno')->nullable();
+            $table->string('campo_adicional_dos')->nullable();
+            $table->string('campo_adicional_tres')->nullable();
+            $table->string('campo_adicional_cuatro')->nullable();
+            $table->string('campo_adicional_cinco')->nullable();
+            $table->string('campo_adicional_seis')->nullable();
             $table->unsignedBigInteger('tipo_id')->nullable();
             $table->foreign('tipo_id')->references('id')->on('tipo_cartas')->onDelete('cascade');
             $table->unsignedBigInteger('contrato_id')->nullable();

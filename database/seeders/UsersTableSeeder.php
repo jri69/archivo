@@ -32,7 +32,6 @@ class UsersTableSeeder extends Seeder
             'cargo_id' => $cargo->id,
             'ci' => '00000001',
         ]);
-
         $user = User::create([
             'name' => 'Administrador',
             'email' => 'desarrollo@ei-uagrm.edu.bo',
