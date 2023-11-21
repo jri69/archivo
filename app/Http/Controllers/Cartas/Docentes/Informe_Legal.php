@@ -9,11 +9,12 @@ use App\Models\Modulo;
 use App\Models\Programa;
 use App\Models\ProgramaModulo;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use Luecano\NumeroALetras\NumeroALetras;
 
 class Informe_Legal extends Fpdf
 {
     protected $fpdf;
-    public $margin = 30;
+    public $margin = 20;
     public $width = 165;
     public $space = 5;
     public $vineta = 30;
@@ -22,8 +23,9 @@ class Informe_Legal extends Fpdf
 
     public function __construct()
     {
-        $this->fpdf = new Fpdf('P', 'mm', 'Letter');
+        $this->fpdf = new Fpdf('P', 'mm', 'Legal');
     }
+
     private function fechaLiteral($fecha)
     {
         $fecha = explode('/', $fecha);
@@ -47,17 +49,22 @@ class Informe_Legal extends Fpdf
     private function tipoPrograma($tipo)
     {
         if ($tipo == 'Maestria') {
-            return 'a la <MAESTRIA> en ';
+            return 'A LA MAESTRIA ';
         }
         if ($tipo == 'Diplomado') {
-            return 'al <DIPLOMADO> en ';
+            return 'AL DIPLOMADO ';
         }
         if ($tipo == 'Cursos') {
-            return 'al <CURSO> de ';
+            return 'AL CURSO ';
         }
         if ($tipo == 'Doctorado') {
-            return 'al <DOCTORADO> en ';
+            return 'AL DOCTORADO ';
         }
+    }
+    private function numeroAliteral($number)
+    {
+        $formatter = new NumeroALetras();
+        return $formatter->toMoney($number);
     }
 
     public function informe($data)
@@ -77,7 +84,6 @@ class Informe_Legal extends Fpdf
         $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
         $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
 
-        $carta = Carta::where('contrato_id', $contrato->id)->where('tipo_id', 1)->first();
         // directivos
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
         $comision = '';
@@ -93,13 +99,136 @@ class Informe_Legal extends Fpdf
         $comision ? $responsable_name = $comision->honorifico . " " . $comision->nombre . " " . $comision->apellido . " - " . $comision->cargo . ' ' . $comision->institucion : $responsable_name = '';
         $asesor ? $asesor_name = $asesor->honorifico . ' ' . $asesor->nombre . ' ' . $asesor->apellido  . ' - ' . $asesor->cargo . ' ' . $asesor->institucion : $coordinador_name = '';
 
-        $this->fpdf->AddPage();
-        $this->fpdf->SetMargins(25, $this->margin, 20);
-        $this->fpdf->SetAutoPageBreak(true, 20);
 
-        $this->fpdf->Ln(20);
+        $this->fpdf->AddPage();
+        $this->fpdf->SetMargins(22, $this->margin, 22);
+        $this->fpdf->SetAutoPageBreak(true, 20);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->Ln(5);
+
+        // aplicar opacidad
+        $x = 23;
+        $this->fpdf->Rect($x, $this->fpdf->GetY(), 165 / 3, $this->fpdf->GetY() + 10, 'D');
+        $this->fpdf->Image('carta.png', 23, $this->fpdf->GetY() + 2, 50, 20);
+
+        // color gris un poco mas oscuro
+        $this->fpdf->SetTextColor(128, 128, 128);
+        $x = $x + 165 / 3;
+        $y = $this->fpdf->GetY();
+        $this->fpdf->Rect($x, $y, 165 / 3, ($this->fpdf->GetY() + 10) / 2, 'D');
+        $this->fpdf->Ln(5);
+        $this->fpdf->Cell(0, 5, utf8_decode('REGISTRO'), 0, 0, 'C');
+        $this->fpdf->Rect($x, ($y + $y) - 2.5, 165 / 3, ($this->fpdf->GetY() + 5) / 2, 'D');
+
+        $this->fpdf->SetFont('Arial', 'B', 9);
+        $x = $x + 165 / 3;
+        $this->fpdf->Rect($x, $y, 165 / 3, $this->fpdf->GetY() + 5, 'D');
+        $this->fpdf->Cell(0, 5, utf8_decode('Código:  GE-PO-01-03                    '), 0, 1, 'R');
+        $this->fpdf->Cell(0, 5, utf8_decode('Rev. 1                                  '), 0, 1, 'R');
+        $this->fpdf->Cell(0, 5, utf8_decode('Fecha: 17-03-15                         '), 0, 1, 'R');
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->Cell(0, 5, utf8_decode('ASESORIA LEGAL'), 0, 1, 'C');
+
+
+        $this->fpdf->Ln(8);
+
+        // letra color negro
+        $this->fpdf->SetTextColor(0, 0, 0);
         $this->fpdf->SetFont('Arial', 'B', 10);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Informe Legal"), 0, 'C', 0);
+        $this->fpdf->Cell(0, 5, utf8_decode('ASESORIA LEGAL INF.  ' . $carta->codigo_admi), 0, 1, 'L');
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->Cell(0, 5, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 1, 'L');
+
+
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME LEGAL"), 0, 'C', 0);
+
+
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->Ln(5);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("A          :       M.Sc. Daniel Tejerina Claudio"), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("             :       Ing. Julio Rodrigo Sandoval"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("                    COMISIÓN DE CALIFICACIÓN E.I. - UAGRM"), 0, 'L', 0);
+
+
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->Ln(5);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DE        :       " . $asesor->honorifico . ' ' . $asesor->nombre . ' ' . $asesor->apellido), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("                     ASESOR LEGAL F.C.E.T."), 0, 'L', 0);
+
+
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REF.      :       Revisión de documentos presentado para contratación de un consultor individual por producto, para el desarrollo del Módulo Denominado: \"" . $modulo->nombre . "\" CORRESPONDIENTE " . $this->tipoPrograma($programa->tipo) . ": \"" . $programa->nombre . "\" " . $programa->version . "º VER. " . $programa->edicion . "º ED., MOD. " . $programa->modalidad . "; a ejecutarse con Recursos Propios."), "B", 'J', 0);
+
+
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi mayor consideración:"), 0, 'J', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("En cumplimiento a lo establecido en los incisos a) y b) del Artículo 37 de las NB-SABS- D.S. No.0181 de 28 de junio del 2009, tengo a bien emitir el presente informe legal:"), 0, 'J', 0);
+
+        /* I.	ANTECEDENTES. -  */
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("I.      ANTECEDENTES.-"), 0, 'L', 0);
+
+        $contenido = [
+            'first' => "Recibida la documentación en fecha " . $fechaLiteral . ", y revisado los antecedentes se tiene que el <Coordinador Académico de la ESCUELA DE INGENIERIA> mediante " . $carta->campo_adicional_uno . " solicita la contratación de un <CONSULTOR por PRODUCTO, para desarrollar el Modulo Denominado: \"" . $modulo->nombre . "\" CORRESPONDIENTE " . $this->tipoPrograma($programa->tipo) . ": \"" . $programa->nombre . "\" " . $programa->version . "º VER. " . $programa->edicion . "º ED., MOD. " . $programa->modalidad . ">; Adjuntando los Términos de Referencia y/o alcance del trabajo. A ser dictados en las instalaciones y/o plataforma de la ESCUELA DE INGENIERIA.",
+            'second' => "Proveído a cargo <del Lic. Rubén Orozco Gómez - Jefe Administrativo y Finanzas de la F.C.E.T>, de fecha " . date('d/m/Y', strtotime($carta->campo_adicional_dos)) . ", en el cual describe, \"CONTABILIDAD, informar saldo presupuesto preventivo\".",
+            'third' => "El <Registro de Ejecución de " . $carta->campo_adicional_tres . ">.",
+            'fourth' => "El monto a ser cancelado por la Consultoría Bs. " . $programa->costo . ".- (" . $this->numeroAliteral($programa->costo) . " 00/100 bolivianos).",
+            'fifth' => "La Comunicación Interna " . $carta->campo_adicional_cuatro . ", donde el R.P.A. Lic. Rubén Orozco Gómez <Aprueba y Autoriza> la Contratación."
+        ];
+
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText($contenido['first']);
+        $this->fpdf->Ln(8);
+        $this->WriteText($contenido['second']);
+        $this->fpdf->Ln(8);
+        $this->WriteText($contenido['third']);
+        $this->fpdf->Ln(8);
+        $this->fpdf->SetFont('Arial', 'I', 11);
+        $this->WriteText($contenido['fourth']);
+        $this->fpdf->Ln(8);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText($contenido['fifth']);
+
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("II.     TERMINOS DE REFERENCIA. -"), 0, 'L', 0);
+
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Los términos de referencia establecen lo siguiente:"), 0, 'J', 0);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Precio Referencial:>    Bs. " . $programa->costo . ".- (" . $this->numeroAliteral($programa->costo) . " 00/100 bolivianos).");
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Modalidad de Adjudicación:> " . $carta->campo_adicional_cinco);
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Forma de Adjudicación:> " . $carta->campo_adicional_seis . ".");
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Tiempo del contrato:> Del " . date('d/m/Y', strtotime($modulo->fecha_inicio)) . " al " . date('d/m/Y', strtotime($modulo->fecha_final)) . ".");
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Plazo del Servicio:> " . $modulo->hrs_academicas . " Horas Académicas.");
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Formalización:> Contrato Menor.");
+        $this->fpdf->Ln(5);
+        $this->WriteText("<Tipo de Proceso:> Servicio de consultoría individual por Producto.");
+
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("2.    PROPUESTA.-"), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->fpdf->Ln(5);
+        $this->WriteText("Habiéndose invitado al proponente:");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+
 
 
 
