@@ -64,6 +64,58 @@ class Contrato_Administrativo extends Fpdf
     {
         $this->fpdf->header('Content-type: application/pdf');
         // obtencion de datos
+
+        // obtencion de datos
+        $contrato = $data[0];
+        $idCarta = $data[1];
+        $modulo = Modulo::find($contrato->modulo_id);
+        $docente = Docente::find($modulo->docente_id);
+        $carta = Carta::find($idCarta);
+        $fecha = date('d/m/Y', strtotime($carta->fecha));
+        $fechaLiteral = $this->fechaLiteral($fecha);
+
+        $programa = Programa::find($modulo->programa_id);
+        $modalidad = $programa->modalidad ?  $modalidad = $programa->modalidad : 'Virtual';
+        $name_programa = $this->tipoPrograma($programa->tipo) .  $programa->nombre . " (" . $programa->version . "° versión, " . $programa->edicion . "° edición) " . $modalidad;
+        $name_docente = $docente->honorifico . " " . $docente->nombre . " " . $docente->apellido;
+
+        // directivos
+        $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
+        $comision = '';
+        $asesor = '';
+        $virtual = '';
+        $coordinador = '';
+        foreach ($directivos as $directivo) {
+            if ($directivo->directivo->cargo == 'Asesor Legal') {
+                $asesor = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Comisión de calificación') {
+                $comision = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Encargado de plataforma virtual') {
+                $virtual = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo;
+            }
+        }
+        $comision ? $responsable_name = $comision->honorifico . " " . $comision->nombre . " " . $comision->apellido . " - " . $comision->cargo . ' ' . $comision->institucion : $responsable_name = '';
+        $asesor ? $asesor_name = $asesor->honorifico . ' ' . $asesor->nombre . ' ' . $asesor->apellido  . ' - ' . $asesor->cargo . ' ' . $asesor->institucion : $coordinador_name = '';
+        $virtual ? $virtual_name = $virtual->honorifico . ' ' . $virtual->nombre . ' ' . $virtual->apellido : $virtual_name = '';
+        $coordinador ? $coordinador_name = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido : $coordinador_name = '';
+
+        $this->fpdf->AddPage();
+        $this->fpdf->SetMargins(22, $this->margin, 22);
+        $this->fpdf->SetAutoPageBreak(true, 20);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->Ln(5);
+
+
+
+
+
+
+
     }
 
     function MultiCellBlt($w, $h, $blt, $txt, $border = 0, $align = 'J', $fill = false)

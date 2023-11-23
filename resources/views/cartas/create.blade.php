@@ -99,7 +99,7 @@
                                         <label for="nombre" class="col-sm-2 col-form-label"> <b>Registro de ejecución*</b>
                                         </label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="registro_ejecucion">
+                                            <input type="text" class="form-control" name="fecha_resolucion">
                                             @if ($errors->has('registro_ejecucion'))
                                                 <span class="error text-danger"
                                                     for="input-registro_ejecucion">{{ $errors->first('registro_ejecucion') }}</span>
@@ -146,6 +146,74 @@
                                     <br>
                                 @endif
 
+                                @if ($contrato_administrativo)
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Fecha de informe de
+                                                calificacion*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="date" class="form-control" name="fecha_calificacion"
+                                                value="{{ date('Y-m-d') }}">
+                                            @if ($errors->has('fecha_calificacion'))
+                                                <span class="error text-danger"
+                                                    for="input-fecha_calificacion">{{ $errors->first('fecha_calificacion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b> Resolucion*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" name="resolucion">
+                                            @if ($errors->has('resolucion'))
+                                                <span class="error text-danger"
+                                                    for="input-resolucion">{{ $errors->first('resolucion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Fecha resolucion*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="date" class="form-control" name="fecha_resolucion"
+                                                value="{{ date('Y-m-d') }}">
+                                            @if ($errors->has('fecha_resolucion'))
+                                                <span class="error text-danger"
+                                                    for="input-fecha_resolucion">{{ $errors->first('fecha_resolucion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Fecha informe de
+                                                calificacion*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="date" class="form-control" name="fecha_informe_calificacion">
+                                            @if ($errors->has('fecha_informe_calificacion'))
+                                                <span class="error text-danger"
+                                                    for="input-fecha_informe_calificacion">{{ $errors->first('fecha_informe_calificacion') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Plazo prestacion
+                                                consultoria*</b>
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control"
+                                                name="plazo_prestacion_consultoria">
+                                            @if ($errors->has('plazo_prestacion_consultoria'))
+                                                <span class="error text-danger"
+                                                    for="input-plazo_prestacion_consultoria">{{ $errors->first('plazo_prestacion_consultoria') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
+                                @endif
 
                                 @if ($tabla)
                                     <div class="row">

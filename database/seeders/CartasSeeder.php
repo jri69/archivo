@@ -151,6 +151,15 @@ class CartasSeeder extends Seeder
             'activo' => true,
             'sexo' => 'M'
         ]);
+        Directivo::create([
+            'nombre' => 'Julio ',
+            'apellido' => 'Rodrigo Sandoval',
+            'honorifico' => 'Ing.',
+            'cargo' => 'Encargado de plataforma virtual',
+            'institucion' => 'Escuela de Ingeniería - UAGRM',
+            'activo' => true,
+            'sexo' => 'M'
+        ]);
 
         // Titulacion
         TipoCarta::create([

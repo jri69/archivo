@@ -33,6 +33,7 @@ class CartaController extends Controller
     private $AL = 'Asesor Legal';
     private $JAYF = 'Jefe ADM. y Financiero';
     private $CDC = 'Comisión de calificación';
+    private $EPV = 'Encargado de plataforma virtual';
 
     // Instituciones
     private $EI = 'Escuela de Ingeniería - F.C.E.T.';
@@ -58,8 +59,8 @@ class CartaController extends Controller
         $tipoCarta->nombre == $this->CTC ? $codigo = false : '';
         $tipoCarta->nombre == $this->IC ? $contrato_admi = true : '';
         $tipoCarta->nombre == $this->IL ? $informe_legal = true : '';
-        $tipoCarta->nombre == $this->CAD ? $contrato_admi = true : '';
-        return view('cartas.create', compact('id', 'plazo', 'tipo', 'codigo', 'tabla', 'contrato_admi', 'informe_legal', 'contrato_admi'));
+        $tipoCarta->nombre == $this->CAD ? $contrato_administrativo = true : '';
+        return view('cartas.create', compact('id', 'plazo', 'tipo', 'codigo', 'tabla', 'contrato_admi', 'informe_legal', 'contrato_administrativo'));
     }
 
     public function carta_edit($id)
@@ -176,6 +177,25 @@ class CartaController extends Controller
                 'modalidad_adjudicacion.required' => 'La modalidad de adjudicación es requerida',
                 'forma_adjudicacion.required' => 'La forma de adjudicación es requerida',
             ]);
+        } else if ($tipoCarta->nombre == $this->CAD) {
+            $request->validate([
+                'codigo' => 'required|string',
+                'fecha' => 'required|date',
+                'fecha_calificacion' => 'required|date',
+                'resolucion' => 'required|string',
+                'fecha_resolucion' => 'require|date',
+                'fecha_informe_calificacion'  => 'require|date',
+                'plazo_prestacion_consultoria' => 'require|string'
+            ], [
+                'fecha_calificacion.required' => 'La fecha de calificación es requerida',
+                'fecha_calificacion.date' => 'La fecha de calificación debe ser una fecha válida',
+                'resolucion.required' => 'La resolución es requerida',
+                'fecha_resolucion.required' => 'La fecha de resolución es requerida',
+                'fecha_resolucion.date' => 'La fecha de resolución debe ser una fecha válida',
+                'fecha_informe_calificacion.required' => 'La fecha de informe de calificación es requerida',
+                'fecha_informe_calificacion.date' => 'La fecha de informe de calificación debe ser una fecha válida',
+                'plazo_prestacion_consultoria.required' => 'El plazo de prestación de consultoría es requerido',
+            ]);
         } else {
             $request->validate([
                 'codigo' => 'required|string',
@@ -198,6 +218,13 @@ class CartaController extends Controller
             $dataCarta['campo_adicional_cuatro'] = $request->comunicacion_interna;
             $dataCarta['campo_adicional_cinco'] = $request->modalidad_adjudicacion;
             $dataCarta['campo_adicional_seis'] = $request->forma_adjudicacion;
+        }
+        if ($tipoCarta->nombre == $this->CAD) {
+            $dataCarta['campo_adicional_uno'] = $request->fecha_calificacion;
+            $dataCarta['campo_adicional_dos'] = $request->resolucion;
+            $dataCarta['campo_adicional_tres'] = $request->fecha_resolucion;
+            $dataCarta['campo_adicional_cuatro'] = $request->fecha_informe_calificacion;
+            $dataCarta['campo_adicional_cinco'] = $request->plazo_prestacion_consultoria;
         }
         $carta = Carta::create($dataCarta);
         $this->createDirectivo($tipoCarta->nombre, $carta->id);
@@ -294,8 +321,20 @@ class CartaController extends Controller
             case $this->IL:
                 $asesorLegal = $this->directivo($this->AL, $this->FCETUAGRM);
                 $comisionCalificacion = $this->directivo($this->CDC, $this->EIUAGRM);
+                $virtual = $this->directivo($this->EPV, $this->EIUAGRM);
+                $coordinador = $this->directivo($this->CA, $this->EIUAGRM);
                 $this->addCartaDirectivo($carta, $asesorLegal->id);
                 $this->addCartaDirectivo($carta, $comisionCalificacion->id);
+                $this->addCartaDirectivo($carta, $virtual->id);
+                $this->addCartaDirectivo($carta, $coordinador->id);
+                break;
+            case $this->CAD:
+                $administrativo = $this->directivo($this->JAYF, $this->FCET);
+                $decano = $this->directivo($this->DC, $this->FCET);
+                $director = $this->directivo($this->DR, $this->EI);
+                $this->addCartaDirectivo($carta, $administrativo->id);
+                $this->addCartaDirectivo($carta, $decano->id);
+                $this->addCartaDirectivo($carta, $director->id);
                 break;
             default:
                 break;

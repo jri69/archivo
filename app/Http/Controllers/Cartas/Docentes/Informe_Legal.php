@@ -88,6 +88,8 @@ class Informe_Legal extends Fpdf
         $directivos = CartaDirectivo::where('carta_id', $idCarta)->get();
         $comision = '';
         $asesor = '';
+        $virtual = '';
+        $coordinador = '';
         foreach ($directivos as $directivo) {
             if ($directivo->directivo->cargo == 'Asesor Legal') {
                 $asesor = $directivo->directivo;
@@ -95,10 +97,17 @@ class Informe_Legal extends Fpdf
             if ($directivo->directivo->cargo == 'Comisión de calificación') {
                 $comision = $directivo->directivo;
             }
+            if ($directivo->directivo->cargo == 'Encargado de plataforma virtual') {
+                $virtual = $directivo->directivo;
+            }
+            if ($directivo->directivo->cargo == 'Coordinador Académico') {
+                $coordinador = $directivo->directivo;
+            }
         }
         $comision ? $responsable_name = $comision->honorifico . " " . $comision->nombre . " " . $comision->apellido . " - " . $comision->cargo . ' ' . $comision->institucion : $responsable_name = '';
         $asesor ? $asesor_name = $asesor->honorifico . ' ' . $asesor->nombre . ' ' . $asesor->apellido  . ' - ' . $asesor->cargo . ' ' . $asesor->institucion : $coordinador_name = '';
-
+        $virtual ? $virtual_name = $virtual->honorifico . ' ' . $virtual->nombre . ' ' . $virtual->apellido : $virtual_name = '';
+        $coordinador ? $coordinador_name = $coordinador->honorifico . ' ' . $coordinador->nombre . ' ' . $coordinador->apellido : $coordinador_name = '';
 
         $this->fpdf->AddPage();
         $this->fpdf->SetMargins(22, $this->margin, 22);
@@ -134,9 +143,9 @@ class Informe_Legal extends Fpdf
 
         // letra color negro
         $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
         $this->fpdf->Cell(0, 5, utf8_decode('ASESORIA LEGAL INF.  ' . $carta->codigo_admi), 0, 1, 'L');
-        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->SetFont('Arial', '', 12);
         $this->fpdf->Cell(0, 5, utf8_decode('Santa Cruz, ' . $fechaLiteral), 0, 1, 'L');
 
 
@@ -145,28 +154,28 @@ class Informe_Legal extends Fpdf
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("INFORME LEGAL"), 0, 'C', 0);
 
 
-        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->SetFont('Arial', '', 12);
         $this->fpdf->Ln(5);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("A          :       M.Sc. Daniel Tejerina Claudio"), 0, 'L', 0);
-        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("             :       Ing. Julio Rodrigo Sandoval"), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("A          :       " . $coordinador_name), 0, 'L', 0);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("             :       " . $virtual_name), 0, 'L', 0);
+        $this->fpdf->SetFont('Arial', 'B', 12);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("                    COMISIÓN DE CALIFICACIÓN E.I. - UAGRM"), 0, 'L', 0);
 
 
-        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->SetFont('Arial', '', 12);
         $this->fpdf->Ln(5);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("DE        :       " . $asesor->honorifico . ' ' . $asesor->nombre . ' ' . $asesor->apellido), 0, 'L', 0);
-        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("                     ASESOR LEGAL F.C.E.T."), 0, 'L', 0);
 
 
         $this->fpdf->Ln(5);
-        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("REF.      :       Revisión de documentos presentado para contratación de un consultor individual por producto, para el desarrollo del Módulo Denominado: \"" . $modulo->nombre . "\" CORRESPONDIENTE " . $this->tipoPrograma($programa->tipo) . ": \"" . $programa->nombre . "\" " . $programa->version . "º VER. " . $programa->edicion . "º ED., MOD. " . $programa->modalidad . "; a ejecutarse con Recursos Propios."), "B", 'J', 0);
 
 
         $this->fpdf->Ln(5);
-        $this->fpdf->SetFont('Arial', '', 10);
+        $this->fpdf->SetFont('Arial', '', 12);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("De mi mayor consideración:"), 0, 'J', 0);
         $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("En cumplimiento a lo establecido en los incisos a) y b) del Artículo 37 de las NB-SABS- D.S. No.0181 de 28 de junio del 2009, tengo a bien emitir el presente informe legal:"), 0, 'J', 0);
 
@@ -191,7 +200,7 @@ class Informe_Legal extends Fpdf
         $this->fpdf->Ln(8);
         $this->WriteText($contenido['third']);
         $this->fpdf->Ln(8);
-        $this->fpdf->SetFont('Arial', 'I', 11);
+        $this->fpdf->SetFont('Arial', 'I', 12);
         $this->WriteText($contenido['fourth']);
         $this->fpdf->Ln(8);
         $this->fpdf->SetFont('Arial', '', 12);
@@ -228,8 +237,76 @@ class Informe_Legal extends Fpdf
         $this->WriteText("Habiéndose invitado al proponente:");
         $this->fpdf->Ln(5);
         $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->Ln(5);
+        $t = $this->width / 4;
+        $this->widths = array($t + 8, $t - 8, $t, $t);
+        $this->row(array(utf8_decode('PROPONENTES'), utf8_decode('PRECIO EN BS.'), utf8_decode('TIPO DE PROP.'), utf8_decode('VALIDEZ')), 0);
+        $this->fpdf->SetFont('Arial', '', 9);
+        $this->row(array(utf8_decode($docente->nombre .
+            ' ' . $docente->apellido), utf8_decode($programa->costo), utf8_decode('PERSONA NATURAL'), utf8_decode('30 días CALENDARIOS')), 0);
 
 
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("3. ANALISIS Y RECOMENDACIÓN DE LAS PROPUESTAS:"), 0, 'L', 0);
+
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText("3.1.- Revisada la documentación del proponente " . $name_docente . ", con C.I. " . $docente->ci . ", aceptando la propuesta económica equivalente a Bs. " . $programa->costo . ".- (" . $this->numeroAliteral($programa->costo) . " 00/100 bolivianos), se verificó que:");
+
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText("Presenta la documentación solicitada por los términos de referencias:");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("      *	Fotocopia simple de Cédula de Identidad");
+        $this->fpdf->Ln(5);
+        $this->WriteText("      *	Curriculum Vitae");
+        $this->fpdf->Ln(5);
+        $this->WriteText("      *	Título en Provisión Nacional");
+        $this->fpdf->Ln(5);
+        $this->WriteText("      *	Propuesta Técnica");
+
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("RECOMENDACIÓN.-");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText("Para fines consiguientes se informa que se procedió a la verificación de la documentación presentada por la proponente, evidenciándose que no existen observaciones, por lo que se recomienda que la propuesta continúe su curso de acuerdo a norma.");
+
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("4. CONSIDERACIONES LEGALES.-");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("- Que el Decreto Supremo 181, en su Artículo 52.- Establece:");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("(Definición de Modalidad de Contratación Menor).");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText("Modalidad para la contratación de bienes y servicios, que se aplicará cuando el monto de contratación sea igual o menor a Bs.50.000.- (CINCUENTA MIL 00/100 BOLIVIANOS).");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("- Que el Decreto Supremo 181, en su Artículo 53.- Establece:");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("(Responsable de Ejecutar la Contratación Menor).");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText("De acuerdo al inciso a) del Parágrafo II del Artículo 34, el responsable de ejecutar las contrataciones menores es el RPA.");
+
+        $this->fpdf->Ln(10);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->WriteText("5. CONCLUSIÓN.-");
+        $this->fpdf->Ln(5);
+        $this->fpdf->SetFont('Arial', '', 12);
+        $this->WriteText("De acuerdo a la revisión de los documentos administrativos y legales de la propuesta, se informa que el proponente " . $name_docente . ", con la presentación de los documentos legales solicitados por los términos de referencia. Debiendo el área contable de la Escuela de Ingeniería revisar que el presente proceso de contratación, cuente con todos los documentos mencionados en el TDR. Asimismo, se verificó la documentación del proponente en la Página WEB del SICOES y el mismo NO se encuentra en la lista de proveedores incumplidos.");
+
+
+        /*      Adj. Legajo completo.*/
+        $this->fpdf->Ln(50);
+        $this->fpdf->SetFont('Arial', 'B', 8);
+        $this->fpdf->MultiCell($this->width, $this->space, utf8_decode("Adj. Legajo completo."), 0, 'R', 0);
 
 
         $this->fpdf->Output("I", $docente->nombre . " - Informe Legal.pdf");
@@ -256,7 +333,6 @@ class Informe_Legal extends Fpdf
 
     function Row($data, $pintado = 0, $alling = 'C', $negrita = "N")
     {
-        //Calculate the height of the row
         $nb = 0;
         for ($i = 0; $i < count($data); $i++)
             $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
@@ -280,9 +356,9 @@ class Informe_Legal extends Fpdf
                 $this->fpdf->Rect($x, $y, $w, $h);
                 $this->fpdf->SetXY($x, $y + 1);
                 $this->fpdf->SetFont('Arial', '', 10);
-                if ($i == 0) {
-                    $a = 'L';
-                }
+                // if ($i == 0) {
+                //     $a = 'L';
+                // }
                 if ($negrita === "S") {
                     $this->fpdf->SetFont('Arial', 'B', 10);
                 }
