@@ -47,9 +47,9 @@ class CartaController extends Controller
         $plazo = false;
         $codigo = true;
         $tabla = false;
-        $contrato_admi = false;
         $informe_legal = false;
         $contrato_admi = false;
+        $contrato_administrativo = false;
         $tipoCarta = TipoCarta::find($tipo);
         $tipoCarta->nombre == $this->RP ? $plazo = true : '';
         $tipoCarta->nombre == $this->CI ? $plazo = true : '';
@@ -183,18 +183,16 @@ class CartaController extends Controller
                 'fecha' => 'required|date',
                 'fecha_calificacion' => 'required|date',
                 'resolucion' => 'required|string',
-                'fecha_resolucion' => 'require|date',
-                'fecha_informe_calificacion'  => 'require|date',
-                'plazo_prestacion_consultoria' => 'require|string'
+                'fecha_resolucion' => 'required|date',
+                'dias_plazo' => 'required|integer',
             ], [
+                'dias_plazo.required' => 'Los días de plazo son requeridos',
+                'dias_plazo.integer' => 'Los días de plazo deben ser un número entero',
                 'fecha_calificacion.required' => 'La fecha de calificación es requerida',
                 'fecha_calificacion.date' => 'La fecha de calificación debe ser una fecha válida',
                 'resolucion.required' => 'La resolución es requerida',
                 'fecha_resolucion.required' => 'La fecha de resolución es requerida',
                 'fecha_resolucion.date' => 'La fecha de resolución debe ser una fecha válida',
-                'fecha_informe_calificacion.required' => 'La fecha de informe de calificación es requerida',
-                'fecha_informe_calificacion.date' => 'La fecha de informe de calificación debe ser una fecha válida',
-                'plazo_prestacion_consultoria.required' => 'El plazo de prestación de consultoría es requerido',
             ]);
         } else {
             $request->validate([
@@ -223,8 +221,7 @@ class CartaController extends Controller
             $dataCarta['campo_adicional_uno'] = $request->fecha_calificacion;
             $dataCarta['campo_adicional_dos'] = $request->resolucion;
             $dataCarta['campo_adicional_tres'] = $request->fecha_resolucion;
-            $dataCarta['campo_adicional_cuatro'] = $request->fecha_informe_calificacion;
-            $dataCarta['campo_adicional_cinco'] = $request->plazo_prestacion_consultoria;
+            $dataCarta['campo_adicional_cuatro'] = $request->dias_plazo;
         }
         $carta = Carta::create($dataCarta);
         $this->createDirectivo($tipoCarta->nombre, $carta->id);

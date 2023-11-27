@@ -187,28 +187,14 @@
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Fecha informe de
-                                                calificacion*</b>
+                                        <label for="nombre" class="col-sm-2 col-form-label"> <b> Dias de plazo</b>
                                         </label>
                                         <div class="col-sm-7">
-                                            <input type="date" class="form-control" name="fecha_informe_calificacion">
-                                            @if ($errors->has('fecha_informe_calificacion'))
+                                            <input type="number" class="form-control" name="dias_plazo"
+                                                value="{{ date('Y-m-d') }}">
+                                            @if ($errors->has('dias_plazo'))
                                                 <span class="error text-danger"
-                                                    for="input-fecha_informe_calificacion">{{ $errors->first('fecha_informe_calificacion') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <label for="nombre" class="col-sm-2 col-form-label"> <b>Plazo prestacion
-                                                consultoria*</b>
-                                        </label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control"
-                                                name="plazo_prestacion_consultoria">
-                                            @if ($errors->has('plazo_prestacion_consultoria'))
-                                                <span class="error text-danger"
-                                                    for="input-plazo_prestacion_consultoria">{{ $errors->first('plazo_prestacion_consultoria') }}</span>
+                                                    for="input-dias_plazo">{{ $errors->first('dias_plazo') }}</span>
                                             @endif
                                         </div>
                                     </div>
