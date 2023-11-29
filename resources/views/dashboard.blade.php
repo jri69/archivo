@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'dashboard', 'titlePage' => __('Dashboard')])
+@extends('layouts.app', ['activePage' => 'dashboard', 'titlePage' => 'Dashboard'])
 
 @section('content')
     <div class="content">
@@ -172,7 +172,7 @@
 
 @push('js')
     {{-- <script type="module" src="{{ asset('js/grafica.js') }}" defer></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- usar variables php en js --}}
     <script type="text/javascript">

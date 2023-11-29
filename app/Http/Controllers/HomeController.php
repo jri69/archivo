@@ -3,33 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
-use App\Models\EstudianteModulo;
 use App\Models\Evento;
 use App\Models\Modulo;
 use App\Models\NotasPrograma;
 use App\Models\Programa;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-
-use function PHPSTORM_META\map;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
         $now = now();

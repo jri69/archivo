@@ -247,63 +247,56 @@
                 </li>
             @endif
 
-            @if (auth()->user()->can('inventario.index') ||
-                    auth()->user()->can('activo.index') ||
-                    auth()->user()->can('solicitudes.index') ||
-                    auth()->user()->can('solicitudes.show') ||
-                    auth()->user()->can('tic.index'))
-                <li
-                    class="nav-item {{ $activePage == 'inventario' || $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
-                    <a class="nav-link" data-toggle="collapse" href="#Tics" aria-expanded="false">
-                        <i class="material-icons">settings</i>
-                        <p>{{ __('Inventario') }}
-                            <b class="caret"></b>
-                        </p>
-                    </a>
-                    <div class="collapse" id="Tics">
-                        @can('solicitudes.show')
-                            <ul class="nav">
-                                <li class="nav-item{{ $activePage == 'solicitudes' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('solicitudes.index') }}">
-                                        <span class="sidebar-mini"> SC </span>
-                                        <span class="sidebar-normal">{{ __('Solicitudes') }} </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
-                        @can('inventario.index')
-                            <ul class="nav">
-                                <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('inventario.index') }}">
-                                        <span class="sidebar-mini"> IN </span>
-                                        <span class="sidebar-normal">{{ __('Inventario') }} </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
-                        @can('tic.index')
-                            <ul class="nav">
-                                <li class="nav-item{{ $activePage == 'tic' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('tic.index') }}">
-                                        <span class="sidebar-mini"> TC </span>
-                                        <span class="sidebar-normal">{{ __('TIC') }} </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
-                        @can('activo.index')
-                            <ul class="nav">
-                                <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">
-                                    <a class="nav-link" href="{{ route('activo.index') }}">
-                                        <span class="sidebar-mini"> AC </span>
-                                        <span class="sidebar-normal">{{ __('Activos') }} </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
-                    </div>
-                </li>
-            @endif
+
+            <li
+                class="nav-item {{ $activePage == 'inventario' || $activePage == 'activo' || $activePage == 'user-management' ? ' active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#Tics" aria-expanded="false">
+                    <i class="material-icons">settings</i>
+                    <p>{{ __('Inventario') }}
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="Tics">
+                    @can('solicitudes.show')
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'solicitudes' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('solicitudes.index') }}">
+                                    <span class="sidebar-mini"> SC </span>
+                                    <span class="sidebar-normal">{{ __('Solicitudes') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
+                    <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'inventario' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('inventario.index') }}">
+                                <span class="sidebar-mini"> IN </span>
+                                <span class="sidebar-normal">{{ __('Inventario') }} </span>
+                            </a>
+                        </li>
+                    </ul>
+                    @can('tic.index')
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'tic' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('tic.index') }}">
+                                    <span class="sidebar-mini"> TC </span>
+                                    <span class="sidebar-normal">{{ __('TIC') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
+                    @can('activo.index')
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'activo' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('activo.index') }}">
+                                    <span class="sidebar-mini"> AC </span>
+                                    <span class="sidebar-normal">{{ __('Activos') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
+                </div>
+            </li>
 
             @if (auth()->user()->can('contrataciones.index') ||
                     auth()->user()->can('docentes.index') ||

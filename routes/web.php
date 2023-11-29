@@ -22,6 +22,7 @@ use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FifthPartidaController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ModuloController;
@@ -51,8 +52,8 @@ use App\Http\Controllers\UniversidadController;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
 });
 
 //Usuario
