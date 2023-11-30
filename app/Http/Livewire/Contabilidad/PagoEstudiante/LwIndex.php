@@ -62,6 +62,16 @@ class LwIndex extends Component
         } else if ($this->filtro == 'sin_deuda') {
             $estudantes_search = $estudantes_search->where('deuda', 'SIN DEUDA');
         }
+
+        // $estudantes_search = Estudiante::join('pago_estudiante', 'estudiantes.id', '=', 'pago_estudiante.estudiante_id')
+        //     ->select('estudiantes.*, pago_estudiante.estado as deuda')
+        //     ->where('pago_estudiante.estado', $this->filtro)
+        //     ->where(function ($query) {
+        //         $query->where('estudiantes.nombre', 'ilike', '%' . $this->attribute . '%')
+        //             ->orWhere('estudiantes.cedula', 'ilike', '%' . $this->attribute . '%');
+        //     })
+        //     ->orderBy($this->sort, $this->direction)
+        //     ->paginate($this->pagination);
         return view('livewire.contabilidad.pago-estudiante.lw-index', compact('estudantes_search'));
     }
 }

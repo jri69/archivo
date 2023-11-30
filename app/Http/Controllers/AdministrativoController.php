@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Administrativo;
 use App\Models\Cargo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdministrativoController extends Controller
 {
@@ -32,7 +33,9 @@ class AdministrativoController extends Controller
             'contrato' => 'required',
             'cargo_id' => 'required',
             'fecha_ingreso' => 'required',
-            'fecha_retiro' => 'nullable|date'
+            'fecha_retiro' => 'nullable|date',
+            'sueldo' => 'required|numeric',
+            'foto' => 'required|image',
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -47,8 +50,26 @@ class AdministrativoController extends Controller
             'contrato.required' => 'El tipo de contrato es requerido',
             'cargo_id.required' => 'El Cargo es requerido',
             'fecha_ingreso.required' => 'La fecha de ingreso es requerida',
+            'sueldo.required' => 'El sueldo es requerido',
+            'sueldo.numeric' => 'El sueldo debe ser un número',
+            'foto.required' => 'La foto es requerida',
+            'foto.image' => 'La foto debe ser una imagen',
         ]);
-        Administrativo::create($request->all());
+
+        $dir_foto =  $request->file('foto')->store('administrativos/fotos', 'public');
+        $data = [
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'ci' => $request->ci,
+            'expedicion' => $request->expedicion,
+            'contrato' => $request->contrato,
+            'cargo_id' => $request->cargo_id,
+            'fecha_ingreso' => $request->fecha_ingreso,
+            'fecha_retiro' => $request->fecha_retiro,
+            'sueldo' => $request->sueldo,
+            'foto' => 'storage/' . $dir_foto,
+        ];
+        Administrativo::create($data);
         return redirect()->route('administrativo.index');
     }
 
@@ -78,10 +99,13 @@ class AdministrativoController extends Controller
             'nombre' => 'required|string|max:150',
             'apellido' => 'required|string|max:150',
             'ci' => 'required|string|max:10',
+            'expedicion' => 'required',
             'contrato' => 'required',
             'cargo_id' => 'required',
             'fecha_ingreso' => 'required',
-            'fecha_retiro' => 'nullable|date'
+            'fecha_retiro' => 'nullable|date',
+            'sueldo' => 'required|numeric',
+            'foto' => 'nullable|image',
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -92,12 +116,32 @@ class AdministrativoController extends Controller
             'ci.required' => 'La cédula es requerida',
             'ci.string' => 'La cédula debe ser una cadena de texto',
             'ci.max' => 'La cédula debe tener máximo 10 caracteres',
+            'expedicion.required' => 'La expedicion es requerida',
             'contrato.required' => 'El tipo de contrato es requerido',
             'cargo_id.required' => 'El Cargo es requerido',
             'fecha_ingreso.required' => 'La fecha de ingreso es requerida',
-            'fecha_retiro.required' => 'La fecha de retiro es requerida'
+            'sueldo.required' => 'El sueldo es requerido',
+            'sueldo.numeric' => 'El sueldo debe ser un número',
+            'foto.image' => 'La foto debe ser una imagen',
         ]);
-        $administrativo->update($request->all());
+
+        $data = [
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'ci' => $request->ci,
+            'expedicion' => $request->expedicion,
+            'contrato' => $request->contrato,
+            'cargo_id' => $request->cargo_id,
+            'fecha_ingreso' => $request->fecha_ingreso,
+            'fecha_retiro' => $request->fecha_retiro,
+            'sueldo' => $request->sueldo,
+        ];
+        if ($request->foto) {
+            Storage::delete($administrativo->foto);
+            $dir_foto =  $request->file('foto')->store('administrativos/fotos', 'public');
+            $data['foto'] = 'storage/' . $dir_foto;
+        }
+        $administrativo->update($data);
         return redirect()->route('administrativo.index');
     }
 

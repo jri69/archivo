@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('ci')->unique();
             $table->string('expedicion', 2);
             $table->string('contrato');
-            $table->unsignedInteger('cargo_id');
             $table->string('fecha_ingreso');
             $table->string('fecha_retiro')->nullable();
+            $table->string('sueldo')->nullable();
+            $table->string('foto')->nullable();
+            $table->unsignedInteger('cargo_id');
             $table->timestamps();
 
             $table->foreign('cargo_id')->on('cargos')->references('id')->onDelete('cascade')->onUpdate('cascade');

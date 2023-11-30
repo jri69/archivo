@@ -13,22 +13,39 @@ class Index extends Component
     public $attribute = '';
     public $sort = 'id';
     public $direction = 'desc';
-    public $vacio = [];
     protected $paginationTheme = 'bootstrap';
-    //Metodo de reinicio de buscador
+    public $filtro = '';
+
     public function updatingAttribute()
     {
         $this->resetPage();
     }
+
+    public function plazo_fijo()
+    {
+        $this->filtro = 'Plazo Fijo';
+    }
+
+    public function consultor()
+    {
+        $this->filtro = 'Consultor';
+    }
+
+    public function todos()
+    {
+        $this->filtro = '';
+    }
+
     public function render()
     {
-        $administrativo = Administrativo::where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
-            ->orWhere('ci', 'ILIKE', '%' . strtolower($this->attribute) . '%')
-            ->orWhere('apellido', 'ILIKE', '%' . strtolower($this->attribute) . '%')
-            ->orderBy($this->sort, $this->direction)
+        $administrativo = Administrativo::when($this->filtro, function ($query, $filtro) {
+            return $query->where('contrato', '=', $filtro);
+        })->where(function ($query) {
+            $query->where('nombre', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+                ->orWhere('ci', 'ILIKE', '%' . strtolower($this->attribute) . '%')
+                ->orWhere('apellido', 'ILIKE', '%' . strtolower($this->attribute) . '%');
+        })->orderBy($this->sort, $this->direction)
             ->paginate($this->pagination);
-
-
         return view('livewire.administrativo.administrativos.index', compact('administrativo'));
     }
 }

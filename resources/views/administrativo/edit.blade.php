@@ -129,6 +129,20 @@
                                 </div>
                                 <br>
                                 <div class="row">
+                                    <label for="ci" class="col-sm-2 col-form-label"><b> Sueldo: </b></label>
+                                    <div class="col-sm-8">
+                                        <input type="number" min="1" class="form-control" name="sueldo"
+                                            value="{{ old('sueldo', $administrativo->sueldo) }}" autofocus
+                                            placeholder="Sueldo">
+                                        @if ($errors->has('sueldo'))
+                                            <span class="error text-danger" for="input-sueldo">
+                                                {{ $errors->first('sueldo') }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de Ingreso:</b>
                                     </label>
                                     <div class="col-sm-8">
@@ -143,10 +157,26 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de Retiro:</b> </label>
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Fecha de Retiro:</b>
+                                    </label>
                                     <div class="col-sm-8">
                                         <input type="date" class="form-control" name="fecha_retiro"
                                             value="{{ old('fecha_retiro', $administrativo->fecha_retiro) }}" autofocus>
+                                        @if ($errors->has('fecha_retiro'))
+                                            <span class="error text-danger" for="input-fecha_retiro">
+                                                {{ $errors->first('fecha_retiro') }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <label for="nombre" class="col-sm-2 col-form-label"> <b> Subir una foto:</b>
+                                    </label>
+                                    <div class="col-sm-8">
+
+                                        <input type="file" class="form-control" name="foto"
+                                            style="display: visible">
                                         @if ($errors->has('fecha_retiro'))
                                             <span class="error text-danger" for="input-fecha_retiro">
                                                 {{ $errors->first('fecha_retiro') }}

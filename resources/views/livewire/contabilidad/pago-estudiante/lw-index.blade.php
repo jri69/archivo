@@ -82,7 +82,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            {{-- {{ $estudiantes->links() }} --}}
+                            {{-- {{ $estudantes_search->links() }} --}}
                         </div>
                     </div>
                 </div>
