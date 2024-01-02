@@ -18,10 +18,12 @@
                             <span class="sidebar-normal">Nuevo contrato</span>
                         </a>
                     @endcan
-                    <a href="{{ asset($docente->cv) }}" target="_blank" class="btn btn-sm btn-primary">
-                        <i class="material-icons">description</i>
-                        <span class="sidebar-normal">Ver CV</span>
-                    </a>
+                    @if ($docente->cv)
+                        <a href="{{ asset($docente->cv) }}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="material-icons">description</i>
+                            <span class="sidebar-normal">Ver CV</span>
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="row">

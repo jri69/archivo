@@ -32,8 +32,8 @@ class DocentesController extends Controller
             'telefono' => 'required|string|max:10',
             'cedula' => 'required|string|max:10',
             'facturacion' => 'required',
-            'foto' => 'required|image',
-            'cv' => 'required|file|mimes:pdf'
+            'foto' => 'image',
+            'cv' => 'file|mimes:pdf'
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -48,18 +48,18 @@ class DocentesController extends Controller
             'cedula.string' => 'La cédula debe ser una cadena de texto',
             'cedula.max' => 'La cédula debe tener máximo 10 caracteres',
             'facturacion.required' => 'La facturación es requerida',
-            'foto.required' => 'La foto es requerida',
             'correo.required' => 'El correo es requerido',
             'correo.email' => 'El correo debe ser un correo electrónico',
             'correo.unique' => 'El correo ya existe',
             'telefono.required' => 'El teléfono es requerido',
             'telefono.string' => 'El teléfono debe ser una cadena de texto',
             'foto.image' => 'La foto debe ser una imagen',
-            'cv.required' => 'El CV es requerido',
             'cv.file' => 'El CV debe ser un archivo',
         ]);
-        $dir_foto =  $request->file('foto')->store('docentes/fotos', 'public');
-        $dir_cv =  $request->file('cv')->store('docentes/cvs', 'public');
+        if ($request->hasFile('foto'))
+            $dir_foto = 'storage/' .  $request->file('foto')->store('docentes/fotos', 'public');
+        if ($request->hasFile('cv'))
+            $dir_cv = 'storage/' . $request->file('cv')->store('docentes/cvs', 'public');
         $data = [
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -68,8 +68,8 @@ class DocentesController extends Controller
             'facturacion' => $request->facturacion,
             'correo' => $request->correo,
             'telefono' => $request->telefono,
-            'foto' => 'storage/' . $dir_foto,
-            'cv' =>  'storage/' . $dir_cv,
+            'foto' => $dir_foto ?? 'person_default.webp',
+            'cv' =>  $dir_cv ?? '',
         ];
         Docente::create($data);
         return redirect()->route('docentes.index');
@@ -136,7 +136,8 @@ class DocentesController extends Controller
         $docente = Docente::findOrFail($id);
         if ($request->hasFile('foto')) {
             $dir_foto =  $request->file('foto')->store('docentes/fotos', 'public');
-            Storage::disk('public')->delete($docente->foto);
+            if ($docente->foto != 'person_default.webp')
+                Storage::disk('public')->delete($docente->foto);
             $data['foto'] = 'storage/' . $dir_foto;
         }
         if ($request->hasFile('cv')) {
@@ -151,7 +152,8 @@ class DocentesController extends Controller
     // Eliminar un docente
     public function destroy($id)
     {
-        Storage::disk('public')->delete(Docente::findOrFail($id)->foto);
+        if (Docente::findOrFail($id)->foto != 'person_default.webp')
+            Storage::disk('public')->delete(Docente::findOrFail($id)->foto);
         $docente = Docente::findOrFail($id);
         $docente->delete();
         return redirect()->route('docentes.index');

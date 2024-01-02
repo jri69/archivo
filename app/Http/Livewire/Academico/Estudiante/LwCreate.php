@@ -68,7 +68,7 @@ class LwCreate extends Component
                 'datos.nacionalidad' => 'required|string',
                 'datos.honorifico' => 'required|string',
                 'datos.sexo' => 'required|string',
-                'foto' => 'required|image',
+                'foto' => 'image',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
@@ -88,9 +88,13 @@ class LwCreate extends Component
                 'datos.nacionalidad.required' => 'El campo nacionalidad es obligatorio',
                 'datos.honorifico.required' => 'El campo honorifico es obligatorio',
                 'datos.sexo.required' => 'El campo sexo es obligatorio',
+                'foto.image' => 'El campo foto debe ser una imagen',
             ]
         );
-        $this->datos['foto'] = 'storage/' . Storage::disk('public')->put('estudiantes', $this->foto);
+        if ($this->foto)
+            $this->datos['foto'] = 'storage/' . Storage::disk('public')->put('estudiantes', $this->foto);
+        else
+            $this->datos['foto'] = 'person_default.webp';
         $estudiante = Estudiante::create($this->datos);
         if ($this->datos['id_programa']) {
             EstudiantePrograma::create([

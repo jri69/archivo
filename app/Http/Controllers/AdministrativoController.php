@@ -35,7 +35,7 @@ class AdministrativoController extends Controller
             'fecha_ingreso' => 'required',
             'fecha_retiro' => 'nullable|date',
             'sueldo' => 'required|numeric',
-            'foto' => 'required|image',
+            'foto' => 'image',
         ], [
             'nombre.required' => 'El nombre es requerido',
             'nombre.string' => 'El nombre debe ser una cadena de texto',
@@ -55,8 +55,9 @@ class AdministrativoController extends Controller
             'foto.required' => 'La foto es requerida',
             'foto.image' => 'La foto debe ser una imagen',
         ]);
+        if ($request->hasFile('foto'))
+            $dir_foto =  'storage/' . $request->file('foto')->store('administrativos/fotos', 'public');
 
-        $dir_foto =  $request->file('foto')->store('administrativos/fotos', 'public');
         $data = [
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -67,7 +68,7 @@ class AdministrativoController extends Controller
             'fecha_ingreso' => $request->fecha_ingreso,
             'fecha_retiro' => $request->fecha_retiro,
             'sueldo' => $request->sueldo,
-            'foto' => 'storage/' . $dir_foto,
+            'foto' =>  $dir_foto ?? 'person_default.webp',
         ];
         Administrativo::create($data);
         return redirect()->route('administrativo.index');
@@ -137,9 +138,12 @@ class AdministrativoController extends Controller
             'sueldo' => $request->sueldo,
         ];
         if ($request->foto) {
-            Storage::delete($administrativo->foto);
+            if ($administrativo->foto != 'person_default.webp')
+                Storage::delete($administrativo->foto);
             $dir_foto =  $request->file('foto')->store('administrativos/fotos', 'public');
             $data['foto'] = 'storage/' . $dir_foto;
+        } else {
+            $data['foto'] = 'person_default.webp';
         }
         $administrativo->update($data);
         return redirect()->route('administrativo.index');

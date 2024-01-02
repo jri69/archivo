@@ -81,7 +81,7 @@ class LwEdit extends Component
         if ($this->foto) {
             $filename = $this->foto->getClientOriginalName();
             $this->datos['foto'] = 'storage/' . Storage::disk('public')->put('estudiantes', $this->foto);
-            if ($this->estudiante->foto) {
+            if ($this->estudiante->foto && $this->estudiante->foto != 'person_default.webp') {
                 unlink($this->estudiante->foto);
             }
         }
