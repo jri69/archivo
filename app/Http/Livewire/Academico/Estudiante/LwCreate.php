@@ -68,7 +68,7 @@ class LwCreate extends Component
                 'datos.nacionalidad' => 'required|string',
                 'datos.honorifico' => 'required|string',
                 'datos.sexo' => 'required|string',
-                'foto' => 'image',
+                'foto' => 'image|nullable',
             ],
             [
                 'datos.nombre.required' => 'El campo nombre es obligatorio',
